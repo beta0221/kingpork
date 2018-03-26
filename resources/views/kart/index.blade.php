@@ -98,7 +98,7 @@ tr{
 
 								<td style="width: 80px;overflow: hidden;">
 									<div style="width: 80px;height: 80px;">
-										<img class="littleIMG" src="http://localhost:8000/images/productsIMG/{{$product->image}}" alt="">
+										<img class="littleIMG" src="{{asset('images/productsIMG') . '/' . $product->image}}" alt="">
 									</div>
 								</td>
 

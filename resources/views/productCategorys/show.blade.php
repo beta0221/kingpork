@@ -190,7 +190,7 @@
 			<div class="col-md-4">
 				<div id="{{Request::is('productCategory/3') ? 'currentCat' : ''}}" class="catImg P-pork">
 					<a href="{{route('productCategory.show',3)}}">
-						<img src="http://localhost:8000/images/productsIMG/both.jpg" alt="">	
+						<img src="{{asset('images/productsIMG/both.jpg')}}" alt="">	
 					</a>
 				</div>
 				
@@ -198,7 +198,7 @@
 			<div class="col-md-4">
 				<div id="{{Request::is('productCategory/4') ? 'currentCat' : ''}}" class="catImg P-both">
 					<a href="{{route('productCategory.show',4)}}">
-						<img src="http://localhost:8000/images/productsIMG/both.jpg" alt="">	
+						<img src="{{asset('images/productsIMG/both.jpg')}}" alt="">	
 					</a>
 				</div>
 				
@@ -206,7 +206,7 @@
 			<div class="col-md-4">
 				<div id="{{Request::is('productCategory/2') ? 'currentCat' : ''}}" class="catImg P-chicken">
 					<a href="{{route('productCategory.show',2)}}">
-						<img src="http://localhost:8000/images/productsIMG/chicken.jpg" alt="">
+						<img src="{{asset('images/productsIMG/chicken.jpg')}}" alt="">
 					</a>
 				</div>
 			</div>
@@ -215,7 +215,7 @@
 		<div class="row">
 			<div class="col-md-6">
 				<div class="productIMG">
-					<img id="productIMG" src="http://localhost:8000/images/productsIMG/{{Request::is('productCategory/3') ? 'pork.jpg' : ''}}{{Request::is('productCategory/4') ? 'both.jpg' : ''}}{{Request::is('productCategory/2') ? 'chicken.jpg' : ''}}" alt="">
+					<img id="productIMG" src="{{asset('images/productsIMG') . '/'}}{{Request::is('productCategory/3') ? 'pork.jpg' : ''}}{{Request::is('productCategory/4') ? 'both.jpg' : ''}}{{Request::is('productCategory/2') ? 'chicken.jpg' : ''}}" alt="">
 				</div>
 			</div>
 			<div class="col-md-6">
@@ -301,7 +301,7 @@
                 $('.price>h3').empty().append(response.price);
                 $('.bonus>h3').empty().append(response.bonus);
                 $('.aboutContent').empty().append(response.content);
-                $('#productIMG').attr('src','http://localhost:8000/images/productsIMG/'+response.image);
+                $('#productIMG').attr('src','{{asset('images/productsIMG') . '/'}}'+response.image);
 
                 if (response.add == true) {
                 	$('#addToKartBtn').css('display','none');

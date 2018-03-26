@@ -14,7 +14,7 @@
 {{-- banner start --}}
 <div class="banner owl-carousel owl-theme">
 	@foreach($banners as $banner)
-		<div class="item"><a href="{{$banner->link}}"><img src="http://localhost:8000/images/banner/{{$banner->image}}" alt="{{$banner->alt}}"></a></div>
+		<div class="item"><a href="{{$banner->link}}"><img src="{{asset('images/banner') . '/' . $banner->image}}" alt="{{$banner->alt}}"></a></div>
     @endforeach
 </div>
 {{-- banner end --}}
@@ -23,13 +23,13 @@
 <div class="productArea container">
 	<div class="row">
 		<div class="product col-md-4">
-			<div class="P- P-pork"><a href="{{route('productCategory.show',3)}}"><img src="http://localhost:8000/images/productsIMG/pork.jpg" alt=""></a></div>
+			<div class="P- P-pork"><a href="{{route('productCategory.show',3)}}"><img src="{{asset('images/productsIMG/pork.jpg')}}" alt=""></a></div>
 		</div>
 		<div class="product col-md-4">
-			<div class="P- P-both"><a href="{{route('productCategory.show',4)}}"><img src="http://localhost:8000/images/productsIMG/both.jpg" alt=""></a></div>
+			<div class="P- P-both"><a href="{{route('productCategory.show',4)}}"><img src="{{asset('images/productsIMG/both.jpg')}}" alt=""></a></div>
 		</div>
 		<div class="product col-md-4">
-			<div class="P- P-chicken"><a href="{{route('productCategory.show',2)}}"><img src="http://localhost:8000/images/productsIMG/chicken.jpg" alt=""></a></div>
+			<div class="P- P-chicken"><a href="{{route('productCategory.show',2)}}"><img src="{{asset('images/productsIMG/chicken.jpg')}}" alt=""></a></div>
 		</div>
 	</div>
 </div>
@@ -77,22 +77,22 @@
 					<div class="orderBar">
 						<div class="stepsBox">
 							<div class="steps" id="step1">
-								<img src="http://localhost:8000/images/step1.png" alt="">
+								<img src="{{asset('images/step1.png')}}" alt="">
 								<div>線上選購</div>
 							</div>
 							<div class="glip"></div>
 							<div class="steps" id="step2">
-								<img src="http://localhost:8000/images/step2.png" alt="">
+								<img src="{{asset('images/step2.png')}}" alt="">
 								<div>放入購物車</div>
 							</div>
 							<div class="glip"></div>
 							<div class="steps" id="step3">
-								<img src="http://localhost:8000/images/step3.png" alt="">
+								<img src="{{asset('images/step3.png')}}" alt="">
 								<div>送出訂單</div>
 							</div>
 							<div class="glip"></div>
 							<div class="steps" id="step4">
-								<img src="http://localhost:8000/images/step4.png" alt="">
+								<img src="{{asset('images/step4.png')}}" alt="">
 								<div>宅配到府</div>
 							</div>
 						</div>	

@@ -2,7 +2,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="navLogo col-md-3">
-				<a href="{{url('/')}}"><img src="http://localhost:8000/images/productsIMG/logo.jpg" alt=""></a>
+				<a href="{{url('/')}}"><img src="{{asset('images/productsIMG/logo.jpg')}}" alt=""></a>
 			</div>
 			<div class="navLeft col-md-4 ">
 				<div class="itemBox">
@@ -15,8 +15,8 @@
 			</div>
 			<div class="navRight col-md-5">
 				<div style="width: 100px;height: 100%;padding: 0 8px 0 8px;position: absolute;right: 0;">
-					<div class="fbLink"><img src="http://localhost:8000/images/facebook.png" alt=""></div>
-					<div class="lineLink"><img src="http://localhost:8000/images/line.png" alt=""></div>
+					<div class="fbLink"><img src="{{asset('images/facebook.png')}}" alt=""></div>
+					<div class="lineLink"><img src="{{asset('images/line.png')}}" alt=""></div>
 				</div>	
 
 				<div style="width: calc(100% - 100px);height: 100%;padding: 0 8px 0 8px;position: absolute;left: 0;">
@@ -37,7 +37,7 @@
 
 				<div class="kart">
 					<a href="{{route('kart.index')}}">
-						<img src="http://localhost:8000/images/cart.png" alt="">
+						<img src="{{asset('images/cart.png')}}" alt="">
 					</a>
 				</div>
 				
@@ -68,7 +68,7 @@
 				
 				<div class="kart">
 					
-					<a href="{{route('kart.index')}}"><img src="http://localhost:8000/images/cart.png" alt=""></a>
+					<a href="{{route('kart.index')}}"><img src="{{asset('images/cart.png')}}" alt=""></a>
 				</div>
 				
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

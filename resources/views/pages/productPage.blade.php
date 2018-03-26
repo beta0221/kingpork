@@ -73,21 +73,21 @@
 			<div class="col-md-4">
 				<div class="catImg P-pork">
 					<a href="{{route('productCategory.show',3)}}">
-						<img src="http://localhost:8000/images/productsIMG/both.jpg" alt="">	
+						<img src="{{asset('images/productsIMG/both.jpg')}}" alt="">	
 					</a>
 				</div>
 			</div>
 			<div class="col-md-4">
 				<div class="catImg P-both">
 					<a href="{{route('productCategory.show',4)}}">
-						<img src="http://localhost:8000/images/productsIMG/both.jpg" alt="">	
+						<img src="{{asset('images/productsIMG/both.jpg')}}" alt="">	
 					</a>
 				</div>
 			</div>
 			<div class="col-md-4">
 				<div class="catImg P-chicken">
 					<a href="{{route('productCategory.show',2)}}">
-						<img src="http://localhost:8000/images/productsIMG/chicken.jpg" alt="">
+						<img src="{{asset('images/productsIMG/chicken.jpg')}}" alt="">
 					</a>
 				</div>
 			</div>

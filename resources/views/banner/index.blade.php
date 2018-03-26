@@ -17,7 +17,7 @@
 					<table>
 						@foreach($banners as $banner)
 						<tr>
-							<td><img src="http://localhost:8000/images/banner/{{$banner->image}}"></td>
+							<td><img src="{{asset('images/banner') .'/' . $banner->image}}"></td>
 							<td>{{$banner->link}}</td>
 							<td>{{$banner->alt}}</td>
 							<td><a href="{{route('banner.edit',$banner->id)}}">修改</a></td>
