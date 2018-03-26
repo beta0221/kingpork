@@ -1,0 +1,112 @@
+@extends('main')
+
+@section('title','| 聯絡我們')
+
+@section('stylesheets')
+<style>
+	@media(max-width: 400px){
+	.contactUs h1{
+		font-size: 26px;
+	}
+}
+.contactUs{
+	text-align: center;
+	padding-top: 80px;
+	padding-bottom: 80px;
+}
+@media(max-width: 400px){
+	.contactUs{
+		padding-top: 20px;
+		padding-bottom: 20px;
+	}
+}
+.contactUs form{
+	/*border:1pt solid #000;*/
+	top: 20px;
+	margin-bottom: 60px;
+}
+.contactUs span{
+	margin: 0 16px 0 16px;
+	color: #c8c8c8;
+}
+.contactUs input{
+	width: 100%;
+	border-radius: 0.3em;
+	height:40px;
+	padding-left: 6px;
+	border: none;
+	/*background-color: rgba(213,185,148,0.1);*/
+}
+.contactUs input:focus{
+	outline-color: rgba(195,28,34,0.1);
+}
+.contactUs textarea{
+	width: 100%;
+	height: 200px;
+	min-height: 200px;
+	max-height: 200px;
+	max-width: 100%;
+	min-width: 100%;
+	border-radius: 0.3em;
+	padding-left: 6px;
+	border: none;
+}
+.contactUs textarea:focus{
+	outline-color: rgba(195,28,34,0.1);
+}
+.contactUs p{
+	margin: 4px 0 0 0;
+}
+#button-blue{
+	height: 40px;
+	width: 60px;
+	color: #fff;
+	background-color: rgba(195,28,34,0.7);
+	float: right;
+	border:none;
+	outline: none;
+	cursor: pointer;
+}
+#button-blue:hover{
+	background-color: rgba(195,28,34,0.5);
+}
+</style>
+@endsection
+
+
+@section('content')
+
+	<div class="contactUs">
+		  <div class="container">
+		    <div class="row">
+		      <div class="col-xs-12 col-md-8 offset-md-2">
+					<h1 id="contactUs">CONTACT US <span>/</span>聯絡我們</h1>
+		                <form class="form" id="form1" action="" method="post" enctype="text">
+		                    <p class="name">
+		                      <input name="name" type="text" class="feedback-input" placeholder="姓名" id="name" />
+		                    </p>
+		                    <p class="email">
+		                      <input name="email" type="text" class="feedback-input" id="email" placeholder="Email" />
+		                    </p>
+		                    <p class="phone">
+		                      <input name="phone" type="text" class="feedback-input" placeholder="主旨" id="phone" />
+		                    </p>
+		                    <p class="text">
+		                      <textarea name="text" class="feedback-input" id="comment" placeholder="訊息..."></textarea>
+		                    </p>
+		                    <!-- <div class="submit"> -->
+		                      <input type="submit" value="送出" id="button-blue"/>
+		                       <!-- <div class="ease"></div> -->
+		                    <!-- </div> -->
+		               </form>
+		      </div>
+		    </div>
+		    
+		  </div>
+	</div>
+
+@endsection
+
+@section('scripts')
+
+@endsection

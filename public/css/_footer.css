@@ -1,0 +1,19 @@
+.foot1{
+	width: 100%;
+	border:1pt solid #000;
+	height: 80px;
+}
+.footIm{
+	border:1pt solid #000;
+	height: 80px;
+	text-align: center;
+}
+.footIm>span{
+	top: 24px;
+}
+
+.foot2{
+	height: 60px;
+	text-align: center;
+	padding-top: 14px;
+}
