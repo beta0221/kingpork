@@ -16,8 +16,8 @@ class kartController extends Controller
     public function inKart(){
 
         if(Auth::user()){
-            // $kart = Kart::all()->where('user_id', Auth::user()->id);
-            // $inKart = count($kart);
+            $kart = Kart::all()->where('user_id', Auth::user()->id);
+            $inKart = count($kart);
             // return response()->json(['msg'=>$inKart]);  
             return response()->json(['msg'=>'0']);
         }else{
