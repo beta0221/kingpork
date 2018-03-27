@@ -206,7 +206,7 @@ class ProductController extends Controller
             //image stuff
             $image = $request->file('image'); //先把檔案存到 $image 變數
             $filename = time() . '.' . $image->getClientOriginalExtension(); //取得檔案完整原檔名再加上 時間在前面
-            $location = public_path('images/productsIMG/' . $filename);//把圖片url存到$location變數裡面
+            $location = 'images/productsIMG/' . $filename;//把圖片url存到$location變數裡面
             Image::make($image)->resize(800,400)->save($location);//把圖面resize之後存進路徑
 
             $oldFilename = $product->image;//原來的圖片存進oldFilename變數
@@ -235,6 +235,6 @@ class ProductController extends Controller
         Storage::delete('productsIMG/' . $product->image);
         $product->delete();
 
-        return redirect('/');
+        return redirect()->route('products.index');
     }
 }
