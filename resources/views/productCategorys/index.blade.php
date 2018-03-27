@@ -1,34 +1,36 @@
-@extends('main')
+<html>
+	<head>
+		<title>管理後台｜類別編輯</title>
+	</head>
+	<body>
+		
 
-@section('title','| 類別編輯')
+		<form action="{{route('productCategory.store')}}" method="POST">
+			{{ csrf_field() }}
+		新增類別：
+		<input type="text" name="name">
 
-@section('stylesheets')
+		<input type="submit" value="新增">
 
-@endsection
-
-@section('content')
-
-<form action="{{route('productCategory.store')}}" method="POST">
-	{{ csrf_field() }}
-新增類別：
-<input type="text" name="name">
-
-<input type="submit" value="新增">
-
-</form>
+		</form>
 
 
-@foreach($productCategorys as $productCategory)
+		@foreach($productCategorys as $productCategory)
 
-<a href="{{route('productCategory.show',$productCategory->id)}}">{{$productCategory->name}}</a><br>
+		<a href="{{route('productCategory.show',$productCategory->id)}}">{{$productCategory->name}}</a><br>
 
 
 
-@endforeach
-
-@endsection
+		@endforeach
 
 
-@section('scripts')
+		
+	</body>
+</html>
 
-@endsection
+
+
+
+
+
+
