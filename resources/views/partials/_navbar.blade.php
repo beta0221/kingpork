@@ -7,7 +7,7 @@
 			<div class="navLeft col-md-4 ">
 				<div class="itemBox">
 					<ul class="goto">
-						<li class="navItem"><a href="{{route('productCategory.show',3)}}">產品</a></li>
+						<li class="navItem"><a href="{{route('productCategory.show',1)}}">產品總覽</a></li>
 						<li class="navItem"><a href="">烹煮教學</a></li>
 						<li class="navItem"><a href="{{route('contact')}}">聯絡我們</a></li>
 					</ul>

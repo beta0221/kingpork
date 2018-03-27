@@ -23,10 +23,10 @@
 <div class="productArea container">
 	<div class="row">
 		<div class="product col-md-4">
-			<div class="P- P-pork"><a href="{{route('productCategory.show',3)}}"><img src="{{asset('images/productsIMG/pork.jpg')}}" alt=""></a></div>
+			<div class="P- P-pork"><a href="{{route('productCategory.show',1)}}"><img src="{{asset('images/productsIMG/pork.jpg')}}" alt=""></a></div>
 		</div>
 		<div class="product col-md-4">
-			<div class="P- P-both"><a href="{{route('productCategory.show',4)}}"><img src="{{asset('images/productsIMG/both.jpg')}}" alt=""></a></div>
+			<div class="P- P-both"><a href="{{route('productCategory.show',3)}}"><img src="{{asset('images/productsIMG/both.jpg')}}" alt=""></a></div>
 		</div>
 		<div class="product col-md-4">
 			<div class="P- P-chicken"><a href="{{route('productCategory.show',2)}}"><img src="{{asset('images/productsIMG/chicken.jpg')}}" alt=""></a></div>
