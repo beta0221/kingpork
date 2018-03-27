@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Kart extends Model
 {
-    public $table = "Kart";
+    public $table = "kart";
 }
