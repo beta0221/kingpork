@@ -1,4 +1,5 @@
 <?php
+error_reporting(0);
 if(isset($_GET['price'])){
 	$price = $_GET["price"];	
 }
