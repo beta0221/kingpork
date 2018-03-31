@@ -1,17 +1,7 @@
 <?php
-if (isset($_GET['price'])){
-	$price = $_GET["price"];	
-}
-else{
-	$price = 0;
-}
 
-if(isset($_GET['bill_id'])){
-	$bill_id = $_GET["bill_id"];	
-}else{
-	$bill_id = '000';
-}
-
+@$price = $_GET["price"];
+@$bill_id = $_GET["bill_id"];
 
 echo $price;
 echo "";
