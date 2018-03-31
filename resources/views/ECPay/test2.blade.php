@@ -1,7 +1,8 @@
+$price = {{Request::get('price')}};
+$bill_id = {{Request::get('bill_id')}};
 
 <?php
-$price = Request::get('price');
-$bill_id = Request::get('bill_id');
+
 
 
 // if(isset($_GET['price'])){
