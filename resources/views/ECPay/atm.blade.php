@@ -5,8 +5,8 @@
 /**
 *   ATM產生訂單範例
 */
-	$price = $_GET['price'];
-	$bill_id = $_GET['bill_id'];
+$price = Request::get('price');
+$bill_id = Request::get('bill_id');
     
     try {
         

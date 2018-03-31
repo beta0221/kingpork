@@ -1,5 +1,8 @@
 <?php
-error_reporting(0);
+
+$price = Request::get('price');
+$bill_id = Request::get('bill_id');
+
 if(isset($_GET['price'])){
 	$price = $_GET["price"];	
 }
