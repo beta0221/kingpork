@@ -26,6 +26,6 @@ class PageController extends Controller
     }
 
    public function ecomApi(){
-        return view('ECPay.atm');
+        return view('ECPay.test');
    }
 }
