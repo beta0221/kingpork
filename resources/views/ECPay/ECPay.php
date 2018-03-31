@@ -2,7 +2,7 @@
 /**
  * 付款方式。
  */
-abstract class PaymentMethod {
+abstract class ECPay_PaymentMethod {
     /**
      * 不指定付款方式。
      */
@@ -24,18 +24,18 @@ abstract class PaymentMethod {
      */
     const CVS = 'CVS';
     /**
-     * 財付通。
+     * 超商條碼。
      */
-    const Tenpay = 'Tenpay';
+    const BARCODE = 'BARCODE';
     /**
-     * 儲值消費。
+     * AndroidPay。
      */
-    const TopUpUsed = 'TopUpUsed';
+    const AndroidPay = 'AndroidPay';
 }
 /**
  * 付款方式子項目。
  */
-abstract class PaymentMethodItem {
+abstract class ECPay_PaymentMethodItem {
     /**
      * 不指定。
      */
@@ -158,21 +158,11 @@ abstract class PaymentMethodItem {
      * 7-11 ibon代碼繳款。
      */
     const CVS_IBON = 'IBON';
-    // 其他第三方支付類(301~400)
-    /**
-     * 財付通。
-     */
-    const Tenpay = 'Tenpay';
-    // 儲值/餘額消費類(401~500)
-    /**
-     * 儲值/餘額消費(歐付寶)
-     */
-    const TopUpUsed_AllPay = 'AllPay';
-    /**
-     * 儲值/餘額消費(玉山)
-     */
-    const TopUpUsed_ESUN = 'ESUN';
     // 其他類(901~999)
+    /**
+     * 超商條碼繳款。
+     */
+    const BARCODE = 'BARCODE';
     /**
      * 信用卡(MasterCard/JCB/VISA)。
      */
@@ -185,7 +175,7 @@ abstract class PaymentMethodItem {
 /**
  * 額外付款資訊。
  */
-abstract class ExtraPaymentInfo {
+abstract class ECPay_ExtraPaymentInfo {
     /**
      * 需要額外付款資訊。
      */
@@ -198,7 +188,7 @@ abstract class ExtraPaymentInfo {
 /**
  * 額外付款資訊。
  */
-abstract class DeviceType {
+abstract class ECPay_DeviceType {
     /**
      * 桌機版付費頁面。
      */
@@ -211,7 +201,7 @@ abstract class DeviceType {
 /**
  * 信用卡訂單處理動作資訊。
  */
-abstract class ActionType {
+abstract class ECPay_ActionType {
     /**
      * 關帳
      */
@@ -232,7 +222,7 @@ abstract class ActionType {
 /**
  * 定期定額的週期種類。
  */
-abstract class PeriodType {
+abstract class ECPay_PeriodType {
     /**
      * 無
      */
@@ -253,7 +243,7 @@ abstract class PeriodType {
 /**
  * 電子發票開立註記。
  */
-abstract class InvoiceState {
+abstract class ECPay_InvoiceState {
     /**
      * 需要開立電子發票。
      */
@@ -266,7 +256,7 @@ abstract class InvoiceState {
 /**
  * 電子發票載具類別
  */
-abstract class CarruerType {
+abstract class ECPay_CarruerType {
   // 無載具
   const None = '';
   
@@ -282,7 +272,7 @@ abstract class CarruerType {
 /**
  * 電子發票列印註記
  */
-abstract class PrintMark {
+abstract class ECPay_PrintMark {
   // 不列印
   const No = '0';
   
@@ -292,7 +282,7 @@ abstract class PrintMark {
 /**
  * 電子發票捐贈註記
  */
-abstract class Donation {
+abstract class ECPay_Donation {
   // 捐贈
   const Yes = '1';
   
@@ -302,7 +292,7 @@ abstract class Donation {
 /**
  * 通關方式
  */
-abstract class ClearanceMark {
+abstract class ECPay_ClearanceMark {
   // 經海關出口
   const Yes = '1';
   
@@ -312,7 +302,7 @@ abstract class ClearanceMark {
 /**
  * 課稅類別
  */
-abstract class TaxType {
+abstract class ECPay_TaxType {
   // 應稅
   const Dutiable = '1';
   
@@ -328,27 +318,29 @@ abstract class TaxType {
 /**
  * 字軌類別
  */
-abstract class InvType {
+abstract class ECPay_InvType {
   // 一般稅額
   const General = '07';
   
   // 特種稅額
   const Special = '08';
 }
-abstract class EncryptType {
+abstract class ECPay_EncryptType {
     // MD5(預設)
     const ENC_MD5 = 0;
     
     // SHA256
     const ENC_SHA256 = 1;
 }
-abstract class UseRedeem{
-    //使用紅利/購物金
-    const Yes = 'Y' ;
-    //不使用紅利/購物金
-    const No = 'N' ;
-}
-class AllInOne {
+/**
+ * AllInOne short summary.
+ *
+ * AllInOne description.
+ *
+ * @version 1.1.0818
+ * @author charlie
+ */
+class ECPay_AllInOne {
     public $ServiceURL = 'ServiceURL';
     public $ServiceMethod = 'ServiceMethod';
     public $HashKey = 'HashKey';
@@ -359,8 +351,7 @@ class AllInOne {
     public $SendExtend = 'SendExtend';
     public $Query = 'Query';
     public $Action = 'Action';
-    public $ChargeBack = 'ChargeBack';
-    public $EncryptType = EncryptType::ENC_MD5;
+    public $EncryptType = ECPay_EncryptType::ENC_MD5;
     function __construct() {
         $this->PaymentType = 'aio';
         $this->Send = array(
@@ -372,18 +363,21 @@ class AllInOne {
             "PaymentType"       => 'aio',
             "TotalAmount"       => '',
             "TradeDesc"         => '',
-            "ChoosePayment"     => PaymentMethod::ALL,
+            "ChoosePayment"     => ECPay_PaymentMethod::ALL,
             "Remark"            => '',
-            "ChooseSubPayment"  => PaymentMethodItem::None,
-            "NeedExtraPaidInfo" => ExtraPaymentInfo::No,
+            "ChooseSubPayment"  => ECPay_PaymentMethodItem::None,
+            "NeedExtraPaidInfo" => ECPay_ExtraPaymentInfo::No,
             "DeviceSource"      => '',
             "IgnorePayment"     => '',
             "PlatformID"        => '',
-            "InvoiceMark"       => InvoiceState::No,
+            "InvoiceMark"       => ECPay_InvoiceState::No,
             "Items"             => array(),
-            "UseRedeem"         => UseRedeem::No,
-            "HoldTradeAMT"      => 0,
-            "StoreID"           => ''
+            "StoreID"           => '',
+            "CustomField1"      => '',
+            "CustomField2"      => '',
+            "CustomField3"      => '',
+            "CustomField4"      => '',
+            'HoldTradeAMT'      => 0
         );
         $this->SendExtend = array();
         $this->Query = array(
@@ -393,14 +387,8 @@ class AllInOne {
         $this->Action = array(
             'MerchantTradeNo' => '',
             'TradeNo' => '',
-            'Action' => ActionType::C,
+            'Action' => ECPay_ActionType::C,
             'TotalAmount' => 0
-        );
-        $this->ChargeBack = array(
-            'MerchantTradeNo' => '',
-            'TradeNo' => '',
-            'ChargeBackTotalAmount' => 0,
-            'Remark' => ''
         );
         $this->Capture = array(
             'MerchantTradeNo' => '',
@@ -419,6 +407,7 @@ class AllInOne {
             'CreditAmount' => '',
             'CreditCheckCode' => ''
         );
+        
         $this->Funding = array(
             "PayDateType" => '',
             "StartDate" => '',
@@ -428,95 +417,89 @@ class AllInOne {
     //產生訂單
     function CheckOut($target = "_self") {
         $arParameters = array_merge( array('MerchantID' => $this->MerchantID, 'EncryptType' => $this->EncryptType) ,$this->Send);
-        Send::CheckOut($target,$arParameters,$this->SendExtend,$this->HashKey,$this->HashIV,$this->ServiceURL);
+        ECPay_Send::CheckOut($target,$arParameters,$this->SendExtend,$this->HashKey,$this->HashIV,$this->ServiceURL);
     }
     //產生訂單html code
     function CheckOutString($paymentButton = null, $target = "_self") {
         $arParameters = array_merge( array('MerchantID' => $this->MerchantID, 'EncryptType' => $this->EncryptType) ,$this->Send);
-        return Send::CheckOutString($paymentButton,$target = "_self",$arParameters,$this->SendExtend,$this->HashKey,$this->HashIV,$this->ServiceURL);
+        return ECPay_Send::CheckOutString($paymentButton,$target = "_self",$arParameters,$this->SendExtend,$this->HashKey,$this->HashIV,$this->ServiceURL);
     }
     //取得付款結果通知的方法
     function CheckOutFeedback() {
-        return $arFeedback = CheckOutFeedback::CheckOut(array_merge($_POST, array('EncryptType' => $this->EncryptType)),$this->HashKey,$this->HashIV,0);   
+        return $arFeedback = ECPay_CheckOutFeedback::CheckOut(array_merge($_POST, array('EncryptType' => $this->EncryptType)),$this->HashKey,$this->HashIV,0);   
     }
     //訂單查詢作業
     function QueryTradeInfo() {
-        return $arFeedback = QueryTradeInfo::CheckOut(array_merge($this->Query,array("MerchantID" => $this->MerchantID, 'EncryptType' => $this->EncryptType)) ,$this->HashKey ,$this->HashIV ,$this->ServiceURL) ;
+        return $arFeedback = ECPay_QueryTradeInfo::CheckOut(array_merge($this->Query,array('MerchantID' => $this->MerchantID, 'EncryptType' => $this->EncryptType)) ,$this->HashKey ,$this->HashIV ,$this->ServiceURL) ;
     }
     
     //信用卡定期定額訂單查詢的方法
     function QueryPeriodCreditCardTradeInfo() {
-        return $arFeedback = QueryPeriodCreditCardTradeInfo::CheckOut(array_merge($this->Query,array("MerchantID" => $this->MerchantID, 'EncryptType' => $this->EncryptType)) ,$this->HashKey ,$this->HashIV ,$this->ServiceURL);
+        return $arFeedback = ECPay_QueryPeriodCreditCardTradeInfo::CheckOut(array_merge($this->Query,array('MerchantID' => $this->MerchantID, 'EncryptType' => $this->EncryptType)) ,$this->HashKey ,$this->HashIV ,$this->ServiceURL);
     }
     //信用卡關帳/退刷/取消/放棄的方法
     function DoAction() {
-        return $arFeedback = DoAction::CheckOut(array_merge($this->Action,array("MerchantID" => $this->MerchantID, 'EncryptType' => $this->EncryptType)) ,$this->HashKey ,$this->HashIV ,$this->ServiceURL);
+        return $arFeedback = ECPay_DoAction::CheckOut(array_merge($this->Action,array('MerchantID' => $this->MerchantID, 'EncryptType' => $this->EncryptType)) ,$this->HashKey ,$this->HashIV ,$this->ServiceURL);
     }
-    
-    //廠商通知退款
-    function AioChargeback() {
-        return $arFeedback = AioChargeback::CheckOut(array_merge($this->ChargeBack,array("MerchantID" => $this->MerchantID, 'EncryptType' => $this->EncryptType)) ,$this->HashKey ,$this->HashIV ,$this->ServiceURL);
-    }
-    
-    //會員申請撥款／退款
+        
+    //合作特店申請撥款
     function AioCapture(){
-        return $arFeedback = AioCapture::Capture(array_merge($this->Capture,array("MerchantID" => $this->MerchantID, 'EncryptType' => $this->EncryptType)) ,$this->HashKey ,$this->HashIV ,$this->ServiceURL);
+        return $arFeedback = ECPay_AioCapture::Capture(array_merge($this->Capture,array('MerchantID' => $this->MerchantID, 'EncryptType' => $this->EncryptType)) ,$this->HashKey ,$this->HashIV ,$this->ServiceURL);
     }
     //下載會員對帳媒體檔
     function TradeNoAio($target = "_self"){
         $arParameters = array_merge( array('MerchantID' => $this->MerchantID, 'EncryptType' => $this->EncryptType) ,$this->TradeNo);
-        TradeNoAio::CheckOut($target,$arParameters,$this->HashKey,$this->HashIV,$this->ServiceURL);
+        ECPay_TradeNoAio::CheckOut($target,$arParameters,$this->HashKey,$this->HashIV,$this->ServiceURL);
     }
     //查詢信用卡單筆明細紀錄
     function QueryTrade(){
-        return $arFeedback = QueryTrade::CheckOut(array_merge($this->Trade,array("MerchantID" => $this->MerchantID, 'EncryptType' => $this->EncryptType)) ,$this->HashKey ,$this->HashIV ,$this->ServiceURL);
+        return $arFeedback = ECPay_QueryTrade::CheckOut(array_merge($this->Trade,array('MerchantID' => $this->MerchantID, 'EncryptType' => $this->EncryptType)) ,$this->HashKey ,$this->HashIV ,$this->ServiceURL);
     }
     //下載信用卡撥款對帳資料檔
     function FundingReconDetail($target = "_self"){
         $arParameters = array_merge( array('MerchantID' => $this->MerchantID, 'EncryptType' => $this->EncryptType) ,$this->Funding);
-        FundingReconDetail::CheckOut($target,$arParameters,$this->HashKey,$this->HashIV,$this->ServiceURL);
+        ECPay_FundingReconDetail::CheckOut($target,$arParameters,$this->HashKey,$this->HashIV,$this->ServiceURL);
     }
+    
 }
 /**
 * 抽象類
 */
-abstract class Aio
+abstract class ECPay_Aio
 {
     
     protected static function ServerPost($parameters ,$ServiceURL) {
-		$ch = curl_init();
-		
-		if (FALSE === $ch) {
-			throw new Exception('curl failed to initialize');
-		}
-		
-		curl_setopt($ch, CURLOPT_URL, $ServiceURL);
-		curl_setopt($ch, CURLOPT_HEADER, FALSE);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, TRUE);
-		curl_setopt($ch, CURLOPT_POST, TRUE);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($parameters));
-		$rs = curl_exec($ch);
-		
-		if (FALSE === $rs) {
-			throw new Exception(curl_error($ch), curl_errno($ch));	
-		}
-		
-		curl_close($ch);
-		return $rs;
+        $ch = curl_init();
+        if (FALSE === $ch) {
+            throw new Exception('curl failed to initialize');
+        }
+        
+        curl_setopt($ch, CURLOPT_URL, $ServiceURL);
+        curl_setopt($ch, CURLOPT_HEADER, FALSE);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, TRUE);
+        curl_setopt($ch, CURLOPT_POST, TRUE);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($parameters));
+        $rs = curl_exec($ch);
+        
+        if (FALSE === $rs) {
+            throw new Exception(curl_error($ch), curl_errno($ch));
+        }
+        curl_close($ch);
+        return $rs;
     }
 }
 /**
 *  產生訂單
 */
-class Send extends Aio
+class ECPay_Send extends ECPay_Aio
 {   
     //付款方式物件
     public static $PaymentObj ;
     protected static function process($arParameters = array(),$arExtend = array())
     {
         //宣告付款方式物件
-        $PaymentMethod    = 'allPay_'.$arParameters['ChoosePayment'];
+        $PaymentMethod    = 'ECPay_'.$arParameters['ChoosePayment'];
         self::$PaymentObj = new $PaymentMethod;
         
         //檢查參數
@@ -532,12 +515,10 @@ class Send extends Aio
         //合併共同參數及延伸參數
         return array_merge($arParameters,$arExtend) ;
     }
-    
     static function CheckOut($target = "_self",$arParameters = array(),$arExtend = array(),$HashKey='',$HashIV='',$ServiceURL=''){
-            
         $arParameters = self::process($arParameters,$arExtend);
         //產生檢查碼
-        $szCheckMacValue = CheckMacValue::generate($arParameters,$HashKey,$HashIV,$arParameters["EncryptType"]);
+        $szCheckMacValue = ECPay_CheckMacValue::generate($arParameters,$HashKey,$HashIV,$arParameters['EncryptType']);
        
         //生成表單，自動送出
         $szHtml =  '<!DOCTYPE html>';
@@ -546,24 +527,24 @@ class Send extends Aio
         $szHtml .=         '<meta charset="utf-8">';
         $szHtml .=     '</head>';
         $szHtml .=     '<body>';
-        $szHtml .=         "<form id=\"__allpayForm\" method=\"post\" target=\"{$target}\" action=\"{$ServiceURL}\">";
+        $szHtml .=         "<form id=\"__ecpayForm\" method=\"post\" target=\"{$target}\" action=\"{$ServiceURL}\">";
         
         foreach ($arParameters as $keys => $value) {
             $szHtml .=         "<input type=\"hidden\" name=\"{$keys}\" value=\"{$value}\" />";
         }
         $szHtml .=             "<input type=\"hidden\" name=\"CheckMacValue\" value=\"{$szCheckMacValue}\" />";
         $szHtml .=         '</form>';
-        $szHtml .=         '<script type="text/javascript">document.getElementById("__allpayForm").submit();</script>';
+        $szHtml .=         '<script type="text/javascript">document.getElementById("__ecpayForm").submit();</script>';
         $szHtml .=     '</body>';
         $szHtml .= '</html>';
         echo $szHtml ;
         exit;
     }
     static function CheckOutString($paymentButton,$target = "_self",$arParameters = array(),$arExtend = array(),$HashKey='',$HashIV='',$ServiceURL=''){
-        $arParameters = self::process($arParameters,$arExtend);
         
+        $arParameters = self::process($arParameters,$arExtend);
         //產生檢查碼
-        $szCheckMacValue = CheckMacValue::generate($arParameters,$HashKey,$HashIV,$arParameters["EncryptType"]);
+        $szCheckMacValue = ECPay_CheckMacValue::generate($arParameters,$HashKey,$HashIV,$arParameters['EncryptType']);
         
         $szHtml =  '<!DOCTYPE html>';
         $szHtml .= '<html>';
@@ -571,7 +552,7 @@ class Send extends Aio
         $szHtml .=         '<meta charset="utf-8">';
         $szHtml .=     '</head>';
         $szHtml .=     '<body>';
-        $szHtml .=         "<form id=\"__allpayForm\" method=\"post\" target=\"{$target}\" action=\"{$ServiceURL}\">";
+        $szHtml .=         "<form id=\"__ecpayForm\" method=\"post\" target=\"{$target}\" action=\"{$ServiceURL}\">";
         foreach ($arParameters as $keys => $value) {
             $szHtml .=         "<input type=\"hidden\" name=\"{$keys}\" value=\"{$value}\" />";
         }
@@ -583,7 +564,7 @@ class Send extends Aio
         return  $szHtml ;
     }
 }
-class CheckOutFeedback extends Aio 
+class ECPay_CheckOutFeedback extends ECPay_Aio 
 {
     static function CheckOut($arParameters = array(),$HashKey = '' ,$HashIV = ''){
         // 變數宣告。
@@ -597,7 +578,7 @@ class CheckOutFeedback extends Aio
             if ($keys != 'CheckMacValue') {
                 if ($keys == 'PaymentType') {
                     $value = str_replace('_CVS', '', $value);
-                    $value = str_replace('_Tenpay', '', $value);
+                    $value = str_replace('_BARCODE', '', $value);
                     $value = str_replace('_CreditCard', '', $value);
                 }
                 if ($keys == 'PeriodType') {
@@ -608,7 +589,7 @@ class CheckOutFeedback extends Aio
                 $arFeedback[$keys] = $value;
             }
         }
-        $CheckMacValue = CheckMacValue::generate($arParameters,$HashKey,$HashIV,$EncryptType);
+        $CheckMacValue = ECPay_CheckMacValue::generate($arParameters,$HashKey,$HashIV,$EncryptType);
         if ($CheckMacValue != $arParameters['CheckMacValue']) {
             array_push($arErrors, 'CheckMacValue verify fail.');
         }
@@ -619,7 +600,7 @@ class CheckOutFeedback extends Aio
         return $arFeedback;
     }
 }
-class QueryTradeInfo extends Aio
+class ECPay_QueryTradeInfo extends ECPay_Aio
 {
     static function CheckOut($arParameters = array(),$HashKey ='',$HashIV ='',$ServiceURL = ''){
         $arErrors = array();
@@ -630,11 +611,12 @@ class QueryTradeInfo extends Aio
         unset($arParameters["EncryptType"]);
         // 呼叫查詢。
         if (sizeof($arErrors) == 0) {
-            $arParameters["CheckMacValue"] = CheckMacValue::generate($arParameters,$HashKey,$HashIV,$EncryptType);
+            $arParameters["CheckMacValue"] = ECPay_CheckMacValue::generate($arParameters,$HashKey,$HashIV,$EncryptType);
             // 送出查詢並取回結果。
             $szResult = parent::ServerPost($arParameters,$ServiceURL);
             $szResult = str_replace(' ', '%20', $szResult);
             $szResult = str_replace('+', '%2B', $szResult);
+            
             // 轉結果為陣列。
             parse_str($szResult, $arResult);
             // 重新整理回傳參數。
@@ -648,7 +630,7 @@ class QueryTradeInfo extends Aio
             }
             // 驗證檢查碼。
             if (sizeof($arFeedback) > 0) {
-                $szConfirmMacValue = CheckMacValue::generate($arConfirmArgs,$HashKey,$HashIV,$EncryptType);
+                $szConfirmMacValue = ECPay_CheckMacValue::generate($arConfirmArgs,$HashKey,$HashIV,$EncryptType);
                 if ($szCheckMacValue != $szConfirmMacValue) {
                     array_push($arErrors, 'CheckMacValue verify fail.');
                 }
@@ -660,7 +642,7 @@ class QueryTradeInfo extends Aio
         return $arFeedback ;
     }    
 }
-class QueryPeriodCreditCardTradeInfo extends Aio
+class ECPay_QueryPeriodCreditCardTradeInfo extends ECPay_Aio
 {
     static function CheckOut($arParameters = array(),$HashKey ='',$HashIV ='',$ServiceURL = ''){
         $arErrors = array();
@@ -671,7 +653,7 @@ class QueryPeriodCreditCardTradeInfo extends Aio
         unset($arParameters["EncryptType"]);
         // 呼叫查詢。
         if (sizeof($arErrors) == 0) {
-            $arParameters["CheckMacValue"] = CheckMacValue::generate($arParameters,$HashKey,$HashIV,$EncryptType);
+            $arParameters["CheckMacValue"] = ECPay_CheckMacValue::generate($arParameters,$HashKey,$HashIV,$EncryptType);
             // 送出查詢並取回結果。
             $szResult = parent::ServerPost($arParameters,$ServiceURL);
             $szResult = str_replace(' ', '%20', $szResult);
@@ -690,16 +672,16 @@ class QueryPeriodCreditCardTradeInfo extends Aio
         return $arFeedback ;
     }
 }
-class DoAction extends Aio
+class ECPay_DoAction extends ECPay_Aio
 {
     static function CheckOut($arParameters = array(),$HashKey ='',$HashIV ='',$ServiceURL = ''){
-        // 變數宣告。
+                // 變數宣告。
         $arErrors = array();
         $arFeedback = array();
         $EncryptType = $arParameters["EncryptType"];
         unset($arParameters["EncryptType"]);
         //產生驗證碼
-        $szCheckMacValue = CheckMacValue::generate($arParameters,$HashKey,$HashIV,$EncryptType);
+        $szCheckMacValue = ECPay_CheckMacValue::generate($arParameters,$HashKey,$HashIV,$EncryptType);
         $arParameters["CheckMacValue"] = $szCheckMacValue;
         // 送出查詢並取回結果。
         $szResult = self::ServerPost($arParameters,$ServiceURL);
@@ -723,33 +705,7 @@ class DoAction extends Aio
         return $arFeedback ;
     }
 }
-class AioChargeback extends Aio
-{
-    static function CheckOut($arParameters = array(), $HashKey='',$HashIV='',$ServiceURL=''){
-        // 變數宣告。
-        $arErrors = array();
-        $arFeedback = array();
-        $EncryptType = $arParameters["EncryptType"];
-        unset($arParameters["EncryptType"]);
-        
-        $szCheckMacValue = CheckMacValue::generate($arParameters,$HashKey,$HashIV,$EncryptType);
-        $arParameters["CheckMacValue"] = $szCheckMacValue;
-        // 送出查詢並取回結果。
-        $szResult = self::ServerPost($arParameters,$ServiceURL);
-        // 檢查結果資料。
-        if ($szResult == '1|OK') {
-            $arFeedback['RtnCode'] = '1';
-            $arFeedback['RtnMsg'] = 'OK';
-        } else {
-            array_push($arErrors, str_replace('-', ': ', $szResult));
-        }
-        if (sizeof($arErrors) > 0) {
-            throw new Exception(join('- ', $arErrors));
-        }
-        return $arFeedback;
-    }
-}
-class AioCapture extends Aio
+class ECPay_AioCapture extends ECPay_Aio
 {
     static function Capture($arParameters=array(),$HashKey='',$HashIV='',$ServiceURL=''){
         $arErrors   = array();
@@ -757,7 +713,7 @@ class AioCapture extends Aio
         
         $EncryptType = $arParameters["EncryptType"];
         unset($arParameters["EncryptType"]);
-        $szCheckMacValue = CheckMacValue::generate($arParameters,$HashKey,$HashIV,$EncryptType);
+        $szCheckMacValue = ECPay_CheckMacValue::generate($arParameters,$HashKey,$HashIV,$EncryptType);
         $arParameters["CheckMacValue"] = $szCheckMacValue;
         // 送出查詢並取回結果。
         $szResult = self::ServerPost($arParameters,$ServiceURL);
@@ -773,13 +729,13 @@ class AioCapture extends Aio
         return $arFeedback;
     }
 }
-class TradeNoAio extends Aio
+class ECPay_TradeNoAio extends ECPay_Aio
 {   
     static function CheckOut($target = "_self",$arParameters = array(),$HashKey='',$HashIV='',$ServiceURL=''){
         //產生檢查碼
         $EncryptType = $arParameters['EncryptType'];
         unset($arParameters['EncryptType']);
-        $szCheckMacValue = CheckMacValue::generate($arParameters,$HashKey,$HashIV,$EncryptType);
+        $szCheckMacValue = ECPay_CheckMacValue::generate($arParameters,$HashKey,$HashIV,$EncryptType);
        
         //生成表單，自動送出
         $szHtml =  '<!DOCTYPE html>';
@@ -788,21 +744,22 @@ class TradeNoAio extends Aio
         $szHtml .=         '<meta charset="utf-8">';
         $szHtml .=     '</head>';
         $szHtml .=     '<body>';
-        $szHtml .=         "<form id=\"__allpayForm\" method=\"post\" target=\"{$target}\" action=\"{$ServiceURL}\">";
+        $szHtml .=         "<form id=\"__ecpayForm\" method=\"post\" target=\"{$target}\" action=\"{$ServiceURL}\">";
         
         foreach ($arParameters as $keys => $value) {
             $szHtml .=         "<input type=\"hidden\" name=\"{$keys}\" value=\"{$value}\" />";
         }
         $szHtml .=             "<input type=\"hidden\" name=\"CheckMacValue\" value=\"{$szCheckMacValue}\" />";
         $szHtml .=         '</form>';
-        $szHtml .=         '<script type="text/javascript">document.getElementById("__allpayForm").submit();</script>';
+        $szHtml .=         '<script type="text/javascript">document.getElementById("__ecpayForm").submit();</script>';
         $szHtml .=     '</body>';
         $szHtml .= '</html>';
+        
         echo $szHtml ;
         exit;
     }
 }
-class QueryTrade extends Aio
+class ECPay_QueryTrade extends ECPay_Aio
 {
     static function CheckOut($arParameters = array(),$HashKey ='',$HashIV ='',$ServiceURL = ''){
         $arErrors = array();
@@ -812,7 +769,7 @@ class QueryTrade extends Aio
         unset($arParameters["EncryptType"]);
         // 呼叫查詢。
         if (sizeof($arErrors) == 0) {
-            $arParameters["CheckMacValue"] = CheckMacValue::generate($arParameters,$HashKey,$HashIV,$EncryptType);
+            $arParameters["CheckMacValue"] = ECPay_CheckMacValue::generate($arParameters,$HashKey,$HashIV,$EncryptType);
             // 送出查詢並取回結果。
             $szResult = parent::ServerPost($arParameters,$ServiceURL);
             
@@ -830,13 +787,14 @@ class QueryTrade extends Aio
         return $arFeedback ;
     }
 }
-class FundingReconDetail extends Aio
+class ECPay_FundingReconDetail extends ECPay_Aio
 {   
     static function CheckOut($target = "_self",$arParameters = array(),$HashKey='',$HashIV='',$ServiceURL=''){
         //產生檢查碼
-        $EncryptType = $arParameters['EncryptType'];
-        unset($arParameters['EncryptType']);
-        $szCheckMacValue = CheckMacValue::generate($arParameters,$HashKey,$HashIV,$EncryptType);
+        $EncryptType = $arParameters["EncryptType"];
+        unset($arParameters["EncryptType"]);
+        
+        $szCheckMacValue = ECPay_CheckMacValue::generate($arParameters,$HashKey,$HashIV,$EncryptType);
        
         //生成表單，自動送出
         $szHtml =  '<!DOCTYPE html>';
@@ -845,24 +803,22 @@ class FundingReconDetail extends Aio
         $szHtml .=         '<meta charset="utf-8">';
         $szHtml .=     '</head>';
         $szHtml .=     '<body>';
-        $szHtml .=         "<form id=\"__allpayForm\" method=\"post\" target=\"{$target}\" action=\"{$ServiceURL}\">";
+        $szHtml .=         "<form id=\"__ecpayForm\" method=\"post\" target=\"{$target}\" action=\"{$ServiceURL}\">";
         
         foreach ($arParameters as $keys => $value) {
             $szHtml .=         "<input type=\"hidden\" name=\"{$keys}\" value=\"{$value}\" />";
         }
         $szHtml .=             "<input type=\"hidden\" name=\"CheckMacValue\" value=\"{$szCheckMacValue}\" />";
         $szHtml .=         '</form>';
-        $szHtml .=         '<script type="text/javascript">document.getElementById("__allpayForm").submit();</script>';
+        $szHtml .=         '<script type="text/javascript">document.getElementById("__ecpayForm").submit();</script>';
         $szHtml .=     '</body>';
         $szHtml .= '</html>';
         echo $szHtml ;
         exit;
     }
 }
-Abstract class Verification
+Abstract class ECPay_Verification
 {
-    // 付款方式延伸參數
-    public $arPayMentExtend = array();
     // 電子發票延伸參數。
     public $arInvoice = array(
             "RelateNumber",
@@ -888,9 +844,11 @@ Abstract class Verification
             "InvoiceItemTaxType",
             "InvType"
         );
+    // 付款方式延伸參數
+    public $arPayMentExtend = array();
     //檢查共同參數
-    public function check_string($arParameters = array())
-    {
+    public function check_string($arParameters = array()){
+        
         $arErrors = array();
         if (strlen($arParameters['MerchantID']) == 0) {
             array_push($arErrors, 'MerchantID is required.');
@@ -902,10 +860,10 @@ Abstract class Verification
             array_push($arErrors, 'ReturnURL is required.');
         }
         if (strlen($arParameters['ClientBackURL']) > 200) {
-            array_push($arErrors, 'ClientBackURL max langth as 10.');
+            array_push($arErrors, 'ClientBackURL max langth as 200.');
         }
         if (strlen($arParameters['OrderResultURL']) > 200) {
-            array_push($arErrors, 'OrderResultURL max langth as 10.');
+            array_push($arErrors, 'OrderResultURL max langth as 200.');
         }
         if (strlen($arParameters['MerchantTradeNo']) == 0) {
             array_push($arErrors, 'MerchantTradeNo is required.');
@@ -947,12 +905,21 @@ Abstract class Verification
         }
         return $arParameters ;
     }
+    //檢查延伸參數
+    public function check_extend_string($arExtend = array(),$InvoiceMark = ''){
+        //沒設定參數的話，就給預設參數
+        foreach ($this->arPayMentExtend as $key => $value) {
+            if(!isset($arExtend[$key])) $arExtend[$key] = $value;
+        }
+        //若有開發票，檢查一下發票參數
+        if ($InvoiceMark == 'Y') $arExtend = $this->check_invoiceString($arExtend);
+        return $arExtend ;
+    }
     //檢查商品
-    public function check_goods($arParameters = array())
-    {
+    public function check_goods($arParameters = array()){
         // 檢查產品名稱。
-        $arErrors = array();
         $szItemName = '';
+        $arErrors   = array();
         if (sizeof($arParameters['Items']) > 0) {
             foreach ($arParameters['Items'] as $keys => $value) {
                 $szItemName .= vsprintf('#%s %d %s x %u', $arParameters['Items'][$keys]);
@@ -967,30 +934,18 @@ Abstract class Verification
         } else {
             array_push($arErrors, "Goods information not found.");
         }
-        if (sizeof($arErrors)>0) throw new Exception(join('<br>', $arErrors));
+        if(sizeof($arErrors)>0) throw new Exception(join('<br>', $arErrors));
         unset($arParameters['Items']);
         return $arParameters ;
     }
     //過濾多餘參數
-    public function filter_string($arExtend = array(),$InvoiceMark = '')
-    {
+    public function filter_string($arExtend = array(),$InvoiceMark = ''){
         $arPayMentExtend = array_merge(array_keys($this->arPayMentExtend), ($InvoiceMark == '') ? array() : $this->arInvoice);
         foreach ($arExtend as $key => $value) {
             if (!in_array($key,$arPayMentExtend )) {
                 unset($arExtend[$key]);
             }
         }
-        return $arExtend ;
-    }
-    //檢查預設參數
-    public function check_extend_string($arExtend = array(),$InvoiceMark = '')
-    {
-        //沒設定參數的話，就給預設參數
-        foreach ($this->arPayMentExtend as $key => $value) {
-            if (!isset($arExtend[$key])) $arExtend[$key] = $value;
-        }
-        //若有開發票，檢查一下發票參數
-        if ($InvoiceMark == 'Y') $arExtend = $this->check_invoiceString($arExtend);
         return $arExtend ;
     }
     //檢查電子發票參數
@@ -1015,10 +970,10 @@ Abstract class Verification
         }
         // 載具類別CarruerType(預設為None)
         if(!array_key_exists('CarruerType', $arExtend)){
-            $arExtend['CarruerType'] = CarruerType::None ;
+            $arExtend['CarruerType'] = ECPay_CarruerType::None ;
         }else{
             //有設定統一編號的話，載具類別不可為合作特店載具或自然人憑證載具。
-            $notPrint = array(CarruerType::Member, CarruerType::Citizen);
+            $notPrint = array(ECPay_CarruerType::Member, ECPay_CarruerType::Citizen);
             if(strlen($arExtend['CustomerIdentifier']) > 0 && in_array($arExtend['CarruerType'], $notPrint)){
                 array_push($arErrors, "CarruerType should NOT be Member or Citizen.");
             }
@@ -1027,29 +982,29 @@ Abstract class Verification
         if(!array_key_exists('CustomerID', $arExtend)) {
             $arExtend['CustomerID'] = '';
         }else{
-            if($arExtend['CarruerType'] == CarruerType::Member && strlen($arExtend['CustomerID']) == 0){
+            if($arExtend['CarruerType'] == ECPay_CarruerType::Member && strlen($arExtend['CustomerID']) == 0 ){
                 array_push($arErrors, "CustomerID is required.");
             }
         }
         // 捐贈註記 Donation(預設為No)
         if(!array_key_exists('Donation', $arExtend)){
-            $arExtend['Donation'] = Donation::No ;
+            $arExtend['Donation'] = ECPay_Donation::No ;
         }else{
             //若有帶統一編號，不可捐贈
-            if(strlen($arExtend['CustomerIdentifier']) > 0 && $arExtend['Donation'] != Donation::No  ){
+            if(strlen($arExtend['CustomerIdentifier']) > 0 && $arExtend['Donation'] != ECPay_Donation::No){
                 array_push($arErrors, "Donation should be No.");
             }
         }
         // 列印註記Print(預設為No)
         if(!array_key_exists('Print', $arExtend)){
-            $arExtend['Print'] = PrintMark::No ;
+            $arExtend['Print'] = ECPay_PrintMark::No;
         }else{
             //捐贈註記為捐贈(Yes)時，請設定不列印(No)
-            if($arExtend['Donation'] == Donation::Yes && $arExtend['Print'] != PrintMark::No){
+            if($arExtend['Donation'] == ECPay_Donation::Yes && $arExtend['Print'] != ECPay_PrintMark::No){
                 array_push($arErrors, "Print should be No.");
             }
             // 統一編號不為空字串時，請設定列印(Yes)
-            if(strlen($arExtend['CustomerIdentifier']) > 0 && $arExtend['Print'] != PrintMark::Yes){
+            if(strlen($arExtend['CustomerIdentifier']) > 0 && $arExtend['Print'] != ECPay_PrintMark::Yes){
                 array_push($arErrors, "Print should be Yes.");
             }
         }
@@ -1061,7 +1016,7 @@ Abstract class Verification
                   array_push($arErrors, "CustomerName max length as 20.");
             }
             // 列印註記為列印(Yes)時，此參數不可為空字串
-            if($arExtend['Print'] == PrintMark::Yes && strlen($arExtend['CustomerName']) == 0){
+            if($arExtend['Print'] == ECPay_PrintMark::Yes && strlen($arExtend['CustomerName']) == 0){
                 array_push($arErrors, "CustomerName is required.");
             }
         }
@@ -1073,7 +1028,7 @@ Abstract class Verification
                   array_push($arErrors, "CustomerAddr max length as 200.");
             }
             // 列印註記為列印(Yes)時，此參數不可為空字串
-            if($arExtend['Print'] == PrintMark::Yes && strlen($arExtend['CustomerAddr']) == 0){
+            if($arExtend['Print'] == ECPay_PrintMark::Yes && strlen($arExtend['CustomerAddr']) == 0){
                 array_push($arErrors, "CustomerAddr is required.");
             }
         }
@@ -1099,10 +1054,10 @@ Abstract class Verification
             $arExtend['ClearanceMark'] = '';
         }else{
             //課稅類別為零稅率(Zero)時，ClearanceMark不可為空字串
-            if($arExtend['TaxType'] == TaxType::Zero && ($arExtend['ClearanceMark'] != ClearanceMark::Yes || $arExtend['ClearanceMark'] != ClearanceMark::No)) {
+            if($arExtend['TaxType'] == ECPay_TaxType::Zero && ($arExtend['ClearanceMark'] != ECPay_ClearanceMark::Yes || $arExtend['ClearanceMark'] != ECPay_ClearanceMark::No)) {
                 array_push($arErrors, "ClearanceMark is required.");
             }
-            if (strlen($arExtend['ClearanceMark']) > 0 && $arExtend['TaxType'] != TaxType::Zero) {
+            if (strlen($arExtend['ClearanceMark']) > 0 && $arExtend['TaxType'] != ECPay_TaxType::Zero) {
                 array_push($arErrors, "Please remove ClearanceMark.");
             }
         }
@@ -1113,17 +1068,17 @@ Abstract class Verification
         } else {
             switch ($arExtend['CarruerType']) {
                 // 載具類別為無載具(None)或會員載具(Member)時，系統自動忽略載具編號
-                case CarruerType::None:
-                case CarruerType::Member:
+                case ECPay_CarruerType::None:
+                case ECPay_CarruerType::Member:
                 break;
                 // 載具類別為買受人自然人憑證(Citizen)時，請設定自然人憑證號碼，前2碼為大小寫英文，後14碼為數字
-                case CarruerType::Citizen:
+                case ECPay_CarruerType::Citizen:
                     if (!preg_match('/^[a-zA-Z]{2}\d{14}$/', $arExtend['CarruerNum'])){
                         array_push($arErrors, "Invalid CarruerNum.");
                     }
                 break;
                 // 載具類別為買受人手機條碼(Cellphone)時，請設定手機條碼，第1碼為「/」，後7碼為大小寫英文、數字、「+」、「-」或「.」
-                case CarruerType::Cellphone:
+                case ECPay_CarruerType::Cellphone:
                     if (!preg_match('/^\/{1}[0-9a-zA-Z+-.]{7}$/', $arExtend['CarruerNum'])) {
                         array_push($arErrors, "Invalid CarruerNum.");
                     }
@@ -1135,7 +1090,7 @@ Abstract class Verification
         // 愛心碼 LoveCode(預設為空字串)
         if(!array_key_exists('LoveCode', $arExtend)) $arExtend['LoveCode'] = '';
         // 捐贈註記為捐贈(Yes)時，參數長度固定3~7碼，請設定全數字或第1碼大小寫「X」，後2~6碼全數字
-        if ($arExtend['Donation'] == Donation::Yes) {
+        if ($arExtend['Donation'] == ECPay_Donation::Yes) {
             if (!preg_match('/^([xX]{1}[0-9]{2,6}|[0-9]{3,7})$/', $arExtend['LoveCode'])) {
                 array_push($arErrors, "Invalid LoveCode.");
             }
@@ -1178,8 +1133,8 @@ Abstract class Verification
                 }
             }
                   
-            if ($arExtend['TaxType'] == TaxType::Mix) {
-                if (in_array(TaxType::Dutiable, $tmpItemTaxType) and in_array(TaxType::Free, $tmpItemTaxType)) {
+            if ($arExtend['TaxType'] == ECPay_TaxType::Mix) {
+                if (in_array(ECPay_TaxType::Dutiable, $tmpItemTaxType) and in_array(ECPay_TaxType::Free, $tmpItemTaxType)) {
                     // Do nothing
                 }  else {
                     $tmpItemTaxType = array();
@@ -1194,7 +1149,6 @@ Abstract class Verification
             }
             unset($arExtend['InvoiceItems']); 
         }
-        
         $encode_fields = array(
                 'CustomerName',
                 'CustomerAddr',
@@ -1215,7 +1169,7 @@ Abstract class Verification
 /**
 *  付款方式：超商代碼
 */
-class allPay_CVS extends Verification
+class ECPay_CVS extends ECPay_Verification
 {
     public  $arPayMentExtend = array(
                             'Desc_1'           =>'',
@@ -1226,9 +1180,30 @@ class allPay_CVS extends Verification
                             'ClientRedirectURL'=>'',
                             'StoreExpireDate'  =>''
                         );
+    
+    // 過濾多餘參數
+    function filter_string($arExtend = array(),$InvoiceMark = ''){
+        $arExtend = parent::filter_string($arExtend, $InvoiceMark);
+        return $arExtend ;
+    }
+}
+/**
+* 付款方式 : BARCODE 
+*/
+class ECPay_BARCODE extends ECPay_Verification
+{
+    public  $arPayMentExtend = array(
+                            'Desc_1'           =>'',
+                            'Desc_2'           =>'',
+                            'Desc_3'           =>'',
+                            'Desc_4'           =>'',
+                            'PaymentInfoURL'   =>'',
+                            'ClientRedirectURL'=>'',
+                            'StoreExpireDate'  =>''
+                        );
+    
     //過濾多餘參數
-    function filter_string($arExtend = array(),$InvoiceMark = '')
-    {
+    function filter_string($arExtend = array(),$InvoiceMark = ''){
         $arExtend = parent::filter_string($arExtend, $InvoiceMark);
         return $arExtend ;
     }
@@ -1236,16 +1211,16 @@ class allPay_CVS extends Verification
 /**
 *  付款方式 ATM
 */
-class allPay_ATM extends Verification
+class ECPay_ATM extends ECPay_Verification
 {
     public  $arPayMentExtend = array(
                             'ExpireDate'       => 3,
                             'PaymentInfoURL'   => '',
                             'ClientRedirectURL'=> '',
                         );
+    
     //過濾多餘參數
-    function filter_string($arExtend = array(),$InvoiceMark = '')
-    {
+    function filter_string($arExtend = array(),$InvoiceMark = ''){
         $arExtend = parent::filter_string($arExtend, $InvoiceMark);
         return $arExtend ;
     }
@@ -1253,26 +1228,12 @@ class allPay_ATM extends Verification
 /**
 *  付款方式 WebATM
 */
-class allPay_WebATM extends Verification
+class ECPay_WebATM extends ECPay_Verification
 {
     public  $arPayMentExtend = array();
     
     //過濾多餘參數
-    function filter_string($arExtend = array(),$InvoiceMark = '')
-    {
-        $arExtend = parent::filter_string($arExtend, $InvoiceMark);
-        return $arExtend ;
-    }
-}
-/**
-* 付款方式：Tenpay
-*/
-class allPay_Tenpay extends Verification
-{
-    public  $arPayMentExtend = array('ExpireTime' => '');
-    //過濾多餘參數
-    function filter_string($arExtend = array(),$InvoiceMark = '')
-    {
+    function filter_string($arExtend = array(),$InvoiceMark = ''){
         $arExtend = parent::filter_string($arExtend, $InvoiceMark);
         return $arExtend ;
     }
@@ -1280,56 +1241,58 @@ class allPay_Tenpay extends Verification
 /**
 * 付款方式 : 信用卡
 */
-class allPay_Credit extends Verification
+class ECPay_Credit extends ECPay_Verification
 {
     public $arPayMentExtend = array(
                                     "CreditInstallment" => '',
-                                    "Redeem"            => FALSE, 
+                                    "Redeem"            => FALSE,
+                                    "UnionPay"          => FALSE,
+                                    "Language"          => '',
+                                    "BidingCard"        => '',
+                                    "MerchantMemberID"  => '',
                                     "PeriodAmount"      => '',
-                                    "PeriodType"        => '',  
-                                    "Frequency"         => '',  
+                                    "PeriodType"        => '',
+                                    "Frequency"         => '',
                                     "ExecTimes"         => '',
                                     "PeriodReturnURL"   => ''
                                 );
-    //過濾多餘參數
     function filter_string($arExtend = array(),$InvoiceMark = ''){
         $arExtend = parent::filter_string($arExtend, $InvoiceMark);
         return $arExtend ;
     }
 }
 /**
-* 付款方式:TopUpUsed
+*  付款方式：全功能
 */
-class allPay_TopUpUsed extends Verification
+class ECPay_ALL extends ECPay_Verification
 {
     public  $arPayMentExtend = array();
-    //過濾多餘參數
     function filter_string($arExtend = array(),$InvoiceMark = ''){
         return $arExtend ;
     }
 }
 /**
-*  付款方式：全功能
+* 付款方式 : Android Pay
 */
-class allPay_ALL extends Verification
+class ECPay_AndroidPay extends ECPay_Verification
 {
-    public  $arPayMentExtend = array();
-    //過濾多餘參數
-    function filter_string($arExtend = array(),$InvoiceMark = ''){
+    public $arPayMentExtend = array();
+    function filter_string($arExtend = array(), $InvoiceMark = ''){
+        $arExtend = parent::filter_string($arExtend, $InvoiceMark);
         return $arExtend ;
     }
 }
 /**
 *  檢查碼
 */
-class CheckMacValue{
+class ECPay_CheckMacValue{
     static function generate($arParameters = array(),$HashKey = '' ,$HashIV = '',$encType = 0){
         $sMacValue = '' ;
         
         if(isset($arParameters))
         {   
             unset($arParameters['CheckMacValue']);
-            uksort($arParameters, array('CheckMacValue','merchantSort'));
+            uksort($arParameters, array('ECPay_CheckMacValue','merchantSort'));
                
             // 組合字串
             $sMacValue = 'HashKey=' . $HashKey ;
@@ -1357,12 +1320,12 @@ class CheckMacValue{
                                 
             // 編碼
             switch ($encType) {
-                case EncryptType::ENC_SHA256:
+                case ECPay_EncryptType::ENC_SHA256:
                     // SHA256 編碼
                     $sMacValue = hash('sha256', $sMacValue);
                 break;
                 
-                case EncryptType::ENC_MD5:
+                case ECPay_EncryptType::ENC_MD5:
                 default:
                 // MD5 編碼
                     $sMacValue = md5($sMacValue);

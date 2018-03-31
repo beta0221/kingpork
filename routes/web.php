@@ -19,6 +19,8 @@
 Route::get('/','PageController@getLanding');
 Route::get('/contact','PageController@getContact')->name('contact');
 Route::get('productPage','PageController@showProductPage')->name('showProductPage');
+Route::get('/ecom-api', 'PageController@ecomApi')->name('ecomApi');
+
 // product routes
 Route::resource('products','ProductController');
 
@@ -48,3 +50,4 @@ Route::get('/admin/password/reset','Auth\AdminForgotPasswordController@showLinkR
 Route::post('/admin/password/email','Auth\AdminForgotPasswordController@sendResetLinkEmail')->name('admin.password.email');//2
 Route::get('/admin/password/reset/{token}','Auth\AdminResetPasswordController@showResetForm')->name('admin.password.reset');//3
 Route::post('/admin/password/reset','Auth\AdminResetPasswordController@reset');//4
+

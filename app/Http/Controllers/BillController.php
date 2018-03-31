@@ -116,9 +116,10 @@ class BillController extends Controller
         ];
 
         }
-
+        $bill_id = time();
         $bill = new Bill;
         $bill->user_id = Auth::user()->id;
+        $bill->bill_id = $bill_id;
         $bill->user_name = Auth::user()->name;
         $bill->item = json_encode($kart);
         $bill->price = $total;
@@ -128,8 +129,12 @@ class BillController extends Controller
 
         Session::flash('success','訂單已成功送出');
 
-        return redirect()->route('bill.index');
-
+        // return redirect()->route('bill.index');
+        
+        return redirect()->route('ecomApi',[
+            'price'=>$total,
+            'bill_id'=>$bill_id
+        ]);
     }
 
     /**

@@ -24,4 +24,8 @@ class PageController extends Controller
     public function showProductPage(){
     	return view('pages.productPage');
     }
+
+   public function ecomApi(){
+        return view('ECPay.atm');
+   }
 }
