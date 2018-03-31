@@ -13,8 +13,6 @@ $bill_id = {{Request::get('bill_id')}};
 // }
 
 
-echo $price;
-echo "";
-echo $bill_id;
+
 
 ?>
