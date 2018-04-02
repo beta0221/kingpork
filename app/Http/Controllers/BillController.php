@@ -179,7 +179,8 @@ class BillController extends Controller
 
         $client = new \GuzzleHttp\Client();
         $response = $client->post(
-            'https://payment-stage.ecpay.com.tw/SP/CreateTrade',
+            // 'https://payment-stage.ecpay.com.tw/SP/CreateTrade',
+            'https://payment.ecpay.com.tw/SP/CreateTrade',
             [
                 'form_params' => [
                     'MerchantID' => $MerchantID,
