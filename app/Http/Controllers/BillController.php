@@ -8,6 +8,12 @@ use App\Products;
 use Session;
 use Illuminate\Support\Facades\Auth;
 use DB;
+use GuzzleHttp\Client;
+use GuzzleHttp\Pool;
+use GuzzleHttp\Exception\ClientException;
+
+// require 'vendor/autoload.php';
+
 class BillController extends Controller
 {
     /**
@@ -125,16 +131,82 @@ class BillController extends Controller
         $bill->price = $total;
         $bill->save();
 
-        DB::table('kart')->where('user_id',Auth::user()->id)->delete();
+        // DB::table('kart')->where('user_id',Auth::user()->id)->delete();
 
         Session::flash('success','訂單已成功送出');
 
         // return redirect()->route('bill.index');
         
-        return redirect()->route('ecomApi',[
-            'price'=>$total,
-            'bill_id'=>$bill_id
-        ]);
+        // return redirect()->route('ecomApi',[
+        //     'price'=>$total,
+        //     'bill_id'=>$bill_id
+        // ]);
+
+        $HashKey = '5294y06JbISpM5x9';
+        $HashIV = 'v77hoKGq4kWxNNIS';
+        $MerchantID = '2000132';
+
+        $MerchantTradeNo = 'kp' . time() ;
+        date_default_timezone_set('Asia/Taipei');
+        $MerchantTradeDate = date('Y\/m\/d H:i:s');
+        $PaymentType = 'aio';
+        $TotalAmount = $total;
+        $TradeDesc = 'ecpay商城購物';
+        $ItemName = '商品名稱1#商品名稱2';
+        $ReturnURL = 'http://localhost:8000/receive.php';
+        $ChoosePayment = 'ALL';
+        $EncryptType = '1';
+
+        $all = 'HashKey='.$HashKey . '&' .
+               'ChoosePayment='.$ChoosePayment . '&' . 
+               'EncryptType='.$EncryptType . '&' . 
+               'ItemName='.$ItemName . '&' . 
+               'MerchantID='.$MerchantID . '&' . 
+               'MerchantTradeDate='.$MerchantTradeDate . '&' . 
+               'MerchantTradeNo='.$MerchantTradeNo . '&' . 
+               'PaymentType='.$PaymentType . '&' . 
+               'ReturnURL='.$ReturnURL . '&' . 
+               'TotalAmount='.$TotalAmount . '&' . 
+               'TradeDesc='.$TradeDesc . '&' . 
+               'HashIV='.$HashIV;
+
+        $CheckMacValue = hash('sha256', strtolower(urlencode($all)));
+
+        $client = new \GuzzleHttp\Client();
+        $response = $client->post(
+            'https://payment-stage.ecpay.com.tw/SP/CreateTrade',
+            [
+                'form_params' => [
+                    'MerchantID' => $MerchantID,
+                    'MerchantTradeNo' => $MerchantTradeNo,
+                    'MerchantTradeDate' => $MerchantTradeDate,
+                    'PaymentType' => $PaymentType,
+                    'TotalAmount' => $TotalAmount,
+                    'TradeDesc' => $TradeDesc,
+                    'ItemName' => $ItemName,
+                    'ReturnURL' => $ReturnURL,
+                    'ChoosePayment' => $ChoosePayment,
+                    'CheckMacValue' => $CheckMacValue,
+                    'EncryptType' => $EncryptType
+                ]
+            ]
+        );
+
+
+        $body = $response->getBody();
+        $phpBody = json_decode($body);
+        
+       
+        if ($phpBody->{'RtnCode'} == 1) {
+            $SPToken = $phpBody->{'SPToken'};
+            
+            return view('bill.payBill',['SPToken'=>$SPToken]);
+
+        }else{
+            print_r(json_decode((string) $body));
+        }
+        
+
     }
 
     /**
