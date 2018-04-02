@@ -142,9 +142,14 @@ class BillController extends Controller
         //     'bill_id'=>$bill_id
         // ]);
 
-        $HashKey = '5294y06JbISpM5x9';
-        $HashIV = 'v77hoKGq4kWxNNIS';
-        $MerchantID = '2000132';
+        //test
+        // $HashKey = '5294y06JbISpM5x9';
+        // $HashIV = 'v77hoKGq4kWxNNIS';
+        // $MerchantID = '2000132';
+        //kingPork
+        $HashKey = '6HWkOeX5RsDZnDFn';
+        $HashIV = 'Zfo3Ml2OQXRmnjha';
+        $MerchantID = '1044372';
 
         $MerchantTradeNo = 'kp' . time() ;
         date_default_timezone_set('Asia/Taipei');
