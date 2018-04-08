@@ -231,12 +231,14 @@ class BillController extends Controller
 
     }
 
-    public function billPaied()
+    public function billPaied(Request $request)
     {
-        $MerchantTradeNo = $_POST['MerchantTradeNo'];
-        $the = Bill::where('bill_id',$MerchantTradeNo)->get();
+        $MerchantTradeNo = $request->MerchantTradeNo;
+        // $the = Bill::findOrFail(1);
+        $the = Bill::where('bill_id',$MerchantTradeNo)->firstOrFail();
         $the->status = '1';
         $the->save();
+        return(1);
     }
 
 
