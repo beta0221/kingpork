@@ -145,7 +145,7 @@ class BillController extends Controller
         $TotalAmount = $total;
         $TradeDesc = 'ecpay商城購物';
         $ItemName = '商品名稱1#商品名稱2';
-        $ReturnURL = 'http://45.76.104.218/billPaied';
+        $ReturnURL = 'http://45.76.104.218/api/billPaied';
         $ChoosePayment = 'ALL';
         $EncryptType = '1';
 
