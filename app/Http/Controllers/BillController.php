@@ -238,7 +238,7 @@ class BillController extends Controller
         $the = Bill::where('bill_id',$MerchantTradeNo)->firstOrFail();
         $the->status = '1';
         $the->save();
-        return(1);
+        return('1|OK');
     }
 
 

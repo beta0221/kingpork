@@ -129,4 +129,16 @@ td,th{
 	data-PaymentName="CREDIT"
 	data-CustomerBtn="1" >
 	</script> 
+
+	<script type="text/javascript" src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js" >
+	    $(function () {
+	        window.addEventListener('message', function (e) {
+	            alert("訂單結果資訊：" + e.data);
+	                    //自行撰寫接收交易結果後續程式         
+	            });     
+	        });    
+	</script> 
+
+
+
 @endsection
