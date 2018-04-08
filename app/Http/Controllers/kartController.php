@@ -35,6 +35,7 @@ class kartController extends Controller
     public function index()
     {
         if(Auth::user()){
+            
             $kart = Kart::all()->where('user_id', Auth::user()->id);
             $shit = [];
             $i = 0;
@@ -45,6 +46,17 @@ class kartController extends Controller
                 // $shit = DB::table('products')->whereIn('id', [7,8,9])->get();
                 $products = DB::table('products')->whereIn('id', $shit)->get();
             return view('kart.index',['products'=>$products]);
+        
+            // $id = Auth::user()->id;
+            // $userID = User::find($id);
+            // return view('kart.index',['userID'=>$userID]);
+
+
+
+
+
+
+
         }
         else{
             return redirect('login');

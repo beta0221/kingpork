@@ -7,7 +7,6 @@
 .contentPage{
     width: 100%;
     height: auto;
-
 }
 .outter{
 	margin-top: 60px;
@@ -15,7 +14,6 @@
 	min-height: 520px;
 	/*overflow-y: scroll;*/
 	padding-bottom: 80px;
-
 	background-color: rgba(255,255,255,0.5);
 	box-shadow: 2px 2px 16px 2px rgba(0, 0, 0, 0.3);
 	border-radius: 0.3em;
@@ -133,8 +131,7 @@ tr{
 					
 				@endif
 				
-
-
+				
 
 
 			</div>

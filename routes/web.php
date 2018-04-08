@@ -32,6 +32,7 @@ Route::post('inKart','kartController@inKart')->name('getInKart');//for api
 
 //Bill routes
 Route::resource('bill','BillController');
+Route::post('billPaied','BillController@billPaied');
 
 //Banner routes
 Route::resource('banner','BannerController');

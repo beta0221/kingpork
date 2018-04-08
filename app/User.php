@@ -32,6 +32,10 @@ class User extends Authenticatable
     ];
 
 
+    public function kart()
+    {
+        return $this->hasMany('App\Kart','user_id');
+    }
 
 }
 

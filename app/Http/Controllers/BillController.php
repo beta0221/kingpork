@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Bill;
 use App\Products;
+use App\Kart;
 use Session;
-use Illuminate\Support\Facades\Auth;
 use DB;
+use Illuminate\Support\Facades\Auth;
 use GuzzleHttp\Client;
 use GuzzleHttp\Pool;
 use GuzzleHttp\Exception\ClientException;
@@ -116,26 +117,12 @@ class BillController extends Controller
         $kart = [];
         for ($i=0; $i < count($itemArray); $i++) { 
             
-        $kart[$i] = [
-            'slug' => $itemArray[$i],
-            'quantity' => $quantityArray[$i],
-        ];
+            $kart[$i] = [
+                'slug' => $itemArray[$i],
+                'quantity' => $quantityArray[$i],
+            ];
 
         }
-        $bill_id = time();
-        $bill = new Bill;
-        $bill->user_id = Auth::user()->id;
-        $bill->bill_id = $bill_id;
-        $bill->user_name = Auth::user()->name;
-        $bill->item = json_encode($kart);
-        $bill->price = $total;
-        $bill->save();
-
-        // DB::table('kart')->where('user_id',Auth::user()->id)->delete();
-
-        Session::flash('success','訂單已成功送出');
-
-        // return redirect()->route('bill.index');
         
         // return redirect()->route('ecomApi',[
         //     'price'=>$total,
@@ -143,13 +130,13 @@ class BillController extends Controller
         // ]);
 
         //test
-        // $HashKey = '5294y06JbISpM5x9';
-        // $HashIV = 'v77hoKGq4kWxNNIS';
-        // $MerchantID = '2000132';
+        $HashKey = '5294y06JbISpM5x9';
+        $HashIV = 'v77hoKGq4kWxNNIS';
+        $MerchantID = '2000132';
         //kingPork
-        $HashKey = '6HWkOeX5RsDZnDFn';
-        $HashIV = 'Zfo3Ml2OQXRmnjha';
-        $MerchantID = '1044372';
+        // $HashKey = '6HWkOeX5RsDZnDFn';
+        // $HashIV = 'Zfo3Ml2OQXRmnjha';
+        // $MerchantID = '1044372';
 
         $MerchantTradeNo = 'kp' . time() ;
         date_default_timezone_set('Asia/Taipei');
@@ -158,7 +145,7 @@ class BillController extends Controller
         $TotalAmount = $total;
         $TradeDesc = 'ecpay商城購物';
         $ItemName = '商品名稱1#商品名稱2';
-        $ReturnURL = 'http://localhost:8000/receive.php';
+        $ReturnURL = 'http://45.76.104.218/billPaied';
         $ChoosePayment = 'ALL';
         $EncryptType = '1';
 
@@ -179,8 +166,8 @@ class BillController extends Controller
 
         $client = new \GuzzleHttp\Client();
         $response = $client->post(
-            // 'https://payment-stage.ecpay.com.tw/SP/CreateTrade',
-            'https://payment.ecpay.com.tw/SP/CreateTrade',
+            'https://payment-stage.ecpay.com.tw/SP/CreateTrade',
+            // 'https://payment.ecpay.com.tw/SP/CreateTrade',
             [
                 'form_params' => [
                     'MerchantID' => $MerchantID,
@@ -206,14 +193,52 @@ class BillController extends Controller
         if ($phpBody->{'RtnCode'} == 1) {
             $SPToken = $phpBody->{'SPToken'};
             
-            return view('bill.payBill',['SPToken'=>$SPToken]);
+            $bill_id = $MerchantTradeNo;
+            $bill = new Bill;
+            $bill->user_id = Auth::user()->id;
+            $bill->bill_id = $bill_id;
+            $bill->user_name = Auth::user()->name;
+            $bill->item = json_encode($kart);
+            $bill->price = $total;
+            $bill->save();
+
+            // DB::table('kart')->where('user_id',Auth::user()->id)->delete();
+
+            Session::flash('success','訂單已成功送出');
+    
+            // Products::where('slug',$bill[$x][$y]['slug'])->get();
+            
+            $payItems = [];
+            for ($i=0; $i < count($kart) ; $i++) { 
+                
+                $products = Products::where('slug',$kart[$i]['slug'])->get();
+
+                $payItems[$i] = [
+                   'name' => $products[0]->name,
+                   'price' => $products[0]->price,
+                   'quantity' => $kart[$i]['quantity'],
+                ];
+            }
+            // return($products[0]->name);
+
+            return view('bill.payBill',['SPToken'=>$SPToken,'bill'=>$bill,'payItems'=>$payItems]);
 
         }else{
+
             print_r(json_decode((string) $body));
-        }
         
+        }
 
     }
+
+    public function billPaied()
+    {
+        $MerchantTradeNo = $_POST['MerchantTradeNo'];
+        $the = Bill::where('bill_id',$MerchantTradeNo)->get();
+        $the->status = '1';
+        $the->save();
+    }
+
 
     /**
      * Display the specified resource.
