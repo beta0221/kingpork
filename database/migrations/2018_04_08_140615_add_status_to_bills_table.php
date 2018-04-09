@@ -14,7 +14,9 @@ class AddStatusToBillsTable extends Migration
     public function up()
     {
         Schema::table('bills', function (Blueprint $table) {
-            $table->string('status')->after('price')->nullable();
+            $table->string('status')->after('price')->default('0');
+            $table->string('pay_by')->after('status')->default('0');
+            $table->string('SPToken')->after('pay_by');
         });
     }
 
@@ -27,6 +29,8 @@ class AddStatusToBillsTable extends Migration
     {
         Schema::table('bills', function (Blueprint $table) {
             $table->dropColumn('status');
+            $table->dropColumn('pay_by');
+            $table->dropColumn('SPToken');
         });
     }
 }

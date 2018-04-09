@@ -15,7 +15,7 @@
 	border-radius: 0.3em;
 }
 .TDdate{
-	width: 220px;
+	width: 140px;
 }
 .TDtotal{
 	width: 56px;
@@ -52,7 +52,7 @@ td,th{
 <div class="wrapper">
 	<div class="container">
 		<div class="row">
-			<div class="col-md-8 offset-md-2 outter">
+			<div class="col-md-10 offset-md-1 outter">
 				
 				@if(Session::has('success'))
 					{{Session::get('success')}}<br>
@@ -61,7 +61,8 @@ td,th{
 				<table style="width: 100%">	
 
 					<tr>
-						<th>日期</th>	
+						<th>日期</th>
+						<th>訂單編號</th>
 						<th>
 							<table style="width: 100%;">
 								<tr>
@@ -72,6 +73,9 @@ td,th{
 							</table>
 						</th>
 						<th>總價</th>
+						<th>付款方式</th>
+						<th>付款狀態</th>
+						<th>-</th>
 					</tr>
 
 					@foreach($finalBills as $billX)
@@ -79,6 +83,7 @@ td,th{
 						<tr>
 
 							<td class="TDdate">{{$billX[0]['created_at']}}</td>
+							<td>{{$billX[0]['bill_id']}}</td>
 							<td class="TDproduct">
 								<table style="width: 100%;">
 									@foreach($billX as $billY)
@@ -93,8 +98,13 @@ td,th{
 								</table>
 							</td>
 							<td class="TDtotal">{{$billX[0]['total']}}</td>
+							<td>{{$billX[0]['pay_by']}}</td>
+							<td>{{$billX[0]['status']}}</td>
+							<td><a href="{{route('bill.show', $billX[0]['bill_id'])}}">付款</a></td>
 						</tr>
-						<tr><td>　</td></tr>
+						<tr>
+							<td>-</td>
+						</tr>
 
 					@endforeach
 				

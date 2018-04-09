@@ -125,7 +125,7 @@ tr{
 						<div style="margin-top: 20px;position: absolute;right: 20px;">
 							<span style=";margin: 0 8px 0 8px;font-size: 18pt;">總額：</span>
 							<span style="font-size: 18pt;" id="sum"></span>
-							<button id="payBtn" type="submit">結帳去</button>
+							<button id="payBtn" type="submit">送出訂單</button>
 						</div>
 					</form>
 					

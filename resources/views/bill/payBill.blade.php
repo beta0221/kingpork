@@ -84,21 +84,21 @@ td,th{
 
 						<tr>
 
-							<td class="TDdate">{{$bill->bill_id}}</td>
+							<td class="TDdate">{{$finalBill['bill_id']}}</td>
 							<td class="TDproduct">
 								<table style="width: 100%;">
 									
-									@foreach($payItems as $payItem)
+									@foreach($finalBill['itemArray'] as $item)
 										<tr>
-											<td class="TNT1">{{$payItem['name']}}</td>
-											<td class="TNT2">{{$payItem['price']}}</td>
-											<td class="TNT3">{{$payItem['quantity']}}</td>
+											<td class="TNT1">{{$item['name']}}</td>
+											<td class="TNT2">{{$item['price']}}</td>
+											<td class="TNT3">{{$item['quantity']}}</td>
 										</tr>
 									@endforeach
 									
 								</table>
 							</td>
-							<td class="TDtotal">{{$bill->price}}</td>
+							<td class="TDtotal">{{$finalBill['price']}}</td>
 						</tr>
 						<tr><td>　</td></tr>
 
@@ -124,21 +124,11 @@ td,th{
 	<script src="https://payment-stage.ecpay.com.tw/Scripts/SP/ECPayPayment_1.0.0.js"
 	data-MerchantID="2000132" {{-- test --}}
 	{{-- data-MerchantID="1044372" --}} {{-- kingpork --}}
-	data-SPToken="{{$SPToken}}"
+	data-SPToken="{{$finalBill['SPToken']}}"
 	data-PaymentType="CREDIT"
 	data-PaymentName="CREDIT"
 	data-CustomerBtn="1" >
 	</script> 
-
-	<script type="text/javascript" src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js" >
-	    $(function () {
-	        window.addEventListener('message', function (e) {
-	            alert("訂單結果資訊：" + e.data);
-	                    //自行撰寫接收交易結果後續程式         
-	            });     
-	        });    
-	</script> 
-
 
 
 @endsection

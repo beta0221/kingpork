@@ -48,7 +48,11 @@ class BillController extends Controller
                         'name' => $products[$x][$y][0]->name, //產品名稱
                         'price' => $products[$x][$y][0]->price, //產品單價
                         'quantity' => $bill[$x][$y]['quantity'], //產品數量
+                        'bill_id' => $records[$x]->bill_id,     //訂單編號
                         'total' => $records[$x]->price,         //總價
+                        'status' => $records[$x]->status,       //付款狀態
+                        'pay_by' => $records[$x]->pay_by,       //付款方式
+                        'SPToken' => $records[$x]->SPToken,     //SPToken
                         'created_at' => $records[$x]->created_at, //訂購日期
 
                     ];
@@ -185,7 +189,6 @@ class BillController extends Controller
             ]
         );
 
-
         $body = $response->getBody();
         $phpBody = json_decode($body);
         
@@ -200,28 +203,14 @@ class BillController extends Controller
             $bill->user_name = Auth::user()->name;
             $bill->item = json_encode($kart);
             $bill->price = $total;
+            $bill->SPToken = $SPToken;
             $bill->save();
 
-            // DB::table('kart')->where('user_id',Auth::user()->id)->delete();
+            DB::table('kart')->where('user_id',Auth::user()->id)->delete();
 
             Session::flash('success','訂單已成功送出');
-    
-            // Products::where('slug',$bill[$x][$y]['slug'])->get();
-            
-            $payItems = [];
-            for ($i=0; $i < count($kart) ; $i++) { 
-                
-                $products = Products::where('slug',$kart[$i]['slug'])->get();
 
-                $payItems[$i] = [
-                   'name' => $products[0]->name,
-                   'price' => $products[0]->price,
-                   'quantity' => $kart[$i]['quantity'],
-                ];
-            }
-            // return($products[0]->name);
-
-            return view('bill.payBill',['SPToken'=>$SPToken,'bill'=>$bill,'payItems'=>$payItems]);
+            return redirect()->route('bill.show', $bill_id);
 
         }else{
 
@@ -231,7 +220,7 @@ class BillController extends Controller
 
     }
 
-    public function billPaied(Request $request)
+    public function billPaied(Request $request)     // !!! API !!!
     {
         $MerchantTradeNo = $request->MerchantTradeNo;
         // $the = Bill::findOrFail(1);
@@ -239,8 +228,7 @@ class BillController extends Controller
         $the->status = '1';
         $the->save();
         return('1|OK');
-    }
-
+    }                                               // !!! API !!!
 
     /**
      * Display the specified resource.
@@ -250,8 +238,34 @@ class BillController extends Controller
      */
     public function show($id)
     {
-        //
+        $bill = Bill::where('bill_id',$id)->firstOrFail();
+        $items = json_decode($bill->item,true);
+
+        $i = 0;
+        $itemArray = [];
+        foreach($items as $item)
+        {
+            $product = Products::where('slug', $item['slug'])->firstOrFail();   
+            $itemArray[$i] = [
+                'name' => $product->name,
+                'price' => $product->price,
+                'quantity' => $item['quantity'],
+            ];
+            $i++;
+        }
+
+        $finalBill = [
+            'bill_id' => $bill->bill_id,
+            'price' => $bill->price,
+            'itemArray' => $itemArray,
+            'SPToken'=> $bill->SPToken,
+        ];
+        
+        return view('bill.payBill', ['finalBill'=>$finalBill]);
     }
+
+
+
 
     /**
      * Show the form for editing the specified resource.
