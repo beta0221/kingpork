@@ -28,9 +28,9 @@ class AddStatusToBillsTable extends Migration
     public function down()
     {
         Schema::table('bills', function (Blueprint $table) {
-            $table->dropColumn('status');
-            $table->dropColumn('pay_by');
             $table->dropColumn('SPToken');
+            $table->dropColumn('pay_by');
+            $table->dropColumn('status');
         });
     }
 }
