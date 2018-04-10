@@ -222,12 +222,41 @@ class BillController extends Controller
 
     public function billPaied(Request $request)     // !!! API !!!
     {
+
+        $MerchantID = $request->MerchantID;
         $MerchantTradeNo = $request->MerchantTradeNo;
-        // $the = Bill::findOrFail(1);
+        $StoreID = $request->StoreID;
+        $RtnCode = $request->RtnCode;
+        $RtnMsg = $request->RtnMsg;
+        $TradeNo = $request->TradeNo;
+        $TradeAmt = $request->TradeAmt;
+        $PaymentDate = $request->PaymentDate;
+        $PaymentType = $request->PaymentType;
+        $PaymentTypeChargeFee = $request->PaymentTypeChargeFee;
+        $TradeDate = $request->TradeDate;
+        $SimulatePaid = $request->SimulatePaid;
+
+        $all = 
+        'MerchantID='.$MerchantID.
+        'MerchantTradeNo='.$MerchantTradeNo.
+        'StoreID='.$StoreID.
+        'RtnCode='.$RtnCode.
+        'RtnMsg='.$RtnMsg.
+        'TradeNo='.$TradeNo.
+        'TradeAmt='.$TradeAmt.
+        'PaymentDate='.$PaymentDate.
+        'PaymentType='.$PaymentType.
+        'PaymentTypeChargeFee='.$PaymentTypeChargeFee.
+        'TradeDate='.$TradeDate.
+        'SimulatePaid='.$SimulatePaid;
+
+
         $the = Bill::where('bill_id',$MerchantTradeNo)->firstOrFail();
-        $the->status = '1';
+        $the->status = $all;
         $the->save();
+
         return('1|OK');
+
     }                                               // !!! API !!!
 
     
