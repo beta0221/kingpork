@@ -230,6 +230,53 @@ class BillController extends Controller
         return('1|OK');
     }                                               // !!! API !!!
 
+    
+    
+    public function checkBill($id)
+    {
+
+        //test
+        $HashKey = '5294y06JbISpM5x9';
+        $HashIV = 'v77hoKGq4kWxNNIS';
+        $MerchantID = '2000132';
+        //kingPork
+        // $HashKey = '6HWkOeX5RsDZnDFn';
+        // $HashIV = 'Zfo3Ml2OQXRmnjha';
+        // $MerchantID = '1044372';
+
+        $MerchantTradeNo = $id;
+        $PlatformID = '';
+        $TimeStamp = time();
+        $all = 'HashKey=' . $HashKey . '&' .
+                'MerchantID=' . $MerchantID . '&' .
+                'MerchantTradeNo=' . $MerchantTradeNo . '&' .
+                'PlatformID=' . '' . '&' .
+                'TimeStamp=' . $TimeStamp . '&' .
+                'HashIV='.$HashIV;
+
+        $CheckMacValue = hash('sha256', strtolower(urlencode($all)));
+
+        $client = new \GuzzleHttp\Client();
+        $response = $client->post(
+            'https://payment-stage.ecpay.com.tw/Cashier/QueryTradeInfo/V5',
+            // 'https://payment.ecpay.com.tw/Cashier/QueryTradeInfo/V5',
+            [
+                'form_params' => [
+                    'MerchantID' => $MerchantID,
+                    'MerchantTradeNo' => $MerchantTradeNo,
+                    'TimeStamp' => $TimeStamp,
+                    'PlatformID' => $PlatformID,
+                    'CheckMacValue' => $CheckMacValue
+                ]
+            ]
+        );
+
+        $body = $response->getBody();
+        $phpBody = json_decode($body);
+
+        return($body);
+    }
+
     /**
      * Display the specified resource.
      *

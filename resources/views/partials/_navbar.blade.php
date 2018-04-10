@@ -57,17 +57,23 @@
 				
 				<div class="user">
 					<ul class="goto">
+
 						<li id="inKart" class="navLog">
 							
 						</li>
+
 						<li class="navLog">
 							{{ Auth::user()->name }}
 						</li>
+
+						<li class="navLog">
+							<a href="{{route('bill.index')}}">我的訂單</a>
+						</li>
+
 					</ul>
 				</div>
 				
 				<div class="kart">
-					
 					<a href="{{route('kart.index')}}"><img src="{{asset('images/cart.png')}}" alt=""></a>
 				</div>
 				
