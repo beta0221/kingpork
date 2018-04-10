@@ -235,11 +235,11 @@ class BillController extends Controller
         $PaymentTypeChargeFee = $request->PaymentTypeChargeFee;
         $TradeDate = $request->TradeDate;
         $SimulatePaid = $request->SimulatePaid;
-        $CustomField1 = $request->CustomField1
-        $CustomField2 = $request->CustomField2
-        $CustomField3 = $request->CustomField3
-        $CustomField4 = $request->CustomField4
-        $CheckMacValue = $request->CheckMacValue
+        $CustomField1 = $request->CustomField1;
+        $CustomField2 = $request->CustomField2;
+        $CustomField3 = $request->CustomField3;
+        $CustomField4 = $request->CustomField4;
+        $CheckMacValue = $request->CheckMacValue;
 
         $all = 
         'MerchantID='.$MerchantID.'&'.
