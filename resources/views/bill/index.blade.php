@@ -99,11 +99,9 @@ td,th{
 							</td>
 							<td class="TDtotal">{{$billX[0]['total']}}</td>
 							<td>
-								@if($billX[0]['pay_by'] == 0)
-									-
-								@else
+								
 									{{$billX[0]['pay_by']}}	
-								@endif
+								
 							</td>
 							<td>
 								@if($billX[0]['status'] == 1)
