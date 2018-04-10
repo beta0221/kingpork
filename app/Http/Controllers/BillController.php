@@ -255,12 +255,7 @@ class BillController extends Controller
         'PaymentType='.$PaymentType.'&'.
         'PaymentTypeChargeFee='.$PaymentTypeChargeFee.'&'.
         'TradeDate='.$TradeDate.'&'.
-        'SimulatePaid='.$SimulatePaid.'&'.
-        'CustomField1=' . $CustomField1.'&'.
-        'CustomField2=' . $CustomField2.'&'.
-        'CustomField3=' . $CustomField3.'&'.
-        'CustomField4=' . $CustomField4.'&'.
-        'CheckMacValue=' . $CheckMacValue;
+        'SimulatePaid='.$SimulatePaid;
         
 
         if ($RtnCode == 1) {
