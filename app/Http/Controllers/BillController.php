@@ -259,7 +259,8 @@ class BillController extends Controller
         'CustomField1=' . $CustomField1.'&'.
         'CustomField2=' . $CustomField2.'&'.
         'CustomField3=' . $CustomField3.'&'.
-        'CustomField4=' . $CustomField4;
+        'CustomField4=' . $CustomField4.'&'.
+        'CheckMacValue=' . $CheckMacValue;
         
 
         if ($RtnCode == 1) {
@@ -273,7 +274,7 @@ class BillController extends Controller
             $the->PaymentTypeChargeFee = $PaymentTypeChargeFee;
             $the->TradeDate = $TradeDate;
             $the->SimulatePaid = $SimulatePaid;
-            $the->allReturn = $all;
+            $the->allReturn = $allReturn;
             $the->save();
         }
         
