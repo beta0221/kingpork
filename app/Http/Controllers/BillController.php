@@ -243,7 +243,7 @@ class BillController extends Controller
         $CustomField4 = $request->CustomField4;
         $CheckMacValue = $request->CheckMacValue;
 
-        $all = 
+        $allReturn = 
         'MerchantID='.$MerchantID.'&'.
         'MerchantTradeNo='.$MerchantTradeNo.'&'.
         'StoreID='.$StoreID.'&'.
@@ -270,8 +270,8 @@ class BillController extends Controller
             $the->RtnCode = $RtnCode;
             $the->RtnMsg = $RtnMsg;
             $the->TradeNo = $TradeNo;
-            // $the->PaymentDate = $PaymentDate;
-            // $the->PaymentTypeChargeFee = $PaymentTypeChargeFee;
+            $the->PaymentDate = $PaymentDate;
+            $the->PaymentTypeChargeFee = $PaymentTypeChargeFee;
             // $the->TradeDate = $TradeDate;
             // $the->SimulatePaid = $SimulatePaid;
             // $the->allReturn = $all;
