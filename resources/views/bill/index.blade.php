@@ -98,8 +98,20 @@ td,th{
 								</table>
 							</td>
 							<td class="TDtotal">{{$billX[0]['total']}}</td>
-							<td>{{$billX[0]['pay_by']}}</td>
-							<td>{{$billX[0]['status']}}</td>
+							<td>
+								@if($billX[0]['pay_by'] == 0)
+									-
+								@else
+									{{$billX[0]['pay_by']}}	
+								@endif
+							</td>
+							<td>
+								@if($billX[0]['status'] == 1)
+									已付款
+								@else
+									未付款
+								@endif
+							</td>
 							<td><a href="{{route('bill.show', $billX[0]['bill_id'])}}">付款</a></td>
 						</tr>
 						<tr>
