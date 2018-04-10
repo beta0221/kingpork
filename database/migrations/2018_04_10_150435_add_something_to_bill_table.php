@@ -14,13 +14,13 @@ class AddSomethingToBillTable extends Migration
     public function up()
     {
         Schema::table('bills', function (Blueprint $table) {
-            $table->integer('RtnCode')->nullable();
+            $table->string('RtnCode')->nullable();
             $table->string('RtnMsg')->nullable();
             $table->string('TradeNo')->nullable();
             $table->string('PaymentDate')->nullable();
-            $table->integer('PaymentTypeChargeFee')->nullable();
+            $table->string('PaymentTypeChargeFee')->nullable();
             $table->string('TradeDate')->nullable();
-            $table->integer('SimulatePaid')->nullable();
+            $table->string('SimulatePaid')->nullable();
             $table->string('allReturn')->nullable();
         });
     }
@@ -33,7 +33,7 @@ class AddSomethingToBillTable extends Migration
     public function down()
     {
         Schema::table('bills', function (Blueprint $table) {
-            $table->dropColumn('all');
+            $table->dropColumn('allReturn');
             $table->dropColumn('SimulatePaid');
             $table->dropColumn('TradeDate');
             $table->dropColumn('PaymentTypeChargeFee');
