@@ -43,6 +43,8 @@ class BillController extends Controller
                     
                     $products[$x][$y]=Products::where('slug',$bill[$x][$y]['slug'])->get();
 
+
+                    
                     $finalBills[$x][$y] = [
 
                         'name' => $products[$x][$y][0]->name, //產品名稱

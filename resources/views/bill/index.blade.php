@@ -99,11 +99,13 @@ td,th{
 							</td>
 							<td class="TDtotal">{{$billX[0]['total']}}</td>
 							<td>
-								@if($billX[0]['pay_by'] != 0)
-									{{$billX[0]['pay_by']}}	
-								@else
+								
+								@if($billX[0]['pay_by'] == '0')
 									-
-								@endif	
+								@else
+									{{$billX[0]['pay_by']}}
+								@endif
+
 								
 							</td>
 							<td>
@@ -128,12 +130,6 @@ td,th{
 		</div>
 	</div>
 </div>
-
-
-
-
-
-
 
 
 
