@@ -274,7 +274,7 @@ class BillController extends Controller
             $the->PaymentTypeChargeFee = $PaymentTypeChargeFee;
             $the->TradeDate = $TradeDate;
             $the->SimulatePaid = $SimulatePaid;
-            // $the->allReturn = $all;
+            $the->allReturn = $all;
             $the->save();
         }
         
