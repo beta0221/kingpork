@@ -267,7 +267,15 @@ class BillController extends Controller
             $the = Bill::where('bill_id',$MerchantTradeNo)->firstOrFail();
             $the->status = 1;
             $the->pay_by = $PaymentType;
-            $the->save();    
+            $the->RtnCode = $RtnCode;
+            $the->RtnMsg = $RtnMsg;
+            $the->TradeNo = $TradeNo;
+            $the->PaymentDate = $PaymentDate;
+            $the->PaymentTypeChargeFee = $PaymentTypeChargeFee;
+            $the->TradeDate = $TradeDate;
+            $the->SimulatePaid = $SimulatePaid;
+            $the->allReturn = $all;
+            $the->save();
         }
         
 
