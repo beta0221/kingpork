@@ -78,7 +78,7 @@ td,th{
 						<th>-</th>
 					</tr>
 
-					@foreach($finalBills as $billX)
+					@foreach(array_reverse($finalBills) as $billX)
 
 						<tr>
 
@@ -115,7 +115,14 @@ td,th{
 									未付款
 								@endif
 							</td>
-							<td><a href="{{route('bill.show', $billX[0]['bill_id'])}}">付款</a></td>
+							<td>
+								@if($billX[0]['status'] == 1)
+									-
+								@else
+									<a href="{{route('bill.show', $billX[0]['bill_id'])}}">付款</a>
+								@endif
+
+							</td>
 						</tr>
 						<tr>
 							<td>-</td>

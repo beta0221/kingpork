@@ -27,7 +27,7 @@ class BillController extends Controller
         if(Auth::user()){
 
             $records = Bill::all()->where('user_id',Auth::user()->id);
-            
+            // ->orderBy('created_at', 'desc')
             $i = 0;
             $bill=[];
             foreach($records as $record)
@@ -44,7 +44,7 @@ class BillController extends Controller
                     $products[$x][$y]=Products::where('slug',$bill[$x][$y]['slug'])->get();
 
 
-                    
+
                     $finalBills[$x][$y] = [
 
                         'name' => $products[$x][$y][0]->name, //產品名稱
