@@ -264,7 +264,7 @@ class BillController extends Controller
         if ($RtnCode == 1) {
             $the = Bill::where('bill_id',$MerchantTradeNo)->firstOrFail();
             $the->status = 1;
-            $the->pay_by = $PaymentType
+            $the->pay_by = $PaymentType;
             $the->save();    
         }
         
