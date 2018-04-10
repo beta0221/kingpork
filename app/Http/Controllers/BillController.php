@@ -261,7 +261,7 @@ class BillController extends Controller
         'CustomField3=' . $CustomField3.'&'.
         'CustomField4=' . $CustomField4.'&'.
         'CheckMacValue=' . $CheckMacValue;
-        ;
+        
 
         if ($RtnCode == 1) {
             $the = Bill::where('bill_id',$MerchantTradeNo)->firstOrFail();
@@ -272,8 +272,8 @@ class BillController extends Controller
             $the->TradeNo = $TradeNo;
             $the->PaymentDate = $PaymentDate;
             $the->PaymentTypeChargeFee = $PaymentTypeChargeFee;
-            // $the->TradeDate = $TradeDate;
-            // $the->SimulatePaid = $SimulatePaid;
+            $the->TradeDate = $TradeDate;
+            $the->SimulatePaid = $SimulatePaid;
             // $the->allReturn = $all;
             $the->save();
         }
