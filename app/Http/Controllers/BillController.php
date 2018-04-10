@@ -241,7 +241,7 @@ class BillController extends Controller
         $CustomField2 = $request->CustomField2;
         $CustomField3 = $request->CustomField3;
         $CustomField4 = $request->CustomField4;
-        $CheckMacValue = $request->CheckMacValue;
+        
 
         $allReturn = 
         'MerchantID='.$MerchantID.'&'.
@@ -259,8 +259,7 @@ class BillController extends Controller
         'CustomField1=' . $CustomField1.'&'.
         'CustomField2=' . $CustomField2.'&'.
         'CustomField3=' . $CustomField3.'&'.
-        'CustomField4=' . $CustomField4.'&'.
-        'CheckMacValue=' . $CheckMacValue;
+        'CustomField4=' . $CustomField4;
         
 
         if ($RtnCode == 1) {
