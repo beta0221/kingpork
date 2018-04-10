@@ -231,7 +231,6 @@ class BillController extends Controller
     }                                               // !!! API !!!
 
     
-    
     public function checkBill($id)
     {
 
