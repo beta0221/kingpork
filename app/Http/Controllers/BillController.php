@@ -28,10 +28,15 @@ class BillController extends Controller
 
             $records = Bill::all()->where('user_id',Auth::user()->id);
             // ->orderBy('created_at', 'desc')
+                
+                if (count($records) == 0) {
+                    return('沒有訂單');
+                }
+
             $i = 0;
             $bill=[];
             foreach($records as $record)
-            {
+            {   
                 $bill[$i] = json_decode($record->item,true);
                 $i++;
             }
@@ -42,8 +47,6 @@ class BillController extends Controller
                 for ($y=0; $y < count($bill[$x]); $y++) { 
                     
                     $products[$x][$y]=Products::where('slug',$bill[$x][$y]['slug'])->get();
-
-
 
                     $finalBills[$x][$y] = [
 
@@ -93,6 +96,11 @@ class BillController extends Controller
         $this->validate($request,[
             'item.*'=>'required',
             'quantity.*'=>'required|integer|min:1',
+            'ship_name'=>'required',
+            'ship_phone'=>'required',
+            'ship_address'=>'required',
+            'ship_email'=>'required',
+            'ship_pay_by'=>'required',
         ]);
 
         $i = 0;
@@ -199,6 +207,7 @@ class BillController extends Controller
             $SPToken = $phpBody->{'SPToken'};
             
             $bill_id = $MerchantTradeNo;
+            
             $bill = new Bill;
             $bill->user_id = Auth::user()->id;
             $bill->bill_id = $bill_id;
@@ -206,6 +215,21 @@ class BillController extends Controller
             $bill->item = json_encode($kart);
             $bill->price = $total;
             $bill->SPToken = $SPToken;
+            $bill->ship_name = $request->ship_name;
+            $bill->ship_gender = $request->ship_gender;
+            $bill->ship_phone = $request->ship_phone ;
+            $bill->ship_county = $request->ship_county ;
+            $bill->ship_district = $request->ship_district ;
+            $bill->ship_address = $request->ship_address ;
+            $bill->ship_email = $request->ship_email ;
+            $bill->ship_arrive = $request->ship_arrive ;
+            $bill->ship_arriveDate = $request->ship_arriveDate ;
+            $bill->ship_time = $request->ship_time ;
+            $bill->ship_receipt = $request->ship_receipt ;
+            $bill->ship_three_name = $request->ship_three_name ;
+            $bill->ship_three_id = $request->ship_three_id ;
+            $bill->ship_three_company = $request->ship_three_company ;
+            $bill->ship_memo = $request->ship_memo ;
             $bill->save();
 
             DB::table('kart')->where('user_id',Auth::user()->id)->delete();

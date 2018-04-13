@@ -106,7 +106,7 @@ td,th{
 				</table>
 
 			<div class="payBy">
-				<button class="payByATM btn btn-primary" onclick="checkOut('CREDIT')">ATM付款</button> 
+				<button class="payByATM btn btn-primary" onclick="checkOut('ATM')">ATM付款</button> 
 			</div>
 
 			</div>
@@ -125,7 +125,7 @@ td,th{
 	data-MerchantID="2000132" {{-- test --}}
 	{{-- data-MerchantID="1044372" --}} {{-- kingpork --}}
 	data-SPToken="{{$finalBill['SPToken']}}"
-	data-PaymentType="CREDIT"
+	data-PaymentType="ATM"
 	data-PaymentName="CREDIT"
 	data-CustomerBtn="1" >
 	</script> 
