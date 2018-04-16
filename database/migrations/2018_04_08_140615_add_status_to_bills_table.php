@@ -16,7 +16,7 @@ class AddStatusToBillsTable extends Migration
         Schema::table('bills', function (Blueprint $table) {
             $table->string('status')->after('price')->default('0');
             $table->string('pay_by')->after('status')->default('0');
-            $table->string('SPToken')->after('pay_by');
+            $table->string('SPToken')->nullable()->after('pay_by');
         });
     }
 

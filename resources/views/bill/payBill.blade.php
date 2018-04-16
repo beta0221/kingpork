@@ -106,7 +106,9 @@ td,th{
 				</table>
 
 			<div class="payBy">
-				<button class="payByATM btn btn-primary" onclick="checkOut('ATM')">ATM付款</button> 
+				@if($finalBill['SPToken'] != null)
+				<button class="payByATM btn btn-primary" onclick="checkOut('ATM')">ATM付款</button>
+				@endif
 			</div>
 
 			</div>
@@ -121,6 +123,8 @@ td,th{
 @endsection
 
 @section('scripts')
+
+@if($finalBill['SPToken'] != null)
 	<script src="https://payment-stage.ecpay.com.tw/Scripts/SP/ECPayPayment_1.0.0.js"
 	data-MerchantID="2000132" {{-- test --}}
 	{{-- data-MerchantID="1044372" --}} {{-- kingpork --}}
@@ -129,6 +133,6 @@ td,th{
 	data-PaymentName="CREDIT"
 	data-CustomerBtn="1" >
 	</script> 
-
+@endif
 
 @endsection

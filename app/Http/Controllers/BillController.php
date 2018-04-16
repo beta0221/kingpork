@@ -92,32 +92,27 @@ class BillController extends Controller
      */
     public function store(Request $request)
     {
-
         $this->validate($request,[
             'item.*'=>'required',
             'quantity.*'=>'required|integer|min:1',
             'ship_name'=>'required',
             'ship_phone'=>'required',
             'ship_address'=>'required',
-            'ship_email'=>'required',
+            'ship_email'=>'required|E-mail',
             'ship_pay_by'=>'required',
         ]);
-
         $i = 0;
         $itemArray = [];
         foreach($request->item as $item){
             $itemArray[$i] = $item;
             $i++;
         } 
-
         $j = 0;
         $quantityArray = [];
         foreach($request->quantity as $quantity){
             $quantityArray[$j] = $quantity;
             $j++;
         }
-
-
         $cc = DB::table('products')->whereIn('slug', $itemArray)->get();
         $n = 0;
         $total = 0;
@@ -125,124 +120,146 @@ class BillController extends Controller
             $total = $total + ($c->price * $quantityArray[$n]);
             $n++;
         }
-
-        // [{item:'10001',quantity:'2'},{item:'10002',quantity:'1'},{item:'10003',quantity:'3'}]
-        
         $kart = [];
         for ($i=0; $i < count($itemArray); $i++) { 
-            
             $kart[$i] = [
                 'slug' => $itemArray[$i],
                 'quantity' => $quantityArray[$i],
             ];
-
         }
-        
-        // return redirect()->route('ecomApi',[
-        //     'price'=>$total,
-        //     'bill_id'=>$bill_id
-        // ]);
 
-        //test
-        $HashKey = '5294y06JbISpM5x9';
-        $HashIV = 'v77hoKGq4kWxNNIS';
-        $MerchantID = '2000132';
-        //kingPork
-        // $HashKey = '6HWkOeX5RsDZnDFn';
-        // $HashIV = 'Zfo3Ml2OQXRmnjha';
-        // $MerchantID = '1044372';
+        $MerchantTradeNo = 'kp' . time() ;//先給訂單編號
+        switch ($request->ship_pay_by) {
+            case 'atm':                             //  Pay By ATM !!!
 
-        $MerchantTradeNo = 'kp' . time() ;
-        date_default_timezone_set('Asia/Taipei');
-        $MerchantTradeDate = date('Y\/m\/d H:i:s');
-        $PaymentType = 'aio';
-        $TotalAmount = $total;
-        $TradeDesc = 'ecpay商城購物';
-        $ItemName = '商品名稱1#商品名稱2';
-        $ReturnURL = 'http://45.76.104.218/api/billPaied';
-        $ChoosePayment = 'ALL';
-        $EncryptType = '1';
+            //test
+            $HashKey = '5294y06JbISpM5x9';
+            $HashIV = 'v77hoKGq4kWxNNIS';
+            $MerchantID = '2000132';
+            //kingPork
+            // $HashKey = '6HWkOeX5RsDZnDFn';
+            // $HashIV = 'Zfo3Ml2OQXRmnjha';
+            // $MerchantID = '1044372';
 
-        $all = 'HashKey='.$HashKey . '&' .
-               'ChoosePayment='.$ChoosePayment . '&' . 
-               'EncryptType='.$EncryptType . '&' . 
-               'ItemName='.$ItemName . '&' . 
-               'MerchantID='.$MerchantID . '&' . 
-               'MerchantTradeDate='.$MerchantTradeDate . '&' . 
-               'MerchantTradeNo='.$MerchantTradeNo . '&' . 
-               'PaymentType='.$PaymentType . '&' . 
-               'ReturnURL='.$ReturnURL . '&' . 
-               'TotalAmount='.$TotalAmount . '&' . 
-               'TradeDesc='.$TradeDesc . '&' . 
-               'HashIV='.$HashIV;
+            date_default_timezone_set('Asia/Taipei');
+            $MerchantTradeDate = date('Y\/m\/d H:i:s');
+            $PaymentType = 'aio';
+            $TotalAmount = $total;
+            $TradeDesc = 'ecpay商城購物';
+            $ItemName = '商品名稱1#商品名稱2';
+            $ReturnURL = 'http://45.76.104.218/api/billPaied';
+            $ChoosePayment = 'ALL';
+            $EncryptType = '1';
 
-        $CheckMacValue = hash('sha256', strtolower(urlencode($all)));
+            $all = 'HashKey='.$HashKey . '&' .
+                   'ChoosePayment='.$ChoosePayment . '&' . 
+                   'EncryptType='.$EncryptType . '&' . 
+                   'ItemName='.$ItemName . '&' . 
+                   'MerchantID='.$MerchantID . '&' . 
+                   'MerchantTradeDate='.$MerchantTradeDate . '&' . 
+                   'MerchantTradeNo='.$MerchantTradeNo . '&' . 
+                   'PaymentType='.$PaymentType . '&' . 
+                   'ReturnURL='.$ReturnURL . '&' . 
+                   'TotalAmount='.$TotalAmount . '&' . 
+                   'TradeDesc='.$TradeDesc . '&' . 
+                   'HashIV='.$HashIV;
 
-        $client = new \GuzzleHttp\Client();
-        $response = $client->post(
-            'https://payment-stage.ecpay.com.tw/SP/CreateTrade',
-            // 'https://payment.ecpay.com.tw/SP/CreateTrade',
-            [
-                'form_params' => [
-                    'MerchantID' => $MerchantID,
-                    'MerchantTradeNo' => $MerchantTradeNo,
-                    'MerchantTradeDate' => $MerchantTradeDate,
-                    'PaymentType' => $PaymentType,
-                    'TotalAmount' => $TotalAmount,
-                    'TradeDesc' => $TradeDesc,
-                    'ItemName' => $ItemName,
-                    'ReturnURL' => $ReturnURL,
-                    'ChoosePayment' => $ChoosePayment,
-                    'CheckMacValue' => $CheckMacValue,
-                    'EncryptType' => $EncryptType
+            $CheckMacValue = hash('sha256', strtolower(urlencode($all)));
+
+            $client = new \GuzzleHttp\Client();
+            $response = $client->post(
+                'https://payment-stage.ecpay.com.tw/SP/CreateTrade',
+                // 'https://payment.ecpay.com.tw/SP/CreateTrade',
+                [
+                    'form_params' => [
+                        'MerchantID' => $MerchantID,
+                        'MerchantTradeNo' => $MerchantTradeNo,
+                        'MerchantTradeDate' => $MerchantTradeDate,
+                        'PaymentType' => $PaymentType,
+                        'TotalAmount' => $TotalAmount,
+                        'TradeDesc' => $TradeDesc,
+                        'ItemName' => $ItemName,
+                        'ReturnURL' => $ReturnURL,
+                        'ChoosePayment' => $ChoosePayment,
+                        'CheckMacValue' => $CheckMacValue,
+                        'EncryptType' => $EncryptType
+                    ]
                 ]
-            ]
-        );
+            );
 
-        $body = $response->getBody();
-        $phpBody = json_decode($body);
-        
-       
-        if ($phpBody->{'RtnCode'} == 1) {
-            $SPToken = $phpBody->{'SPToken'};
-            
-            $bill_id = $MerchantTradeNo;
-            
-            $bill = new Bill;
-            $bill->user_id = Auth::user()->id;
-            $bill->bill_id = $bill_id;
-            $bill->user_name = Auth::user()->name;
-            $bill->item = json_encode($kart);
-            $bill->price = $total;
-            $bill->SPToken = $SPToken;
-            $bill->ship_name = $request->ship_name;
-            $bill->ship_gender = $request->ship_gender;
-            $bill->ship_phone = $request->ship_phone ;
-            $bill->ship_county = $request->ship_county ;
-            $bill->ship_district = $request->ship_district ;
-            $bill->ship_address = $request->ship_address ;
-            $bill->ship_email = $request->ship_email ;
-            $bill->ship_arrive = $request->ship_arrive ;
-            $bill->ship_arriveDate = $request->ship_arriveDate ;
-            $bill->ship_time = $request->ship_time ;
-            $bill->ship_receipt = $request->ship_receipt ;
-            $bill->ship_three_name = $request->ship_three_name ;
-            $bill->ship_three_id = $request->ship_three_id ;
-            $bill->ship_three_company = $request->ship_three_company ;
-            $bill->ship_memo = $request->ship_memo ;
-            $bill->save();
+            $body = $response->getBody();
+            $phpBody = json_decode($body);
+           
+            if ($phpBody->{'RtnCode'} == 1) {
+                $SPToken = $phpBody->{'SPToken'};
+                $bill = new Bill;
+                $bill->user_id = Auth::user()->id;
+                $bill->bill_id = $MerchantTradeNo;
+                $bill->user_name = Auth::user()->name;
+                $bill->item = json_encode($kart);
+                $bill->price = $total;
+                $bill->SPToken = $SPToken;//SPToken
+                $bill->ship_name = $request->ship_name;
+                $bill->ship_gender = $request->ship_gender;
+                $bill->ship_phone = $request->ship_phone ;
+                $bill->ship_county = $request->ship_county ;
+                $bill->ship_district = $request->ship_district ;
+                $bill->ship_address = $request->ship_address ;
+                $bill->ship_email = $request->ship_email ;
+                $bill->ship_arrive = $request->ship_arrive ;
+                $bill->ship_arriveDate = $request->ship_arriveDate ;
+                $bill->ship_time = $request->ship_time ;
+                $bill->ship_receipt = $request->ship_receipt ;
+                $bill->ship_three_name = $request->ship_three_name ;
+                $bill->ship_three_id = $request->ship_three_id ;
+                $bill->ship_three_company = $request->ship_three_company ;
+                $bill->ship_memo = $request->ship_memo ;
+                $bill->pay_by = 'ATM';
+                $bill->save();
+            }else{
+                print_r(json_decode((string) $body));
+            }    
+                break;
 
-            DB::table('kart')->where('user_id',Auth::user()->id)->delete();
+            case 'credit':                             //  Pay By Credit !!!
+                
+                return('credit');
 
-            Session::flash('success','訂單已成功送出');
+                break;
+            case 'cod':                             //  Pay By Cod !!!
+                
+                $bill = new Bill;
+                $bill->user_id = Auth::user()->id;
+                $bill->bill_id = $MerchantTradeNo;
+                $bill->user_name = Auth::user()->name;
+                $bill->item = json_encode($kart);
+                $bill->price = $total;
+                $bill->ship_name = $request->ship_name;
+                $bill->ship_gender = $request->ship_gender;
+                $bill->ship_phone = $request->ship_phone ;
+                $bill->ship_county = $request->ship_county ;
+                $bill->ship_district = $request->ship_district ;
+                $bill->ship_address = $request->ship_address ;
+                $bill->ship_email = $request->ship_email ;
+                $bill->ship_arrive = $request->ship_arrive ;
+                $bill->ship_arriveDate = $request->ship_arriveDate ;
+                $bill->ship_time = $request->ship_time ;
+                $bill->ship_receipt = $request->ship_receipt ;
+                $bill->ship_three_name = $request->ship_three_name ;
+                $bill->ship_three_id = $request->ship_three_id ;
+                $bill->ship_three_company = $request->ship_three_company ;
+                $bill->ship_memo = $request->ship_memo ;
+                $bill->pay_by = '貨到付款';
+                $bill->save();
 
-            return redirect()->route('bill.show', $bill_id);
-
-        }else{
-
-            print_r(json_decode((string) $body));
-        
+                break;
         }
+
+        DB::table('kart')->where('user_id',Auth::user()->id)->delete();
+
+        Session::flash('success','訂單已成功送出');
+
+        return redirect()->route('bill.show', $MerchantTradeNo);
 
     }
 
@@ -285,7 +302,6 @@ class BillController extends Controller
         if ($RtnCode == 1) {
             $the = Bill::where('bill_id',$MerchantTradeNo)->firstOrFail();
             $the->status = 1;
-            $the->pay_by = $PaymentType;
             $the->RtnCode = $RtnCode;
             $the->RtnMsg = $RtnMsg;
             $the->TradeNo = $TradeNo;
