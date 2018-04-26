@@ -37,6 +37,10 @@ Route::get('checkBill/{bill}','BillController@checkBill');
 //Banner routes
 Route::resource('banner','BannerController');
 
+//Order Management
+Route::resource('order','OrderManagementController',['except'=>['create','store']]);
+Route::post('order','OrderManagementController@search')->name('order.search');
+
 //php artisan make:auth
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');

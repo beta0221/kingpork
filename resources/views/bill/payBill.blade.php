@@ -108,6 +108,7 @@ td,th{
 			<div class="payBy">
 				@if($finalBill['SPToken'] != null)
 				<button class="payByATM btn btn-primary" onclick="checkOut('ATM')">ATM付款</button>
+
 				@endif
 			</div>
 

@@ -111,6 +111,8 @@ td,th{
 							<td>
 								@if($billX[0]['status'] == 1)
 									已付款
+								@elseif($billX[0]['pay_by'] == '貨到付款')
+									-
 								@else
 									未付款
 								@endif
@@ -121,7 +123,7 @@ td,th{
 								@else
 									<a href="{{route('bill.show', $billX[0]['bill_id'])}}">付款</a>
 								@endif
-
+								
 							</td>
 						</tr>
 						<tr>

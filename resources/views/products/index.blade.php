@@ -37,6 +37,9 @@
     </div>
   </div>
 </div>
+{{-- Modal --}}
+
+
 
 		<table class="table">
 			<thead>
