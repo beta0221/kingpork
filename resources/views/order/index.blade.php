@@ -22,11 +22,12 @@
 		<div class="nav">
 			<form id="searchForm" action="{{route('order.search')}}" method="POST">
 				{{csrf_field()}}
-				<input id="bill_id" name="bill_id" type="text" class="input form-control" placeholder="訂單編號">
-				<input id="date1" name="date1" type="date" class="input form-control">~
-				<input id="date2" name="date2" type="date" class="input form-control">
+				<input id="bill_id" name="bill_id" type="text" class="input form-control" placeholder="訂單編號" value="{{Session::get('bill_id')}}">
 				
-				<select name="ship_county">
+				<input id="date1" name="date1" type="date" class="input form-control" value="{{Session::get('date1')}}">~
+				<input id="date2" name="date2" type="date" class="input form-control" value="{{Session::get('date2')}}">
+				
+				<select id="select_county" name="ship_county">
 					<option value="">縣市</option>
 					<option value="基隆市">基隆市</option>
 					<option value="台北市">台北市</option>
@@ -48,8 +49,8 @@
 					<option value="花蓮縣">花蓮縣</option>
 					<option value="宜蘭縣">宜蘭縣</option>
 				</select>
-				ATM:<input name="pay_by_ATM" type="checkbox" value="ATM">
-				貨到付款:<input name="pay_by_cod" type="checkbox" value="貨到付款">
+				ATM:<input name="pay_by_ATM" type="checkbox" value="ATM" @if(Session::has('pay_by_ATM')) checked @endif>
+				貨到付款:<input name="pay_by_cod" type="checkbox" value="貨到付款" @if(Session::has('pay_by_cod')) checked @endif>
 				
 
 				<button style="display: inline-block;" type="submit">搜尋</button>
@@ -124,9 +125,15 @@
 	{{ Html::script('js/jquery/jquery-3.2.1.min.js') }}
 	<script>
 	$(document).ready(function(){
+
+		@if (Session::has('ship_county'))
+		$('#select_county').val('{{Session::get('ship_county')}}');
+		@endif
+
 		$('#date1').change(function(){
 			$('#date2').val($('#date1').val());
 		});
+
 		$('#bill_id').keypress(function(e){
 			if (e.which == 13) {
 				$('#searchForm').submit();

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Bill;
 use App\Products;
+use Session;
 
 class OrderManagementController extends Controller
 {
@@ -73,29 +74,28 @@ class OrderManagementController extends Controller
 
     public function search(Request $request)
     {
-        $jsons = Bill::all();
-        if ($request->bill_id != null) {
-            $jsons = Bill::where('bill_id','=',$request->bill_id)->get();
-        }
         
-        if ($request->date1 != null AND $request->date1 == $request->date2) {
-            $date = '%'.$request->date1.'%';
-            $jsons = Bill::where('created_at','LIKE',$date)->get();
-        }else if($request->date1 != null AND $request->date2 != null){
-            $jsons = Bill::whereBetween('created_at',[$request->date1,$request->date2])->get();
+        if ($request->date1 == $request->date2) {
+            $jsons = Bill::where('bill_id','LIKE','%'.$request->bill_id.'%')//如果只搜尋一個日期
+                ->where('created_at','LIKE','%'.$request->date1.'%')
+                ->where('pay_by','LIKE','%'.$request->pay_by_ATM.'%')
+                ->where('pay_by','LIKE','%'.$request->pay_by_cod.'%')
+                ->where('ship_county','LIKE','%'.$request->ship_county.'%')
+                ->get();
+        }elseif ($request->date1 == null OR $request->date2 == null) {      //如果不搜尋日期
+            $jsons = Bill::where('bill_id','LIKE','%'.$request->bill_id.'%')
+                ->where('pay_by','LIKE','%'.$request->pay_by_ATM.'%')
+                ->where('pay_by','LIKE','%'.$request->pay_by_cod.'%')
+                ->where('ship_county','LIKE','%'.$request->ship_county.'%')
+                ->get();
+        }else{
+            $jsons = Bill::where('bill_id','LIKE','%'.$request->bill_id.'%')    //如果搜尋日期區間
+                ->whereBetween('created_at',[$request->date1,$request->date2])
+                ->where('pay_by','LIKE','%'.$request->pay_by_ATM.'%')
+                ->where('pay_by','LIKE','%'.$request->pay_by_cod.'%')
+                ->where('ship_county','LIKE','%'.$request->ship_county.'%')
+                ->get();
         }
-
-        if ($request->pay_by_ATM != null) {
-            $jsons = Bill::where('pay_by','=','ATM')->get();
-        }
-
-        if ($request->pay_by_cod != null) {
-            $jsons = Bill::where('pay_by','=','貨到付款')->get();
-        }
-
-        if ($request->ship_county != null) {
-            $jsons = Bill::where('ship_county','=',$request->ship_county)->get();
-        }        
             
 
         $j = 0;
@@ -144,8 +144,17 @@ class OrderManagementController extends Controller
             
         }
 
+        Session::flash('bill_id',$request->bill_id);
+        Session::flash('pay_by_ATM',$request->pay_by_ATM);
+        Session::flash('pay_by_cod',$request->pay_by_cod);
+        Session::flash('ship_county',$request->ship_county);
+        Session::flash('date1',$request->date1);
+        Session::flash('date2',$request->date2);
         return view('order.index',['orders'=>$orders]);
     }
+
+
+
     /**
      * Show the form for creating a new resource.
      *
