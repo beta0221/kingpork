@@ -82,12 +82,16 @@ class OrderManagementController extends Controller
                 ->where('pay_by','LIKE','%'.$request->pay_by_ATM.'%')
                 ->where('pay_by','LIKE','%'.$request->pay_by_cod.'%')
                 ->where('ship_county','LIKE','%'.$request->ship_county.'%')
+                ->where('shipment','LIKE','%'.$request->shipment_1.'%')
+                ->where('shipment','LIKE','%'.$request->shipment_0.'%')
                 ->get();
         }elseif ($request->date1 == null OR $request->date2 == null) {      //如果不搜尋日期
             $jsons = Bill::where('bill_id','LIKE','%'.$request->bill_id.'%')
                 ->where('pay_by','LIKE','%'.$request->pay_by_ATM.'%')
                 ->where('pay_by','LIKE','%'.$request->pay_by_cod.'%')
                 ->where('ship_county','LIKE','%'.$request->ship_county.'%')
+                ->where('shipment','LIKE','%'.$request->shipment_1.'%')
+                ->where('shipment','LIKE','%'.$request->shipment_0.'%')
                 ->get();
         }else{
             $jsons = Bill::where('bill_id','LIKE','%'.$request->bill_id.'%')    //如果搜尋日期區間
@@ -95,6 +99,8 @@ class OrderManagementController extends Controller
                 ->where('pay_by','LIKE','%'.$request->pay_by_ATM.'%')
                 ->where('pay_by','LIKE','%'.$request->pay_by_cod.'%')
                 ->where('ship_county','LIKE','%'.$request->ship_county.'%')
+                ->where('shipment','LIKE','%'.$request->shipment_1.'%')
+                ->where('shipment','LIKE','%'.$request->shipment_0.'%')
                 ->get();
         }
             
@@ -152,6 +158,8 @@ class OrderManagementController extends Controller
         Session::flash('ship_county',$request->ship_county);
         Session::flash('date1',$request->date1);
         Session::flash('date2',$request->date2);
+        Session::flash('shipment_1',$request->shipment_1);
+        Session::flash('shipment_0',$request->shipment_0);
         return view('order.index',['orders'=>$orders]);
     }
 
@@ -186,7 +194,8 @@ class OrderManagementController extends Controller
      */
     public function show($id)
     {
-        //
+        $bill = Bill::where('bill_id','=',$id)->firstOrFail();
+        return response()->json($bill->ship_memo);
     }
 
     /**

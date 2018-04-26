@@ -22,14 +22,36 @@
 	</style>
 	</head>
 	<body>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
+      </div>
+    </div>
+  </div>
+</div>
+{{-- Modal --}}
+
 		<div class="nav">
 			<form id="searchForm" action="{{route('order.search')}}" method="POST">
 				{{csrf_field()}}
 				<input id="bill_id" name="bill_id" type="text" class="input form-control" placeholder="訂單編號" value="{{Session::get('bill_id')}}">
-				
+				-
 				<input id="date1" name="date1" type="date" class="input form-control" value="{{Session::get('date1')}}">~
 				<input id="date2" name="date2" type="date" class="input form-control" value="{{Session::get('date2')}}">
-				
+				-
 				<select id="select_county" name="ship_county">
 					<option value="">縣市</option>
 					<option value="基隆市">基隆市</option>
@@ -52,8 +74,16 @@
 					<option value="花蓮縣">花蓮縣</option>
 					<option value="宜蘭縣">宜蘭縣</option>
 				</select>
-				ATM:<input name="pay_by_ATM" type="checkbox" value="ATM" @if(Session::has('pay_by_ATM')) checked @endif>
-				貨到付款:<input name="pay_by_cod" type="checkbox" value="貨到付款" @if(Session::has('pay_by_cod')) checked @endif>
+				-
+				<input name="pay_by_ATM" type="checkbox" value="ATM" @if(Session::has('pay_by_ATM')) checked @endif>ATM
+				<span>/</span>
+				<input name="pay_by_cod" type="checkbox" value="貨到付款" @if(Session::has('pay_by_cod')) checked @endif>貨到付款
+				-
+				<input name="shipment_1" type="checkbox" value="已出貨"@if(Session::has('shipment_1')) checked @endif>
+				<span style="color: #5cb85c;">已出貨</span>
+				<span>/</span>
+				<input name="shipment_0" type="checkbox" value="未出貨"@if(Session::has('shipment_0')) checked @endif>
+				<span style="color: #f0ad4e;">未出貨</span>
 				
 
 				<button style="display: inline-block;" type="submit">搜尋</button>
@@ -118,7 +148,10 @@
 					<td>
 						@if($order['ship_receipt'] == '2')二連@else{{$order['ship_three_name']}}{{$order['ship_three_id']}}{{$order['ship_three_company']}}@endif
 					</td>
-					<td>{{$order['ship_memo']}}</td>
+					<td onclick="showMemo('{{$order['bill_id']}}');" data-toggle="modal" data-target="#exampleModal">
+						{{substr(strip_tags($order['ship_memo']),0,20)}}
+						{{strlen(strip_tags($order['ship_memo'])) > 20 ? '...' : ''}}
+					</td>
 					<td>
 						@if($order['shipment'] == '未出貨')
 						<button class="btn btn-sm btn-warning shipmentBtn" id="{{$order['bill_id']}}" onclick="shipment('{{$order['bill_id']}}');">{{$order['shipment']}}</button>
@@ -134,6 +167,7 @@
 
 	</body>
 	{{ Html::script('js/jquery/jquery-3.2.1.min.js') }}
+	{{ Html::script('js/bootstrap/bootstrap.min.js') }}
 	<script>
 	function shipment($id){
 		$.ajaxSetup({
@@ -156,29 +190,47 @@
 					$('#'+$id).removeClass('btn-success').addClass('btn-warning');
 					$('#'+$id).html('未出貨');
 				}
-				
 			},
 			error: function () {
 	            alert('錯誤');
 	        },
 		});
 	};
-	$(document).ready(function(){
 
+	function showMemo($id){
+		$('.modal-body').empty();
+		$('.modal-title').empty();
+		$.ajaxSetup({
+	  		headers: {
+	    		'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+	  		}
+		});
+		$.ajax({
+			type:'GET',
+			url:'order/'+$id,
+			dataType:'json',
+			success: function (response) {
+				$('.modal-body').append(response);
+				$('.modal-title').append($id);
+			},
+			error: function () {
+	            alert('錯誤');
+	        },
+		});
+	};
+
+	$(document).ready(function(){
 		@if (Session::has('ship_county'))
 		$('#select_county').val('{{Session::get('ship_county')}}');
 		@endif
-
 		$('#date1').change(function(){
 			$('#date2').val($('#date1').val());
 		});
-
 		$('#bill_id').keypress(function(e){
 			if (e.which == 13) {
 				$('#searchForm').submit();
 			}
 		});
 	});
-	
 	</script>
 </html>
