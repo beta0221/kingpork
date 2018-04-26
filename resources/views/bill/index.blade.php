@@ -75,6 +75,7 @@ td,th{
 						<th>總價</th>
 						<th>付款方式</th>
 						<th>付款狀態</th>
+						<th>出貨狀態</th>
 						<th>-</th>
 					</tr>
 
@@ -116,6 +117,9 @@ td,th{
 								@else
 									未付款
 								@endif
+							</td>
+							<td>
+								{{$billX[0]['shipment']}}
 							</td>
 							<td>
 								@if($billX[0]['status'] == 1 OR $billX[0]['pay_by'] == '貨到付款')

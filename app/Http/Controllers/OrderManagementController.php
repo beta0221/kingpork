@@ -64,6 +64,7 @@ class OrderManagementController extends Controller
                 'ship_three_name' =>$json->ship_three_name,
                 'ship_three_id' =>$json->ship_three_id,
                 'ship_three_company' =>$json->ship_three_company,
+                'shipment'=>$json->shipment,
             ];
             $j++;
             
@@ -139,6 +140,7 @@ class OrderManagementController extends Controller
                 'ship_three_name' =>$json->ship_three_name,
                 'ship_three_id' =>$json->ship_three_id,
                 'ship_three_company' =>$json->ship_three_company,
+                'shipment'=>$json->shipment,
             ];
             $j++;
             
@@ -195,7 +197,7 @@ class OrderManagementController extends Controller
      */
     public function edit($id)
     {
-        //
+
     }
 
     /**
@@ -207,7 +209,18 @@ class OrderManagementController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $bill = Bill::where('bill_id','=',$id)->firstOrFail();
+        if ($bill->shipment == '未出貨') {
+            $bill->shipment = '已出貨';
+            $bill->save();
+            return response()->json('1');
+        }elseif ($bill->shipment == '已出貨') {
+            $bill->shipment = '未出貨';
+            $bill->save();
+            return response()->json('0');
+        }
+        
+        
     }
 
     /**

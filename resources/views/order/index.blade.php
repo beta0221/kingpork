@@ -16,6 +16,9 @@
 		width: auto;
 		display: inline-block;
 	}
+	.shipmentBtn{
+		cursor: pointer;
+	}
 	</style>
 	</head>
 	<body>
@@ -79,6 +82,7 @@
 					<th>時間</th>
 					<th>發票</th>
 					<th>備註</th>
+					<th>出貨狀態</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -115,6 +119,13 @@
 						@if($order['ship_receipt'] == '2')二連@else{{$order['ship_three_name']}}{{$order['ship_three_id']}}{{$order['ship_three_company']}}@endif
 					</td>
 					<td>{{$order['ship_memo']}}</td>
+					<td>
+						@if($order['shipment'] == '未出貨')
+						<button class="btn btn-sm btn-warning shipmentBtn" id="{{$order['bill_id']}}" onclick="shipment('{{$order['bill_id']}}');">{{$order['shipment']}}</button>
+						@else
+						<button class="btn btn-sm btn-success shipmentBtn" id="{{$order['bill_id']}}" onclick="shipment('{{$order['bill_id']}}');">{{$order['shipment']}}</button>
+						@endif
+					</td>
 				</tr>
 				@endforeach
 			</tbody>
@@ -124,6 +135,34 @@
 	</body>
 	{{ Html::script('js/jquery/jquery-3.2.1.min.js') }}
 	<script>
+	function shipment($id){
+		$.ajaxSetup({
+	  		headers: {
+	    		'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+	  		}
+		});
+		$.ajax({
+			type:'POST',
+			url:'order/'+$id,
+			dataType:'json',
+			data: {
+				_method: 'PUT',
+			},
+			success: function (response) {
+				if (response == 1) {
+					$('#'+$id).removeClass('btn-warning').addClass('btn-success');
+					$('#'+$id).html('已出貨');
+				}else if(response == 0){
+					$('#'+$id).removeClass('btn-success').addClass('btn-warning');
+					$('#'+$id).html('未出貨');
+				}
+				
+			},
+			error: function () {
+	            alert('錯誤');
+	        },
+		});
+	};
 	$(document).ready(function(){
 
 		@if (Session::has('ship_county'))
@@ -140,5 +179,6 @@
 			}
 		});
 	});
+	
 	</script>
 </html>

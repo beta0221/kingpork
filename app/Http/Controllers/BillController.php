@@ -56,6 +56,7 @@ class BillController extends Controller
                         'bill_id' => $records[$x]->bill_id,     //訂單編號
                         'total' => $records[$x]->price,         //總價
                         'status' => $records[$x]->status,       //付款狀態
+                        'shipment' => $records[$x]->shipment,   //出貨狀態
                         'pay_by' => $records[$x]->pay_by,       //付款方式
                         'SPToken' => $records[$x]->SPToken,     //SPToken
                         'created_at' => $records[$x]->created_at, //訂購日期
