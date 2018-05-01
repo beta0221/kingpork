@@ -9,10 +9,15 @@
 	margin-bottom: 60px;
 	min-height: 520px;
 	/*overflow-y: scroll;*/
-	padding-bottom: 80px;
+	padding-bottom: 100px;
 	background-color: rgba(255,255,255,0.5);
 	box-shadow: 2px 2px 16px 2px rgba(0, 0, 0, 0.3);
 	border-radius: 0.3em;
+}
+.billTable{
+	border:1pt solid rgba(0,0,0,0.3);
+	border-radius: 0.3em;
+	margin-top: 20px;
 }
 .TDdate{
 	width: 220px;
@@ -41,13 +46,31 @@ td,th{
 .payBy{
 	position: absolute;
 	width: 100%;
-	bottom: 0;
+	bottom: 20px;
 	left: 0;
 	padding: 10px 0 10px 0;
 }
-.payByATM{
+.inner-payBy{
+	width: 20%;
 	left: 50%;
 	transform: translateX(-50%);
+}
+.payByBtn{
+	width: 100%;
+}
+/* tnak you part*/
+.thankU{
+	/*border:1pt solid #000;*/
+	width: 100%;
+	height: 260px;
+	margin-top: 20px;
+}
+.U-1{
+	/*border:1pt solid #000;*/
+	width: 100%;
+	height: 33.33333%;
+	text-align: center;
+	padding: 12px 20px 0 20px;
 }
 </style>
 @endsection
@@ -63,27 +86,38 @@ td,th{
 				{{-- @if(Session::has('success'))
 					{{Session::get('success')}}<br>
 				@endif --}}
+				<div class="thankU">
+					<div class="U-1">
+						<font style="font-size: 32pt;
+						font-weight: 500;
+						letter-spacing: 4px;
+						">　感謝您的購買~</font>
+					</div>
+					<div class="U-1">
+						<img style="height: 70%;" src="{{asset('images/thankYou.png')}}" alt="">
+					</div>
+					<div class="U-1">
+						<font>我們衷心感謝您購買我們的產品，您將會在短期之內收到一封電子確認信，內含您的購買明細。<br>若您對此次交易有任何問題，請隨時寫信給我們。</font>
+					</div>
+				</div>
 
-				<table style="width: 100%">	
-
-					<tr>
-						<th>訂單編號</th>	
-						<th>
-							<table style="width: 100%;">
-								<tr>
-									<td class="TNT1">產品</td>
-									<td class="TNT2">價格</td>
-									<td class="TNT3">數量</td>
-								</tr>
-							</table>
-						</th>
-						<th>總價</th>
-					</tr>
-
-					
+				<div class="billTable">
+					<table style="width: 100%">	
 
 						<tr>
-
+							<th>訂單編號</th>	
+							<th>
+								<table style="width: 100%;">
+									<tr>
+										<td class="TNT1">產品</td>
+										<td class="TNT2">價格</td>
+										<td class="TNT3">數量</td>
+									</tr>
+								</table>
+							</th>
+							<th>總金額</th>
+						</tr>
+						<tr>
 							<td class="TDdate">{{$finalBill['bill_id']}}</td>
 							<td class="TDproduct">
 								<table style="width: 100%;">
@@ -100,16 +134,19 @@ td,th{
 							</td>
 							<td class="TDtotal">{{$finalBill['price']}}</td>
 						</tr>
-						<tr><td>　</td></tr>
-
-
-				</table>
+						<tr><td>　</td><td>　</td><td>　</td></tr>
+					</table>
+				</div>
 
 			<div class="payBy">
-				@if($finalBill['SPToken'] != null)
-				<button class="payByATM btn btn-primary" onclick="checkOut('ATM')">ATM付款</button>
-
-				@endif
+				<div class="inner-payBy">
+					@if($finalBill['SPToken'] != null)
+					<button class="payByBtn btn btn-primary" onclick="checkOut('ATM')">ATM付款</button>
+					@endif
+					@if($finalBill['pay_by'] == '貨到付款')
+					<a href="{{url('/')}}" style="color: white;" class="payByBtn btn btn-success">回首頁</a>
+					@endif
+				</div>
 			</div>
 
 			</div>

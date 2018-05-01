@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use GuzzleHttp\Client;
 use GuzzleHttp\Pool;
 use GuzzleHttp\Exception\ClientException;
+use Mail;
 
 // require 'vendor/autoload.php';
 
@@ -130,6 +131,7 @@ class BillController extends Controller
         }
 
         $MerchantTradeNo = 'kp' . time() ;//先給訂單編號
+
         switch ($request->ship_pay_by) {
             case 'atm':                             //  Pay By ATM !!!
 
@@ -237,21 +239,59 @@ class BillController extends Controller
                 $bill->price = $total;
                 $bill->ship_name = $request->ship_name;
                 $bill->ship_gender = $request->ship_gender;
-                $bill->ship_phone = $request->ship_phone ;
-                $bill->ship_county = $request->ship_county ;
-                $bill->ship_district = $request->ship_district ;
-                $bill->ship_address = $request->ship_address ;
-                $bill->ship_email = $request->ship_email ;
-                $bill->ship_arrive = $request->ship_arrive ;
-                $bill->ship_arriveDate = $request->ship_arriveDate ;
-                $bill->ship_time = $request->ship_time ;
-                $bill->ship_receipt = $request->ship_receipt ;
-                $bill->ship_three_name = $request->ship_three_name ;
-                $bill->ship_three_id = $request->ship_three_id ;
-                $bill->ship_three_company = $request->ship_three_company ;
-                $bill->ship_memo = $request->ship_memo ;
+                $bill->ship_phone = $request->ship_phone;
+                $bill->ship_county = $request->ship_county;
+                $bill->ship_district = $request->ship_district;
+                $bill->ship_address = $request->ship_address;
+                $bill->ship_email = $request->ship_email;
+                $bill->ship_arrive = $request->ship_arrive;
+                $bill->ship_arriveDate = $request->ship_arriveDate;
+                $bill->ship_time = $request->ship_time;
+                $bill->ship_receipt = $request->ship_receipt;
+                $bill->ship_three_name = $request->ship_three_name;
+                $bill->ship_three_id = $request->ship_three_id;
+                $bill->ship_three_company = $request->ship_three_company;
+                $bill->ship_memo = $request->ship_memo;
                 $bill->pay_by = '貨到付款';
                 $bill->save();
+
+
+
+
+                
+                $i = 0;
+                $itemArray = [];
+                foreach($kart as $item)
+                {
+                    $product = Products::where('slug', $item['slug'])->firstOrFail();   
+                    $itemArray[$i] = [
+                        'name' => $product->name,
+                        'price' => $product->price,
+                        'quantity' => $item['quantity'],
+                    ];
+                    $i++;
+                }
+
+                $data = array(
+                    'user_name'=>Auth::user()->name,
+                    'ship_gender'=>$request->ship_gender,
+                    'ship_name'=>$request->ship_name,
+                    'ship_phone'=>$request->ship_phone,
+                    'ship_county'=>$request->ship_county,
+                    'ship_district'=>$request->ship_district,
+                    'ship_address'=>$request->ship_address,
+                    'email' => $request->ship_email,
+                    'items' => $itemArray,
+                    'bill_id' =>$MerchantTradeNo,
+                    'price' => $total,
+                    'pay_by'=>'貨到付款',
+                );
+
+                Mail::send('emails.cod',$data,function($message) use ($data){
+                    $message->from('beta0221@gmail.com','金園排骨');
+                    $message->to($data['email']);
+                    $message->subject('金園排骨-購買確認通知');
+                });
 
                 break;
         }
@@ -394,6 +434,7 @@ class BillController extends Controller
             'price' => $bill->price,
             'itemArray' => $itemArray,
             'SPToken'=> $bill->SPToken,
+            'pay_by'=>$bill->pay_by,
         ];
         
         return view('bill.payBill', ['finalBill'=>$finalBill]);

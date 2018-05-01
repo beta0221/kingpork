@@ -103,7 +103,6 @@ class OrderManagementController extends Controller
                 ->where('shipment','LIKE','%'.$request->shipment_0.'%')
                 ->get();
         }
-            
 
         $j = 0;
         $orders = [];
@@ -228,8 +227,6 @@ class OrderManagementController extends Controller
             $bill->save();
             return response()->json('0');
         }
-        
-        
     }
 
     /**
