@@ -73,12 +73,22 @@ td,th{
 	text-align: center;
 	padding: 12px 20px 0 20px;
 }
+.loader-bg{
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0,0,0,0.5);
+	z-index: 9999999998;
+}
 .loader-box{
 	position: absolute;
-	top: 40%;
+	top: 50%;
 	left: 50%;
 	transform: translate(-50%,-50%);
 	text-align: center;
+	color:white;
 	z-index: 9999999999;
 }
 .loader {
@@ -139,10 +149,10 @@ td,th{
 					</div>
 					<div class="U-1">
 						@if($finalBill['pay_by'] == '貨到付款')
-						<font>我們衷心感謝您購買我們的產品，您將會在短期之內收到一封電子確認信，內含您的購買明細。<br>若您對此次交易有任何問題，請隨時寫信給我們。</font>
+						<font>我們衷心感謝您購買我們的產品，您將會收到一封電子確認信，內含您的購買明細。<br>若您對此次交易有任何問題，請隨時<a href="{{route('contact')}}">寫信給我們</a>。</font>
 						@elseif($finalBill['pay_by'] == 'ATM')
 						<font>取得繳費帳號後您將收到一封電子確認信，內含您的購買明細及繳款資訊，<br>
-						商品會於繳款確認後寄出，若您對此次交易有任何問題，請隨時寫信給我們。</font>
+						商品會於繳款確認後寄出，若您對此次交易有任何問題，請隨時<a href="{{route('contact')}}">寫信給我們</a>。</font>
 						@endif
 					</div>
 				</div>
@@ -220,6 +230,7 @@ td,th{
 				// alert(json.MerchantTradeNo);
 				
 				if (json.RtnCode == '2') {
+					$('body').append('<div class="loader-bg"></div>');
 					$('body').append('<div class="loader-box"><div class="loader"></div><strong>請稍候...</strong></div>');
 					$.ajaxSetup({
 				  		headers: {
@@ -244,9 +255,13 @@ td,th{
 							if (response == 's') {
 								$('.loader').remove();
 								$('.loader-box').remove();
+								$('.loader-bg').remove();
 								$('.payByBtn').remove();
 								$('.inner-payBy').append('<a href="/" style="color: white;" class="payByBtn btn btn-success">回首頁</a>');
-								alert('電子確認信已寄出，內含您的購買明細及繳款資訊');
+								setTimeout(function(){
+									alert('電子確認信已寄出，內含您的購買明細及繳款資訊');
+								},10)
+								
 							}
 						},
 						error: function () {

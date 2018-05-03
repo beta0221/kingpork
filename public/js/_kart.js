@@ -300,7 +300,3 @@ $(document).ready(function(){
             }
 		});
 	}
-
-	function arriveDate(){
-		alert('hello');
-	}
