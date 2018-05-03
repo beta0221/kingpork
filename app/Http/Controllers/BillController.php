@@ -14,6 +14,7 @@ use GuzzleHttp\Pool;
 use GuzzleHttp\Exception\ClientException;
 use Mail;
 
+
 // require 'vendor/autoload.php';
 
 class BillController extends Controller
@@ -291,9 +292,7 @@ class BillController extends Controller
         Kart::where('user_id',Auth::user()->id)->delete();
 
         Session::flash('success','訂單已成功送出');
-
         return redirect()->route('bill.show', $MerchantTradeNo);
-
     }
 
     public function billPaied(Request $request)     // !!! API !!!
@@ -464,7 +463,29 @@ class BillController extends Controller
         return view('bill.payBill', ['finalBill'=>$finalBill]);
     }
 
+    public function findMemory()
+    {
 
+        $bill = Bill::where('user_id',Auth::user()->id)->orderBy('id','desc')->first();
+        
+        if($bill){
+            return response()->json([
+                'ship_name' => $bill->ship_name,
+                'ship_gender' => $bill->ship_gender,
+                'ship_phone' => $bill->ship_phone,
+                'ship_county' => $bill->ship_county,
+                'ship_district' => $bill->ship_district,
+                'ship_address' => $bill->ship_address,
+                'ship_email' => $bill->ship_email,
+                'ship_receipt' => $bill->ship_receipt,
+                'ship_three_name' => $bill->ship_three_name,
+                'ship_three_id' => $bill->ship_three_id,
+                'ship_three_company' => $bill->ship_three_company,
+            ]);
+        }else{
+            return response()->json('0');
+        }
+    }
 
 
     /**

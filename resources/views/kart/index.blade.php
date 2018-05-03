@@ -122,6 +122,44 @@
 .alerting{
 	border:2pt solid red;
 }
+.loader-bg{
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0,0,0,0.5);
+	z-index: 10;
+}
+.loader-box{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	text-align: center;
+	color:white;
+	z-index: 9999999999;
+}
+.loader {
+  width: 80px;
+  height: 80px;
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #0275d8;
+  margin-bottom: 20px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
 </style>
 @endsection
 
@@ -183,8 +221,8 @@
 								<label for=""><span class="required">*</span>收件人：</label>
 								<input id="ship_name" name="ship_name" type="text" class="form-control" placeholder="收件人" value="{{Auth::user()->name}}" style="width: 25%;">		
 							
-								<input class="radio" type="radio" name="ship_gender" value="1" checked><span>先生</span>
-  								<input class="radio" type="radio" name="ship_gender" value="2"><span>小姐</span>
+								<input id="radio1" class="radio" type="radio" name="ship_gender" value="1" checked><span>先生</span>
+  								<input id="radio2" class="radio" type="radio" name="ship_gender" value="2"><span>小姐</span>
 							</td>
 						</tr>
 						<tr>
@@ -255,8 +293,8 @@
 							<td>
 								<label for="">　時間：</label>
 								<input name="ship_time" class="radio" type="radio" name="time" value="no" checked><span>不指定</span>
-  								<input name="ship_time" class="radio" type="radio" name="time" value="13:00"><span>13:00前</span>
-  								<input name="ship_time" class="radio" type="radio" name="time" value="14:00-18:00"><span>14:00-18:00</span>
+  								<input id="1300" name="ship_time" class="radio" type="radio" name="time" value="13:00"><span>13:00前</span>
+  								<input id="1400-1800" name="ship_time" class="radio" type="radio" name="time" value="14:00-18:00"><span>14:00-18:00</span>
 							</td>
 						</tr>
 						<tr>
@@ -267,9 +305,9 @@
 									<option id="three" value="3">三聯</option>
 								</select>
 								<div class="ifThree">
-									<input name="ship_three_name" type="text" class="form-control ship_three" placeholder="購買人" style="width: 30%;">	
-									<input name="ship_three_id" type="text" class="form-control ship_three" placeholder="統一編號" style="width: 30%;">
-									<input name="ship_three_company" type="text" class="form-control ship_three" placeholder="公司名稱" style="width: 30%;">	
+									<input id="ship_three_name" name="ship_three_name" type="text" class="form-control ship_three" placeholder="購買人" style="width: 30%;">	
+									<input id="ship_three_id" name="ship_three_id" type="text" class="form-control ship_three" placeholder="統一編號" style="width: 30%;">
+									<input id="ship_three_company" name="ship_three_company" type="text" class="form-control ship_three" placeholder="公司名稱" style="width: 30%;">	
 								</div>
 							</td>
 						</tr>

@@ -199,11 +199,6 @@ td,th{
 		</div>
 	</div>
 </div>
-
-
-
-
-
 @endsection
 
 @section('scripts')
