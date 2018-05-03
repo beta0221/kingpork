@@ -134,7 +134,6 @@ class BillController extends Controller
 
         switch ($request->ship_pay_by) {
             case 'atm':                             //  Pay By ATM !!!
-
             //test
             $HashKey = '5294y06JbISpM5x9';
             $HashIV = 'v77hoKGq4kWxNNIS';
@@ -255,10 +254,6 @@ class BillController extends Controller
                 $bill->pay_by = '貨到付款';
                 $bill->save();
 
-
-
-
-                
                 $i = 0;
                 $itemArray = [];
                 foreach($kart as $item)
@@ -271,7 +266,6 @@ class BillController extends Controller
                     ];
                     $i++;
                 }
-
                 $data = array(
                     'user_name'=>Auth::user()->name,
                     'ship_gender'=>$request->ship_gender,
@@ -286,17 +280,15 @@ class BillController extends Controller
                     'price' => $total,
                     'pay_by'=>'貨到付款',
                 );
-
                 Mail::send('emails.cod',$data,function($message) use ($data){
                     $message->from('beta0221@gmail.com','金園排骨');
                     $message->to($data['email']);
                     $message->subject('金園排骨-購買確認通知');
                 });
-
                 break;
-        }
+            }
 
-        DB::table('kart')->where('user_id',Auth::user()->id)->delete();
+        Kart::where('user_id',Auth::user()->id)->delete();
 
         Session::flash('success','訂單已成功送出');
 
@@ -324,7 +316,6 @@ class BillController extends Controller
         $CustomField3 = $request->CustomField3;
         $CustomField4 = $request->CustomField4;
         
-
         $allReturn = 
         'MerchantID='.$MerchantID.'&'.
         'MerchantTradeNo='.$MerchantTradeNo.'&'.
@@ -338,7 +329,6 @@ class BillController extends Controller
         'PaymentTypeChargeFee='.$PaymentTypeChargeFee.'&'.
         'TradeDate='.$TradeDate.'&'.
         'SimulatePaid='.$SimulatePaid;
-        
 
         if ($RtnCode == 1) {
             $the = Bill::where('bill_id',$MerchantTradeNo)->firstOrFail();
@@ -353,16 +343,11 @@ class BillController extends Controller
             $the->allReturn = $allReturn;
             $the->save();
         }
-        
-
         return('1|OK');
-
     }                                               // !!! API !!!
 
-    
     public function checkBill($id)
     {
-
         //test
         $HashKey = '5294y06JbISpM5x9';
         $HashIV = 'v77hoKGq4kWxNNIS';
@@ -371,7 +356,6 @@ class BillController extends Controller
         // $HashKey = '6HWkOeX5RsDZnDFn';
         // $HashIV = 'Zfo3Ml2OQXRmnjha';
         // $MerchantID = '1044372';
-
         $MerchantTradeNo = $id;
         $PlatformID = '';
         $TimeStamp = time();
@@ -383,7 +367,6 @@ class BillController extends Controller
                 'HashIV='.$HashIV;
 
         $CheckMacValue = hash('sha256', strtolower(urlencode($all)));
-
         $client = new \GuzzleHttp\Client();
         $response = $client->post(
             'https://payment-stage.ecpay.com.tw/Cashier/QueryTradeInfo/V5',
@@ -398,11 +381,52 @@ class BillController extends Controller
                 ]
             ]
         );
-
         $body = $response->getBody();
         $phpBody = json_decode($body);
-
         return($body);
+    }
+    public function sendMail(Request $request)
+    {   
+        $bill = Bill::where('bill_id',$request->MerchantTradeNo)->firstOrFail();
+        $bill->status = 's';
+        $bill->save();
+        $items = json_decode($bill->item,true);
+        $i = 0;
+        $itemArray = [];
+        foreach($items as $item)
+        {
+            $product = Products::where('slug', $item['slug'])->firstOrFail();   
+            $itemArray[$i] = [
+                'name' => $product->name,
+                'price' => $product->price,
+                'quantity' => $item['quantity'],
+            ];
+            $i++;
+        }
+        $data = array(
+            'user_name'=>Auth::user()->name,
+            'ship_gender'=>$bill->ship_gender,
+            'ship_name'=>$bill->ship_name,
+            'ship_phone'=>$bill->ship_phone,
+            'ship_county'=>$bill->ship_county,
+            'ship_district'=>$bill->ship_district,
+            'ship_address'=>$bill->ship_address,
+            'email' => $bill->ship_email,
+            'items' => $itemArray,
+            'bill_id' =>$bill->bill_id,
+            'price' => $bill->price,
+            'pay_by'=>'ATM轉帳繳費',
+            'TradeDate'=>$request->TradeDate,
+            'BankCode'=>$request->BankCode,
+            'vAccount'=>$request->vAccount,
+            'ExpireDate'=>$request->ExpireDate,
+        );
+        Mail::send('emails.atm',$data,function($message) use ($data){
+            $message->from('beta0221@gmail.com','金園排骨');
+            $message->to($data['email']);
+            $message->subject('金園排骨-購買確認通知');
+        });
+        return response()->json('s');
     }
 
     /**
@@ -474,6 +498,18 @@ class BillController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $bill = Bill::where('bill_id',$id)->firstOrFail();
+        if ($bill->status == '0') {
+            $delete = Bill::where('bill_id',$id)->delete();
+            if($delete){
+                return response()->json('1');
+            }else{
+                return response()->json('0');
+            }
+        }else{
+            return response()->json('s');
+        }
+        
+        
     }
 }

@@ -86,7 +86,7 @@
 				<span style="color: #f0ad4e;">未出貨</span>
 				
 
-				<button style="display: inline-block;" type="submit">搜尋</button>
+				<button style="display: inline-block;margin: 0 10px 0 10px;" class="btn btn-sm btn-primary" type="submit">搜尋</button>
 
 			</form>
 
@@ -153,7 +153,9 @@
 						{{strlen(strip_tags($order['ship_memo'])) > 20 ? '...' : ''}}
 					</td>
 					<td>
-						@if($order['shipment'] == '未出貨')
+						@if($order['pay_by']=='ATM' AND $order['status'] != '1')
+						-
+						@elseif($order['shipment'] == '未出貨')
 						<button class="btn btn-sm btn-warning shipmentBtn" id="{{$order['bill_id']}}" onclick="shipment('{{$order['bill_id']}}');">{{$order['shipment']}}</button>
 						@else
 						<button class="btn btn-sm btn-success shipmentBtn" id="{{$order['bill_id']}}" onclick="shipment('{{$order['bill_id']}}');">{{$order['shipment']}}</button>

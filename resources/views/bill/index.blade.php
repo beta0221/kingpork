@@ -122,7 +122,7 @@ td,th{
 								{{$billX[0]['shipment']}}
 							</td>
 							<td>
-								@if($billX[0]['status'] == 1 OR $billX[0]['pay_by'] == '貨到付款')
+								@if($billX[0]['status'] == 1 OR $billX[0]['status'] == 's' OR $billX[0]['pay_by'] == '貨到付款')
 									-
 								@else
 									<a href="{{route('bill.show', $billX[0]['bill_id'])}}">付款</a>
