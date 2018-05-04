@@ -19,6 +19,14 @@ use Mail;
 
 class BillController extends Controller
 {
+
+
+    public function __construct()
+    {
+        $this->middleware('auth',['except'=>'billPaied']);
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -26,7 +34,7 @@ class BillController extends Controller
      */
     public function index()
     {
-        if(Auth::user()){
+        // if(Auth::user()){
 
             $records = Bill::all()->where('user_id',Auth::user()->id);
             // ->orderBy('created_at', 'desc')
@@ -69,11 +77,11 @@ class BillController extends Controller
 
             return view('bill.index',['finalBills'=>$finalBills]);
 
-        }else{
+        // }else{
 
-            return redirect('login');
+        //     return redirect('login');
 
-        }
+        // }
         
     }
 
