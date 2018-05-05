@@ -395,9 +395,9 @@ class BillController extends Controller
             'checkValue='.$request->checkValue;
             $the->allReturn = $allReturn;
             $the->save();
-            return('完成繳費');
+            return view('bill.payBill', ['finalBill'=>$request->lidm,'checkValue'=>$request->checkValue]);
         }else{
-            return('繳費失敗');
+            return view('bill.payBill', ['finalBill'=>$request->lidm,'checkValue'=>$request->checkValue]);
         }
         
     }                                              // !!! API !!!
@@ -524,7 +524,7 @@ class BillController extends Controller
             $checkValue = substr($V2,16,32);
             return view('bill.payBill', ['finalBill'=>$finalBill,'checkValue'=>$checkValue]);
         }else{
-            return view('bill.payBill', ['finalBill'=>$finalBill]);    
+            return view('bill.payBill', ['finalBill'=>$finalBill]);  
         }
         
     }
