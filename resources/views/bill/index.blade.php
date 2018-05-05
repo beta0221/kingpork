@@ -101,8 +101,10 @@ td,th{
 							<td class="TDtotal">{{$billX[0]['total']}}</td>
 							<td>
 								
-								@if($billX[0]['pay_by'] == '0')
-									-
+								@if($billX[0]['pay_by'] == 'CREDIT')
+									信用卡
+								@elseif($billX[0]['pay_by'] == 'ATM')
+									ATM轉帳
 								@else
 									{{$billX[0]['pay_by']}}
 								@endif

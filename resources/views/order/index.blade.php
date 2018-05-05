@@ -155,6 +155,8 @@
 					<td>
 						@if($order['pay_by']=='ATM' AND $order['status'] != '1')
 						-
+						@elseif($order['pay_by']=='CREDIT' AND $order['status'] != '1')
+						-
 						@elseif($order['shipment'] == '未出貨')
 						<button class="btn btn-sm btn-warning shipmentBtn" id="{{$order['bill_id']}}" onclick="shipment('{{$order['bill_id']}}');">{{$order['shipment']}}</button>
 						@else
