@@ -503,23 +503,19 @@ class BillController extends Controller
         }
         $data = array(
             'user_name'=>Auth::user()->name,
-            'ship_gender'=>$bill->ship_gender,
-            'ship_name'=>$bill->ship_name,
-            'ship_phone'=>$bill->ship_phone,
-            'ship_county'=>$bill->ship_county,
-            'ship_district'=>$bill->ship_district,
-            'ship_address'=>$bill->ship_address,
-            'email' => $bill->ship_email,
+            'ship_gender'=>$request->ship_gender,
+            'ship_name'=>$request->ship_name,
+            'ship_phone'=>$request->ship_phone,
+            'ship_county'=>$request->ship_county,
+            'ship_district'=>$request->ship_district,
+            'ship_address'=>$request->ship_address,
+            'email' => $request->ship_email,
             'items' => $itemArray,
-            'bill_id' =>$bill->bill_id,
-            'price' => $bill->price,
+            'bill_id' =>$MerchantTradeNo,
+            'price' => $total,
             'pay_by'=>'信用卡繳費',
-            'TradeDate'=>$request->TradeDate,
-            'BankCode'=>$request->BankCode,
-            'vAccount'=>$request->vAccount,
-            'ExpireDate'=>$request->ExpireDate,
         );
-        Mail::send('emails.atm',$data,function($message) use ($data){
+        Mail::send('emails.cod',$data,function($message) use ($data){
             $message->from('beta0221@gmail.com','金園排骨');
             $message->to($data['email']);
             $message->subject('金園排骨-購買確認通知');
