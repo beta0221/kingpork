@@ -234,7 +234,30 @@ class BillController extends Controller
 
             case 'credit':                             //  Pay By Credit !!!
                 
-                return('credit');
+                $bill = new Bill;
+                $bill->user_id = Auth::user()->id;
+                $bill->bill_id = $MerchantTradeNo;
+                $bill->user_name = Auth::user()->name;
+                $bill->item = json_encode($kart);
+                $bill->price = $total;
+                $bill->ship_name = $request->ship_name;
+                $bill->ship_gender = $request->ship_gender;
+                $bill->ship_phone = $request->ship_phone;
+                $bill->ship_county = $request->ship_county;
+                $bill->ship_district = $request->ship_district;
+                $bill->ship_address = $request->ship_address;
+                $bill->ship_email = $request->ship_email;
+                $bill->ship_arrive = $request->ship_arrive;
+                $bill->ship_arriveDate = $request->ship_arriveDate;
+                $bill->ship_time = $request->ship_time;
+                $bill->ship_receipt = $request->ship_receipt;
+                $bill->ship_three_name = $request->ship_three_name;
+                $bill->ship_three_id = $request->ship_three_id;
+                $bill->ship_three_company = $request->ship_three_company;
+                $bill->ship_memo = $request->ship_memo;
+                $bill->pay_by = 'CREDIT';
+                $bill->save();
+
 
                 break;
             case 'cod':                             //  Pay By Cod !!!
@@ -351,7 +374,11 @@ class BillController extends Controller
             $the->save();
         }
         return('1|OK');
-    }                                               // !!! API !!!
+    }
+    public function creditPaied(Request $request)
+    {
+
+    }                                              // !!! API !!!
 
     public function checkBill($id)
     {
@@ -467,8 +494,16 @@ class BillController extends Controller
             'SPToken'=> $bill->SPToken,
             'pay_by'=>$bill->pay_by,
         ];
+
+        if ($bill->pay_by == 'CREDIT') {
+            $HV1 = md5('rhRwy1KRNsQbjgXR'.'|'.$bill->bill_id);
+            $V2 = md5($HV1 . "|" . "008786350353296" . "|" . "77543256" . "|" . $bill->price);
+            $checkValue = substr($V2,16,32);
+            return view('bill.payBill', ['finalBill'=>$finalBill,'checkValue'=>$checkValue]);
+        }else{
+            return view('bill.payBill', ['finalBill'=>$finalBill]);    
+        }
         
-        return view('bill.payBill', ['finalBill'=>$finalBill]);
     }
 
     public function findMemory()
