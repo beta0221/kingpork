@@ -395,9 +395,9 @@ class BillController extends Controller
             'checkValue='.$request->checkValue;
             $the->allReturn = $allReturn;
             $the->save();
-            return view('bill.payBill', ['finalBill'=>$request->lidm,'checkValue'=>$request->checkValue]);
+            return redirect()->route('bill.show', $request->lidm);
         }else{
-            return view('bill.payBill', ['finalBill'=>$request->lidm,'checkValue'=>$request->checkValue]);
+            return redirect()->route('bill.show', $request->lidm);
         }
         
     }                                              // !!! API !!!
