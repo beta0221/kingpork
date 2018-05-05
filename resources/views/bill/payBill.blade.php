@@ -134,6 +134,8 @@ td,th{
 						">
 						@if($finalBill['pay_by'] == '貨到付款')
 						　感謝您的購買~
+						@elseif($finalBill['pay_by'] == 'CREDIT' AND $finalBill['status'] ==1)
+						　感謝您的購買~
 						@elseif($finalBill['pay_by'] == 'ATM')
 						ATM轉帳繳費
 						@elseif($finalBill['pay_by'] == 'CREDIT')
@@ -143,6 +145,8 @@ td,th{
 					</div>
 					<div class="U-1">
 						@if($finalBill['pay_by'] == '貨到付款')
+						<img style="height: 70%;" src="{{asset('images/thankYou.png')}}" alt="">
+						@elseif($finalBill['pay_by'] == 'CREDIT' AND $finalBill['status'] ==1)
 						<img style="height: 70%;" src="{{asset('images/thankYou.png')}}" alt="">
 						@elseif($finalBill['pay_by'] == 'ATM')
 						<img style="height: 70%;" src="{{asset('images/atm.png')}}" alt="">
@@ -154,11 +158,13 @@ td,th{
 					<div class="U-1">
 						@if($finalBill['pay_by'] == '貨到付款')
 						<font>我們衷心感謝您購買我們的產品，您將會收到一封電子確認信，內含您的購買明細。<br>若您對此次交易有任何問題，請隨時<a href="{{route('contact')}}">寫信給我們</a>。</font>
+						@elseif($finalBill['pay_by'] == 'CREDIT' AND $finalBill['status'] ==1)
+						<font>我們衷心感謝您購買我們的產品，您將會收到一封電子確認信，內含您的購買明細。<br>若您對此次交易有任何問題，請隨時<a href="{{route('contact')}}">寫信給我們</a>。</font>
 						@elseif($finalBill['pay_by'] == 'ATM')
 						<font>取得繳費帳號後您將收到一封電子確認信，內含您的購買明細及繳款資訊，<br>
 						商品會於繳款確認後寄出，若您對此次交易有任何問題，請隨時<a href="{{route('contact')}}">寫信給我們</a>。</font>
 						@elseif($finalBill['pay_by'] == 'CREDIT')
-						<br>若您對此次交易有任何問題，請隨時<a href="{{route('contact')}}">寫信給我們</a>。
+						請確認訂單資訊正確無誤後點擊“前往繳費”<br>若您對此次交易有任何問題，請隨時<a href="{{route('contact')}}">寫信給我們</a>。
 						@endif
 					</div>
 				</div>
@@ -202,13 +208,16 @@ td,th{
 
 			<div class="payBy">
 				<div class="inner-payBy">
-					@if($finalBill['SPToken'] != null)
+					@if($finalBill['pay_by'] == 'ATM' && $finalBill['SPToken'] != null)
 					<button class="payByBtn btn btn-primary" onclick="checkOut('ATM')">取得繳費帳號</button>
-					@endif
-					@if($finalBill['pay_by'] == '貨到付款')
+					
+
+					@elseif($finalBill['pay_by'] == '貨到付款')
+					<a href="{{url('/')}}" style="color: white;" class="payByBtn btn btn-success">回首頁</a>
+					@elseif($finalBill['pay_by'] == 'CREDIT' AND $finalBill['status'] ==1)
 					<a href="{{url('/')}}" style="color: white;" class="payByBtn btn btn-success">回首頁</a>
 					@elseif($finalBill['pay_by'] == 'CREDIT')
-					<a href="{{url('/')}}" style="color: white;" class="payByBtn btn btn-primary">前往繳費</a>
+					<button class="payByBtn btn btn-primary" onclick="creditSubmit();">前往繳費</button>
 					@endif
 				</div>
 			</div>
@@ -218,7 +227,7 @@ td,th{
 	</div>
 
 @if($finalBill['pay_by'] == 'CREDIT')
-<form method=post action="https://epost.hncb.com.tw/ezpostw/auth/SSLAuthUI.jsp"> 
+<form class="creditForm" style="display: none;" method=post action="https://epost.hncb.com.tw/ezpostw/auth/SSLAuthUI.jsp"> 
 <INPUT value="6940" name=merID><br>
 <INPUT value="金園排骨股份有限公司" name=MerchantName><br>
 <INPUT value="008786350353296" name=MerchantID><br>
@@ -334,6 +343,14 @@ td,th{
 			});
 		});
 	</script>
+@endif
+
+@if($finalBill['pay_by'] == 'CREDIT')
+<script>
+	function creditSubmit(){
+		$('.creditForm').submit();
+	}
+</script>
 @endif
 
 @endsection

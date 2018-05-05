@@ -515,6 +515,7 @@ class BillController extends Controller
             'itemArray' => $itemArray,
             'SPToken'=> $bill->SPToken,
             'pay_by'=>$bill->pay_by,
+            'status'=>$bill->status,
         ];
 
         if ($bill->pay_by == 'CREDIT') {
