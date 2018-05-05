@@ -525,6 +525,8 @@ class BillController extends Controller
                 $message->subject('金園排骨-購買確認通知');
             });
             return response()->json('s');
+        }else{
+            return response()->json('1');
         }
         
     }
