@@ -487,40 +487,46 @@ class BillController extends Controller
     }
     public function sendMailC(Request $request)
     {
+
         $bill = Bill::where('bill_id',$request->bill_id)->firstOrFail();
-        $items = json_decode($bill->item,true);
-        $i = 0;
-        $itemArray = [];
-        foreach($items as $item)
-        {
-            $product = Products::where('slug', $item['slug'])->firstOrFail();   
-            $itemArray[$i] = [
-                'name' => $product->name,
-                'price' => $product->price,
-                'quantity' => $item['quantity'],
-            ];
-            $i++;
+        if ($bill->SimulatePaid != 1) {
+            $bill->SimulatePaid = 1;
+            $bill->save();
+            $items = json_decode($bill->item,true);
+            $i = 0;
+            $itemArray = [];
+            foreach($items as $item)
+            {
+                $product = Products::where('slug', $item['slug'])->firstOrFail();   
+                $itemArray[$i] = [
+                    'name' => $product->name,
+                    'price' => $product->price,
+                    'quantity' => $item['quantity'],
+                ];
+                $i++;
+            }
+            $data = array(
+                'user_name'=>Auth::user()->name,
+                'ship_gender'=>$bill->ship_gender,
+                'ship_name'=>$bill->ship_name,
+                'ship_phone'=>$bill->ship_phone,
+                'ship_county'=>$bill->ship_county,
+                'ship_district'=>$bill->ship_district,
+                'ship_address'=>$bill->ship_address,
+                'email' => $bill->ship_email,
+                'items' => $itemArray,
+                'bill_id' =>$bill->bill_id,
+                'price' => $bill->price,
+                'pay_by'=>'信用卡繳費',
+            );
+            Mail::send('emails.cod',$data,function($message) use ($data){
+                $message->from('beta0221@gmail.com','金園排骨');
+                $message->to($data['email']);
+                $message->subject('金園排骨-購買確認通知');
+            });
+            return response()->json('s');
         }
-        $data = array(
-            'user_name'=>Auth::user()->name,
-            'ship_gender'=>$bill->ship_gender,
-            'ship_name'=>$bill->ship_name,
-            'ship_phone'=>$bill->ship_phone,
-            'ship_county'=>$bill->ship_county,
-            'ship_district'=>$bill->ship_district,
-            'ship_address'=>$bill->ship_address,
-            'email' => $bill->ship_email,
-            'items' => $itemArray,
-            'bill_id' =>$bill->bill_id,
-            'price' => $bill->price,
-            'pay_by'=>'信用卡繳費',
-        );
-        Mail::send('emails.cod',$data,function($message) use ($data){
-            $message->from('beta0221@gmail.com','金園排骨');
-            $message->to($data['email']);
-            $message->subject('金園排骨-購買確認通知');
-        });
-        return response()->json('s');
+        
     }
 
     /**
