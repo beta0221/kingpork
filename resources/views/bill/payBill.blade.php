@@ -367,7 +367,7 @@ td,th{
 		},
 		success: function (response) {
 			if (response == 's') {
-				alert('電子確認信已寄出，內含您的購買明細及繳款資訊');
+				alert('電子確認信已寄出，內含您的購買明細。');
 			}
 		},
 		error: function () {
