@@ -23,7 +23,7 @@ class BillController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth',['except'=>'billPaied']);
+        $this->middleware('auth',['except'=>['billPaied','creditPaied']]);
     }
 
 
@@ -374,11 +374,12 @@ class BillController extends Controller
             $the->save();
         }
         return('1|OK');
-    }
+    }                                              // !!! API !!!
+
     public function creditPaied(Request $request)
     {
-
-    }                                              // !!! API !!!
+        return($request);
+    }
 
     public function checkBill($id)
     {

@@ -36,6 +36,7 @@ Route::get('checkBill/{bill}','BillController@checkBill');
 Route::post('bill/sendMail','BillController@sendMail')->name('bill.sendMail');
 Route::get('findMemory','BillController@findMemory')->name('findMemory');
 
+
 //Banner routes
 Route::resource('banner','BannerController');
 

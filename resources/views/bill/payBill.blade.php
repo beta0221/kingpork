@@ -223,7 +223,7 @@ td,th{
 <INPUT value="金園排骨股份有限公司" name=MerchantName><br>
 <INPUT value="008786350353296" name=MerchantID><br>
 <INPUT value="77543256" name=TerminalID><br>
-<INPUT maxLength=100 size=50 name="AuthResURL" value="http://45.76.104.218/creditPaied.php"><!-- (optional, 亦可不使用本參數)  --><br>
+<INPUT maxLength=100 size=50 name="AuthResURL" value="http://45.76.104.218/api/creditPaied"><!-- (optional, 亦可不使用本參數)  --><br>
 <INPUT value="{{$finalBill['bill_id']}}" name=lidm><br>
 <INPUT onclick=chkTxType(); type=radio value=0 name=txType checked><br>
 <INPUT type=radio value=0 name=AutoCap CHECKED><br>
