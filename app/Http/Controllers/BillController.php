@@ -374,12 +374,33 @@ class BillController extends Controller
             $the->save();
         }
         return('1|OK');
-    }                                              // !!! API !!!
+    }
 
     public function creditPaied(Request $request)
     {
-        return($request);
-    }
+        
+        if ($request->status == 0) {
+            $the = Bill::where('bill_id',$request->lidm)->firstOrFail();
+            $the->status = 1;
+            $allReturn = 
+            'status='.$request->status.'|'.
+            'errcode='.$request->errcode.'|'.
+            'authCode='.$request->authCode.'|'.
+            'authAmt='.$request->authAmt.'|'.
+            'lidm='.$request->lidm.'|'.
+            'xid='.$request->xid.'|'.
+            'merID='.$request->merID.'|'.
+            'Last4digitPAN='.$request->Last4digitPAN.'|'.
+            'errDesc='.$request->errDesc.'|'.
+            'checkValue='.$request->checkValue;
+            $the->allReturn = $allReturn;
+            $the->save();
+            return('完成繳費');
+        }else{
+            return('繳費失敗');
+        }
+        
+    }                                              // !!! API !!!
 
     public function checkBill($id)
     {
