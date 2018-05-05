@@ -503,16 +503,16 @@ class BillController extends Controller
         }
         $data = array(
             'user_name'=>Auth::user()->name,
-            'ship_gender'=>$request->ship_gender,
-            'ship_name'=>$request->ship_name,
-            'ship_phone'=>$request->ship_phone,
-            'ship_county'=>$request->ship_county,
-            'ship_district'=>$request->ship_district,
-            'ship_address'=>$request->ship_address,
-            'email' => $request->ship_email,
+            'ship_gender'=>$bill->ship_gender,
+            'ship_name'=>$bill->ship_name,
+            'ship_phone'=>$bill->ship_phone,
+            'ship_county'=>$bill->ship_county,
+            'ship_district'=>$bill->ship_district,
+            'ship_address'=>$bill->ship_address,
+            'email' => $bill->ship_email,
             'items' => $itemArray,
-            'bill_id' =>$MerchantTradeNo,
-            'price' => $total,
+            'bill_id' =>$bill->bill_id,
+            'price' => $bill->price,
             'pay_by'=>'信用卡繳費',
         );
         Mail::send('emails.cod',$data,function($message) use ($data){
