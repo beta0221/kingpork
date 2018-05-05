@@ -248,7 +248,7 @@ td,th{
 
 @section('scripts')
 
-@if($finalBill['SPToken'] != null)
+@if($finalBill['pay_by'] == 'ATM' AND $finalBill['SPToken'] != null)
 	<script src="https://payment-stage.ecpay.com.tw/Scripts/SP/ECPayPayment_1.0.0.js"
 	data-MerchantID="2000132" {{-- test --}}
 	{{-- data-MerchantID="1044372" --}} {{-- kingpork --}}
@@ -345,11 +345,35 @@ td,th{
 	</script>
 @endif
 
-@if($finalBill['pay_by'] == 'CREDIT')
+@if($finalBill['pay_by'] == 'CREDIT' AND $finalBill['status'] !=1)
 <script>
 	function creditSubmit(){
 		$('.creditForm').submit();
 	}
+</script>
+@elseif($finalBill['pay_by'] == 'CREDIT' AND $finalBill['status'] ==1)
+<script>
+	$.ajaxSetup({
+			headers: {
+		 		'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+			}
+		});
+	$.ajax({
+		type:'POST',
+		url:'{{route('bill.sendMailC')}}',
+		dataType:'json',
+		data: {
+			'bill_id':'{{$finalBill['bill_id']}}',
+		},
+		success: function (response) {
+			if (response == 's') {
+				alert('電子確認信已寄出，內含您的購買明細及繳款資訊');
+			}
+		},
+		error: function () {
+	         alert('錯誤');
+	     },
+	});
 </script>
 @endif
 
