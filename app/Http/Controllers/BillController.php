@@ -397,11 +397,6 @@ class BillController extends Controller
             $the->allReturn = $allReturn;
             $the->save();
 
-            $user = User::find(Auth::user()->id);
-            $user->bonus = $user->bonus+10;
-            $user->save();
-
-
             return redirect()->route('bill.show', $request->lidm);
         }else{
             return redirect()->route('bill.show', $request->lidm);
@@ -498,6 +493,11 @@ class BillController extends Controller
         if ($bill->SimulatePaid != 1) {
             $bill->SimulatePaid = 1;
             $bill->save();
+
+            $user = User::find(Auth::user()->id);
+            $user->bonus = $user->bonus+10;
+            $user->save();
+            
             $items = json_decode($bill->item,true);
             $i = 0;
             $itemArray = [];
