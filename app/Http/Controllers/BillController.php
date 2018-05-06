@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Bill;
 use App\Products;
 use App\Kart;
+use App\User;
 use Session;
 use DB;
 use Illuminate\Support\Facades\Auth;
@@ -395,6 +396,11 @@ class BillController extends Controller
             'checkValue='.$request->checkValue;
             $the->allReturn = $allReturn;
             $the->save();
+
+            $user = User::find(Auth::user()->id);
+            $user->bonus = $user->bonus+10;
+            $user->save();
+
 
             return redirect()->route('bill.show', $request->lidm);
         }else{
