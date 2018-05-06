@@ -378,7 +378,7 @@ class BillController extends Controller
             $the->allReturn = $allReturn;
             $the->save();
 
-            $user = User::where('name',$the->user_name);
+            $user = User::where('name',$the->user_name)->firstOrFail();
             $user->bonus = $user->bonus+10;
             $user->save();
         }
