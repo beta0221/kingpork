@@ -209,7 +209,7 @@ td,th{
 			<div class="payBy">
 				<div class="inner-payBy">
 					@if($finalBill['pay_by'] == 'ATM' && $finalBill['SPToken'] != null)
-					<button class="payByBtn btn btn-primary" onclick="checkOut('CREDIT')">取得繳費帳號</button>
+					<button class="payByBtn btn btn-primary" onclick="checkOut('ATM')">取得繳費帳號</button>
 					
 
 					@elseif($finalBill['pay_by'] == '貨到付款')
@@ -253,11 +253,11 @@ td,th{
 	data-MerchantID="2000132" {{-- test --}}
 	{{-- data-MerchantID="1044372" --}} {{-- kingpork --}}
 	data-SPToken="{{$finalBill['SPToken']}}"
-	data-PaymentType="CREDIT"
+	data-PaymentType="ATM"
 	data-PaymentName="CREDIT"
 	data-CustomerBtn="1" >
 	</script> 
-	{{-- <script>
+	<script>
 		$(document).ready(function (){
 			window.addEventListener('message', function (e) {
 				var json = JSON.parse(e.data);
@@ -341,7 +341,7 @@ td,th{
 
 			});
 		});
-	</script> --}}
+	</script>
 @endif
 
 @if($finalBill['pay_by'] == 'CREDIT' AND $finalBill['status'] !=1)
