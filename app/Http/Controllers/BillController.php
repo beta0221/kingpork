@@ -287,6 +287,10 @@ class BillController extends Controller
                 $bill->pay_by = '貨到付款';
                 $bill->save();
 
+                $user = User::find(Auth::user()->id);
+                $user->bonus = $user->bonus+10;
+                $user->save();
+
                 $i = 0;
                 $itemArray = [];
                 foreach($kart as $item)
@@ -373,6 +377,10 @@ class BillController extends Controller
             $the->SimulatePaid = $SimulatePaid;
             $the->allReturn = $allReturn;
             $the->save();
+
+            $user = User::where('name',$the->user_name);
+            $user->bonus = $user->bonus+10;
+            $user->save();
         }
         return('1|OK');
     }
@@ -497,7 +505,7 @@ class BillController extends Controller
             $user = User::find(Auth::user()->id);
             $user->bonus = $user->bonus+10;
             $user->save();
-            
+
             $items = json_decode($bill->item,true);
             $i = 0;
             $itemArray = [];
