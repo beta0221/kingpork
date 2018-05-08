@@ -21,8 +21,6 @@ class OrderManagementController extends Controller
     public function index()
     {
         $jsons = Bill::all();
-
-
         $j = 0;
         $orders = [];
         foreach($jsons as $json)
@@ -40,7 +38,6 @@ class OrderManagementController extends Controller
                 ];
                 $i++;
             }
-
             $orders[$j] = [
                 'created_at' => $json->created_at,
                 'bill_id' => $json->bill_id,
@@ -67,9 +64,7 @@ class OrderManagementController extends Controller
                 'shipment'=>$json->shipment,
             ];
             $j++;
-            
         }
-
         return view('order.index',['orders'=>$orders]);
     }
 
@@ -81,26 +76,35 @@ class OrderManagementController extends Controller
                 ->where('created_at','LIKE','%'.$request->date1.'%')
                 ->where('pay_by','LIKE','%'.$request->pay_by_ATM.'%')
                 ->where('pay_by','LIKE','%'.$request->pay_by_cod.'%')
+                ->where('pay_by','LIKE','%'.$request->pay_by_credit.'%')
                 ->where('ship_county','LIKE','%'.$request->ship_county.'%')
                 ->where('shipment','LIKE','%'.$request->shipment_1.'%')
                 ->where('shipment','LIKE','%'.$request->shipment_0.'%')
+                ->where('status','LIKE','%'.$request->pay_1.'%')
+                ->where('status','NOT LIKE',$request->pay_0)
                 ->get();
         }elseif ($request->date1 == null OR $request->date2 == null) {      //如果不搜尋日期
             $jsons = Bill::where('bill_id','LIKE','%'.$request->bill_id.'%')
                 ->where('pay_by','LIKE','%'.$request->pay_by_ATM.'%')
                 ->where('pay_by','LIKE','%'.$request->pay_by_cod.'%')
+                ->where('pay_by','LIKE','%'.$request->pay_by_credit.'%')
                 ->where('ship_county','LIKE','%'.$request->ship_county.'%')
                 ->where('shipment','LIKE','%'.$request->shipment_1.'%')
                 ->where('shipment','LIKE','%'.$request->shipment_0.'%')
+                ->where('status','LIKE','%'.$request->pay_1.'%')
+                ->where('status','NOT LIKE',$request->pay_0)
                 ->get();
         }else{
             $jsons = Bill::where('bill_id','LIKE','%'.$request->bill_id.'%')    //如果搜尋日期區間
                 ->whereBetween('created_at',[$request->date1,$request->date2])
                 ->where('pay_by','LIKE','%'.$request->pay_by_ATM.'%')
                 ->where('pay_by','LIKE','%'.$request->pay_by_cod.'%')
+                ->where('pay_by','LIKE','%'.$request->pay_by_credit.'%')
                 ->where('ship_county','LIKE','%'.$request->ship_county.'%')
                 ->where('shipment','LIKE','%'.$request->shipment_1.'%')
                 ->where('shipment','LIKE','%'.$request->shipment_0.'%')
+                ->where('status','LIKE','%'.$request->pay_1.'%')
+                ->where('status','NOT LIKE',$request->pay_0)
                 ->get();
         }
 
@@ -154,11 +158,14 @@ class OrderManagementController extends Controller
         Session::flash('bill_id',$request->bill_id);
         Session::flash('pay_by_ATM',$request->pay_by_ATM);
         Session::flash('pay_by_cod',$request->pay_by_cod);
+        Session::flash('pay_by_credit',$request->pay_by_credit);
         Session::flash('ship_county',$request->ship_county);
         Session::flash('date1',$request->date1);
         Session::flash('date2',$request->date2);
         Session::flash('shipment_1',$request->shipment_1);
         Session::flash('shipment_0',$request->shipment_0);
+        Session::flash('pay_1',$request->pay_1);
+        Session::flash('pay_0',$request->pay_0);
         return view('order.index',['orders'=>$orders]);
     }
 
