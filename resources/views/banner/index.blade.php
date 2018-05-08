@@ -1,7 +1,7 @@
 <html>
 	<head>
 		<meta name="csrf-token" content="{{ csrf_token() }}">
-		<title>banner管理</title>
+		<title>轉撥牆管理</title>
 		<style>
 			
 		</style>

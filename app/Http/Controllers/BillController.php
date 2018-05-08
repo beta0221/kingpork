@@ -35,7 +35,8 @@ class BillController extends Controller
      */
     public function index()
     {
-        $records = Bill::all()->where('user_id',Auth::user()->id);
+        
+        $records = Bill::where('user_id',Auth::user()->id)->get();
         // ->orderBy('created_at', 'desc')   
         if (count($records) == 0) {
             return('沒有訂單');
@@ -69,6 +70,7 @@ class BillController extends Controller
             }
         }
         return view('bill.index',['finalBills'=>$finalBills]);
+
     }
 
     /**
