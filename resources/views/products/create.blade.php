@@ -77,18 +77,18 @@
 <script>
 	tinymce.init({ 
 		selector:'textarea',
-		plugins: "image imagetools",
   		// menubar: "insert",
   		language : "zh_TW" ,
   		plugins: [
     		"advlist autolink lists link image charmap print preview anchor",
     		"searchreplace visualblocks code fullscreen",
-    		"insertdatetime media table contextmenu paste jbimages"
+    		"insertdatetime media table contextmenu paste jbimages",
+    		"image imagetools",
+    		"textcolor colorpicker",
   		],
-  		toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image jbimages",
-  		relative_urls: false
-
-  		
+  		toolbar: "insertfile undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image jbimages | forecolor backcolor | fontsizeselect | fontselect",
+  		relative_urls: false,
+  		font_formats: 'Arial=arial,helvetica,sans-serif;Courier New=courier new,courier,monospace;AkrutiKndPadmini=Akpdmi-n'
 	});
 </script>
 </html>
