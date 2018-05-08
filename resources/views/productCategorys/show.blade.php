@@ -261,16 +261,34 @@
 		<hr class="hr">
 		<div class="row">
 			<div class="col-md-10 offset-md-1 aboutContent">
-				<p>
-				Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus labore, consequatur, quas eius velit consequuntur, nesciunt dolores earum tempore, praesentium enim itaque nisi officiis. Molestiae, ut! Iure obcaecati culpa laboriosam eum voluptatum reiciendis voluptatibus esse, cumque voluptate similique provident quas recusandae minus debitis molestias cum veniam porro, dolore ea eos, ab assumenda sunt odio est possimus? Voluptatibus vel ab odit necessitatibus quas delectus tempore id asperiores velit culpa? Illum pariatur quod eaque, aperiam quos quae vero et voluptates tempora voluptas perferendis illo, iure veniam, dicta itaque alias eius explicabo natus aut. Dolorum quaerat qui nulla perferendis ut, totam? Iste, dolorem?
-				Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptate ipsam, quisquam voluptatibus laudantium aut repellendus a ullam modi adipisci numquam sint, dignissimos officiis alias earum maiores animi. Atque asperiores nulla pariatur fuga, recusandae nisi! Harum at sequi natus aliquid qui vel fugit excepturi, officiis ipsum nemo iusto quis, deleniti fugiat quos accusantium similique nihil aspernatur 
-
-				<br>
-				facilis asperiores! Dolore, commodi! Sapiente iure illum nisi sit, cupiditate, pariatur odit ratione ipsam reiciendis nam explicabo ducimus doloremque eligendi tempora velit a molestias! A asperiores facere fugit perspiciatis cumque ut cupiditate iste quia iure. Rerum dolores perspiciatis iste atque aliquam fuga id placeat voluptate, eaque fugiat sed doloribus qui provident repellat quos officia enim in magnam 
-
-				<br>
-				suscipit, hic eum, odio quam deleniti. Similique at, laborum rerum neque unde omnis tempore beatae debitis molestiae asperiores eius doloremque quibusdam, delectus minus mollitia inventore, eveniet, ut laudantium aut aperiam iusto deleniti cumque. Nulla fuga possimus, quibusdam magnam incidunt dicta. Voluptates repellat nostrum pariatur inventore commodi. Voluptatem sapiente voluptatibus quo maiores nisi odit quis quisquam veritatis similique possimus illum nam, earum eaque, molestiae perspiciatis nihil cumque debitis veniam corporis itaque, atque suscipit? Non perspiciatis ea fuga fugit quia quisquam atque iste ab magnam eaque delectus rerum, nesciunt facilis.
-				</p>
+				@if(Request::url() == config('app.url').'/productCategory/1')
+				<p>小簡介：上等里肌肉 &rarr; 手工抓捏、拍打&rarr; 再真空按摩五十分鐘 &rarr; 造就出獨持口感</p>
+				<p><strong>【特級厚切手打豬排（調理生排骨肉）】</strong></p>
+				<p>◆重量／容量：200g&plusmn;5%／包</p>
+				<p>◆內容物：豬排肉、地瓜粉、水、黑胡椒、醬油、 砂糖、L-麩酸鈉 (味精)</p>
+				<p>◆產地：台灣</p>
+				<p>◆有效期限：180天</p>
+				<p>◆食用方式：無須退凍，泡水5分鐘即可退凍（視季節當時水溫而論）平底鍋，中火煎雙面各煎1~2分鐘</p>
+				<p>◆保存方式：冷凍</p>
+				<p>◆包裝方式：單片真空包裝</p>
+				<p><img src="/images/articleIMG/123-350.jpg" /></p>
+				<p>---------------------------------------------------------------------------------</p>
+				<p>貼心小教學</p>
+				<p>---------------------------------------------------------------------------------◎本產品造型、顏色以實物為主</p>
+				<p>◎商品圖片僅供實物參考。內容物組成以實物及商品說明為主</p>
+				<p>◎注意事項：本為食品特殊類別，ㄧ經拆封或食物、包裝碰撞變形或保存不良導致變質</p>
+				<p 、非運送過程失溫導致食品變質者，恕無法退換貨，敬請見諒與配合。</p>
+				<p>◎退貨事項：除商品本身有瑕疵可辦理退貨，商品一經使用或損毀即不可退貨 退貨必須保 留紙箱及商品</p>
+				<p>--------------------------------------------------------------------------------</p>
+				<p>金園廚房</p>
+				<p>【一】排骨肉片切絲先入鍋拌炒至8分熟即可加入配料成為湯麵或鮮肉湯。<br /><br />【二】排骨肉片切絲當一般肉絲用，可炒韭黃、高麗菜等新鮮蔬果。<br /><br />【三】排骨肉片切丁炒飯，風味更佳。<strong><br /><br /></strong>【四】中秋佳節烤肉的最佳美味肉品(不需醃製，可以直接烤喔!)。</p>
+				@endif
+				@if(Request::url() == config('app.url').'/productCategory/2')
+				雞腿
+				@endif
+				@if(Request::url() == config('app.url').'/productCategory/3')
+				幸福雙響
+				@endif
 			</div>
 		</div>
 	</div>
