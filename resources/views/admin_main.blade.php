@@ -93,8 +93,8 @@
 
 <div class="topBar">
   <ul>
-    <li>{{Auth::user()->name}}</li>
     <li>{{Auth::user()->job_title}}</li>
+    <li>{{Auth::user()->name}}</li>
     <li class="logoutBtn"><a href="{{route('admin.logout')}}">登出</a></li>
   </ul>
 </div>
