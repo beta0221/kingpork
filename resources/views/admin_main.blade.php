@@ -20,6 +20,27 @@
     background:#222;
     z-index: 1;
   }
+  .topBar ul{
+    position: absolute;
+    right: 80px;
+    top: 0;
+  }
+  .topBar li{
+    position: relative;
+    float: left;
+    line-height: 40px;
+    text-align: center;
+    margin: 0 12px;
+    color:white;
+  }
+  .logoutBtn a{
+    display: block;
+    line-height: 40px;
+    color: white;
+    text-decoration: none;
+    background: steelblue;
+    width: 50px;
+  }
   .sideBar{
     position: fixed;
     z-index: 1;
@@ -71,7 +92,11 @@
 
 
 <div class="topBar">
-  
+  <ul>
+    <li>{{Auth::user()->name}}</li>
+    <li>{{Auth::user()->job_title}}</li>
+    <li class="logoutBtn"><a href="{{route('admin.logout')}}">登出</a></li>
+  </ul>
 </div>
 <ul class="sideBar">
   <li class="sideBar_item {{Request::is('products') ? 'sideBar_now' : ''}}">
