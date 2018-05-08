@@ -1,13 +1,28 @@
-<html>
-	<head>
-		<title>管理系統後台</title>	
-	</head>
+@extends('admin_main')
+
+@section('title','| 管理系統後台')
+
+@section('stylesheets')
+<style>
 	
-	<body>
-		<strong>管理介面</strong><br>
-		<a href="{{route('products.index')}}">產品管理</a><br>
-		{{-- <a href="{{route('productCategory.index')}}">類別</a><br> --}}
-		<a href="{{route('banner.index')}}">轉撥牆管理</a><br>
-		<a href="{{route('order.index')}}">訂單管理</a>
-	</body>
-</html>
+</style>
+@endsection
+
+@section('content')
+
+
+
+
+
+
+
+
+
+
+
+
+@endsection
+
+@section('scripts')
+
+@endsection
