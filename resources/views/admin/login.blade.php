@@ -11,9 +11,12 @@
     height: auto;
 }
 .outter{
-    border:1pt solid #000;
     margin: 80px auto 80px auto;
     height: 520px;
+    background-color: rgba(255,255,255,0.5);
+    box-shadow: 2px 2px 16px 2px rgba(0, 0, 0, 0.3);
+    border-radius: 0.3em;
+    text-align: center;
 }
 .loginForm{
     position: absolute;
@@ -38,7 +41,7 @@
             <div class="col-md-8 offset-md-2 outter">
                 
                 
-
+                <font style="font-size: 32pt;top: 60px;">管理後台登入</font>
 
                 {{-- login part start --}}
                 
@@ -85,7 +88,7 @@
 
                     <div class="form-group">
                         <div class="col-md-6 offset-md-3">
-                            <button style="left: 50%;transform: translateX(-50%);" type="submit" class="btn btn-primary">
+                            <button type="submit" class="btn btn-primary">
                                 登入
                             </button>
 

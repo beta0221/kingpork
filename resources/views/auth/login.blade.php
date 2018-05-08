@@ -21,10 +21,12 @@
 }
 .sel{
     /*width: 100%;*/
+    top:20px;
     height: 48px;
     margin-top: 15px;
     border-radius: 0.3em;
     background-color: rgba(0,0,0,0.2);
+    z-index: 1;
 }
 .sel::before , .sel.change::before{
     content:"";
