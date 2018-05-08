@@ -142,7 +142,7 @@ class BillController extends Controller
         $total = $total - $bonusCount;
                                                 // }bonus
 
-        $MerchantTradeNo = 'kp' . time() ;//先給訂單編號
+        $MerchantTradeNo = time() . rand(10,99);//先給訂單編號
 
         switch ($request->ship_pay_by) {
             case 'atm':                             //  Pay By ATM !!!
