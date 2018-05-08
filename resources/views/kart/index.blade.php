@@ -308,9 +308,9 @@
 									<option id="three" value="3">三聯</option>
 								</select>
 								<div class="ifThree">
-									<input id="ship_three_name" name="ship_three_name" type="text" class="form-control ship_three" placeholder="購買人" style="width: 30%;">	
+									{{-- <input id="ship_three_name" name="ship_three_name" type="text" class="form-control ship_three" placeholder="購買人" style="width: 30%;">	 --}}
 									<input id="ship_three_id" name="ship_three_id" type="text" class="form-control ship_three" placeholder="統一編號" style="width: 30%;">
-									<input id="ship_three_company" name="ship_three_company" type="text" class="form-control ship_three" placeholder="公司名稱" style="width: 30%;">	
+									<input id="ship_three_company" name="ship_three_company" type="text" class="form-control ship_three" placeholder="公司名稱" style="width: 60%;">	
 								</div>
 							</td>
 						</tr>

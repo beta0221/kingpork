@@ -225,7 +225,7 @@ class BillController extends Controller
                 $bill->ship_arriveDate = $request->ship_arriveDate ;
                 $bill->ship_time = $request->ship_time ;
                 $bill->ship_receipt = $request->ship_receipt ;
-                $bill->ship_three_name = $request->ship_three_name ;
+                // $bill->ship_three_name = $request->ship_three_name ;
                 $bill->ship_three_id = $request->ship_three_id ;
                 $bill->ship_three_company = $request->ship_three_company ;
                 $bill->ship_memo = $request->ship_memo ;
@@ -256,7 +256,7 @@ class BillController extends Controller
                 $bill->ship_arriveDate = $request->ship_arriveDate;
                 $bill->ship_time = $request->ship_time;
                 $bill->ship_receipt = $request->ship_receipt;
-                $bill->ship_three_name = $request->ship_three_name;
+                // $bill->ship_three_name = $request->ship_three_name;
                 $bill->ship_three_id = $request->ship_three_id;
                 $bill->ship_three_company = $request->ship_three_company;
                 $bill->ship_memo = $request->ship_memo;
@@ -285,7 +285,7 @@ class BillController extends Controller
                 $bill->ship_arriveDate = $request->ship_arriveDate;
                 $bill->ship_time = $request->ship_time;
                 $bill->ship_receipt = $request->ship_receipt;
-                $bill->ship_three_name = $request->ship_three_name;
+                // $bill->ship_three_name = $request->ship_three_name;
                 $bill->ship_three_id = $request->ship_three_id;
                 $bill->ship_three_company = $request->ship_three_company;
                 $bill->ship_memo = $request->ship_memo;
@@ -620,7 +620,7 @@ class BillController extends Controller
                 'ship_address' => $bill->ship_address,
                 'ship_email' => $bill->ship_email,
                 'ship_receipt' => $bill->ship_receipt,
-                'ship_three_name' => $bill->ship_three_name,
+                // 'ship_three_name' => $bill->ship_three_name,
                 'ship_three_id' => $bill->ship_three_id,
                 'ship_three_company' => $bill->ship_three_company,
                 'bonus' => Auth::user()->bonus,

@@ -153,7 +153,7 @@
 						@if($order['ship_time'] == 'no')無@else{{$order['ship_time']}}@endif
 					</td>
 					<td>
-						@if($order['ship_receipt'] == '2')二連@else{{$order['ship_three_name']}}{{$order['ship_three_id']}}{{$order['ship_three_company']}}@endif
+						@if($order['ship_receipt'] == '2')二連@else{{$order['ship_three_id']}}{{$order['ship_three_company']}}@endif
 					</td>
 					<td onclick="showMemo('{{$order['bill_id']}}');" data-toggle="modal" data-target="#exampleModal">
 						{{substr(strip_tags($order['ship_memo']),0,20)}}

@@ -117,9 +117,9 @@ $(document).ready(function(){
 		$('.radio').change(function(){
 			$('.pay_by').removeClass('alerting');
 		});
-		$('#ship_three_name').change(function(){
-			$('#ship_three_name').removeClass('alerting');
-		});
+		// $('#ship_three_name').change(function(){
+		// 	$('#ship_three_name').removeClass('alerting');
+		// });
 		$('#ship_three_id').change(function(){
 			$('#ship_three_id').removeClass('alerting');
 		});
@@ -190,13 +190,13 @@ $(document).ready(function(){
 		}
 
 		if ($('.two-three').val() == '3') {
-			if ($('#ship_three_name').val()=='') {
-				$('#ship_three_name').addClass('alerting');
-				if (unFinished == 0) {
-					$('.alert').append('<strong><font color="red">＊</font>號處不可空白</strong><br>');
-					unFinished = 1;
-				}
-			}
+			// if ($('#ship_three_name').val()=='') {
+			// 	$('#ship_three_name').addClass('alerting');
+			// 	if (unFinished == 0) {
+			// 		$('.alert').append('<strong><font color="red">＊</font>號處不可空白</strong><br>');
+			// 		unFinished = 1;
+			// 	}
+			// }
 			if ($('#ship_three_id').val()=='') {
 				$('#ship_three_id').addClass('alerting');
 				if (unFinished == 0) {
@@ -218,7 +218,7 @@ $(document).ready(function(){
 		}
 
 		if ($('#ship_name').val()!=''&&$('#ship_email').val()!=''&&$('#ship_phone').val()!=''&&$('#ship_county').val()!=''&&$('#ship_address').val()!='') {
-			if ($('.two-three').val()=='3'&&$('#ship_three_name').val()!=''&&$('#ship_three_id').val()!=''&&$('#ship_three_company').val()!='') {
+			if ($('.two-three').val()=='3'&&$('#ship_three_id').val()!=''&&$('#ship_three_company').val()!='') {
 				if($('#pay_by_credit').is(':checked') || $('#pay_by_atm').is(':checked') || $('#pay_by_cod').is(':checked')){
 					$('.kartForm').submit();
 					$('body').append('<div class="loader-bg"></div>');
@@ -300,7 +300,7 @@ $(document).ready(function(){
 	                if(response.ship_receipt == '3'){
 	                	$('.two-three').val(response.ship_receipt);
 	                	$('.ifThree').css('display','inline-block');
-	                	$('#ship_three_name').val(response.ship_three_name);
+	                	// $('#ship_three_name').val(response.ship_three_name);
 	                	$('#ship_three_id').val(response.ship_three_id);
 	                	$('#ship_three_company').val(response.ship_three_company);
 	                }
