@@ -82,10 +82,10 @@
 				<input name="pay_by_credit" type="checkbox" value="CREDIT" @if(Session::has('pay_by_credit')) checked @endif>信用卡
 				-
 				<input name="pay_1" type="checkbox" value="1" @if(Session::has('pay_1')) checked @endif>
-				<span style="color: red;">已付款</span>
+				<span style="color:#5cb85c;">已付款</span>
 				<span>/</span>
 				<input name="pay_0" type="checkbox" value="1" @if(Session::has('pay_0')) checked @endif>
-				<span style="color: red;">未付款</span>
+				<span style="color: #d9534f;">未付款</span>
 				-
 				<input name="shipment_1" type="checkbox" value="已出貨"@if(Session::has('shipment_1')) checked @endif>
 				<span style="color: #5cb85c;">已出貨</span>
