@@ -1,13 +1,11 @@
-<html>
-	<head>
-		<title>管理後台｜訂單管理</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta name="csrf-token" content="{{ csrf_token() }}">
-		{{Html::style('css/reset.css')}}
-		{{Html::style('css/bootstrap/bootstrap.min.css')}}
-	<style>
+@extends('admin_main')
+
+@section('title','| 訂單管理')
+
+@section('stylesheets')
+<style>
 	.nav{
-		width: 150%;
+		width: 100%;
 		height: 56px;
 		border:1pt solid #000;
 	}
@@ -19,9 +17,20 @@
 	.shipmentBtn{
 		cursor: pointer;
 	}
-	</style>
-	</head>
-	<body>
+	.table,.nav{
+		font-size: 14px;
+	}
+	.nav{
+		padding: 12px 12px;
+	}
+	.table td,.table th{
+		padding-left: 2px;
+		padding-right: 2px;
+	}
+</style>
+@endsection
+
+@section('content')
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -47,7 +56,7 @@
 		<div class="nav">
 			<form id="searchForm" action="{{route('order.search')}}" method="POST">
 				{{csrf_field()}}
-				<input id="bill_id" name="bill_id" type="text" class="input form-control" placeholder="訂單編號" value="{{Session::get('bill_id')}}">
+				<input style="width: 150px;" id="bill_id" name="bill_id" type="text" class="input form-control" placeholder="訂單編號" value="{{Session::get('bill_id')}}">
 				-
 				<input id="date1" name="date1" type="date" class="input form-control" value="{{Session::get('date1')}}">~
 				<input id="date2" name="date2" type="date" class="input form-control" value="{{Session::get('date2')}}">
@@ -99,27 +108,27 @@
 
 			
 		</div>
-		<div style="width: 150%;">
+		<div style="width: 100%;">
 		<table class="table">
 			<thead>
 				<tr>
 					<th>#</th>
-					<th>訂單時間</th>
-					<th>訂單編號</th>
-					<th>訂購人</th>
-					<th>訂購商品</th>
+					<th>時間</th>
+					<th>編號</th>
+					{{-- <th>訂購人</th> --}}
+					<th>商品</th>
 					<th>總價</th>
 					<th>收貨人</th>
 					<th>性別</th>
 					<th>電話</th>
-					<th>收貨地址</th>
+					<th>地址</th>
 					<th>付款方式</th>
-					<th>付款狀態</th>
-					<th>指定到貨日</th>
+					<th>付款</th>
+					<th>到貨日</th>
 					<th>時間</th>
 					<th>發票</th>
 					<th>備註</th>
-					<th>出貨狀態</th>
+					<th>出貨</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -131,7 +140,7 @@
 					<td>{{$i++}}</td>
 					<td>{{$order['created_at']}}</td>
 					<td>{{$order['bill_id']}}</td>
-					<td>{{$order['user_name']}}</td>
+					{{-- <td>{{$order['user_name']}}</td> --}}
 					<td>
 						@foreach($order['item'] as $item)
 						{{$item['name']}}*{{$item['quantity']}}<br>
@@ -176,9 +185,10 @@
 		</table>
 		</div>
 
-	</body>
-	{{ Html::script('js/jquery/jquery-3.2.1.min.js') }}
-	{{ Html::script('js/bootstrap/bootstrap.min.js') }}
+@endsection
+
+@section('scripts')
+{{ Html::script('js/bootstrap/bootstrap.min.js') }}
 	<script>
 	function shipment($id){
 		$.ajaxSetup({
@@ -244,4 +254,4 @@
 		});
 	});
 	</script>
-</html>
+@endsection

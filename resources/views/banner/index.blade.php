@@ -1,40 +1,54 @@
-<html>
-	<head>
-		<meta name="csrf-token" content="{{ csrf_token() }}">
-		<title>轉撥牆管理</title>
-		<style>
-			
-		</style>
-		{{Html::style('css/reset.css')}}
-		{{Html::style('css/bootstrap/bootstrap.min.css')}}
-	</head>
+@extends('admin_main')
 
-	<body>
-		<div class="container">
-			<div class="row">
-				<div class="col-md-12">
-					<a href="{{route('banner.create')}}">新增</a><br>
-					<table>
-						@foreach($banners as $banner)
-						<tr>
-							<td><img style="width: 100%;" src="{{asset('images/banner') .'/' . $banner->image}}"></td>
-							<td>{{$banner->link}}</td>
-							<td>{{$banner->alt}}</td>
-							<td><a class="btn btn-primary" href="{{route('banner.edit',$banner->id)}}">修改</a></td>
-							<td><div class="btn btn-danger" onclick="deleteBanner({{$banner->id}})">刪除</div></td>
-						</tr>
-						@endforeach
-					</table>
-					
-					
-				</div>
-			</div>
-		</div>
-		
-	</body>
+@section('title','| 轉撥牆管理')
 
-	{{ Html::script('js/jquery/jquery-3.2.1.min.js') }}
-	<script>
+@section('stylesheets')
+<style>
+.outter{
+	width: 100%;
+}
+.table{
+	font-size: 14px;
+}
+</style>
+@endsection
+
+@section('content')
+
+
+
+<div class="outter">
+	<a class="btn btn-success mt-2 mb-2 ml-2 mr-2" href="{{route('banner.create')}}">新增</a><br>
+	<table class="table">
+		<thead>
+			<tr>
+				<th style="width: 40%;" scope="col">圖片</th>
+				<th style="width: 25%;" scope="col">超連結</th>
+				<th style="width: 25%;" scope="col">關鍵字</th>
+				<th style="width: ;" scope="col">-</th>
+				<th style="width: ;" scope="col">-</th>
+			</tr>
+		</thead>
+		@foreach($banners as $banner)
+		<tr>
+			<td><img style="width: 100%;" src="{{asset('images/banner') .'/' . $banner->image}}"></td>
+			<td>{{$banner->link}}</td>
+			<td>{{$banner->alt}}</td>
+			<td><a class="btn btn-sm btn-primary ml-1 mr-1" href="{{route('banner.edit',$banner->id)}}">修改</a></td>
+			<td><div class="btn btn-sm btn-danger ml-1 mr-1" onclick="deleteBanner({{$banner->id}})">刪除</div></td>
+		</tr>
+		@endforeach
+	</table>
+	
+	
+</div>
+
+
+
+@endsection
+
+@section('scripts')
+<script>
 		function deleteBanner(id){
 			$.ajaxSetup({
   				headers: {
@@ -57,4 +71,4 @@
 			});
 		}
 	</script>
-</html>
+@endsection
