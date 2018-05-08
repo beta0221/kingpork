@@ -292,7 +292,6 @@ class BillController extends Controller
 
                 $user = User::find(Auth::user()->id);//紅利回算機制{
                 $total = (int)$total;
-                $total = round($total / 10);
                 $user->bonus = $user->bonus+$total;
                 $user->save();                      //}紅利回算機制
 
@@ -390,7 +389,6 @@ class BillController extends Controller
 
             $user = User::where('name',$the->user_name)->firstOrFail();//紅利回算機制{
             $TradeAmt = (int)$TradeAmt;
-            $TradeAmt = round($TradeAmt / 10);
             $user->bonus = $user->bonus+$TradeAmt;
             $user->save();                                          //}紅利回算機制
         }
@@ -419,7 +417,6 @@ class BillController extends Controller
 
             $user = User::where('name',$the->user_name)->firstOrFail();//紅利回算機制{
             $authAmt = (int)$request->authAmt;
-            $authAmt = round($authAmt / 10);
             $user->bonus = $user->bonus+$authAmt;
             $user->save();                                          // }紅利回算機制
 
