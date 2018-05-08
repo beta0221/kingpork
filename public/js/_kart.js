@@ -1,5 +1,4 @@
 $(document).ready(function(){
-
 		var price = 0;
 		$('.priceTag').each(function(){
 			price =  price + parseInt($(this).html());
@@ -14,16 +13,13 @@ $(document).ready(function(){
 			$('#priceTag' + slug).empty().append(pp);
 			uploadSum();
 		});
-
 		$('#arriveYes').click(function(){
 			$('#arriveDate').css('display','inline-block');
 		});
-
 		$('#arriveNo').click(function(){
 			$('#arriveDate').css('display','none');
 			$('#arriveDate').val(null);
 		});
-
 		$('.two-three').change(function(){
 			if ($(this).val() == '3'){
 				$('.ifThree').css('display','inline-block');
@@ -32,9 +28,7 @@ $(document).ready(function(){
 				$('.ship_three').val(null);
 			}
 		});
-
 		$('.ship_county').change(function(){
-
 			switch($(this).val()){
 				case '基隆市':
 					$('.ship_district').empty().append('<option value="仁愛區">仁愛區</option><option value="信義區">信義區</option><option value="中正區">中正區</option><option value="中山區">中山區</option><option value="安樂區">安樂區</option><option value="暖暖區">暖暖區</option><option value="七堵區">七堵區</option>');
@@ -95,7 +89,6 @@ $(document).ready(function(){
 					break;
 			}
 		});
-		
 		$('#ship_name').change(function(){
 			if ($('#ship_name').val() != '') {
 				$('#ship_name').removeClass('alerting');
@@ -133,14 +126,30 @@ $(document).ready(function(){
 		$('#ship_three_company').change(function(){
 			$('#ship_three_company').removeClass('alerting');
 		});
+		$('#bonus').change(function(){	//紅利
+			var maxBonus = parseInt($('#myBonus span').html());
+			var bonus = $('#bonus').val();
+			var sum = parseInt($('#sum').html());
+			if (bonus > maxBonus) {
+				$('#bonus').val(maxBonus);
+				bonus = maxBonus;
+			}
+			if (bonus % 50 != 0) {
+				bonus = bonus - bonus%50;
+				$('#bonus').val(bonus);
+			}
+			if (bonus / 50 > sum) {
+				bonus = sum * 50;
+				$('#bonus').val(bonus);
+			}
+			var bonusCount = bonus/50;
+			var afterDis = sum - bonus / 50;
+			$('#sum').empty().append(sum+'-'+bonusCount+'='+afterDis);
+		});
 	});
 	function checkForm(){
 		var unFinished = 0;
 		$('.alert').empty()
-		// if ($('#ship_name').val() == '' || $('#ship_email').val() == ''|| $('#ship_phone').val() == '' || $('#ship_phone').val() == '' || $('#ship_county').val() == '' || $('#ship_address').val() == '') {
-		// 	$('.alert').append('<strong><font color="red">＊</font>號處不可空白</strong><br>');
-		// }
-
 
 		if(!$('#pay_by_credit').is(':checked') && !$('#pay_by_atm').is(':checked') && !$('#pay_by_cod').is(':checked')){
 			$('.alert').append('<strong>請選擇付款方式</strong><br>');
@@ -179,6 +188,7 @@ $(document).ready(function(){
 				unFinished = 1;
 			}
 		}
+
 		if ($('.two-three').val() == '3') {
 			if ($('#ship_three_name').val()=='') {
 				$('#ship_three_name').addClass('alerting');
@@ -202,6 +212,7 @@ $(document).ready(function(){
 				}
 			}
 		}
+
 		if(!$('#pay_by_credit').is(':checked') && !$('#pay_by_atm').is(':checked') && !$('#pay_by_cod').is(':checked')){
 			$('.pay_by').addClass('alerting');
 		}
@@ -276,7 +287,7 @@ $(document).ready(function(){
 			dataType:'json',
 			success: function (response) {
 
-				if(response != '0'){
+				if(response.ifMemory != '0'){
 					if (response.ship_gender == 2) {
 						$('#radio2').prop('checked','checked');
 					}
@@ -293,6 +304,11 @@ $(document).ready(function(){
 	                	$('#ship_three_id').val(response.ship_three_id);
 	                	$('#ship_three_company').val(response.ship_three_company);
 	                }
+	                $('#myBonus span').append(response.bonus);
+	                $('#bonus').attr('max',response.bonus);
+              	}else{
+              		$('#myBonus span').append(response.bonus);
+              		$('#bonus').attr('max',response.bonus);
               	}
             },
             error: function () {

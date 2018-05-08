@@ -19,7 +19,7 @@
 <div style="border:1pt solid rgba(0,0,0,0.3);border-radius: 0.3em;">
 	<table style="width: 100%;">
 	<tr>
-		<td style="width: 80%;border-bottom: 1pt solid gray;">
+		<td style="width: 70%;border-bottom: 1pt solid gray;">
 			<table style="width: 100%;">
 				<tr>
 					<td style="width: 60%;">產品</td>
@@ -28,10 +28,11 @@
 				</tr>
 			</table>
 		</td>
-		<td style="width: 20%;border-bottom: 1pt solid gray;">總金額</td>
+		<td style="width: 15%;border-bottom: 1pt solid gray;">紅利折扣</td>
+		<td style="width: 15%;border-bottom: 1pt solid gray;">總金額</td>
 	</tr>
 	<tr>
-		<td style="width: 80%;">
+		<td style="width: 70%;">
 			<table style="width: 100%;">
 				@foreach($items as $item)
 				<tr>
@@ -42,7 +43,8 @@
 				@endforeach
 			</table>
 		</td>
-		<td style="width: 20%;">{{$price}}</td>
+		<td style="width: 15%;">{{$bonus_use}}</td>
+		<td style="width: 15%;">{{$price}}</td>
 	</tr>
 	</table>
 </div>

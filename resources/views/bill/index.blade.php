@@ -72,6 +72,7 @@ td,th{
 								</tr>
 							</table>
 						</th>
+						<th>紅利折扣</th>
 						<th>總價</th>
 						<th>付款方式</th>
 						<th>付款狀態</th>
@@ -98,6 +99,7 @@ td,th{
 									@endforeach
 								</table>
 							</td>
+							<td>{{$billX[0]['bonus_use']}}</td>
 							<td class="TDtotal">{{$billX[0]['total']}}</td>
 							<td>
 								

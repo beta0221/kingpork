@@ -35,55 +35,40 @@ class BillController extends Controller
      */
     public function index()
     {
-        // if(Auth::user()){
+        $records = Bill::all()->where('user_id',Auth::user()->id);
+        // ->orderBy('created_at', 'desc')   
+        if (count($records) == 0) {
+            return('沒有訂單');
+        }
+        $i = 0;
+        $bill=[];
+        foreach($records as $record)
+        {   
+            $bill[$i] = json_decode($record->item,true);
+            $i++;
+        }
+        $products = [];
+        $finalBill = [];
+        for ($x=0; $x < count($records); $x++) { 
+            for ($y=0; $y < count($bill[$x]); $y++) { 
+                $products[$x][$y]=Products::where('slug',$bill[$x][$y]['slug'])->get();
+                $finalBills[$x][$y] = [
+                    'name' => $products[$x][$y][0]->name, //產品名稱
+                    'price' => $products[$x][$y][0]->price, //產品單價
+                    'quantity' => $bill[$x][$y]['quantity'], //產品數量
+                    'bill_id' => $records[$x]->bill_id,     //訂單編號
+                    'bonus_use'=>$records[$x]->bonus_use,
+                    'total' => $records[$x]->price,         //總價
+                    'status' => $records[$x]->status,       //付款狀態
+                    'shipment' => $records[$x]->shipment,   //出貨狀態
+                    'pay_by' => $records[$x]->pay_by,       //付款方式
+                    'SPToken' => $records[$x]->SPToken,     //SPToken
+                    'created_at' => $records[$x]->created_at, //訂購日期
 
-            $records = Bill::all()->where('user_id',Auth::user()->id);
-            // ->orderBy('created_at', 'desc')
-                
-                if (count($records) == 0) {
-                    return('沒有訂單');
-                }
-
-            $i = 0;
-            $bill=[];
-            foreach($records as $record)
-            {   
-                $bill[$i] = json_decode($record->item,true);
-                $i++;
+                ];
             }
-
-            $products = [];
-            $finalBill = [];
-            for ($x=0; $x < count($records); $x++) { 
-                for ($y=0; $y < count($bill[$x]); $y++) { 
-                    
-                    $products[$x][$y]=Products::where('slug',$bill[$x][$y]['slug'])->get();
-
-                    $finalBills[$x][$y] = [
-
-                        'name' => $products[$x][$y][0]->name, //產品名稱
-                        'price' => $products[$x][$y][0]->price, //產品單價
-                        'quantity' => $bill[$x][$y]['quantity'], //產品數量
-                        'bill_id' => $records[$x]->bill_id,     //訂單編號
-                        'total' => $records[$x]->price,         //總價
-                        'status' => $records[$x]->status,       //付款狀態
-                        'shipment' => $records[$x]->shipment,   //出貨狀態
-                        'pay_by' => $records[$x]->pay_by,       //付款方式
-                        'SPToken' => $records[$x]->SPToken,     //SPToken
-                        'created_at' => $records[$x]->created_at, //訂購日期
-
-                    ];
-                }
-            }
-
-            return view('bill.index',['finalBills'=>$finalBills]);
-
-        // }else{
-
-        //     return redirect('login');
-
-        // }
-        
+        }
+        return view('bill.index',['finalBills'=>$finalBills]);
     }
 
     /**
@@ -139,6 +124,21 @@ class BillController extends Controller
                 'quantity' => $quantityArray[$i],
             ];
         }
+
+        $bonus = $request->bonus;               // bonus{
+        if ($bonus > Auth::user()->bonus) {
+            $bonus = Auth::user()->bonus;
+        }
+        if (fmod($bonus,50) != 0) {
+            $bonus = $bonus - fmod($bonus,50);
+        }
+        if ($bonus / 50 > $total) {
+            $bonus = $total * 50;
+        }
+
+        $bonusCount = $bonus / 50;
+        $total = $total - $bonusCount;
+                                                // }bonus
 
         $MerchantTradeNo = 'kp' . time() ;//先給訂單編號
 
@@ -209,6 +209,7 @@ class BillController extends Controller
                 $bill->bill_id = $MerchantTradeNo;
                 $bill->user_name = Auth::user()->name;
                 $bill->item = json_encode($kart);
+                $bill->bonus_use = $bonusCount;
                 $bill->price = $total;
                 $bill->SPToken = $SPToken;//SPToken
                 $bill->ship_name = $request->ship_name;
@@ -240,6 +241,7 @@ class BillController extends Controller
                 $bill->bill_id = $MerchantTradeNo;
                 $bill->user_name = Auth::user()->name;
                 $bill->item = json_encode($kart);
+                $bill->bonus_use = $bonusCount;
                 $bill->price = $total;
                 $bill->ship_name = $request->ship_name;
                 $bill->ship_gender = $request->ship_gender;
@@ -268,6 +270,7 @@ class BillController extends Controller
                 $bill->bill_id = $MerchantTradeNo;
                 $bill->user_name = Auth::user()->name;
                 $bill->item = json_encode($kart);
+                $bill->bonus_use = $bonusCount;
                 $bill->price = $total;
                 $bill->ship_name = $request->ship_name;
                 $bill->ship_gender = $request->ship_gender;
@@ -287,9 +290,11 @@ class BillController extends Controller
                 $bill->pay_by = '貨到付款';
                 $bill->save();
 
-                $user = User::find(Auth::user()->id);
-                $user->bonus = $user->bonus+10;
-                $user->save();
+                $user = User::find(Auth::user()->id);//紅利回算機制{
+                $total = (int)$total;
+                $total = round($total / 10);
+                $user->bonus = $user->bonus+$total;
+                $user->save();                      //}紅利回算機制
 
                 $i = 0;
                 $itemArray = [];
@@ -314,6 +319,7 @@ class BillController extends Controller
                     'email' => $request->ship_email,
                     'items' => $itemArray,
                     'bill_id' =>$MerchantTradeNo,
+                    'bonus_use'=>$bonusCount,
                     'price' => $total,
                     'pay_by'=>'貨到付款',
                 );
@@ -327,11 +333,15 @@ class BillController extends Controller
 
         Kart::where('user_id',Auth::user()->id)->delete();
 
+        $user = User::find(Auth::user()->id);
+        $user->bonus = $user->bonus - $bonus;
+        $user->save();
+
         Session::flash('success','訂單已成功送出');
         return redirect()->route('bill.show', $MerchantTradeNo);
     }
 
-    public function billPaied(Request $request)     // !!! API !!!
+    public function billPaied(Request $request)     // !!! API !!!{
     {
 
         $MerchantID = $request->MerchantID;
@@ -378,9 +388,11 @@ class BillController extends Controller
             $the->allReturn = $allReturn;
             $the->save();
 
-            $user = User::where('name',$the->user_name)->firstOrFail();
-            $user->bonus = $user->bonus+10;
-            $user->save();
+            $user = User::where('name',$the->user_name)->firstOrFail();//紅利回算機制{
+            $TradeAmt = (int)$TradeAmt;
+            $TradeAmt = round($TradeAmt / 10);
+            $user->bonus = $user->bonus+$TradeAmt;
+            $user->save();                                          //}紅利回算機制
         }
         return('1|OK');
     }
@@ -405,18 +417,18 @@ class BillController extends Controller
             $the->allReturn = $allReturn;
             $the->save();
 
-            $user = User::where('name',$the->user_name)->firstOrFail();
+            $user = User::where('name',$the->user_name)->firstOrFail();//紅利回算機制{
             $authAmt = (int)$request->authAmt;
             $authAmt = round($authAmt / 10);
             $user->bonus = $user->bonus+$authAmt;
-            $user->save();
+            $user->save();                                          // }紅利回算機制
 
             return redirect()->route('bill.show', $request->lidm);
         }else{
             return redirect()->route('bill.show', $request->lidm);
         }
         
-    }                                              // !!! API !!!
+    }                                              // }!!! API !!!
 
     public function checkBill($id)
     {
@@ -486,6 +498,7 @@ class BillController extends Controller
             'email' => $bill->ship_email,
             'items' => $itemArray,
             'bill_id' =>$bill->bill_id,
+            'bonus_use'=>$bill->bonus_use,
             'price' => $bill->price,
             'pay_by'=>'ATM轉帳繳費',
             'TradeDate'=>$request->TradeDate,
@@ -502,7 +515,6 @@ class BillController extends Controller
     }
     public function sendMailC(Request $request)
     {
-
         $bill = Bill::where('bill_id',$request->bill_id)->firstOrFail();
         if ($bill->SimulatePaid != 1) {
             $bill->SimulatePaid = 1;
@@ -532,6 +544,7 @@ class BillController extends Controller
                 'email' => $bill->ship_email,
                 'items' => $itemArray,
                 'bill_id' =>$bill->bill_id,
+                'bonus_use'=>$bill->bonus_use,
                 'price' => $bill->price,
                 'pay_by'=>'信用卡繳費',
             );
@@ -573,6 +586,7 @@ class BillController extends Controller
 
         $finalBill = [
             'bill_id' => $bill->bill_id,
+            'bonus_use'=>$bill->bonus_use,
             'price' => $bill->price,
             'itemArray' => $itemArray,
             'SPToken'=> $bill->SPToken,
@@ -598,6 +612,7 @@ class BillController extends Controller
         
         if($bill){
             return response()->json([
+                'ifMemory'=>1,
                 'ship_name' => $bill->ship_name,
                 'ship_gender' => $bill->ship_gender,
                 'ship_phone' => $bill->ship_phone,
@@ -609,9 +624,13 @@ class BillController extends Controller
                 'ship_three_name' => $bill->ship_three_name,
                 'ship_three_id' => $bill->ship_three_id,
                 'ship_three_company' => $bill->ship_three_company,
+                'bonus' => Auth::user()->bonus,
             ]);
         }else{
-            return response()->json('0');
+            return response()->json([
+                'ifMemory'=>0,
+                'bonus' => Auth::user()->bonus, 
+            ]);
         }
     }
 

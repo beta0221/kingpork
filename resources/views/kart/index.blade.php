@@ -160,6 +160,9 @@
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+#myBonus{
+	width: 20%;
+}
 </style>
 @endsection
 
@@ -319,6 +322,12 @@
 						</tr>
 						<tr>
 							<td>
+								<label for="">　使用紅利：</label>
+								<input id="bonus" max="" name="bonus" type="number" class="form-control" style="width: 12%;" value="0"><label id="myBonus" for="">　累積紅利：<span></span></label>
+							</td>
+						</tr>
+						<tr>
+							<td>
 								<label for=""><span class="required">*</span>付款方式：</label>
 								<div class="pay_by">
 									<input id="pay_by_credit" class="radio" type="radio" name="ship_pay_by" value="credit"><span>信用卡</span>
@@ -327,6 +336,7 @@
 								</div>
 							</td>
 						</tr>
+
 
 					</table>
 					
