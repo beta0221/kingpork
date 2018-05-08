@@ -17,11 +17,11 @@
 					<table>
 						@foreach($banners as $banner)
 						<tr>
-							<td><img src="{{asset('images/banner') .'/' . $banner->image}}"></td>
+							<td><img style="width: 100%;" src="{{asset('images/banner') .'/' . $banner->image}}"></td>
 							<td>{{$banner->link}}</td>
 							<td>{{$banner->alt}}</td>
-							<td><a href="{{route('banner.edit',$banner->id)}}">修改</a></td>
-							<td><div onclick="deleteBanner({{$banner->id}})">刪除</div></td>
+							<td><a class="btn btn-primary" href="{{route('banner.edit',$banner->id)}}">修改</a></td>
+							<td><div class="btn btn-danger" onclick="deleteBanner({{$banner->id}})">刪除</div></td>
 						</tr>
 						@endforeach
 					</table>
