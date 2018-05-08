@@ -7,7 +7,7 @@
 		{{Html::style('css/bootstrap/bootstrap.min.css')}}
 	<style>
 	.nav{
-		width: 150%;
+		width: 130%;
 		height: 56px;
 		border:1pt solid #000;
 	}
@@ -99,7 +99,7 @@
 
 			
 		</div>
-		<div style="width: 150%;">
+		<div style="width: 130%;">
 		<table class="table">
 			<thead>
 				<tr>
