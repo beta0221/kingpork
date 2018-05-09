@@ -495,7 +495,7 @@ $(document).ready(function(){
 				}
             },
             error: function () {
-                alert('錯誤');
+                // alert('錯誤');
             },
 		});
 	});
