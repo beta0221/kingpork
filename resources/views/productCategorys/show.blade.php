@@ -17,25 +17,37 @@
 	overflow: hidden;
 }
 .productItem{
-	display: inline-block;
-	background: linear-gradient(0deg,rgba(195,28,34,0.5),rgba(195,28,34,1));
-	color: #fff;
-	padding: 4px 8px;
-	margin: 0 4px 8px 4px;
-	border-radius: 0.3em;
-	box-shadow: 2px 2px 16px 2px rgba(0, 0, 0, 0.3);
+	height: 56px;
+	line-height: 56px;
+	color: #000;
+	padding: 0px 92px 0 12px;
+	font-size: 22px;
 	cursor: pointer;
 }
 .productItem:hover{
-	box-shadow: 2px 2px 16px 2px rgba(0, 0, 0, 0.5);
+	background-color: rgba(0,0,0,0.1);
 }
 .nowItem{
 	background-color: rgba(0,0,0,0.1);
 }
-.productRow{
-	/*border:1pt solid #000;*/
-	height: 112px;
-	padding:8px 0 0 4px;
+.productPrice{
+	float: right;
+	color: #c80013;
+}
+.productPrice_avg{
+	color:#000;
+	font-size: 13px;
+}
+.titleRow{
+	text-align: center;
+	height: 100px;
+	background: linear-gradient(0deg,rgba(217,83,79,0.9),rgba(217,83,79,1));
+	border-radius: 0.3em 0.3em 0 0;
+}
+.titleRow h1{
+	line-height: 100px;
+	letter-spacing: 2px;
+	color: white;
 }
 /*-------------------------------------------------*/
 .productIMG>img{
@@ -47,37 +59,48 @@
 .hr{
 	margin: 40px 0 40px 0;
 }
-.addBar{
-	/*border:1pt solid #000;*/
-	height: 56px;
-	width: calc(100% - 30px);
+.addToKartBtn{
 	position: absolute;
-	bottom: 0;
-	left: 15px;
-	padding:8px 4px 0 4px;
-}
-#addToKartBtn,#goToKartBtn,.place{
-	float: right;
-	margin: 0 4px 0 4px;
-}
-#addToKartBtn,#goToKartBtn{
-	border-radius: 0.3em;
-	display: none;
-	padding: 4px 8px;
+	color: white;
+	top: 8px;
+	right: 8px;
+	padding: 0;
+	height: 40px;
+	width: 76px;
+	font-size: 18px;
 	cursor: pointer;
-	box-shadow: 2px 2px 16px 2px rgba(0, 0, 0, 0.3);
+	line-height: 40px;
 	border:none;
-	color: #fff;
-	outline: none;
+	border-radius: .3em;
+	background:#f0ad4e;
+	display: none;
 }
-#addToKartBtn:hover,#goToKartBtn:hover{
+.addToKartBtn img{
+	height: 20px;
+}
+.deleteKartBtn{
+	background:rgba(0,0,0,0.3);
+}
+.goToKartBtn{
+	position: absolute;
+	bottom: 12px;
+	right: 28px;
+	padding: 0 32px;
+	height: 80px;
+    font-size: 40px;
+    border-radius: 0.3rem;
+    color: #fff;
+    background-color: #d9534f;
+    font-weight: 500;
+    letter-spacing: 2px;
+    line-height: 80px;
+    text-align: center;
+    border:none;
+    cursor: pointer;
+    transition: all .1s ease-in-out;
+}
+.goToKartBtn:hover{
 	box-shadow: 2px 2px 16px 2px rgba(0, 0, 0, 0.5);
-}
-#addToKartBtn{
-	background: linear-gradient(0deg,rgba(225,139,31,0.6),rgba(225,139,31,1));
-}
-#goToKartBtn{
-	background: linear-gradient(0deg,rgba(195,28,34,0.5),rgba(195,28,34,1));
 }
 .place{
 	display: inline-block;
@@ -158,23 +181,23 @@
 	z-index: 1;
 }
 .flash,.flashRed{
-	height: 56px;
-	width: calc(100% - 30px);
+	height: 80px;
+	width: 40%;
 	border-radius: 0.3rem;
-	
 	box-shadow: 4px 4px 16px 2px rgba(0, 0, 0, 0.3);
 	position: absolute;
-	bottom: 56px;
+	bottom: 12px;
+	left: 28px;
 	padding: 16px 24px;
 	color: #fff;
 	display: none;
 	transition: ease-in-out 1s;
 }
 .flash{
-	background-color: rgba(41,112,245,0.8);
+	background-color: green;
 }
 .flashRed{
-	background-color: rgba(201,44,63,0.8);
+	background-color: red;
 }
 </style>
 @endsection
@@ -220,28 +243,28 @@
 			</div>
 			<div class="col-md-6">
 				<div class="menuBoard"></div>
-				<div class="productRow">
-					@foreach($productCategory->products as $product)
-						<div onclick="showProduct({{$product->id}});" class="productItem"><span>{{$product->name}}</span></div>
-					@endforeach
+				<div class="titleRow">
+					<h1>
+						{{Request::is('productCategory/1') ? '厚切手打豬排' : ''}}
+						{{Request::is('productCategory/3') ? '幸福雙享組合' : ''}}
+						{{Request::is('productCategory/2') ? '無骨嫩雞腿排' : ''}}		
+					</h1>
 				</div>
 
 				<hr style="margin: 0;width: 95%;margin: 0 auto;">
 				
-				<div class="data name">
-					<h2>
-						{{Request::is('productCategory/1') ? '厚切手打豬排' : ''}}
-						{{Request::is('productCategory/3') ? '幸福雙享組合' : ''}}
-						{{Request::is('productCategory/2') ? '無骨嫩雞腿排' : ''}}		
-					</h2>
-				</div>
-				<hr style="margin: 0;width: 95%;margin: 0 auto;">
-				<div class="data format"><span>規格：</span><h3></h3></div>
-				<hr style="margin: 0;width: 95%;margin: 0 auto;">
-				<div class="data price"><span>售價：</span><h3></h3></div>
-				<hr style="margin: 0;width: 95%;margin: 0 auto;">
-				<div class="data bonus"><span>紅利：</span><h3></h3></div>
+				@foreach($productCategory->products as $product)
+					<div onclick="showProduct({{$product->id}});" class="productItem">
+						<span>{{$product->name}}</span>
+						<span class="productPrice">${{$product->price}}元</span>
+						<span class="productPrice productPrice_avg">（平均單價${{$product->format}}）</span>
+						<button id="add_{{$product->id}}" class="addToKartBtn" onclick="addToKart({{$product->id}})" product_id="{{$product->id}}">
+							加入<img src="{{asset('images/cart.png')}}">
+						</button>
+					</div>
+				@endforeach
 				
+
 				<div class="flash">
 					<span></span>
 				</div>
@@ -249,13 +272,13 @@
 					<span></span>
 				</div>
 
-				<div class="addBar">
+				
 					
-					<button id="goToKartBtn" onclick="location.href='{{route('kart.index')}}'">前往結帳</button>
-					<button id="addToKartBtn" onclick="">加入購物車</button>
-					<div class="place"><span></span></div>
+				<button id="goToKartBtn" class="goToKartBtn" onclick="location.href='{{route('kart.index')}}'">前往結帳</button>
 					
-				</div>
+					
+					
+				
 			</div>
 		</div>
 		<hr class="hr">
@@ -284,10 +307,68 @@
 				<p>【一】排骨肉片切絲先入鍋拌炒至8分熟即可加入配料成為湯麵或鮮肉湯。<br /><br />【二】排骨肉片切絲當一般肉絲用，可炒韭黃、高麗菜等新鮮蔬果。<br /><br />【三】排骨肉片切丁炒飯，風味更佳。<strong><br /><br /></strong>【四】中秋佳節烤肉的最佳美味肉品(不需醃製，可以直接烤喔!)。</p>
 				@endif
 				@if(Request::url() == config('app.url').'/productCategory/2')
-				雞腿
+				<div class="keyProductImg">
+				<div id="wrap">
+				<div><img src="/images/articleIMG/雞腿1.jpg" /></div>
+				<div class="mousetrap"><span style="line-height: 1.3;"></span><span style="line-height: 1.3;">CAS本土肉雞腿&rarr;去骨醃製&rarr;真空按摩五十分鐘&rarr;成就嫩滑頂級滋味，吃一次就愛上它</span></div>
+				<div class="mousetrap"><span style="line-height: 1.3;">---------------------------------------------------------------</span></div>
+				<div class="mousetrap">
+				<p><span style="color: #993300; font-size: 14pt;"><strong>嚴選無骨嫩雞腿排（調理無骨生雞腿）</strong></span></p>
+				<p>重量/容量：調理生雞腿排220g &plusmn; 5% /包</p>
+				<p>產地：台灣</p>
+				<p>有效期限：180天<br /><br />保存方式： -18℃ 冷凍<br /><br />包裝方式：單片真空包裝</p>
+				<p><img src="/images/articleIMG/真空g.jpg" width="238" height="255" /></p>
+				<p>◎本產品造型、顏色以實物為主。</p>
+				<p>◎商品圖片僅供實物參考。內容物組成以實物及商品說明為主。</p>
+				<p>◎注意事項：本為食品特殊類別，ㄧ經拆封或食物、包裝碰撞變形或保存不良導</p>
+				<p> 致變質、非運送過程失溫導致食品變質者，恕無法退換貨，敬請見諒與配合。</p>
+				<p>◎退貨事項：除商品本身有瑕疵可辦理退貨，商品一經使用或損毀即不可退貨，<br /> 退貨必須保留紙箱及商品</p>
+				<p></p>
+				<p><span style="font-size: 14pt;"><strong>貼心小教學雞腿料理</strong></span></p>
+				<p><strong>．方便迅速</strong></p>
+				<p><img src="/images/articleIMG/G退凍拷貝.jpg" width="264" height="198" /><br /><br />不需要事先解凍喔﹗可直接將真空包放入冷水中約5分鐘即可 (視季節當時水溫而論)。<br /><br /><br /><strong>．</strong><strong>少油多健康</strong><strong></strong>(四種方式可參考)</p>
+				<p><br /><strong>A．小火煎10～12分鐘。</strong><br /><br /><br /><img src="http://www.kingpork.com.tw/ckfinder/userfiles/images/20140129141347_87335.jpg" alt="雞腿料理、酥脆大雞腿、好吃的炸雞腿、桃園多汁炸雞腿" width="500" height="250" /></p>
+				<div><hr /></div>
+				<p><br /><strong>B．氣炸鍋</strong><br /><br />  (飛牌)150&deg;約15分即可，無需翻面(視雞腿大小)<br /><br /> (他牌)單面180&deg; 約10分，翻面再180&deg; 約8分即可(視雞腿大小)<br /><br /><img src="http://www.kingpork.com.tw/ckfinder/userfiles/images/20140129141418_66949.jpg" alt="雞腿料理、酥脆大雞腿、好吃的炸雞腿、桃園多汁炸雞腿" width="500" height="250" /></p>
+				<p></p>
+				<div><hr /></div>
+				<p><br /><br /><strong>C．陽春型烤箱烤12～15分(視雞腿大小)</strong><br /><br /><img src="http://www.kingpork.com.tw/ckfinder/userfiles/images/20140129141437_32898.jpg" alt="雞腿料理、酥脆大雞腿、好吃的炸雞腿、桃園多汁炸雞腿" width="500" height="250" /></p>
+				<div><br /></div>
+				<p>D. 微波5分鐘至半熟，再以中小火雙面各煎4-5分鐘，最後大火收油</p>
+				<p> 20秒即可<br /></p>
+				<hr />
+				<p><br /><strong>．美味上桌</strong><br /><br />可依個人喜好加入些許胡椒鹽或檸檬汁，不出門也能輕鬆享受美味!<br /></p>
+				<p><img src="http://www.kingpork.com.tw/ckfinder/userfiles/images/20140129121355_16085.jpg" alt="雞腿料理、酥脆大雞腿、好吃的炸雞腿、桃園多汁炸雞腿" width="435" height="290" /><br /></p>
+				<div><hr /></div>
+				<p><br /><strong>金園廚房</strong></p>
+				<p><span style="background-color: #800000;"><span style="color: #ffffff;">香酥炸雞</span></span></p>
+				<p>隔水解凍後可裹上炸雞粉或直接油炸都可。</p>
+				<p><span style="background-color: #800000;"><span style="color: #ffffff;">咖哩雞肉</span></span></p>
+				<p>雞腿肉、洋蔥、馬鈴薯、紅蘿蔔切成小塊全部拌炒一下，再加水淹過<br />食材燉煮到自己喜歡熟度再加入咖哩塊融化即可，(依個人喜好再自行<br />調整)。<br /></p>
+				<p><span style="color: #ffffff; background-color: #800000;">鹽酥雞米花</span></p>
+				<p>去骨雞腿肉切成小塊，裹上炸雞粉或直接油炸，起鍋後再依個人喜好灑<br />上胡椒粉。</p>
+				</div>
+				</div>
+				</div>
 				@endif
 				@if(Request::url() == config('app.url').'/productCategory/3')
-				幸福雙響
+				<p><strong>金園精選大幸福雙饗組合</strong></p>
+				<p>重量/容量：調理生豬排200g &plusmn; 5% /包<br />調理生雞腿排220g &plusmn; 5% /包</p>
+				<p>內容物 雞腿肉、地瓜粉、醬油、黑胡椒、砂糖、L-麩酸鈉(味精)</p>
+				<p>內容物：CAS、TFP認證調理生排骨肉、調理生雞腿肉</p>
+				<p>產地：台灣</p>
+				<p>有效期限：180天</p>
+				<p>保存方式： -18℃ 冷凍</p>
+				<p>包裝方式：單片真空包裝</p>
+				<p></p>
+				<p>◎金園肉品皆為每天手工方式新鮮現做</p>
+				<p>每日產量有限，請先預約到貨日，如需等候敬請見諒！</p>
+				<p></p>
+				<p>◎本產品造型、顏色以實物為主。</p>
+				<p>◎商品圖片僅供實物參考。內容物組成以實物及商品說明為主。</p>
+				<p>◎注意事項：本為食品特殊類別，ㄧ經拆封或食物、包裝碰撞變形或保存不良導</p>
+				<p>致變質、非運送過程失溫導致食品變質者，恕無法退換貨，敬請見諒與配合。</p>
+				<p>◎退貨事項：除商品本身有瑕疵可辦理退貨，商品一經使用或損毀即不可退貨，<br />退貨必須保留紙箱及商品<br /></p>
 				@endif
 			</div>
 		</div>
@@ -308,28 +389,14 @@
   			}
 		});
 		$.ajax({
-
 			type:'GET',
 			url:'{{url('products')}}' +'/' + id,
 			dataType:'json',
 			success: function (response) {
 
-				$('.name>h2').empty().append(response.name);
-                $('.format>h3').empty().append(response.format);
-                $('.price>h3').empty().append(response.price);
-                $('.bonus>h3').empty().append(response.bonus);
-                $('.aboutContent').empty().append(response.content);
+                // $('.aboutContent').empty().append(response.content);
                 $('#productIMG').attr('src','{{asset('images/productsIMG') . '/'}}'+response.image);
 
-                if (response.add == true) {
-                	$('#addToKartBtn').css('display','none');
-                	$('.place>span').empty().append('已加入購物車');
-                }else{
-                	$('#addToKartBtn').css('display','inline-block');
-                	$('.place>span').empty();
-                	$('#addToKartBtn').attr('onclick','addToKart('+ response.id +');');	
-                }
-                $('#goToKartBtn').css('display','inline-block');
             },
             error: function () {
                 alert('錯誤');
@@ -352,16 +419,10 @@
 				'product_id':id,
 			},
 			success: function (response) {
-                // alert(response.msg);
-                $('.flash>span').empty().append(response.msg);
-                $('.flash').css('display','block');
-
-                setTimeout(function(){
-                	$('.flash>span').empty();
-					$('.flash').css({'display':'none'});                	
-                },2000);
-                $('#addToKartBtn').css('display','none');
-                $('.place>span').empty().append('已加入購物車');
+                
+                $('#add_'+id).empty().append('取消<img src="{{asset('images/cart.png')}}">');
+                $('#add_'+id).addClass('deleteKartBtn')
+                $('#add_'+id).attr('onclick','deleteFromKart('+id+')');
                 // navbar cart 加一
                 var inKart = parseInt($('#inKart').html()) + 1;
                 $('#inKart').empty().append(inKart);
@@ -378,11 +439,70 @@
 		});
 	}
 
+	function deleteFromKart(id){
+		$.ajaxSetup({
+  			headers: {
+    			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  			}
+		});
+		$.ajax({
+			type:'POST',
+			url:'/kart/'+id,
+			dataType:'json',
+			data: {
+				_method: 'delete',
+			},
+			success: function (response) {
+                if (response.status == 1) {
+                	 $('#add_'+id).empty().append('加入<img src="{{asset('images/cart.png')}}">');
+	                $('#add_'+id).removeClass('deleteKartBtn')
+	                $('#add_'+id).attr('onclick','addToKart('+id+')');
+                	// navbar cart 減一
+	                var inKart = parseInt($('#inKart').html()) - 1;
+	                $('#inKart').empty().append(inKart);	
+                }
+            },
+            error: function () {
+                alert('無法從購物車中刪除');
+            }
+		});
+
+
+	}
+
 $(document).ready(function(){
-	$('.productItem').click(function(){
+	$('.productItem').click(function(){			//點擊後加入nowItem Class
 		$('.nowItem').removeClass('nowItem');
 		$(this).addClass('nowItem');
 	});
+
+	$('.addToKartBtn').each(function(){
+		var id = $(this).attr('product_id');
+		$.ajaxSetup({
+  			headers: {
+    			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  			}
+		});
+		$.ajax({
+			type:'GET',
+			url:'/checkIfKart/'+$(this).attr('product_id'),
+			dataType:'json',
+			success: function (response) {
+				if (response == true) {
+					$('#add_'+id).empty().append('取消<img src="{{asset('images/cart.png')}}">');
+					$('#add_'+id).addClass('deleteKartBtn');
+					$('#add_'+id).attr('onclick','deleteFromKart('+id+')');
+				}
+            },
+            error: function () {
+                alert('錯誤');
+            },
+		});
+	});
+	setTimeout(function(){
+		$('.addToKartBtn').css('display','block');
+	},500);
+	
 });
 </script>
 @endsection

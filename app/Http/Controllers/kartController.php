@@ -83,13 +83,15 @@ class kartController extends Controller
      */
     public function store(Request $request)
     {
-        $kart = new Kart;
-
-        $kart->user_id = Auth::user()->id;
-        $kart->product_id = $request->product_id;
-
-
-        $kart->save();
+        $kart = Kart::where('product_id',$request->product_id)
+            ->where('user_id', Auth::user()->id)
+            ->first();
+        if($kart == null){
+            $kart = new Kart;
+            $kart->user_id = Auth::user()->id;
+            $kart->product_id = $request->product_id;
+            $kart->save();
+        }
 
         return response()->json(['msg'=>'成功加入購物車']);
         // return redirect()->route('products.show',$request->product_id);
@@ -142,11 +144,11 @@ class kartController extends Controller
 
         if($kart)
         {
-            return response()->json(['msg'=>'成功刪除']);    
+            return response()->json(['msg'=>'成功刪除','status'=>1]);    
         }
         else
         {
-            return response()->json(['msg'=>'錯誤']);
+            return response()->json(['msg'=>'錯誤','status'=>0]);
         }
         // return redirect()->route('kart.index');
     }

@@ -20,7 +20,7 @@ class ProductController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:admin',['except'=>'show']);
+        $this->middleware('auth:admin',['except'=>['show','checkIfKart']]);
     }
     
     /**
@@ -98,8 +98,6 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-
-
         if (Auth::user()) {
             $product = Products::find($id);
 
@@ -144,12 +142,23 @@ class ProductController extends Controller
                 'add'=>'guest',
             ]);
         }
-
-        
-
-
     }
-
+    public function checkIfKart($id)
+    {
+        $kart = Kart::where('product_id',$id)
+            ->where('user_id', Auth::user()->id)
+            ->first();
+            //判斷是否已加入購物車
+            if($kart == null)
+            {
+                $isAdd = false;
+            }
+            else
+            {
+                $isAdd = true;
+            }
+            return response()->json($isAdd);
+    }
     /**
      * Show the form for editing the specified resource.
      *

@@ -30,7 +30,7 @@
 				{{Form::label('category_id','類別：')}}
 				{{Form::select('category_id',$productCategorys,null,['class'=>'form-control'])}}<br>
 				
-				{{Form::label('format','規格：')}}
+				{{Form::label('format','每片單價：')}}
 				{{Form::text('format',null,['class'=>'form-control'])}}<br>
 				
 				{{Form::label('price','價格：')}}

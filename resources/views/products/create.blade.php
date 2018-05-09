@@ -41,7 +41,7 @@
 							@endforeach
 							</select><br>
 
-							<label for="format">規格：</label>
+							<label for="format">每片單價：</label>
 							<input class="form-control" type="text" name="format">
 
 							<label for="price">價格：</label>

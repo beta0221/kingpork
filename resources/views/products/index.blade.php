@@ -49,7 +49,7 @@
 			<th scope="col">名稱</th>
 			<th scope="col">代號</th>
 			<th scope="col">類別</th>
-			<th scope="col">規格</th>
+			<th scope="col">每片單價</th>
 			<th scope="col">價格</th>
 			<th scope="col">紅利</th>
 			<th scope="col">內容</th>

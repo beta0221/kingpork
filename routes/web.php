@@ -23,6 +23,7 @@ Route::get('/ecom-api', 'PageController@ecomApi')->name('ecomApi');
 
 // product routes
 Route::resource('products','ProductController');
+Route::get('checkIfKart/{product}','ProductController@checkIfKart');
 
 // productCategory routes
 Route::resource('productCategory','ProductCategoryController',['only'=>['index','store','show']]);
