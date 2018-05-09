@@ -20,12 +20,20 @@
     background:#222;
     z-index: 1;
   }
-  .topBar ul{
+  .topBar img{
+    height: 28px;
+    margin: -4px 8px 0 4px;
+  }
+  .topBar a{
+    color: white;
+    text-decoration: none;
+  }
+  .topBar_right{
     position: absolute;
     right: 80px;
     top: 0;
   }
-  .topBar li{
+  .topBar_right li{
     position: relative;
     float: left;
     line-height: 40px;
@@ -33,13 +41,30 @@
     margin: 0 12px;
     color:white;
   }
+  .topBar_left{
+    position: absolute;
+    left:240px;
+    top: 0;
+  }
+  .topBar_left li{
+    position: relative;
+    float: left;
+    line-height: 40px;
+    text-align: center;
+    margin: 0 12px;
+    color:white;
+    padding: 0 12px;
+  }
+  .topBar_left li:hover{
+    background: #3a3a3a;
+  }
   .logoutBtn a{
     display: block;
     line-height: 40px;
     color: white;
     text-decoration: none;
     background: steelblue;
-    width: 50px;
+    width: 80px;
   }
   .sideBar{
     position: fixed;
@@ -92,7 +117,10 @@
 
 
 <div class="topBar">
-  <ul>
+  <ul class="topBar_left">
+    <li><a href="/" target="_blank"><img src="{{asset('images/admin_haveLook.png')}}" alt="">瀏覽網頁</a></li>
+  </ul>
+  <ul class="topBar_right">
     <li>{{Auth::user()->job_title}}</li>
     <li>{{Auth::user()->name}}</li>
     <li class="logoutBtn"><a href="{{route('admin.logout')}}">登出</a></li>
