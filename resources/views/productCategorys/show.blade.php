@@ -99,6 +99,10 @@
     cursor: pointer;
     transition: all .1s ease-in-out;
 }
+.goToKartBtn img{
+	height: 40px;
+	transform: translate(8px,-5px);
+}
 .goToKartBtn:hover{
 	box-shadow: 2px 2px 16px 2px rgba(0, 0, 0, 0.5);
 }
@@ -204,8 +208,6 @@
 
 @section('content')
 
-
-
 <div class="content">
 	<div class="container">
 		<div class="row productsBar">
@@ -271,14 +273,9 @@
 				<div class="flashRed">
 					<span></span>
 				</div>
-
-				
 					
-				<button id="goToKartBtn" class="goToKartBtn" onclick="location.href='{{route('kart.index')}}'">前往結帳</button>
+				<button id="goToKartBtn" class="goToKartBtn" onclick="location.href='{{route('kart.index')}}'">前往結帳<img src="{{asset('images/point.png')}}" alt=""></button>
 					
-					
-					
-				
 			</div>
 		</div>
 		<hr class="hr">
@@ -374,10 +371,7 @@
 		</div>
 	</div>
 </div>
-
-
 @endsection
-
 
 @section('scripts')
 <script>
@@ -466,8 +460,6 @@
                 alert('無法從購物車中刪除');
             }
 		});
-
-
 	}
 
 $(document).ready(function(){
