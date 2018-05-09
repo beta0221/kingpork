@@ -28,6 +28,7 @@
     color: white;
     text-decoration: none;
     line-height: 40px;
+    display: block;
   }
   .topBar_right{
     position: absolute;
