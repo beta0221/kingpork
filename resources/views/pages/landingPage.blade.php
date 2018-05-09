@@ -120,8 +120,8 @@
 			items:1,
 			navText:[],
 			autoplay:true,
-			autoplaySpeed:2000,
-			smartSpeed:1000
+			autoplaySpeed:1000,
+			smartSpeed:500,
 		})
 
 		$('#brandStory').parallax("100%", 0.3);
