@@ -27,6 +27,7 @@
   .topBar a{
     color: white;
     text-decoration: none;
+    line-height: 40px;
   }
   .topBar_right{
     position: absolute;
@@ -60,9 +61,6 @@
   }
   .logoutBtn a{
     display: block;
-    line-height: 40px;
-    color: white;
-    text-decoration: none;
     background: steelblue;
     width: 80px;
   }
