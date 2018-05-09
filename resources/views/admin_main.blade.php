@@ -64,6 +64,10 @@
     display: block;
     background: steelblue;
     width: 80px;
+    transition: 0.1s ease-in-out;
+  }
+  .logoutBtn a:hover{
+    background:#0275d8;
   }
   .sideBar{
     position: fixed;
