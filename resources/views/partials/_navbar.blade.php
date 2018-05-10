@@ -123,12 +123,18 @@
 	        <a class="nav-link" href="{{route('login')}}">登入/註冊</a>
 		</li>
 		<li class="nav-item">
-	        <a class="nav-link" href="{{route('kart.index')}}"><span id="inKart"></span><img src="{{asset('images/cart.png')}}" alt=""></a>
+	        <span class="navbar-text"><img src="{{asset('images/cart.png')}}" alt=""></span>
 		</li>
 		<li class="nav-item">
-	        <a class="nav-link" href="{{route('kart.index')}}">結帳</a>
+	        <span class="navbar-text" id="inKart"></span>
+		</li>
+		<li class="nav-item">
+	        <button class="btnCostume btn btn-danger" onclick="location.href='{{route('kart.index')}}'">結帳</button>
 		</li>
 		@else
+
+
+		
 		<li class="nav-item">
 	        <span class="navbar-text">{{ Auth::user()->name }}</span>
 		</li>
