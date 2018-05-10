@@ -64,7 +64,7 @@
 	        <span class="navbar-text" id="inKart"></span>
 		</li>
 		<li class="nav-item">
-	        <button class="btnCostume btn btn-danger" onclick="location.href='{{route('kart.index')}}'">結帳</button>
+	        <button class="btnCostume" onclick="location.href='{{route('kart.index')}}'">結帳</button>
 		</li>
 		@endif
     </ul>
