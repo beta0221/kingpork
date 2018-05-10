@@ -74,7 +74,7 @@ $(document).ready(function(){
           $('.runner').append(response);
        },
        error: function (data) {
-          alert('錯誤');
+          
        }
   });
     
