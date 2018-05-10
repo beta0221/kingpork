@@ -68,7 +68,7 @@ $(document).ready(function(){
 
   $.ajax({
     type:'GET',
-    url:'getRunner',
+    url:'/getRunner',
     dataType:'json',
     success: function (response) {
           $('.runner').append(response);
