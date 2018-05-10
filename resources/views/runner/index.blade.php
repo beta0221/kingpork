@@ -64,12 +64,7 @@
 				<button id="update_{{$runner->id}}" class="updateBtn btn btn-sm btn-primary ml-1 mr-1" href="" onclick="updateRunner({{$runner->id}})">修改</button>
 			</td>
 			<td>
-				@if($runner->use == 1)
-				-
-				@else
 					<div class="btn btn-sm btn-danger ml-1 mr-1" onclick="deleteRunner({{$runner->id}})">刪除</div>
-				@endif
-				
 			</td>
 		</tr>
 		@endforeach
@@ -128,6 +123,11 @@
 				}
 			});
 		}
+		function recovery(){
+			$('.updateBtn').css('display','block');
+			$('.span_text').css('display','initial');
+			$('.appended').remove();
+		}
 		function updateRunner(id){
 			
 			$('.updateBtn').css('display','block');
@@ -138,7 +138,7 @@
 			$('#td_'+id).append('<button class="appended btn btn-success btn-sm ml-1 mr-1" type="submit" onclick="update_form();">修改</button>');
 			var text = $('#span_'+id).html();
 			$('#span_'+id).css('display','none');
-			$('#text_'+id).append('<form id="update_form" class="appended" action="/runner/'+id+'" method="POST"><input name="_method" type="hidden" value="PUT">{{csrf_field()}}<input id="updating" style="width: 90%;display: inline-block;" class="form-control" type="text" name="running_text"></form>');
+			$('#text_'+id).append('<form id="update_form" class="appended" style="display:inline-block;width:95%;" action="/runner/'+id+'" method="POST"><input name="_method" type="hidden" value="PUT">{{csrf_field()}}<input id="updating" style="width: 100%;display: inline-block;" class="form-control" type="text" name="running_text"></form><button style="display:inline-block;" class="appended btn btn-sm btn-secondary ml-2" onclick="recovery();">X</button>');
 			$('#updating').val(text);
 
 		}
