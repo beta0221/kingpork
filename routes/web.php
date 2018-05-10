@@ -42,6 +42,11 @@ Route::get('findMemory','BillController@findMemory')->name('findMemory');
 //Banner routes
 Route::resource('banner','BannerController');
 
+//Runner routes
+Route::resource('runner','RunnerController');
+Route::post('runner/use','RunnerController@runnerUse');
+Route::get('getRunner','RunnerController@getRunner');
+
 //Order Management
 Route::resource('order','OrderManagementController',['except'=>['create','store']]);
 Route::post('order','OrderManagementController@search')->name('order.search');

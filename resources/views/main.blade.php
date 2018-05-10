@@ -35,14 +35,7 @@
 
 
 
-
-
-
 @yield('content')
-
-
-
-
 
 
 @include('partials._footer')
@@ -73,6 +66,17 @@ $(document).ready(function(){
        }
   });
 
+  $.ajax({
+    type:'GET',
+    url:'getRunner',
+    dataType:'json',
+    success: function (response) {
+          $('.runner').append(response);
+       },
+       error: function (data) {
+          alert('錯誤');
+       }
+  });
     
 });
 </script>

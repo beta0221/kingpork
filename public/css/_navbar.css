@@ -61,120 +61,12 @@
     transition: all .2s ease-in-out;
     cursor: pointer;
 }
-/*.navbar{
-	background-color: rgba(0,0,0,0.4);
-
-	width: 100%;
-	height: 80px;
-	padding: 0;
+.runner{
 	position: fixed;
-	top: 0;
 	left: 0;
-	z-index: 5;
-}
-.navLeft,.navRight,.navLogo{
-
-	height: 80px;
-}
-.navLogo{
-	padding: 0;
-	overflow:hidden;
-}
-.navLogo img{
-	max-width: 100%;
-	top: -23px;
-}
-.login{
-	height: 80px;
-	padding-top: 20px;
-	float: right;
-	font-size: 16pt;
-}
-.kart{
-	margin: 0 8px 0 8px;
-	height: 80px;
-	width: 40px;
-	float: right;
-}
-.kart img{
-	max-width: 100%;
-    top: 50%;
-    transform: translateY(-50%) scale(0.85);
-}
-.logout,.user{
-	height: 80px;
-	padding-top: 20px;
-	float: right;
-	font-size: 16pt;
-}
-
-.fbLink, .lineLink{
-
-	height: 80px;
-	width: 40px;
-	float: right
-}
-.fbLink img{
-	max-width: 100%;
-	top: 50%;
-	transform: translateY(-50%) scale(0.95);
-
-}
-.lineLink img{
-	max-width: 100%;
-	top: 50%;
-	transform: translateY(-50%) scale(0.8);
-}
-.itemBox{
-
-	width: 100%;
-	top: 50%;
-	transform: translateY(-50%);
-}
-.goto{
-	width: 100%;
-	text-align: center;
-	margin: 0;
-}
-.navItem,.navLog{
-	display: inline-block;
-	font-size: 16pt;
-	margin: -1px 12px 0 12px;
-	vertical-align: middle;
-	color: #fff;
-}
-@media (max-width:1200px){
-	.navItem,.navLog{
-		font-size:14pt;
-		margin: -1px 8px 0 8px;
-	}
-}
-@media (max-width:992px){
-	.navItem,.navLog{
-		font-size:11pt;
-		margin: -1px 2px 0 2px;
-	}
-}
-@media (max-width:768px){
-	.navItem,.navLog{
-		font-size:10pt;
-		margin: -1px 2px 0 2px;
-	}
-}
-
-.navLog{
-	margin: -1px 8px 0 8px;
-}
-.navItem>a,.navLog>a{
-	color: #fff;
-	text-decoration: none;
-}
-.inKart{
-	display: none;
-	border:1pt solid #000;
-	width:100px;
-	height: auto;
-	position: absolute;
+	right: 0;
 	top: 80px;
-	z-index: 1;
-}*/
+	color: #fff;
+	z-index: 100;
+	font-size: 16px;
+}
