@@ -51,7 +51,8 @@
 
 
 {{ Html::script('js/jquery/jquery-3.2.1.min.js') }}
-
+{{ Html::script('js/bootstrap/bootstrap.min.js') }}
+{{ Html::script('js/prefix-free/prefixfree.dynamic-dom.min.js') }}
 <script>
 $(document).ready(function(){
   $.ajaxSetup({

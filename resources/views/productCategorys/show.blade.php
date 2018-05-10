@@ -259,7 +259,7 @@
 					<div onclick="showProduct({{$product->id}});" class="productItem">
 						<span>{{$product->name}}</span>
 						<span class="productPrice">${{$product->price}}元</span>
-						<span class="productPrice productPrice_avg">（平均單價${{$product->format}}）</span>
+						<span class="productPrice productPrice_avg">（均價${{$product->format}}）</span>
 						<button id="add_{{$product->id}}" class="addToKartBtn" onclick="addToKart({{$product->id}})" product_id="{{$product->id}}">
 							加入<img src="{{asset('images/cart.png')}}">
 						</button>
