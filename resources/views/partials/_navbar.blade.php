@@ -71,7 +71,11 @@
 
   </div>
 </nav>
-<marquee class="runner" direction="left" height="30" scrollamount="5" behavior="alternate"></marquee>
+
+<div class="marquee">
+	<span class="runner"></span>	
+</div>
+
 <div class="topSpace"></div>
 
 <div class="main-bg"></div>
