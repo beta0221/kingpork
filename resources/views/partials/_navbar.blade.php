@@ -75,3 +75,4 @@
 <div class="topSpace"></div>
 
 <div class="main-bg"></div>
+<div class="main-bg-filter"></div>
