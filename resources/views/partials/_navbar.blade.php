@@ -72,9 +72,12 @@
   </div>
 </nav>
 
-<div class="marquee">
-	<span class="runner"></span>	
-</div>
+{{-- <div class="marquee">
+	<span class="runner"></span>
+</div> --}}
+<marquee class="runner" scrollamount="4"></marquee>
+
+
 
 <div class="topSpace"></div>
 
