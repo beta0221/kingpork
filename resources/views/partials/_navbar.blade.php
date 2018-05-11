@@ -3,7 +3,7 @@
     <span class="navbar-toggler-icon"></span>
   </button>
 
-  <a class="navbar-brand" href="{{url('/')}}"><img src="{{asset('images/productsIMG/logo.jpg')}}" height="100%" alt=""></a>
+  <a class="navbar-brand" href="{{url('/')}}"><img src="{{asset('images/logo.png')}}" height="100%" alt=""></a>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
