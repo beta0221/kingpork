@@ -21,7 +21,7 @@
 			<a class="nav-link" href="#">美食廚房</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link" href="#">訂購相關</a>
+			<a class="nav-link" href="{{route('guide')}}">訂購相關</a>
 		</li>
 		<li class="nav-item">
 	        <a class="nav-link" href="{{route('contact')}}">聯絡我們</a>
@@ -72,10 +72,10 @@
   </div>
 </nav>
 
-{{-- <div class="marquee">
+<div class="marquee">
 	<span class="runner"></span>
-</div> --}}
-<marquee class="runner" scrollamount="4"></marquee>
+</div>
+{{-- <marquee class="runner" scrollamount="4"></marquee> --}}
 
 
 

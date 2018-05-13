@@ -27,7 +27,7 @@ class PageController extends Controller
     	return view('pages.productPage');
     }
 
-   public function ecomApi(){
-        return view('ECPay.atm');
-   }
+    public function guide(){
+        return view('pages.guide');
+    }
 }

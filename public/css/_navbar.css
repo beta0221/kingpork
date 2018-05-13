@@ -94,7 +94,7 @@
     transition: all .2s ease-in-out;
     cursor: pointer;
 }
-/*.marquee{
+.marquee{
 	position: fixed;
 	height: 24px;
 	width: 100%;
@@ -122,8 +122,8 @@
 		
 		transform: translate3d(-100%,0,0);
 	}
-}*/
-.runner{
+}
+/*.runner{
 	position: fixed;
 	top: 80px;
 	left: 0;
@@ -131,4 +131,4 @@
 	height: 28px;
 	color: #fff;
 	z-index: 3;
-}
+}*/

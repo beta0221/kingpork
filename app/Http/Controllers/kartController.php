@@ -52,11 +52,6 @@ class kartController extends Controller
             // return view('kart.index',['userID'=>$userID]);
 
 
-
-
-
-
-
         }
         else{
             return redirect('login');

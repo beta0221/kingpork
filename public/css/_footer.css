@@ -1,10 +1,17 @@
 .foot1{
 	width: 100%;
-	border:1pt solid #000;
+	/*border:1pt solid #000;*/
 	height: 80px;
+	color: #fff;
+	background: rgba(0,0,0,0.7);
+	
+}
+.foot1 img{
+	height: 100%;
+	transform: scale(0.7);
 }
 .footIm{
-	border:1pt solid #000;
+	/*border:1pt solid #000;*/
 	height: 80px;
 	text-align: center;
 }
@@ -16,4 +23,6 @@
 	height: 60px;
 	text-align: center;
 	padding-top: 14px;
+	color: #fff;
+	background: rgba(0,0,0,0.7);
 }

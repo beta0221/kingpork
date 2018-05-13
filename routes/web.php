@@ -19,7 +19,7 @@
 Route::get('/','PageController@getLanding');
 Route::get('/contact','PageController@getContact')->name('contact');
 Route::get('productPage','PageController@showProductPage')->name('showProductPage');
-Route::get('/ecom-api', 'PageController@ecomApi')->name('ecomApi');
+Route::get('guide','PageController@guide')->name('guide');
 
 // product routes
 Route::resource('products','ProductController');
