@@ -23,13 +23,13 @@ Route::get('guide','PageController@guide')->name('guide');
 
 // product routes
 Route::resource('products','ProductController');
-Route::get('checkIfKart/{product}','ProductController@checkIfKart');
 
 // productCategory routes
 Route::resource('productCategory','ProductCategoryController',['only'=>['index','store','show']]);
 // kart routes
 Route::resource('kart','kartController',['only'=>['index','store','destroy']]);
 Route::post('inKart','kartController@inKart')->name('getInKart');//for api
+Route::get('checkIfKart/{product}','kartController@checkIfKart');
 
 //Bill routes
 Route::resource('bill','BillController');

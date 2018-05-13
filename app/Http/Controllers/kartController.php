@@ -6,10 +6,10 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Kart;
 use App\Products;
-use Illuminate\Support\Facades\Auth;
 use DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Response;
-
+use Session;
 
 class kartController extends Controller
 {
@@ -19,12 +19,47 @@ class kartController extends Controller
             $kart = Kart::all()->where('user_id', Auth::user()->id);
             $inKart = count($kart);
             // $inKart = 0;
-            return response()->json(['msg'=>$inKart]);  
+            return response()->json(['msg'=>$inKart]);
             // return response()->json(['msg'=>'0']);
         }else{
-            return response()->json(['msg'=>'0']);
+            // return response()->json(['msg'=>'0']);
+
+            $session = Session::get('item');
+            $inKart = count($session);
+            return response()->json(['msg'=>$inKart]);
         }
          
+    }
+
+    public function checkIfKart($id)
+    {
+        if (Auth::user()) {
+        
+            $kart = Kart::where('product_id',$id)
+                ->where('user_id', Auth::user()->id)
+                ->first();
+                //判斷是否已加入購物車
+            if($kart == null)
+                {
+                    $isAdd = false;
+                }
+            else
+                {
+                    $isAdd = true;
+                }
+
+        }else{
+
+            if (in_array($id,Session::get('item'))) {
+                $isAdd = true;
+            }else{
+                $isAdd = false;
+            }
+
+        }
+
+        return response()->json($isAdd);
+
     }
 
     /**
@@ -46,15 +81,19 @@ class kartController extends Controller
                 // $shit = DB::table('products')->whereIn('id', [7,8,9])->get();
                 $products = DB::table('products')->whereIn('id', $shit)->get();
             return view('kart.index',['products'=>$products]);
-        
-            // $id = Auth::user()->id;
-            // $userID = User::find($id);
-            // return view('kart.index',['userID'=>$userID]);
-
 
         }
         else{
-            return redirect('login');
+            // return redirect('login');
+
+            // Session::flush();
+            // return('hello');
+
+            $session = Session::get('item');
+
+            return(Session::all());
+
+
         }
         
 
@@ -78,18 +117,26 @@ class kartController extends Controller
      */
     public function store(Request $request)
     {
-        $kart = Kart::where('product_id',$request->product_id)
-            ->where('user_id', Auth::user()->id)
-            ->first();
-        if($kart == null){
-            $kart = new Kart;
-            $kart->user_id = Auth::user()->id;
-            $kart->product_id = $request->product_id;
-            $kart->save();
-        }
+        if (Auth::user()) {
+            
+        
+            $kart = Kart::where('product_id',$request->product_id)
+                ->where('user_id', Auth::user()->id)
+                ->first();
+            if($kart == null){
+                $kart = new Kart;
+                $kart->user_id = Auth::user()->id;
+                $kart->product_id = $request->product_id;
+                $kart->save();
+            }
 
-        return response()->json(['msg'=>'成功加入購物車']);
-        // return redirect()->route('products.show',$request->product_id);
+            return response()->json(['msg'=>'成功加入購物車']);
+            
+        }else{
+            Session::push('item',$request->product_id);
+            $msg=json_encode(Session::get('item'));
+            return response()->json(['msg'=>$msg]);
+        }
     }
 
     /**
@@ -134,17 +181,28 @@ class kartController extends Controller
      */
     public function destroy($id)
     {
+        if (Auth::user()) {
+            
+            $kart = Kart::where('user_id',Auth::user()->id)->where('product_id',$id)->delete();
 
-        $kart = DB::table('kart')->where('user_id',Auth::user()->id)->where('product_id',$id)->delete();
+            if($kart)
+            {
+                return response()->json(['msg'=>'成功刪除','status'=>1]);    
+            }
+            else
+            {
+                return response()->json(['msg'=>'錯誤','status'=>0]);
+            }
+        }else{
 
-        if($kart)
-        {
-            return response()->json(['msg'=>'成功刪除','status'=>1]);    
+            $oldSession = Session::get('item');
+            $key = array_Search($id,$oldSession);
+            unset($oldSession[$key]);
+            Session::put('item',$oldSession);
+            
+            $msg =json_encode(Session::get('item'));
+            return response()->json(['msg'=>$msg,'status'=>1]); 
         }
-        else
-        {
-            return response()->json(['msg'=>'錯誤','status'=>0]);
-        }
-        // return redirect()->route('kart.index');
+
     }
 }

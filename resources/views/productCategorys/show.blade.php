@@ -1,6 +1,6 @@
 @extends('main')
 
-@section('title','| 類別商品')
+@section('title','| 購物趣')
 
 @section('stylesheets')
 <style>
@@ -420,6 +420,7 @@
                 // navbar cart 加一
                 var inKart = parseInt($('#inKart').html()) + 1;
                 $('#inKart').empty().append(inKart);
+                alert(response.msg);
             },
             error: function (data) {
                 
@@ -453,7 +454,8 @@
 	                $('#add_'+id).attr('onclick','addToKart('+id+')');
                 	// navbar cart 減一
 	                var inKart = parseInt($('#inKart').html()) - 1;
-	                $('#inKart').empty().append(inKart);	
+	                $('#inKart').empty().append(inKart);
+	                alert(response.msg);
                 }
             },
             error: function () {
@@ -470,11 +472,7 @@ $(document).ready(function(){
 
 	$('.addToKartBtn').each(function(){
 		var id = $(this).attr('product_id');
-		$.ajaxSetup({
-  			headers: {
-    			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-  			}
-		});
+		
 		$.ajax({
 			type:'GET',
 			url:'/checkIfKart/'+$(this).attr('product_id'),
