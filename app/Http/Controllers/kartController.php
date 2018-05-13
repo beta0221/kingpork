@@ -86,8 +86,8 @@ class kartController extends Controller
         else{
             // return redirect('login');
 
-            // Session::flush();
-            // return('hello');
+            Session::flush();
+            return('hello');
 
             $session = Session::get('item');
 
