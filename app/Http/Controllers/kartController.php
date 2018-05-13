@@ -134,6 +134,7 @@ class kartController extends Controller
             
         }else{
             Session::push('item',$request->product_id);
+            Session::save();
             $msg=json_encode(Session::get('item'));
             return response()->json(['msg'=>$msg]);
         }
@@ -199,7 +200,7 @@ class kartController extends Controller
             $key = array_Search($id,$oldSession);
             unset($oldSession[$key]);
             Session::put('item',$oldSession);
-            
+            Session::save();
             $msg =json_encode(Session::get('item'));
             return response()->json(['msg'=>$msg,'status'=>1]); 
         }
