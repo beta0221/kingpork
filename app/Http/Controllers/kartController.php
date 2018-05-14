@@ -13,7 +13,7 @@ use Session;
 
 class kartController extends Controller
 {
-    public function inKart(){
+    public function inKart(Request $request){
 
         if(Auth::user()){
             $kart = Kart::all()->where('user_id', Auth::user()->id);
@@ -23,15 +23,15 @@ class kartController extends Controller
             // return response()->json(['msg'=>'0']);
         }else{
             // return response()->json(['msg'=>'0']);
-
-            $session = Session::get('item');
+            $session = $request->session()->get('item');
+            // $session = Session::get('item');
             $inKart = count($session);
             return response()->json(['msg'=>$inKart]);
         }
          
     }
 
-    public function checkIfKart($id)
+    public function checkIfKart(Request $request ,$id)
     {
         if (Auth::user()) {
         
@@ -49,8 +49,8 @@ class kartController extends Controller
                 }
 
         }else{
-
-            if (in_array($id,Session::get('item'))) {
+            $session = $request->session()->get('item');
+            if (in_array($id,$session)) {
                 $isAdd = true;
             }else{
                 $isAdd = false;
@@ -133,8 +133,9 @@ class kartController extends Controller
             return response()->json(['msg'=>'成功加入購物車']);
             
         }else{
-            Session::push('item',$request->product_id);
-            Session::save();
+            $request->session()->push('item',$request->product_id);
+            // Session::push('item',$request->product_id);
+            // Session::save();
             $msg=json_encode(Session::get('item'));
             return response()->json(['msg'=>$msg]);
         }
@@ -180,7 +181,7 @@ class kartController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
         if (Auth::user()) {
             
@@ -195,12 +196,12 @@ class kartController extends Controller
                 return response()->json(['msg'=>'錯誤','status'=>0]);
             }
         }else{
-
-            $oldSession = Session::get('item');
+            $oldSession = $request->session()->get('item');
+            // $oldSession = Session::get('item');
             $key = array_Search($id,$oldSession);
             unset($oldSession[$key]);
-            Session::put('item',$oldSession);
-            Session::save();
+            $request->session()->put('item',$oldSession);
+            // Session::save();
             $msg =json_encode(Session::get('item'));
             return response()->json(['msg'=>$msg,'status'=>1]); 
         }
