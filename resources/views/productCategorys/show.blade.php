@@ -271,15 +271,35 @@
 				@else
 
 					@foreach($productCategory->products as $product)
-						<div onclick="showProduct({{$product->id}});" class="productItem">
-							<span>{{$product->name}}</span>
-							<span class="productPrice">${{$product->price}}元</span>
-							<span class="productPrice productPrice_avg">（均價${{$product->format}}）</span>
 
-							<button id="add_{{$product->id}}" class="addToKartBtn {{in_array($product->id,Session::get('item'))?'deleteKartBtn':''}}" onclick="location.href='/{{in_array($product->id,Session::get('item'))?'deleteFromSes':'addToSes'}}/{{$product->id}}'" product_id="{{$product->id}}">
-								{{in_array($product->id,Session::get('item'))?'取消':'加入'}}<img src="{{asset('images/cart.png')}}">
-							</button>
-						</div>
+						@if(Session::has('item'))
+							<div onclick="showProduct({{$product->id}});" class="productItem">
+								<span>{{$product->name}}</span>
+								<span class="productPrice">${{$product->price}}元</span>
+								<span class="productPrice productPrice_avg">（均價${{$product->format}}）</span>
+
+								<button id="add_{{$product->id}}" class="addToKartBtn {{in_array($product->id,Session::get('item'))?'deleteKartBtn':''}}" 
+									onclick="location.href='/{{in_array($product->id,Session::get('item'))?'deleteFromSes':'addToSes'}}/{{$product->id}}'" 
+									>
+									{{in_array($product->id,Session::get('item'))?'取消':'加入'}}
+									<img src="{{asset('images/cart.png')}}">
+								</button>
+							</div>
+						@else
+							<div onclick="showProduct({{$product->id}});" class="productItem">
+								<span>{{$product->name}}</span>
+								<span class="productPrice">${{$product->price}}元</span>
+								<span class="productPrice productPrice_avg">（均價${{$product->format}}）</span>
+
+								<button id="add_{{$product->id}}" class="addToKartBtn" 
+									onclick="location.href='/addToSes/{{$product->id}}'" 
+									>
+									加入
+									<img src="{{asset('images/cart.png')}}">
+								</button>
+							</div>
+						@endif
+						
 					@endforeach
 
 				@endif
