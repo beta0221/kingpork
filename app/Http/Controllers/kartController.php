@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Kart;
 use App\Products;
+use App\sessionCart;
 use DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Response;
@@ -22,30 +23,57 @@ class kartController extends Controller
             return response()->json(['msg'=>$inKart]);
             // return response()->json(['msg'=>'0']);
         }else{
+            $ip_address = request()->ip();
+            $sessionCart = sessionCart::where('ip_address',$ip_address)->first();
+            if ($sessionCart) {
+                
+                $inKart=count(json_decode($sessionCart->item));
+
+
+
+                return response()->json(['msg'=>$inKart]);
+
+            }else{
+                return response()->json(['msg'=>0]);
+            }
             
-            $session = $request->session()->get('item');
-            $inKart = count($session);
-            return response()->json(['msg'=>$inKart,'session'=>$session]);
         }
          
     }
 
     public function checkIfKart(Request $request ,$id)
     {
+        if (Auth::user()) {
         
-        
-        $kart = Kart::where('product_id',$id)
-            ->where('user_id', Auth::user()->id)
-            ->first();
-            //判斷是否已加入購物車
-        if($kart == null)
-            {
-                $isAdd = false;
+            $kart = Kart::where('product_id',$id)
+                ->where('user_id', Auth::user()->id)
+                ->first();
+                //判斷是否已加入購物車
+            if($kart == null)
+                {
+                    $isAdd = false;
+                }
+            else
+                {
+                    $isAdd = true;
+                }
+
+        }else{
+            $ip_address = request()->ip();
+            $sessionCart = sessionCart::where('ip_address',$ip_address)->first();
+            if ($sessionCart) {
+                $items=json_decode($sessionCart->item);
+                if(in_array($id,$items)){
+                    $isAdd =true;
+                }else{
+                    $isAdd =false;
+                }
+                
+            }else{
+                $isAdd=false;
             }
-        else
-            {
-                $isAdd = true;
-            }        
+
+        }
 
         return response()->json(['msg'=>$isAdd]);
 
@@ -78,9 +106,9 @@ class kartController extends Controller
             // Session::flush();
             // return('hello');
 
-            $session = Session::get('id');
             
-            return(Session::all());
+            $ip = request()->ip();
+            return($ip);
 
 
         }
@@ -106,20 +134,45 @@ class kartController extends Controller
      */
     public function store(Request $request)
     {
+        if (Auth::user()) {
+            
         
-        
-        $kart = Kart::where('product_id',$request->product_id)
-            ->where('user_id', Auth::user()->id)
-            ->first();
-        if($kart == null){
-            $kart = new Kart;
-            $kart->user_id = Auth::user()->id;
-            $kart->product_id = $request->product_id;
-            $kart->save();
-        }
+            $kart = Kart::where('product_id',$request->product_id)
+                ->where('user_id', Auth::user()->id)
+                ->first();
+            if($kart == null){
+                $kart = new Kart;
+                $kart->user_id = Auth::user()->id;
+                $kart->product_id = $request->product_id;
+                $kart->save();
+            }
 
-        return response()->json(['msg'=>'成功加入購物車']);
-        
+            return response()->json(['msg'=>'成功加入購物車']);
+            
+        }else{
+            $ip_address = request()->ip();
+            $sessionCart = sessionCart::where('ip_address',$ip_address)->first();
+            if ($sessionCart) {
+                $items = json_decode($sessionCart->item);
+                array_push($items,$request->product_id);
+                $sessionCart->item=json_encode($items);
+                $sessionCart->save();
+            }else{
+                $sessionCart = new sessionCart;
+                $sessionCart->ip_address = $ip_address;
+                $items = [];
+                array_push($items,$request->product_id);
+
+                // $sessionCart->item = implode(",",$items);
+                $sessionCart->item = json_encode($items);
+                $sessionCart->save();
+            }
+            
+            
+            return response()->json('success');
+
+    
+        }
     }
 
     /**
@@ -164,34 +217,37 @@ class kartController extends Controller
      */
     public function destroy(Request $request,$id)
     {
+        if (Auth::user()) {
             
-        $kart = Kart::where('user_id',Auth::user()->id)->where('product_id',$id)->delete();
+            $kart = Kart::where('user_id',Auth::user()->id)->where('product_id',$id)->delete();
 
-        if($kart)
-        {
-            return response()->json(['msg'=>'成功刪除','status'=>1]);    
+            if($kart)
+            {
+                return response()->json(['msg'=>'成功刪除','status'=>1]);    
+            }
+            else
+            {
+                return response()->json(['msg'=>'錯誤','status'=>0]);
+            }
+        }else{
+            $ip_address = request()->ip();
+            $sessionCart = sessionCart::where('ip_address',$ip_address)->firstOrFail();
+
+            $items=json_decode($sessionCart->item);
+            $newItems=[];
+            foreach ($items as $item) {
+                if ($item != $id) {
+                    array_push($newItems,$item);
+                }
+            }
+            
+
+            $sessionCart->item = json_encode($newItems);
+            $sessionCart->save();
+            
+            
+            return response()->json(['msg'=>'success','status'=>1]); 
         }
-        else
-        {
-            return response()->json(['msg'=>'錯誤','status'=>0]);
-        }
 
-    }
-
-    // guest routes
-
-    public function addToSes($id)
-    {
-        Session::push('item',$id);
-        return redirect()->back();
-    }
-
-    public function deleteFromSes($id)
-    {
-        $oldSession = Session::get('item');
-        $key = array_Search($id,$oldSession);
-        unset($oldSession[$key]);
-        Session::put('item',$oldSession);
-        return redirect()->back();
     }
 }

@@ -73,7 +73,7 @@
 	border:none;
 	border-radius: .3em;
 	background:#f0ad4e;
-	{{Auth::user()?'display: none;':''}}
+	display: none;
 }
 .addToKartBtn img{
 	height: 20px;
@@ -255,54 +255,16 @@
 
 				<hr style="margin: 0;width: 95%;margin: 0 auto;">
 				
-				@if(Auth::user())
-
-					@foreach($productCategory->products as $product)
-						<div onclick="showProduct({{$product->id}});" class="productItem">
-							<span>{{$product->name}}</span>
-							<span class="productPrice">${{$product->price}}元</span>
-							<span class="productPrice productPrice_avg">（均價${{$product->format}}）</span>
-							<button id="add_{{$product->id}}" class="addToKartBtn" onclick="addToKart({{$product->id}})" product_id="{{$product->id}}">
-								加入<img src="{{asset('images/cart.png')}}">
-							</button>
-						</div>
-					@endforeach
-
-				@else
-
-					@foreach($productCategory->products as $product)
-
-						@if(Session::has('item'))
-							<div onclick="showProduct({{$product->id}});" class="productItem">
-								<span>{{$product->name}}</span>
-								<span class="productPrice">${{$product->price}}元</span>
-								<span class="productPrice productPrice_avg">（均價${{$product->format}}）</span>
-
-								<button id="add_{{$product->id}}" class="addToKartBtn {{in_array($product->id,Session::get('item'))?'deleteKartBtn':''}}" 
-									onclick="location.href='/{{in_array($product->id,Session::get('item'))?'deleteFromSes':'addToSes'}}/{{$product->id}}'" 
-									>
-									{{in_array($product->id,Session::get('item'))?'取消':'加入'}}
-									<img src="{{asset('images/cart.png')}}">
-								</button>
-							</div>
-						@else
-							<div onclick="showProduct({{$product->id}});" class="productItem">
-								<span>{{$product->name}}</span>
-								<span class="productPrice">${{$product->price}}元</span>
-								<span class="productPrice productPrice_avg">（均價${{$product->format}}）</span>
-
-								<button id="add_{{$product->id}}" class="addToKartBtn" 
-									onclick="location.href='/addToSes/{{$product->id}}'" 
-									>
-									加入
-									<img src="{{asset('images/cart.png')}}">
-								</button>
-							</div>
-						@endif
-						
-					@endforeach
-
-				@endif
+				@foreach($productCategory->products as $product)
+					<div onclick="showProduct({{$product->id}});" class="productItem">
+						<span>{{$product->name}}</span>
+						<span class="productPrice">${{$product->price}}元</span>
+						<span class="productPrice productPrice_avg">（均價${{$product->format}}）</span>
+						<button id="add_{{$product->id}}" class="addToKartBtn" onclick="addToKart({{$product->id}})" product_id="{{$product->id}}">
+							加入<img src="{{asset('images/cart.png')}}">
+						</button>
+					</div>
+				@endforeach
 				
 
 				<div class="flash">
@@ -413,41 +375,29 @@
 
 @section('scripts')
 <script>
+	function showProduct(id){
 
-@if (Auth::user())
+		$.ajaxSetup({
+  			headers: {
+    			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+  			}
+		});
+		$.ajax({
+			type:'GET',
+			url:'{{url('products')}}' +'/' + id,
+			dataType:'json',
+			success: function (response) {
 
-	$(document).ready(function(){
+                $('.aboutContent').empty().append(response.content);
+                $('#productIMG').attr('src','{{asset('images/productsIMG') . '/'}}'+response.image);
 
-		$('.productItem').click(function(){			//點擊後加入nowItem Class
-			$('.nowItem').removeClass('nowItem');
-			$(this).addClass('nowItem');
+            },
+            error: function () {
+                // alert('錯誤');
+            },
 		});
 
-		$('.addToKartBtn').each(function(){
-			var id = $(this).attr('product_id');
-			
-			$.ajax({
-				type:'GET',
-				url:'/checkIfKart/'+$(this).attr('product_id'),
-				dataType:'json',
-				success: function (response) {
-					if (response.msg == true) {
-						$('#add_'+id).empty().append('取消<img src="{{asset('images/cart.png')}}">');
-						$('#add_'+id).addClass('deleteKartBtn');
-						$('#add_'+id).attr('onclick','deleteFromKart('+id+')');
-					}
-	            },
-	            error: function () {
-	                // alert('錯誤');
-	            },
-			});
-		});
-		setTimeout(function(){
-			$('.addToKartBtn').css('display','block');
-		},500);
-
-	});
-
+	};
 
 	function addToKart(id){
 		$.ajaxSetup({
@@ -473,7 +423,7 @@
                 
             },
             error: function (data) {
-                alert(response);
+                
                 $('.flashRed>span').empty().append('無法加入購物車，請先登入會員');
                 $('.flashRed').css('display','block');
                 setTimeout(function(){
@@ -500,7 +450,7 @@
 			success: function (response) {
                 if (response.status == 1) {
                 	 $('#add_'+id).empty().append('加入<img src="{{asset('images/cart.png')}}">');
-	                $('#add_'+id).removeClass('deleteKartBtn');
+	                $('#add_'+id).removeClass('deleteKartBtn')
 	                $('#add_'+id).attr('onclick','addToKart('+id+')');
                 	// navbar cart 減一
 	                var inKart = parseInt($('#inKart').html()) - 1;
@@ -514,30 +464,35 @@
 		});
 	}
 
-@endif
+$(document).ready(function(){
+	$('.productItem').click(function(){			//點擊後加入nowItem Class
+		$('.nowItem').removeClass('nowItem');
+		$(this).addClass('nowItem');
+	});
 
-	function showProduct(id){
-
-		$.ajaxSetup({
-  			headers: {
-    			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-  			}
-		});
+	$('.addToKartBtn').each(function(){
+		var id = $(this).attr('product_id');
+		
 		$.ajax({
 			type:'GET',
-			url:'{{url('products')}}' +'/' + id,
+			url:'/checkIfKart/'+$(this).attr('product_id'),
 			dataType:'json',
 			success: function (response) {
-
-                $('.aboutContent').empty().append(response.content);
-                $('#productIMG').attr('src','{{asset('images/productsIMG') . '/'}}'+response.image);
-
+				if (response.msg == true) {
+					$('#add_'+id).empty().append('取消<img src="{{asset('images/cart.png')}}">');
+					$('#add_'+id).addClass('deleteKartBtn');
+					$('#add_'+id).attr('onclick','deleteFromKart('+id+')');
+				}
             },
             error: function () {
                 // alert('錯誤');
             },
 		});
-
-	};
+	});
+	setTimeout(function(){
+		$('.addToKartBtn').css('display','block');
+	},500);
+	
+});
 </script>
 @endsection
