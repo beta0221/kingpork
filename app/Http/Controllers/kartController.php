@@ -22,9 +22,8 @@ class kartController extends Controller
             return response()->json(['msg'=>$inKart]);
             // return response()->json(['msg'=>'0']);
         }else{
-            // return response()->json(['msg'=>'0']);
+            
             $session = $request->session()->get('item');
-            // $session = Session::get('item');
             $inKart = count($session);
             return response()->json(['msg'=>$inKart,'session'=>$session]);
         }
@@ -33,32 +32,22 @@ class kartController extends Controller
 
     public function checkIfKart(Request $request ,$id)
     {
-        if (Auth::user()) {
         
-            $kart = Kart::where('product_id',$id)
-                ->where('user_id', Auth::user()->id)
-                ->first();
-                //判斷是否已加入購物車
-            if($kart == null)
-                {
-                    $isAdd = false;
-                }
-            else
-                {
-                    $isAdd = true;
-                }
-
-        }else{
-            $session = $request->session()->get('item');
-            if (in_array($id,$session)) {
-                $isAdd = true;
-            }else{
+        
+        $kart = Kart::where('product_id',$id)
+            ->where('user_id', Auth::user()->id)
+            ->first();
+            //判斷是否已加入購物車
+        if($kart == null)
+            {
                 $isAdd = false;
             }
+        else
+            {
+                $isAdd = true;
+            }        
 
-        }
-
-        return response()->json(['msg'=>$isAdd,'session'=>$session]);
+        return response()->json(['msg'=>$isAdd]);
 
     }
 
@@ -89,8 +78,8 @@ class kartController extends Controller
             // Session::flush();
             // return('hello');
 
-            $session = Session::get('item');
-
+            $session = Session::get('id');
+            
             return(Session::all());
 
 
@@ -117,28 +106,20 @@ class kartController extends Controller
      */
     public function store(Request $request)
     {
-        if (Auth::user()) {
-            
         
-            $kart = Kart::where('product_id',$request->product_id)
-                ->where('user_id', Auth::user()->id)
-                ->first();
-            if($kart == null){
-                $kart = new Kart;
-                $kart->user_id = Auth::user()->id;
-                $kart->product_id = $request->product_id;
-                $kart->save();
-            }
-
-            return response()->json(['msg'=>'成功加入購物車']);
-            
-        }else{
-            // $request->session()->push('item',$request->product_id);
-            Session::push('item',$request->product_id);
-            // Session::save();
-            $msg=json_encode(Session::get('item'));
-            return response()->json(['msg'=>$msg,'session'=>Session::get('item')]);
+        
+        $kart = Kart::where('product_id',$request->product_id)
+            ->where('user_id', Auth::user()->id)
+            ->first();
+        if($kart == null){
+            $kart = new Kart;
+            $kart->user_id = Auth::user()->id;
+            $kart->product_id = $request->product_id;
+            $kart->save();
         }
+
+        return response()->json(['msg'=>'成功加入購物車']);
+        
     }
 
     /**
@@ -183,29 +164,34 @@ class kartController extends Controller
      */
     public function destroy(Request $request,$id)
     {
-        if (Auth::user()) {
             
-            $kart = Kart::where('user_id',Auth::user()->id)->where('product_id',$id)->delete();
+        $kart = Kart::where('user_id',Auth::user()->id)->where('product_id',$id)->delete();
 
-            if($kart)
-            {
-                return response()->json(['msg'=>'成功刪除','status'=>1]);    
-            }
-            else
-            {
-                return response()->json(['msg'=>'錯誤','status'=>0]);
-            }
-        }else{
-            $oldSession = $request->session()->get('item');
-            // $oldSession = Session::get('item');
-            $key = array_Search($id,$oldSession);
-            unset($oldSession[$key]);
-            // $request->session()->put('item',$oldSession);
-            Session::put('item',$oldSession);
-            // Session::save();
-            $msg =json_encode(Session::get('item'));
-            return response()->json(['msg'=>$msg,'status'=>1,'session'=>Session::get('item')]); 
+        if($kart)
+        {
+            return response()->json(['msg'=>'成功刪除','status'=>1]);    
+        }
+        else
+        {
+            return response()->json(['msg'=>'錯誤','status'=>0]);
         }
 
+    }
+
+    // guest routes
+
+    public function addToSes($id)
+    {
+        Session::push('item',$id);
+        return redirect()->back();
+    }
+
+    public function deleteFromSes($id)
+    {
+        $oldSession = Session::get('item');
+        $key = array_Search($id,$oldSession);
+        unset($oldSession[$key]);
+        Session::put('item',$oldSession);
+        return redirect()->back();
     }
 }
