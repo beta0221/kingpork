@@ -26,7 +26,7 @@ class kartController extends Controller
             $session = $request->session()->get('item');
             // $session = Session::get('item');
             $inKart = count($session);
-            return response()->json(['msg'=>$inKart]);
+            return response()->json(['msg'=>$inKart,'session'=>$session]);
         }
          
     }
@@ -58,7 +58,7 @@ class kartController extends Controller
 
         }
 
-        return response()->json($isAdd);
+        return response()->json(['msg'=>$isAdd,'session'=>$session]);
 
     }
 
@@ -133,11 +133,11 @@ class kartController extends Controller
             return response()->json(['msg'=>'成功加入購物車']);
             
         }else{
-            $request->session()->push('item',$request->product_id);
-            // Session::push('item',$request->product_id);
+            // $request->session()->push('item',$request->product_id);
+            Session::push('item',$request->product_id);
             // Session::save();
             $msg=json_encode(Session::get('item'));
-            return response()->json(['msg'=>$msg]);
+            return response()->json(['msg'=>$msg,'session'=>Session::get('item')]);
         }
     }
 
@@ -200,10 +200,11 @@ class kartController extends Controller
             // $oldSession = Session::get('item');
             $key = array_Search($id,$oldSession);
             unset($oldSession[$key]);
-            $request->session()->put('item',$oldSession);
+            // $request->session()->put('item',$oldSession);
+            Session::put('item',$oldSession);
             // Session::save();
             $msg =json_encode(Session::get('item'));
-            return response()->json(['msg'=>$msg,'status'=>1]); 
+            return response()->json(['msg'=>$msg,'status'=>1,'session'=>Session::get('item')]); 
         }
 
     }

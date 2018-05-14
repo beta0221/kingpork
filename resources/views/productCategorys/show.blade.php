@@ -420,7 +420,7 @@
                 // navbar cart 加一
                 var inKart = parseInt($('#inKart').html()) + 1;
                 $('#inKart').empty().append(inKart);
-                alert(response.msg);
+                alert(response.session);
             },
             error: function (data) {
                 
@@ -455,7 +455,8 @@
                 	// navbar cart 減一
 	                var inKart = parseInt($('#inKart').html()) - 1;
 	                $('#inKart').empty().append(inKart);
-	                alert(response.msg);
+	                // alert(response.msg);
+	                alert(response.session);
                 }
             },
             error: function () {
@@ -478,7 +479,7 @@ $(document).ready(function(){
 			url:'/checkIfKart/'+$(this).attr('product_id'),
 			dataType:'json',
 			success: function (response) {
-				if (response == true) {
+				if (response.msg == true) {
 					$('#add_'+id).empty().append('取消<img src="{{asset('images/cart.png')}}">');
 					$('#add_'+id).addClass('deleteKartBtn');
 					$('#add_'+id).attr('onclick','deleteFromKart('+id+')');
