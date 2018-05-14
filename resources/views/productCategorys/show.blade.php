@@ -413,7 +413,7 @@
 				'product_id':id,
 			},
 			success: function (response) {
-                window.location.href='{{url(Request::url())}}';
+                // window.location.href='{bla{url(Request::url())}}';
                 // $('#add_'+id).empty().append('取消<img src="{bla{asset('images/cart.png')}}">');
                 // $('#add_'+id).addClass('deleteKartBtn')
                 // $('#add_'+id).attr('onclick','deleteFromKart('+id+')');
