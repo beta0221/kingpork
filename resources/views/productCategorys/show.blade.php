@@ -413,13 +413,13 @@
 				'product_id':id,
 			},
 			success: function (response) {
-                window.location.href='{{Request::url()}}';
-                // $('#add_'+id).empty().append('取消<img src="{bla{asset('images/cart.png')}}">');
-                // $('#add_'+id).addClass('deleteKartBtn')
-                // $('#add_'+id).attr('onclick','deleteFromKart('+id+')');
-                // navbar cart 加一
-                // var inKart = parseInt($('#inKart').html()) + 1;
-                // $('#inKart').empty().append(inKart);
+                
+                $('#add_'+id).empty().append('取消<img src="{{asset('images/cart.png')}}">');
+                $('#add_'+id).addClass('deleteKartBtn')
+                $('#add_'+id).attr('onclick','deleteFromKart('+id+')');
+                navbar cart 加一
+                var inKart = parseInt($('#inKart').html()) + 1;
+                $('#inKart').empty().append(inKart);
                 
             },
             error: function (data) {
