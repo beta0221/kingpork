@@ -1,6 +1,6 @@
 @extends('main')
 
-@section('title','| 會員登入')
+@section('title','| 成為會員')
 
 @section('stylesheets')
 <style>
@@ -34,12 +34,12 @@
     height: 100%;
     width: 50%;
     z-index: 0;
-    left: 0;
+    left: 50%;
     transition: ease-in-out 0.1s;
     border-radius: 0.3em;
 }
 .sel.change::before{
-    left: 50%;
+    left: 0;
 }
 .sel span{
     position:absolute;
@@ -47,7 +47,7 @@
     transform: translateX(-50%);
     top: 12px;
 }
-.registerForm{
+.loginForm{
     display: none;
 }
 .loginForm,.registerForm{
@@ -106,16 +106,7 @@
 }
 </style>
 
-@if(Session::has('regFail'))
-    <style>
-        .registerForm{
-            display: block;
-        }
-        .loginForm{
-            display: none;
-        }
-    </style>
-@endif
+
 
 @endsection
 
@@ -266,7 +257,7 @@
                         <div class="form-group">
                             <div class="col-md-6 offset-md-3">
                                 <input type="text" class="form-control" name="phone" placeholder="電話" required>
-                                <input type="text" name="reg_buy" style="display: none;" value="0">
+                                <input type="text" name="reg_buy" style="display: none;" value="1">
                             </div>
                         </div>
                         {{-- custom part --}}
@@ -295,12 +286,13 @@
         function selLog(){
             $('.loginForm').css('display','block');
             $('.registerForm').css('display','none');
-            $('.sel').removeClass('change');
+            $('.sel').addClass('change');
         };
         function selReg(){
             $('.loginForm').css('display','none');
             $('.registerForm').css('display','block');
-            $('.sel').addClass('change');
+            $('.sel').removeClass('change');
+            
         };
     </script>
 @endsection

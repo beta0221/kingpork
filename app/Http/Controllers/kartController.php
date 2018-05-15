@@ -95,22 +95,12 @@ class kartController extends Controller
                 $shit[$i] = $k->product_id;
                 $i++;
             }
-                // $shit = DB::table('products')->whereIn('id', [7,8,9])->get();
-                $products = DB::table('products')->whereIn('id', $shit)->get();
+            $products = DB::table('products')->whereIn('id', $shit)->get();
             return view('kart.index',['products'=>$products]);
 
         }
         else{
-            // return redirect('login');
-
-            // Session::flush();
-            // return('hello');
-
-            
-            $ip = request()->ip();
-            return($ip);
-
-
+            return view('auth.reg-buy');
         }
         
 
