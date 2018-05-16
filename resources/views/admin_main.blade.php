@@ -131,7 +131,7 @@
 </div>
 <ul class="sideBar">
   <li class="sideBar_item {{Request::is('productCategory') ? 'sideBar_now' : ''}}">
-    <a href="{{route('productCategory.index')}}"><img src="{{asset('images/admin_product.png')}}" alt="">產品類別</a>
+    <a href="{{route('productCategory.index')}}"><img src="{{asset('images/admin_category.png')}}" alt="">產品類別</a>
   </li>
   <li class="sideBar_item {{Request::is('products') ? 'sideBar_now' : ''}}">
     <a href="{{route('products.index')}}"><img src="{{asset('images/admin_product.png')}}" alt="">產品管理</a>
