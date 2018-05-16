@@ -72,7 +72,7 @@ class ProductController extends Controller
         $product->format = $request->format;
         $product->price = $request->price;
         $product->bonus = $request->bonus;
-        $product->content = $request->content;
+        // $product->content = $request->content;
 
         //image stuff
         $image = $request->file('image'); //先把檔案存到 $image 變數

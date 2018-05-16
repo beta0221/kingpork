@@ -25,7 +25,7 @@ Route::get('guide','PageController@guide')->name('guide');
 Route::resource('products','ProductController');
 
 // productCategory routes
-Route::resource('productCategory','ProductCategoryController',['only'=>['index','store','show']]);
+Route::resource('productCategory','ProductCategoryController');
 // kart routes
 Route::resource('kart','kartController',['only'=>['index','store','destroy']]);
 Route::post('inKart','kartController@inKart')->name('getInKart');//for api

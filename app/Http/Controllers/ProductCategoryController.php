@@ -36,7 +36,7 @@ class ProductCategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('productCategorys.create');
     }
 
     /**
@@ -53,6 +53,7 @@ class ProductCategoryController extends Controller
 
         $productCategory = new ProductCategory;
         $productCategory->name = $request->name;
+        $productCategory->content = $request->content;
         $productCategory->save();
 
         return redirect()->route('productCategory.store');
@@ -79,7 +80,8 @@ class ProductCategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $PC=ProductCategory::find($id);
+        return view('productCategorys.edit',['PC'=>$PC]);
     }
 
     /**
@@ -91,7 +93,12 @@ class ProductCategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $PC=ProductCategory::find($id);
+        $PC->name = $request->name;
+        $PC->content = $request->content;
+        $PC->save();
+
+        return redirect()->route('productCategory.index');
     }
 
     /**
