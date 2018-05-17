@@ -12,13 +12,10 @@
 {{Html::style('css/_navbar.css')}}
 {{Html::style('css/_footer.css')}}
 <style>
-	@import url(//fonts.googleapis.com/earlyaccess/notosanskannada.css);
-	*{
-            position: relative;
-            box-sizing: border-box;
-    }
-    body{
-    	/*font-family: 'Noto Sans Kannada', sans-serif;*/
+  *{
+      position: relative;
+      box-sizing: border-box;
+      font-family: Arial,Microsoft JhengHei,黑体,宋体,sans-serif;
     }
     .wrapper{
     	overflow: hidden;

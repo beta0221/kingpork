@@ -1,0 +1,35 @@
+.process{
+	width: 100%;
+	text-align: center;
+}
+.process p{
+	margin-bottom: 0px;
+}
+.process img{
+	width: 100%;
+}
+.process-4{
+	width: calc(100% / 5);
+	float: left;
+	margin: 0;
+}
+.process-4 img{
+	transform: scale(0.3);
+}
+.process-g{
+	width: calc(100% / 15);
+	float: left;
+}
+.process-bg{
+	position: absolute;
+	background-color: rgba(0,0,0,0.3);
+	width: 65%;
+	height: 65%;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%,-50%);
+	border-radius: 50%;
+}
+.processing{
+	background-color: #d9534f;
+}

@@ -149,42 +149,42 @@ $(document).ready(function(){
 	});
 	function checkForm(){
 		var unFinished = 0;
-		$('.alert').empty()
+		$('.alert-field').empty()
 
 		if(!$('#pay_by_credit').is(':checked') && !$('#pay_by_atm').is(':checked') && !$('#pay_by_cod').is(':checked')){
-			$('.alert').append('<strong>請選擇付款方式</strong><br>');
+			$('.alert-field').append('<strong>請選擇付款方式</strong><br>');
 		}
 		if ($('#ship_name').val() == '') {
 			$('#ship_name').addClass('alerting');
 			
-			$('.alert').append('<strong><font color="red">＊</font>號處不可空白</strong><br>');
+			$('.alert-field').append('<strong><font color="red">＊</font>號處不可空白</strong><br>');
 			unFinished = 1;
 		}
 		if ($('#ship_email').val() == '') {
 			$('#ship_email').addClass('alerting');
 			if (unFinished == 0) {
-				$('.alert').append('<strong><font color="red">＊</font>號處不可空白</strong><br>');
+				$('.alert-field').append('<strong><font color="red">＊</font>號處不可空白</strong><br>');
 				unFinished = 1;
 			}
 		}
 		if ($('#ship_phone').val() == '') {
 			$('#ship_phone').addClass('alerting');
 			if (unFinished == 0) {
-				$('.alert').append('<strong><font color="red">＊</font>號處不可空白</strong><br>');
+				$('.alert-field').append('<strong><font color="red">＊</font>號處不可空白</strong><br>');
 				unFinished = 1;
 			}
 		}
 		if ($('#ship_county').val() == '') {
 			$('#ship_county').addClass('alerting');
 			if (unFinished == 0) {
-				$('.alert').append('<strong><font color="red">＊</font>號處不可空白</strong><br>');
+				$('.alert-field').append('<strong><font color="red">＊</font>號處不可空白</strong><br>');
 				unFinished = 1;
 			}
 		}
 		if ($('#ship_address').val() == '') {
 			$('#ship_address').addClass('alerting');
 			if (unFinished == 0) {
-				$('.alert').append('<strong><font color="red">＊</font>號處不可空白</strong><br>');
+				$('.alert-field').append('<strong><font color="red">＊</font>號處不可空白</strong><br>');
 				unFinished = 1;
 			}
 		}
@@ -193,21 +193,21 @@ $(document).ready(function(){
 			// if ($('#ship_three_name').val()=='') {
 			// 	$('#ship_three_name').addClass('alerting');
 			// 	if (unFinished == 0) {
-			// 		$('.alert').append('<strong><font color="red">＊</font>號處不可空白</strong><br>');
+			// 		$('.alert-field').append('<strong><font color="red">＊</font>號處不可空白</strong><br>');
 			// 		unFinished = 1;
 			// 	}
 			// }
 			if ($('#ship_three_id').val()=='') {
 				$('#ship_three_id').addClass('alerting');
 				if (unFinished == 0) {
-					$('.alert').append('<strong><font color="red">＊</font>號處不可空白</strong><br>');
+					$('.alert-field').append('<strong><font color="red">＊</font>號處不可空白</strong><br>');
 					unFinished = 1;
 				}
 			}
 			if ($('#ship_three_company').val()=='') {
 				$('#ship_three_company').addClass('alerting');
 				if (unFinished == 0) {
-					$('.alert').append('<strong><font color="red">＊</font>號處不可空白</strong><br>');
+					$('.alert-field').append('<strong><font color="red">＊</font>號處不可空白</strong><br>');
 					unFinished = 1;
 				}
 			}
@@ -250,7 +250,7 @@ $(document).ready(function(){
 				_method: 'delete',
 			},
 			success: function (response) {
-                alert(response.msg);
+                // alert(response.msg);
                 $('#item'+id).remove();
                 // navbar cart 減一
                 var inKart = parseInt($('#inKart').html()) - 1;
@@ -280,7 +280,12 @@ $(document).ready(function(){
 		$('.kartTable').css('display','none');
 		$('.sureToBuy').css('display','none');
 		$('.shipping').css('display','table');
+		$('#back-kart').css('display','inline-block');
+		$('#h-title').html('填寫寄送資料');
 		$('#payBtn').css('display','inline-block');
+		$('.processing').removeClass('processing');
+		$('.process-2').addClass('processing');
+
 		$.ajax({
 			type:'GET',
 			url:'findMemory',
@@ -315,4 +320,15 @@ $(document).ready(function(){
                 alert('錯誤');
             }
 		});
+	}
+
+	function back_kart(){
+		$('.kartTable').css('display','table');
+		$('.sureToBuy').css('display','inline-block');
+		$('.shipping').css('display','none');
+		$('#back-kart').css('display','none');
+		$('#h-title').html('我的購物車');
+		$('#payBtn').css('display','none');
+		$('.processing').removeClass('processing');
+		$('.process-1').addClass('processing');
 	}

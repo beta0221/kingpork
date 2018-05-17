@@ -36,28 +36,33 @@
 	outline: none;
 }
 #payBtn{
-	border:none;
-	outline: none;
-	cursor: pointer;
-	border-radius: 0.3em;
-	height: 40px;
-	padding-left: 20px;
-	padding-right: 20px;
-	margin-left: 20px;
-	color: #fff;
 	box-shadow: 2px 2px 16px 2px rgba(0, 0, 0, 0.3);
-	background: linear-gradient(0deg,rgba(225,139,31,0.6),rgba(225,139,31,1));
+	cursor: pointer;
+	width: 160px;
+	height: 80px;
+	font-size: 22px;
+	line-height: 80px;
+	padding: 0;
+	text-align: center;
+	background-color: #ec971f;
+	border-radius: 0.25rem;
+	color: #fff;
 }
 .delBtn:hover,#payBtn:hover{
 	box-shadow: 2px 2px 16px 2px rgba(0, 0, 0, 0.5);
+}
+.kartForm{
+	border:1pt solid rgba(0,0,0,0.5);
+	border-radius: 0.3rem;
+	/*box-shadow: 2px 2px 16px 2px rgba(0, 0, 0, 0.3);*/
 }
 .kartTable td,.kartTable th{
 	height: 80px;
 	vertical-align: middle;
 	padding: 20px 0 20px 0;
 }
-.kartTable tr{
-	border-bottom: 1pt solid rgba(0,0,0,0.1);
+.product-TR{
+	border-top: 1pt solid rgba(0,0,0,0.5);
 }
 .littleIMG{
 	height: 100%;
@@ -68,11 +73,12 @@
 #payBtn,.shipping{
 	display: none;
 }
-/*.sureToBuy,.kartTable{
-	display: none;
-}*/
+.sureToBuy{
+	cursor: pointer;
+}
 .shipping{
 	width: 100%;
+	margin:8px 0 20px 0;
 }
 .shipping input{
 	display: inline-block;
@@ -85,7 +91,8 @@
 	width: 100%;
 }
 .shipping label{
-	width: 14%;
+	width: 15%;
+	margin-left: 8px;
 }
 .radio{
 	margin:0 4px 0 4px;
@@ -110,14 +117,15 @@
 .required{
 	color: red;
 }
-.alert{
+.alert-field{
 	position: absolute;
 	left: 0;
 	bottom: 0%;
-	width: 100%;
+	width: 50%;
 	height: 56px;
 	padding: 0;
 	text-align: center;
+	margin-bottom: 40px;
 }
 .alerting{
 	border:2pt solid red;
@@ -163,7 +171,12 @@
 #myBonus{
 	width: 20%;
 }
+#back-kart{
+	display: none;
+	cursor: pointer;
+}
 </style>
+{{Html::style('css/_process.css')}}
 @endsection
 
 @section('content')
@@ -178,7 +191,46 @@
 						<h1 style="">您的購物車中目前沒有商品</h1>	
 					</div>
 				@else
+				<ul class="process">
+					<li class="process-4">
+						<div class="process-bg process-1 processing"></div>
+						<img src="{{asset('images/step-1-1.png')}}">
+					</li>
+					<li class="process-g">
+						<img src="{{asset('images/arrow-right.png')}}">
+					</li>
+					<li class="process-4">
+						<div class="process-bg process-2"></div>
+						<img src="{{asset('images/step-1-2.png')}}">
+					</li>
+					<li class="process-g">
+						<img src="{{asset('images/arrow-right.png')}}">
+					</li>
+					<li class="process-4">
+						<div class="process-bg"></div>
+						<img src="{{asset('images/step-1-3.png')}}">
+					</li>
+					<li class="process-g">
+						<img src="{{asset('images/arrow-right.png')}}">
+					</li>
+					<li class="process-4">
+						<div class="process-bg"></div>
+						<img src="{{asset('images/step-1-4.png')}}">
+					</li>
+				</ul>
+				<ul class="process">
+					<il class="process-4"><p>STEP.1</p><p>放入購物車</p></il>
+					<il class="process-g">　</il>
+					<il class="process-4"><p>STEP.2</p><p>填寫寄送資料</p></il>
+					<il class="process-g">　</il>
+					<il class="process-4"><p>STEP.3</p><p>結帳付款</p></il>
+					<il class="process-g">　</il>
+					<il class="process-4"><p>STEP.4</p><p>完成，貨物送出</p></il>
+				</ul>
 
+				<p>　</p>
+				<h3 id="h-title" style="text-align: center;margin: 0 0 10px 0;">我的購物車</h3>
+				<div onclick="back_kart();" id="back-kart" class="btn btn-primary mb-2">回購物車</div>
 
 				<form class="kartForm" action="{{route('bill.store')}}" method="POST">
 				{{csrf_field()}}
@@ -191,7 +243,7 @@
 							<th></th>
 						</tr>
 						@foreach($products as $product)
-						<tr id="item{{$product->id}}">
+						<tr class="product-TR" id="item{{$product->id}}">
 							<td style="width: 80px;overflow: hidden;">
 								<div style="width: 80px;height: 80px;">
 									<img class="littleIMG" src="{{asset('images/productsIMG') . '/' . $product->image}}" alt="">
@@ -217,7 +269,7 @@
 						</tr>
 						@endforeach
 					</table>	
-						
+					
 					<table class="shipping">
 						<tr>
 							<td>
@@ -347,13 +399,15 @@
 						<div onclick="sureToBuy()" class="sureToBuy btn btn-primary" style="margin:0 0 0 20px;">
 							確定購買
 						</div>
-						<div onclick="checkForm();" id="payBtn" class="btn">送出訂單</div>
+
+						<div onclick="checkForm();" id="payBtn" class="ml-3">送出訂單</div>
+						
 						
 					</div>
 				</form>
 					
 				@endif
-				<div class="alert"></div>
+				<div class="alert-field"></div>
 			</div>
 		</div>
 	</div>
