@@ -140,14 +140,14 @@ td,th{
 						<img src="{{asset('images/arrow-right.png')}}">
 					</li>
 					<li class="process-4">
-						<div class="process-bg processing"></div>
+						<div class="process-bg {{($finalBill['status']==0 && $finalBill['pay_by'] != '貨到付款')?'processing':''}}"></div>
 						<img src="{{asset('images/step-1-3.png')}}">
 					</li>
 					<li class="process-g">
 						<img src="{{asset('images/arrow-right.png')}}">
 					</li>
 					<li class="process-4">
-						<div class="process-bg process-no4"></div>
+						<div class="process-bg {{($finalBill['status']==1 || $finalBill['pay_by'] == '貨到付款') ? 'processing' : ''}}"></div>
 						<img src="{{asset('images/step-1-4.png')}}">
 					</li>
 				</ul>
@@ -396,8 +396,6 @@ td,th{
 </script>
 @elseif($finalBill['pay_by'] == 'CREDIT' AND $finalBill['status'] ==1)
 <script>
-	$('.processing').removeClass('processing');
-	$('.process-no4').addClass('processing');
 	$.ajaxSetup({
 			headers: {
 		 		'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
