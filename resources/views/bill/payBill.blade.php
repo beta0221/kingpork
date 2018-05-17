@@ -113,6 +113,7 @@ td,th{
   100% { transform: rotate(360deg); }
 }
 </style>
+{{Html::style('css/_process.css')}}
 @endsection
 
 @section('content')
@@ -122,10 +123,45 @@ td,th{
 	<div class="container">
 		<div class="row">
 			<div class="col-md-8 offset-md-2 outter">
+
+				<ul class="process">
+					<li class="process-4">
+						<div class="process-bg process-1"></div>
+						<img src="{{asset('images/step-1-1.png')}}">
+					</li>
+					<li class="process-g">
+						<img src="{{asset('images/arrow-right.png')}}">
+					</li>
+					<li class="process-4">
+						<div class="process-bg process-2"></div>
+						<img src="{{asset('images/step-1-2.png')}}">
+					</li>
+					<li class="process-g">
+						<img src="{{asset('images/arrow-right.png')}}">
+					</li>
+					<li class="process-4">
+						<div class="process-bg processing"></div>
+						<img src="{{asset('images/step-1-3.png')}}">
+					</li>
+					<li class="process-g">
+						<img src="{{asset('images/arrow-right.png')}}">
+					</li>
+					<li class="process-4">
+						<div class="process-bg"></div>
+						<img src="{{asset('images/step-1-4.png')}}">
+					</li>
+				</ul>
+				<ul class="process">
+					<il class="process-4"><p>STEP.1</p><p>放入購物車</p></il>
+					<il class="process-g">　</il>
+					<il class="process-4"><p>STEP.2</p><p>填寫寄送資料</p></il>
+					<il class="process-g">　</il>
+					<il class="process-4"><p>STEP.3</p><p>結帳付款</p></il>
+					<il class="process-g">　</il>
+					<il class="process-4"><p>STEP.4</p><p>完成，貨物送出</p></il>
+				</ul>
+				<p>　</p>
 				
-				{{-- @if(Session::has('success'))
-					{{Session::get('success')}}<br>
-				@endif --}}
 				<div class="thankU">
 					<div class="U-1">
 						<font style="font-size: 32pt;
@@ -310,7 +346,6 @@ td,th{
 				}
 				else if (json.RtnCode == '10200164') {
 					$('.payByBtn').remove();
-					// $('.inner-payBy').append('取得代碼逾時，<br>此訂單將被刪除。');
 					$.ajaxSetup({
 				  		headers: {
 				    		'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
@@ -325,6 +360,7 @@ td,th{
 						},
 						success: function (response) {
 							if (response == '1') {
+								$('.inner-payBy').append('取得代碼逾時，<br>此訂單將被刪除。');
 								setTimeout(function(){
 									window.location.href = '{{route('bill.index')}}';
 								},3000);
