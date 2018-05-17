@@ -147,7 +147,7 @@ td,th{
 						<img src="{{asset('images/arrow-right.png')}}">
 					</li>
 					<li class="process-4">
-						<div class="process-bg"></div>
+						<div class="process-bg process-n04"></div>
 						<img src="{{asset('images/step-1-4.png')}}">
 					</li>
 				</ul>
@@ -404,7 +404,11 @@ td,th{
 		},
 		success: function (response) {
 			if (response == 's') {
-				alert('電子確認信已寄出，內含您的購買明細。');
+				$('.processing').removeClass('processing');
+				$('.process-no4').addClass('processing');
+				setTimeout(function(){
+					alert('電子確認信已寄出，內含您的購買明細。');
+				},10);
 			}
 		},
 		error: function () {
