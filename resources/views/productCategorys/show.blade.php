@@ -302,10 +302,7 @@
 			url:'{{url('products')}}' +'/' + id,
 			dataType:'json',
 			success: function (response) {
-
-                $('.aboutContent').empty().append(response.content);
                 $('#productIMG').attr('src','{{asset('images/productsIMG') . '/'}}'+response.image);
-
             },
             error: function () {
                 // alert('錯誤');
