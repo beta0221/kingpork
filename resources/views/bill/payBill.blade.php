@@ -147,7 +147,7 @@ td,th{
 						<img src="{{asset('images/arrow-right.png')}}">
 					</li>
 					<li class="process-4">
-						<div class="process-bg process-n04"></div>
+						<div class="process-bg process-no4"></div>
 						<img src="{{asset('images/step-1-4.png')}}">
 					</li>
 				</ul>
@@ -247,15 +247,21 @@ td,th{
 			<div class="payBy">
 				<div class="inner-payBy">
 					@if($finalBill['pay_by'] == 'ATM' && $finalBill['SPToken'] != null)
-					<button class="payByBtn btn btn-primary" onclick="checkOut('ATM')">取得繳費帳號</button>
-					
+
+						<button class="payByBtn btn btn-primary" onclick="checkOut('ATM')">取得繳費帳號</button>
 
 					@elseif($finalBill['pay_by'] == '貨到付款')
-					<a href="{{url('/')}}" style="color: white;" class="payByBtn btn btn-success">回首頁</a>
+
+						<a href="{{url('/')}}" style="color: white;" class="payByBtn btn btn-success">回首頁</a>
+
 					@elseif($finalBill['pay_by'] == 'CREDIT' AND $finalBill['status'] ==1)
-					<a href="{{url('/')}}" style="color: white;" class="payByBtn btn btn-success">回首頁</a>
+
+						<a href="{{url('/')}}" style="color: white;" class="payByBtn btn btn-success">回首頁</a>
+
 					@elseif($finalBill['pay_by'] == 'CREDIT')
-					<button class="payByBtn btn btn-primary" onclick="creditSubmit();">前往繳費</button>
+
+						<button class="payByBtn btn btn-primary" onclick="creditSubmit();">前往繳費</button>
+
 					@endif
 				</div>
 			</div>
@@ -390,6 +396,8 @@ td,th{
 </script>
 @elseif($finalBill['pay_by'] == 'CREDIT' AND $finalBill['status'] ==1)
 <script>
+	$('.processing').removeClass('processing');
+	$('.process-no4').addClass('processing');
 	$.ajaxSetup({
 			headers: {
 		 		'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
@@ -404,8 +412,6 @@ td,th{
 		},
 		success: function (response) {
 			if (response == 's') {
-				$('.processing').removeClass('processing');
-				$('.process-no4').addClass('processing');
 				setTimeout(function(){
 					alert('電子確認信已寄出，內含您的購買明細。');
 				},10);
