@@ -25,7 +25,7 @@
 	<div class="contentPage">
 		<div class="container">
 			<div class="row">
-				<div class="col-md-8 offset-md-2">
+				<div class="col-md-10 offset-md-1">
 					<form action="{{route('productCategory.update',$PC->id)}}" method="POST">
 						<input name="_method" type="hidden" value="PUT">
 						{{ csrf_field() }}

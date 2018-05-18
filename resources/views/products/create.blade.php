@@ -53,7 +53,7 @@
 							{{-- <label for="content">內容：</label>
 							<textarea type="text" name="content"></textarea> --}}
 
-							<button style="float: right;cursor: pointer;" class="btn btn-primary mt-3" type="submit">
+							<button style="float: right;cursor: pointer;" class="btn btn-success btn-block mt-4" type="submit">
 								發布
 							</button>
 						</form>

@@ -52,8 +52,8 @@
 			<th scope="col">每片單價</th>
 			<th scope="col">價格</th>
 			<th scope="col">紅利</th>
-			<th scope="col">內容</th>
-			<th scope="col">-</th>
+			{{-- <th scope="col">內容</th> --}}
+			{{-- <th scope="col">-</th> --}}
 			<th scope="col">-</th>
 			<th scope="col">-</th>
 		</tr>
@@ -72,14 +72,13 @@
 			<td>{{$product->format}}</td>
 			<td>{{$product->price}}</td>
 			<td>{{$product->bonus}}</td>
-			<td>
+			{{-- <td>
 				{{substr(strip_tags($product->content),0,50)}}
 				{{strlen(strip_tags($product->content)) > 50 ? '...' : ''}}
-			</td>
-			<td>
+			</td> --}}
+			{{-- <td>
 				<button onclick="show({{$product->id}})" style="cursor:pointer;" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#exampleModal">瀏覽</button>
-				{{-- {{ route('products.show' , $product->id ) }} --}}
-			</td>
+			</td> --}}
 			<td>
 				<a class="btn btn-sm btn-warning" href="{{ route('products.edit', $product->id)}}">編輯</a>
 			</td>

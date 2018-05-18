@@ -44,10 +44,10 @@
 				<br>
 				
 				
-				{{Form::label('content','內容：')}}
-				{{Form::textarea('content',null,['class'=>'form-control'])}}
+				{{-- {{Form::label('content','內容：')}}
+				{{Form::textarea('content',null,['class'=>'form-control'])}} --}}
 				<br>
-				{{Form::submit('更新',['class'=>'btn btn-primary','style'=>'float: right;cursor: pointer;'])}}
+				{{Form::submit('更新',['class'=>'btn btn-success btn-block','style'=>'float: right;cursor: pointer;'])}}
 				{!! Form::close() !!}
 			</div>			
 		</div>
@@ -59,7 +59,7 @@
 @endsection
 
 @section('scripts')
-{{ Html::script('js/tinymce/tinymce.min.js') }}
+{{-- {{ Html::script('js/tinymce/tinymce.min.js') }}
 <script>
 	tinymce.init({ 
 		selector:'textarea',
@@ -76,5 +76,5 @@
   		relative_urls: false,
   		font_formats: 'Arial=arial,helvetica,sans-serif;Courier New=courier new,courier,monospace;AkrutiKndPadmini=Akpdmi-n'
 	});
-</script>
+</script> --}}
 @endsection
