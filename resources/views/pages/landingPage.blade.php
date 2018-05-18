@@ -21,6 +21,7 @@
 
 {{-- products start --}}
 <div class="productArea container">
+	<h2 style="text-align: center;margin-bottom: 20px;letter-spacing: 4px;">我要購買<span style="margin: 0 12px 0 12px;">/</span>GO SHOPPING</h2>
 	<div class="row">
 		<div class="product col-md-4">
 			<div class="P- P-pork"><a href="{{route('productCategory.show',1)}}"><img src="{{asset('images/productsIMG/pork.jpg')}}" alt=""></a></div>
@@ -73,7 +74,7 @@
 			<div class="col-md-12">
 				
 				<div class="howtoOrder">
-					<h1>如何購買<span>/</span>HOW TO ORDER</h1>
+					<h2>如何購買<span>/</span>HOW TO ORDER</h2>
 					<div class="orderBar">
 						<div class="stepsBox">
 							<div class="steps" id="step1">

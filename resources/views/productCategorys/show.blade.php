@@ -10,11 +10,15 @@
 /*-----------------------------------------------*/
 .productIMG{
 	/*border:1pt solid #000;*/
+	overflow: hidden;
 	width: 100%;
 	padding-top:100%;
 	border-radius: 0.3em;
 	box-shadow: 4px 4px 16px 2px rgba(0, 0, 0, 0.15);
-	overflow: hidden;
+}
+#productIMG{
+	border-radius:0.3em;
+
 }
 .productItem{
 	height: 56px;
@@ -57,7 +61,7 @@
 	top: 0;
 }
 .hr{
-	margin: 40px 0 40px 0;
+	margin: 60px 0 60px 0;
 }
 .addToKartBtn{
 	position: absolute;
@@ -158,27 +162,30 @@
 	border:4pt solid rgba(195,28,34,1);;
 }
 .P-pork::before{
-	content: "排骨";
+	content: "厚切排骨";
 	color: #fff;
-	font-size: 22pt;
+	font-size: 28pt;
+	letter-spacing: 4px;
 	left: 16px;
 	top: 8px;
 	position: absolute;
 	z-index: 1;
 }
 .P-both::before{
-	content: "幸福雙響";
+	content: "雙響組合";
 	color: #fff;
-	font-size: 22pt;
+	font-size: 28pt;
+	letter-spacing: 4px;
 	left: 16px;
 	top: 8px;
 	position: absolute;
 	z-index: 1;
 }
 .P-chicken::before{
-	content: "雞腿";
+	content: "鮮嫩雞腿排";
 	color: #fff;
-	font-size: 22pt;
+	font-size: 28pt;
+	letter-spacing: 4px;
 	left: 16px;
 	top: 8px;
 	position: absolute;
