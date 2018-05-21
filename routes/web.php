@@ -30,6 +30,7 @@ Route::resource('productCategory','ProductCategoryController');
 Route::resource('kart','kartController',['only'=>['index','store','destroy']]);
 Route::post('inKart','kartController@inKart')->name('getInKart');//for api
 Route::get('checkIfKart/{product}','kartController@checkIfKart');
+Route::get('ajaxShowIndex','kartController@ajaxShowIndex');
 
 //Bill routes
 Route::resource('bill','BillController');

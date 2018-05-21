@@ -19,7 +19,7 @@
 <a href="{{route('products.create')}}" class="btn btn-success btn-sm mt-2 mb-2 ml-3 mr-3" style="color: #fff;cursor: pointer;">新增產品</a>
 		
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+{{-- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -36,7 +36,7 @@
       </div>
     </div>
   </div>
-</div>
+</div> --}}
 {{-- Modal --}}
 
 
@@ -99,33 +99,32 @@
 
 @section('scripts')
 <script>
-		function show(id){
-			$('.modal-body').empty();
-			$('.modal-title').empty();
-			$.ajaxSetup({
-	  			headers: {
-	    			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-	  			}
-			});
-			$.ajax({
+	// function show(id){
+	// 	$('.modal-body').empty();
+	// 	$('.modal-title').empty();
+	// 	$.ajaxSetup({
+ //  			headers: {
+ //    			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+ //  			}
+	// 	});
+	// 	$.ajax({
 
-				type:'GET',
-				url:'{{url('products')}}' +'/' + id,
-				dataType:'json',
-				success: function (response) {
-					$('.modal-body').append(response.content);
-					$('.modal-title').append(response.name);
-				},
-				error: function () {
-	                alert('錯誤');
-	            },
-			});	
-
-		};
-	</script>
-	<script type="text/javascript">
+	// 		type:'GET',
+	// 		url:'/products/' + id,
+	// 		dataType:'json',
+	// 		success: function (response) {
+	// 			$('.modal-body').append(response.content);
+	// 			$('.modal-title').append(response.name);
+	// 		},
+	// 		error: function () {
+ //                alert('錯誤');
+ //            },
+	// 	});	
+	// };
+</script>
+	{{-- <script type="text/javascript">
 		$('#myModal').on('shown.bs.modal', function () {
 		  $('#myInput').trigger('focus');
 		})
-	</script>
+	</script> --}}
 @endsection

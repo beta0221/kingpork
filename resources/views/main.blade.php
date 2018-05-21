@@ -59,7 +59,7 @@ $(document).ready(function(){
           $('#inKart').append(response.msg);
        },
        error: function (data) {
-          alert('Cart api error');
+          // alert('Cart api error');
        }
   });
 
@@ -71,11 +71,58 @@ $(document).ready(function(){
           $('.runner').append(response);
        },
        error: function (data) {
-          
        }
   });
     
 });
+function ajaxShowKart(){
+  $('.item_class').remove();
+  $.ajax({
+    type:'GET',
+    url:'/ajaxShowIndex',
+    dataType:'json',
+    success: function (response) {
+        $.each(response,function(index,product){
+          $('.modal-body-table').append('<tr class="item_class" id="item_'+product.id+'"><td><img src="'+ '{{asset('images/productsIMG')}}'+'/'+product.image+'"></td><td>'+product.name+'</td><td>'+product.price+'</td><td><button class="btn btn-sm btn-danger" onclick="delete_item('+product.id+');">刪除</button></td></tr>');
+
+        });
+       },
+       error: function (data) {
+        alert('error');
+       }
+  });
+}
+function delete_item(id){
+  $.ajax({
+    type:'POST',
+    url:'/kart/'+id,
+    dataType:'json',
+    data: {
+      _method: 'delete',
+    },
+    success: function (response) {
+              
+              $('#item_'+id).remove();
+              $('#item'+id).remove();
+              $('#add_'+id).empty().append('加入<img src="{{asset('images/cart.png')}}">');
+              $('#add_'+id).removeClass('deleteKartBtn')
+              $('#add_'+id).attr('onclick','addToKart('+id+')');
+              // navbar cart 減一
+              var inKart = parseInt($('#inKart').html()) - 1;
+              $('#inKart').empty().append(inKart);
+
+              uploadSum();
+          },
+          error: function () {
+              alert('無法從購物車中刪除');
+          }
+  });
+}
+</script>
+<script type="text/javascript">
+  $('#myModal').on('shown.bs.modal', function () {
+    $('#myInput').trigger('focus');
+  })
 </script>
 @yield('scripts')
 </html>

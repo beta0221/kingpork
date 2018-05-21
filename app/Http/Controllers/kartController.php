@@ -14,7 +14,7 @@ use Session;
 
 class kartController extends Controller
 {
-    public function inKart(Request $request){
+    public function inKart(Request $request){ //計算數量
 
         if(Auth::user()){
             $kart = Kart::all()->where('user_id', Auth::user()->id);
@@ -29,8 +29,6 @@ class kartController extends Controller
                 
                 $inKart=count(json_decode($sessionCart->item));
 
-
-
                 return response()->json(['msg'=>$inKart]);
 
             }else{
@@ -41,7 +39,7 @@ class kartController extends Controller
          
     }
 
-    public function checkIfKart(Request $request ,$id)
+    public function checkIfKart(Request $request ,$id) //判斷是否已經加入
     {
         if (Auth::user()) {
         
@@ -79,6 +77,34 @@ class kartController extends Controller
 
     }
 
+    public function ajaxShowIndex() //ajax 呼叫 modal 顯示購物車中的內容
+    {
+        if (Auth::user()) {
+            
+            $kart = Kart::where('user_id', Auth::user()->id)->get();
+            $shit = [];
+            $i = 0;
+            foreach ($kart as $k) {
+                $shit[$i] = $k->product_id;
+                $i++;
+            }
+            $products = Products::whereIn('id', $shit)->get();
+            return response()->json($products);
+        }else{
+            $ip_address = request()->ip();
+            $sessionCart = sessionCart::where('ip_address',$ip_address)->first();
+            if ($sessionCart) {
+                $products = Products::whereIn('id', json_decode($sessionCart->item))->get();
+                return response()->json($products);
+            }else{
+
+            }
+            
+        }
+    }
+
+
+
     /**
      * Display a listing of the resource.
      *
@@ -88,21 +114,20 @@ class kartController extends Controller
     {
         if(Auth::user()){
             
-            $kart = Kart::all()->where('user_id', Auth::user()->id);
+            $kart = Kart::where('user_id', Auth::user()->id)->get();
             $shit = [];
             $i = 0;
             foreach ($kart as $k) {
                 $shit[$i] = $k->product_id;
                 $i++;
             }
-            $products = DB::table('products')->whereIn('id', $shit)->get();
+            $products = Products::whereIn('id', $shit)->get();
             return view('kart.index',['products'=>$products]);
 
         }
         else{
             return view('auth.reg-buy');
         }
-        
 
     }
 
@@ -158,9 +183,7 @@ class kartController extends Controller
                 $sessionCart->save();
             }
             
-            
             return response()->json('success');
-
     
         }
     }

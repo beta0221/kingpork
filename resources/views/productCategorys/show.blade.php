@@ -297,13 +297,46 @@
 
 @section('scripts')
 <script>
-	function showProduct(id){
+	$(document).ready(function(){
 
 		$.ajaxSetup({
   			headers: {
     			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
   			}
 		});
+
+		$('.productItem').click(function(){			//點擊後加入nowItem Class
+			$('.nowItem').removeClass('nowItem');
+			$(this).addClass('nowItem');
+		});
+
+		$('.addToKartBtn').each(function(){
+			var id = $(this).attr('product_id');
+			
+			$.ajax({
+				type:'GET',
+				url:'/checkIfKart/'+$(this).attr('product_id'),
+				dataType:'json',
+				success: function (response) {
+					if (response.msg == true) {
+						$('#add_'+id).empty().append('取消<img src="{{asset('images/cart.png')}}">');
+						$('#add_'+id).addClass('deleteKartBtn');
+						$('#add_'+id).attr('onclick','deleteFromKart('+id+')');
+					}
+	            },
+	            error: function () {
+	                // alert('錯誤');
+	            },
+			});
+		});
+		setTimeout(function(){
+			$('.addToKartBtn').css('display','block');
+		},500);
+		
+	});
+
+	function showProduct(id){
+
 		$.ajax({
 			type:'GET',
 			url:'{{url('products')}}' +'/' + id,
@@ -319,11 +352,7 @@
 	};
 
 	function addToKart(id){
-		$.ajaxSetup({
-  			headers: {
-    			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-  			}
-		});
+		
 		$.ajax({
 			type:'POST',
 			url:'{{route('kart.store')}}',
@@ -354,11 +383,7 @@
 	}
 
 	function deleteFromKart(id){
-		$.ajaxSetup({
-  			headers: {
-    			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-  			}
-		});
+		
 		$.ajax({
 			type:'POST',
 			url:'/kart/'+id,
@@ -368,7 +393,7 @@
 			},
 			success: function (response) {
                 if (response.status == 1) {
-                	 $('#add_'+id).empty().append('加入<img src="{{asset('images/cart.png')}}">');
+                	$('#add_'+id).empty().append('加入<img src="{{asset('images/cart.png')}}">');
 	                $('#add_'+id).removeClass('deleteKartBtn')
 	                $('#add_'+id).attr('onclick','addToKart('+id+')');
                 	// navbar cart 減一
@@ -383,35 +408,5 @@
 		});
 	}
 
-$(document).ready(function(){
-	$('.productItem').click(function(){			//點擊後加入nowItem Class
-		$('.nowItem').removeClass('nowItem');
-		$(this).addClass('nowItem');
-	});
-
-	$('.addToKartBtn').each(function(){
-		var id = $(this).attr('product_id');
-		
-		$.ajax({
-			type:'GET',
-			url:'/checkIfKart/'+$(this).attr('product_id'),
-			dataType:'json',
-			success: function (response) {
-				if (response.msg == true) {
-					$('#add_'+id).empty().append('取消<img src="{{asset('images/cart.png')}}">');
-					$('#add_'+id).addClass('deleteKartBtn');
-					$('#add_'+id).attr('onclick','deleteFromKart('+id+')');
-				}
-            },
-            error: function () {
-                // alert('錯誤');
-            },
-		});
-	});
-	setTimeout(function(){
-		$('.addToKartBtn').css('display','block');
-	},500);
-	
-});
 </script>
 @endsection
