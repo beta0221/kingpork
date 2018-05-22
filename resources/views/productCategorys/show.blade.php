@@ -153,8 +153,8 @@
 .catImg:hover{
 	filter:opacity(100%);
 }
-.catImg>img{
-	max-width: 100%;
+.catImg img{
+	width: 100%;
 	top: -50%;
 }
 #currentCat{
@@ -166,8 +166,8 @@
 	color: #fff;
 	font-size: 28pt;
 	letter-spacing: 4px;
-	left: 16px;
-	top: 8px;
+	left: 18px;
+	top: 12px;
 	position: absolute;
 	z-index: 1;
 }
@@ -176,8 +176,8 @@
 	color: #fff;
 	font-size: 28pt;
 	letter-spacing: 4px;
-	left: 16px;
-	top: 8px;
+	left: 18px;
+	top: 12px;
 	position: absolute;
 	z-index: 1;
 }
@@ -186,8 +186,8 @@
 	color: #fff;
 	font-size: 28pt;
 	letter-spacing: 4px;
-	left: 16px;
-	top: 8px;
+	left: 18px;
+	top: 12px;
 	position: absolute;
 	z-index: 1;
 }
@@ -222,7 +222,7 @@
 			<div class="col-md-4">
 				<div id="{{Request::is('productCategory/1') ? 'currentCat' : ''}}" class="catImg P-pork">
 					<a href="{{route('productCategory.show',1)}}">
-						<img src="{{asset('images/productsIMG/both.jpg')}}" alt="">	
+						<img src="{{asset('images/productsIMG/pork.png')}}" alt="">	
 					</a>
 				</div>
 				
@@ -230,7 +230,7 @@
 			<div class="col-md-4">
 				<div id="{{Request::is('productCategory/3') ? 'currentCat' : ''}}" class="catImg P-both">
 					<a href="{{route('productCategory.show',3)}}">
-						<img src="{{asset('images/productsIMG/both.jpg')}}" alt="">	
+						<img src="{{asset('images/productsIMG/both.png')}}" alt="">	
 					</a>
 				</div>
 				
@@ -238,7 +238,7 @@
 			<div class="col-md-4">
 				<div id="{{Request::is('productCategory/2') ? 'currentCat' : ''}}" class="catImg P-chicken">
 					<a href="{{route('productCategory.show',2)}}">
-						<img src="{{asset('images/productsIMG/chicken.jpg')}}" alt="">
+						<img src="{{asset('images/productsIMG/chicken.png')}}" alt="">
 					</a>
 				</div>
 			</div>
@@ -247,7 +247,7 @@
 		<div class="row">
 			<div class="col-md-6">
 				<div class="productIMG">
-					<img id="productIMG" src="{{asset('images/productsIMG') . '/'}}{{Request::is('productCategory/1') ? 'pork.jpg' : ''}}{{Request::is('productCategory/3') ? 'both.jpg' : ''}}{{Request::is('productCategory/2') ? 'chicken.jpg' : ''}}" alt="">
+					<img id="productIMG" src="{{asset('images/productsIMG') . '/'}}{{Request::is('productCategory/1') ? 'pork.png' : ''}}{{Request::is('productCategory/3') ? 'both.png' : ''}}{{Request::is('productCategory/2') ? 'chicken.png' : ''}}" alt="">
 				</div>
 			</div>
 			<div class="col-md-6">

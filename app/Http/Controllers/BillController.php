@@ -35,9 +35,9 @@ class BillController extends Controller
      */
     public function index()
     {
+
+        $records = Bill::where('user_id',Auth::user()->id)->orderBy('id','desc')->get();
         
-        $records = Bill::where('user_id',Auth::user()->id)->get();
-        // ->orderBy('created_at', 'desc')   
         if (count($records) == 0) {
             return('沒有訂單');
         }
@@ -50,7 +50,38 @@ class BillController extends Controller
         }
         $products = [];
         $finalBill = [];
-        for ($x=0; $x < count($records); $x++) { 
+
+        $set_amount=6;  //一頁要顯示幾筆資料
+        $rows_amount=count($records);
+
+
+        if (isset($_GET['p'])) {
+            $page = $_GET['p'];
+        }else{
+            $page = 1;
+        }
+
+        if ($rows_amount > $set_amount) {     //超過6筆就只抓6筆
+            
+            $rows_amount = $set_amount;
+            
+            $row_from = 0 + $set_amount*($page-1); 
+
+            if (count($records) > $page*$set_amount) {
+                $row_to = $set_amount + $set_amount*($page-1);
+            }else{
+                $row_to = count($records);
+            }
+                
+
+        }else{
+            $row_from = 0;
+            $row_to = $rows_amount;
+        }
+
+
+        
+        for ($x=$row_from; $x < $row_to; $x++) {
             for ($y=0; $y < count($bill[$x]); $y++) { 
                 $products[$x][$y]=Products::where('slug',$bill[$x][$y]['slug'])->get();
                 $finalBills[$x][$y] = [
@@ -69,7 +100,7 @@ class BillController extends Controller
                 ];
             }
         }
-        return view('bill.index',['finalBills'=>$finalBills]);
+        return view('bill.index',['finalBills'=>$finalBills,'rows_amount'=>count($records),'page'=>$page]);
 
     }
 

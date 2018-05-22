@@ -46,6 +46,23 @@ td,th{
 .item-tr{
 	height: 48px;
 }
+.pagination-bar{
+	margin-top: 40px;
+	text-align: center;
+}
+.pagination-bar a{
+	display: inline-block;
+	background-color: rgba(0,0,0,0.4);
+	width: 32px;
+	color: #fff;
+	text-decoration: none;
+	border-radius: 0.25rem;
+	margin: 0 2px 0 2px;
+}
+.pagination-bar .now-pagination{
+	background-color: #0275d8;
+	transform: scale(1.2);
+}
 </style>
 @endsection
 
@@ -88,7 +105,8 @@ td,th{
 						<th>-</th>
 					</tr>
 
-					@foreach(array_reverse($finalBills) as $billX)
+					{{-- @foreach(array_reverse($finalBills) as $billX) --}}
+					@foreach($finalBills as $billX)
 
 						<tr class="bill-tr">
 
@@ -153,7 +171,14 @@ td,th{
 				
 
 				</table>
-			
+				
+				@if($rows_amount > 6)
+					<div class="pagination-bar">
+					@for($i = 1;$i <= ceil($rows_amount/6);$i++)
+						<a class="{{($page==$i)?'now-pagination':''}}" href="{{Request::url()}}?p={{$i}}">{{$i}}</a>
+					@endfor
+					</div>
+				@endif
 			</div>
 		</div>
 	</div>
