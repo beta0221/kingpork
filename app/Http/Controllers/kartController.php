@@ -97,7 +97,7 @@ class kartController extends Controller
                 $products = Products::whereIn('id', json_decode($sessionCart->item))->get();
                 return response()->json($products);
             }else{
-
+                return response()->json('new');
             }
             
         }
