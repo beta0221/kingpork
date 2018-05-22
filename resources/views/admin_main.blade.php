@@ -130,19 +130,19 @@
   </ul>
 </div>
 <ul class="sideBar">
-  <li class="sideBar_item {{Request::is('productCategory') ? 'sideBar_now' : ''}}">
+  <li class="sideBar_item {{Request::is('productCategory*') ? 'sideBar_now' : ''}}">
     <a href="{{route('productCategory.index')}}"><img src="{{asset('images/admin_category.png')}}" alt="">產品類別</a>
   </li>
-  <li class="sideBar_item {{Request::is('products') ? 'sideBar_now' : ''}}">
+  <li class="sideBar_item {{Request::is('products*') ? 'sideBar_now' : ''}}">
     <a href="{{route('products.index')}}"><img src="{{asset('images/admin_product.png')}}" alt="">產品管理</a>
   </li>
-  <li class="sideBar_item {{Request::is('banner') ? 'sideBar_now' : ''}}">
+  <li class="sideBar_item {{Request::is('banner*') ? 'sideBar_now' : ''}}">
     <a href="{{route('banner.index')}}"><img src="{{asset('images/admin_wall.png')}}" alt="">轉撥牆管理</a>
   </li>
-  <li class="sideBar_item {{Request::is('order') ? 'sideBar_now' : ''}}">
+  <li class="sideBar_item {{Request::is('order*') ? 'sideBar_now' : ''}}">
     <a href="{{route('order.index')}}"><img src="{{asset('images/admin_delivery.png')}}" alt="">訂單管理</a>
   </li>
-  <li class="sideBar_item {{Request::is('runner') ? 'sideBar_now' : ''}}">
+  <li class="sideBar_item {{Request::is('runner*') ? 'sideBar_now' : ''}}">
     <a href="{{route('runner.index')}}"><img src="{{asset('images/admin_marquee.png')}}" alt="">跑馬燈管理</a>
   </li>
 </ul>
