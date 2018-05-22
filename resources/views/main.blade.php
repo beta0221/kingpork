@@ -88,7 +88,7 @@ function ajaxShowKart(){
       });
     },
     error: function (data) {
-      alert('error');
+      // alert('error');
     }
   });
 }

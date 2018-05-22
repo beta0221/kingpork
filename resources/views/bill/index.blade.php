@@ -63,6 +63,12 @@ td,th{
 	background-color: #0275d8;
 	transform: scale(1.2);
 }
+.some-more-dot{
+	text-align: center;
+	line-height: 0.1px;
+	margin: 8px;
+	font-size: 18px;
+}
 </style>
 @endsection
 
@@ -169,9 +175,10 @@ td,th{
 
 					@endforeach
 				
-
 				</table>
-				
+				@if($page!=ceil($rows_amount/6))
+				<p class="some-more-dot">.</p><p class="some-more-dot">.</p><p class="some-more-dot">.</p>
+				@endif
 				@if($rows_amount > 6)
 					<div class="pagination-bar">
 					@for($i = 1;$i <= ceil($rows_amount/6);$i++)
