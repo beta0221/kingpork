@@ -145,12 +145,11 @@
 	padding: 80px 0 80px 0;
 }
 .post{
-	border:1pt solid #000;
 	height: 0px;
 	width: 100%;
 	padding-top: 33.33333%;
 }
-.post1,.post2,.post3{
+.blog-post{
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -161,6 +160,11 @@
 	background-size: cover;
 	border-radius: 0.3em;
 	filter: opacity(0.7);
+	box-shadow: 4px 4px 16px 2px rgba(0, 0, 0, 1);
+	cursor: pointer;
+}
+.blog-post:hover{
+	filter: opacity(1);
 }
 .pp1::before,.pp2::before,.pp3::before{
 	color: rgba(0,0,0,1);

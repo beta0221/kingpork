@@ -54,13 +54,13 @@
 	<div class="container">
 		<div class="row">
 			<div class="pp1 post col-md-4">
-				<div class="post1"></div>
+				<div class="post1 blog-post"></div>
 			</div>
 			<div class="pp2 post col-md-4">
-				<div class="post2"></div>
+				<div class="post2 blog-post"></div>
 			</div>
 			<div class="pp3 post col-md-4">
-				<div class="post3"></div>
+				<div class="post3 blog-post"></div>
 			</div>
 		</div>
 	</div>

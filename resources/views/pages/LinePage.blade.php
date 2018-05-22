@@ -32,14 +32,6 @@
 </div>
 
 
-
-
-
-
-
-
-
-
 @endsection
 
 @section('scripts')
