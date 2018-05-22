@@ -27,7 +27,6 @@
 }
 .contactUs span{
 	margin: 0 16px 0 16px;
-	color: #c8c8c8;
 }
 .contactUs input{
 	width: 100%;
@@ -57,48 +56,37 @@
 .contactUs p{
 	margin: 4px 0 0 0;
 }
-#button-blue{
-	height: 40px;
-	width: 60px;
-	color: #fff;
-	background-color: rgba(195,28,34,0.7);
-	float: right;
-	border:none;
-	outline: none;
-	cursor: pointer;
-}
-#button-blue:hover{
-	background-color: rgba(195,28,34,0.5);
-}
+
 </style>
 @endsection
 
 
 @section('content')
-
+	
 	<div class="contactUs">
 		  <div class="container">
 		    <div class="row">
 		      <div class="col-xs-12 col-md-8 offset-md-2">
-					<h1 id="contactUs">CONTACT US <span>/</span>聯絡我們</h1>
-		                <form class="form" id="form1" action="" method="post" enctype="text">
-		                    <p class="name">
-		                      <input name="name" type="text" class="feedback-input" placeholder="姓名" id="name" />
-		                    </p>
-		                    <p class="email">
-		                      <input name="email" type="text" class="feedback-input" id="email" placeholder="Email" />
-		                    </p>
-		                    <p class="phone">
-		                      <input name="phone" type="text" class="feedback-input" placeholder="主旨" id="phone" />
-		                    </p>
-		                    <p class="text">
-		                      <textarea name="text" class="feedback-input" id="comment" placeholder="訊息..."></textarea>
-		                    </p>
-		                    <!-- <div class="submit"> -->
-		                      <input type="submit" value="送出" id="button-blue"/>
-		                       <!-- <div class="ease"></div> -->
-		                    <!-- </div> -->
-		               </form>
+				<h1 id="contactUs">聯絡我們<span>/</span>CONTACT US </h1>
+				@if(Session::has('success'))
+				<div class="form-control btn-success mt-4">{{Session('success')}}</div>
+				@endif
+		        <form class="form" id="form1" action="/contactUs" method="post" enctype="text">
+		        	{{csrf_field()}}
+		            <p class="name">
+		              <input name="name" type="text" class="feedback-input" placeholder="姓名" id="name" />
+		            </p>
+		            <p class="email">
+		              <input name="email" type="text" class="feedback-input" id="email" placeholder="Email" />
+		            </p>
+		            <p class="title">
+		              <input name="title" type="text" class="feedback-input" placeholder="主旨" id="title" />
+		            </p>
+		            <p class="text">
+		              <textarea name="text" class="feedback-input" id="comment" placeholder="訊息..."></textarea>
+		            </p>
+		            <input type="submit" value="送 出" class="btn btn-danger btn-block" />
+		        </form>
 		      </div>
 		    </div>
 		    

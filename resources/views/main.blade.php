@@ -70,8 +70,8 @@ $(document).ready(function(){
     success: function (response) {
           $('.runner').append(response);
        },
-       error: function (data) {
-       }
+    error: function (data) {
+    }
   });
     
 });
@@ -82,14 +82,14 @@ function ajaxShowKart(){
     url:'/ajaxShowIndex',
     dataType:'json',
     success: function (response) {
-        $.each(response,function(index,product){
-          $('.modal-body-table').append('<tr class="item_class" id="item_'+product.id+'"><td><img src="'+ '{{asset('images/productsIMG')}}'+'/'+product.image+'"></td><td>'+product.name+'</td><td>'+product.price+'</td><td><button class="btn btn-sm btn-danger" onclick="delete_item('+product.id+');">刪除</button></td></tr>');
+      $.each(response,function(index,product){
+        $('.modal-body-table').append('<tr class="item_class" id="item_'+product.id+'"><td><img src="'+ '{{asset('images/productsIMG')}}'+'/'+product.image+'"></td><td>'+product.name+'</td><td>'+product.price+'</td><td><button class="btn btn-sm btn-danger" onclick="delete_item('+product.id+');">刪除</button></td></tr>');
 
-        });
-       },
-       error: function (data) {
-        alert('error');
-       }
+      });
+    },
+    error: function (data) {
+      alert('error');
+    }
   });
 }
 function delete_item(id){
@@ -102,20 +102,20 @@ function delete_item(id){
     },
     success: function (response) {
               
-              $('#item_'+id).remove();
-              $('#item'+id).remove();
-              $('#add_'+id).empty().append('加入<img src="{{asset('images/cart.png')}}">');
-              $('#add_'+id).removeClass('deleteKartBtn')
-              $('#add_'+id).attr('onclick','addToKart('+id+')');
-              // navbar cart 減一
-              var inKart = parseInt($('#inKart').html()) - 1;
-              $('#inKart').empty().append(inKart);
+        $('#item_'+id).remove();
+        $('#item'+id).remove();
+        $('#add_'+id).empty().append('加入<img src="{{asset('images/cart.png')}}">');
+        $('#add_'+id).removeClass('deleteKartBtn')
+        $('#add_'+id).attr('onclick','addToKart('+id+')');
+        // navbar cart 減一
+        var inKart = parseInt($('#inKart').html()) - 1;
+        $('#inKart').empty().append(inKart);
 
-              uploadSum();
-          },
-          error: function () {
-              alert('無法從購物車中刪除');
-          }
+        uploadSum();
+    },
+    error: function () {
+        alert('無法從購物車中刪除');
+    }
   });
 }
 </script>

@@ -18,8 +18,10 @@
 //page routes
 Route::get('/','PageController@getLanding');
 Route::get('/contact','PageController@getContact')->name('contact');
-Route::get('productPage','PageController@showProductPage')->name('showProductPage');
-Route::get('guide','PageController@guide')->name('guide');
+Route::get('/productPage','PageController@showProductPage')->name('showProductPage');
+Route::get('/guide','PageController@guide')->name('guide');
+Route::post('/contactUs','PageController@contactUs');
+Route::get('/about-line','PageController@aboutLine');
 
 // product routes
 Route::resource('products','ProductController');

@@ -9,10 +9,10 @@
 
     <ul class="navbar-nav mr-auto">
     	<li class="nav-item">
-			<a class="nav-link pr-0" href="#"><img src="{{asset('images/line.png')}}" alt=""></a>
+			<a class="nav-link pr-0" href="{{url('about-line')}}"><img src="{{asset('images/line.png')}}" alt=""></a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link pl-0" href="#"><img src="{{asset('images/facebook.png')}}" alt=""></a>
+			<a class="nav-link pl-0" href="https://www.facebook.com/KINGPORK/" target="_blank"><img src="{{asset('images/facebook.png')}}" alt=""></a>
 		</li>
 		<li class="nav-item">
 			<a class="nav-link {{Request::is('/')?'now-page':''}}" href="{{url('/')}}">首頁</a>
