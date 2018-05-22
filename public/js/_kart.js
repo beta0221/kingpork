@@ -220,15 +220,15 @@ $(document).ready(function(){
 		if ($('#ship_name').val()!=''&&$('#ship_email').val()!=''&&$('#ship_phone').val()!=''&&$('#ship_county').val()!=''&&$('#ship_address').val()!='') {
 			if ($('.two-three').val()=='3'&&$('#ship_three_id').val()!=''&&$('#ship_three_company').val()!='') {
 				if($('#pay_by_credit').is(':checked') || $('#pay_by_atm').is(':checked') || $('#pay_by_cod').is(':checked')){
-					$('.kartForm').submit();
 					$('body').append('<div class="loader-bg"></div>');
 					$('body').append('<div class="loader-box"><div class="loader"></div><strong>請稍候...</strong></div>');
+					$('.kartForm').submit();
 				}
 			}else if($('.two-three').val()=='2'){
 				if($('#pay_by_credit').is(':checked') || $('#pay_by_atm').is(':checked') || $('#pay_by_cod').is(':checked')){
-					$('.kartForm').submit();
 					$('body').append('<div class="loader-bg"></div>');
 					$('body').append('<div class="loader-box"><div class="loader"></div><strong>請稍候...</strong></div>');
+					$('.kartForm').submit();
 				}
 			}
 		}
