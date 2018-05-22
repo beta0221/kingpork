@@ -169,7 +169,7 @@
   100% { transform: rotate(360deg); }
 }
 #myBonus{
-	width: 20%;
+	width: 24%;
 }
 #back-kart{
 	display: none;
@@ -375,7 +375,8 @@
 						<tr>
 							<td>
 								<label for="">　使用紅利：</label>
-								<input id="bonus" max="" name="bonus" type="number" class="form-control" style="width: 12%;" value="0"><label id="myBonus" for="">　累積紅利：<span></span></label>
+								<input id="bonus" max="" name="bonus" type="number" class="form-control" style="width: 12%;" value="0">
+								<label id="myBonus" for="">　累積紅利：<span></span></label>
 							</td>
 						</tr>
 						<tr>
