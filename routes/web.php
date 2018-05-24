@@ -58,6 +58,7 @@ Route::post('order','OrderManagementController@search')->name('order.search');
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/users/logout','Auth\LoginController@userLogout')->name('user.logout');
+Route::get('memberHash','memberHash@memberHash');
 
 //admin routes
 Route::get('admin','AdminController@index')->name('admin.dashboard');
