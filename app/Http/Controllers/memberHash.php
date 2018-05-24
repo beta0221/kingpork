@@ -13,7 +13,7 @@ class memberHash extends Controller
 
 		//584~841重複Hash要全部重新匯入＆Hash
 
-		$users = User::where('id','>=',859)->where('id','<=',1100)->get();
+		$users = User::where('id','>=',1101)->where('id','<=',1200)->get();
 		foreach ($users as $user) {
 			$user->password=Hash::make($user->password);
 			$user->save();
