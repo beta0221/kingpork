@@ -10,13 +10,13 @@ class memberHash extends Controller
 {
 	public function memberHash()
 	{
-		$users = User::where('id','>=',318)->get();
+		$users = User::where('id','>=',584)->get();
 		foreach ($users as $user) {
 			$user->password=Hash::make($user->password);
 			$user->save();
 		}
 		
-		
+		return('Hashing has done');
 	}
     
 }
