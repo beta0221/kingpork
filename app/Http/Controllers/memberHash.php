@@ -10,7 +10,10 @@ class memberHash extends Controller
 {
 	public function memberHash()
 	{
-		$users = User::where('id','>=',584)->where('id','<=',1100)->get();
+
+		//584~841重複Hash要全部重新匯入＆Hash
+
+		$users = User::where('id','>=',859)->where('id','<=',1100)->get();
 		foreach ($users as $user) {
 			$user->password=Hash::make($user->password);
 			$user->save();
