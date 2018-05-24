@@ -112,7 +112,7 @@
 	display: inline-block;
 	width: 100%;
 	animation: runner 23s infinite linear;
-	color: #fff;
+	color: rgb(255,255,60);
 	line-height: 24px;
 	z-index: 3;
 	left: 100%;
