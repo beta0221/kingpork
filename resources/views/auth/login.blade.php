@@ -30,7 +30,7 @@
 .sel::before , .sel.change::before{
     content:"";
     position: absolute;
-    background-color: rgba(195,28,34,0.8);
+    background-color: #d9534f;
     height: 100%;
     width: 50%;
     z-index: 0;
@@ -63,7 +63,7 @@
 }
 .loginBtn,.regBtn{
     color: #fff;
-    background-color: rgba(195,28,34,0.8);
+    background-color: #d9534f;
     display: inline-block;
     font-weight: 400;
     line-height: 1.25;
@@ -87,7 +87,7 @@
     border-color: transparent;
     background-color: transparent;
     font-weight: 400;
-    color: rgba(195,28,34,0.8);
+    color: #d9534f;
     border-radius: 0;
     line-height: 1.25;
     text-align: center;
@@ -103,6 +103,10 @@
 }
 .forget:hover{
     color: rgba(195,28,34,0.5);
+}
+.help-block{
+    text-align: center;
+    width: calc(100% - 30px);
 }
 </style>
 
@@ -128,10 +132,10 @@
                 
                 <div class="sel col-md-6 offset-md-3">
                     <div class="row">
-                        <div id="selLog" onclick="selLog()" style="cursor: pointer;height: 48px;" class="col-md-6">
+                        <div id="selLog" onclick="selLog()" style="cursor: pointer;height: 48px;color:#fff;" class="col-md-6">
                             <span>登入</span>
                         </div>
-                        <div id="selReg" onclick="selReg()" style="cursor: pointer;height: 48px;" class="col-md-6">
+                        <div id="selReg" onclick="selReg()" style="cursor: pointer;height: 48px;color:#fff;" class="col-md-6">
                             <span>註冊</span>
                         </div>
                     </div>
@@ -195,9 +199,9 @@
 
 
                     @if ($errors->has('email'))
-                         <span style="" class="help-block">
+                         <p class="help-block">
                              <strong>{{ $errors->first('email') }}</strong>
-                         </span>
+                         </p>
                      @endif
                 </form>
                 {{-- login part end --}}
@@ -217,11 +221,9 @@
                                 <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" placeholder="姓名" required autofocus>
 
                                 @if ($errors->has('name'))
-                                   
-                                        <span class="help-block">
-                                            <strong>{{ $errors->first('name') }}</strong>
-                                        </span>
-                                   
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('name') }}</strong>
+                                    </span>
                                 @endif
                             </div>
                         </div>
@@ -291,13 +293,23 @@
 @endsection
 
 @section('scripts')
+
+@if(Session::has('regFail'))
+    <script>
+        $(document).ready(function(){
+            $('.sel').addClass('change');
+        });
+    </script>
+@endif
     <script>
         function selLog(){
+            $('.help-block').empty();
             $('.loginForm').css('display','block');
             $('.registerForm').css('display','none');
             $('.sel').removeClass('change');
         };
         function selReg(){
+            $('.help-block').empty();
             $('.loginForm').css('display','none');
             $('.registerForm').css('display','block');
             $('.sel').addClass('change');
