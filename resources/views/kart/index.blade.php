@@ -11,7 +11,8 @@
 .outter{
 	margin-top: 60px;
 	margin-bottom: 60px;
-	min-height: 520px;
+	/*min-height: 520px;*/
+	min-height: 0.6vh;
 	/*overflow-y: scroll;*/
 	padding-bottom: 136px;
 	background-color: rgba(255,255,255,0.5);
