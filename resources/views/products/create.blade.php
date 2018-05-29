@@ -25,29 +25,29 @@
 					<div class="col-md-8 offset-md-2">
 						<form class="createForm" method="POST" action="{{route('products.store')}}" enctype="multipart/form-data">
 							{{ csrf_field() }}
-							<label for="name">品名：</label>
+							<label for="name">品名：(必填)</label>
 							<input class="form-control" type="text" name="name">
 
-							<label for="slug">代號：</label>
+							<label for="slug">代號：(必填｜大於5字元｜不可重複)</label>
 							<input class="form-control" type="text" name="slug">
 
-							<label for="category_id">類別</label><br>
+							<label for="category_id">類別：(必填)</label><br>
 							<select class="form-control" name="category_id" id="">
 							@foreach($productCategorys as $productCategory)
 								<option value="{{ $productCategory->id }}">{{ $productCategory->name}}</option>
 							@endforeach
 							</select><br>
 
-							<label for="format">每片單價：</label>
+							<label for="format">每片單價：(必填)</label>
 							<input class="form-control" type="text" name="format">
 
-							<label for="price">價格：</label>
+							<label for="price">價格：(必填｜數字)</label>
 							<input class="form-control" type="number" name="price">
 
-							<label for="bonus">紅利：</label>
+							<label for="bonus">紅利：(必填｜數字)</label>
 							<input class="form-control" type="number" name="bonus">
 
-							<label for="image">圖片：</label>
+							<label for="image">圖片：(必填｜圖片)</label>
 							<input class="form-control" type="file" name="image">
 
 							{{-- <label for="content">內容：</label>
