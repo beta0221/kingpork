@@ -222,7 +222,7 @@
 			<div class="col-md-4">
 				<div id="{{Request::is('productCategory/1') ? 'currentCat' : ''}}" class="catImg P-pork">
 					<a href="{{route('productCategory.show',1)}}">
-						<img src="{{asset('images/productsIMG/pork.png')}}" alt="">	
+						<img src="{{asset('images/productsIMG/pork1.png')}}" alt="">	
 					</a>
 				</div>
 				
@@ -230,7 +230,7 @@
 			<div class="col-md-4">
 				<div id="{{Request::is('productCategory/3') ? 'currentCat' : ''}}" class="catImg P-both">
 					<a href="{{route('productCategory.show',3)}}">
-						<img src="{{asset('images/productsIMG/both.png')}}" alt="">	
+						<img src="{{asset('images/productsIMG/both1.png')}}" alt="">	
 					</a>
 				</div>
 				
@@ -238,7 +238,7 @@
 			<div class="col-md-4">
 				<div id="{{Request::is('productCategory/2') ? 'currentCat' : ''}}" class="catImg P-chicken">
 					<a href="{{route('productCategory.show',2)}}">
-						<img src="{{asset('images/productsIMG/chicken.png')}}" alt="">
+						<img src="{{asset('images/productsIMG/chicken1.png')}}" alt="">
 					</a>
 				</div>
 			</div>
