@@ -83,41 +83,11 @@
 	height: 100%;
 	width: 100%;
 }
-/*.P-pork::before{
-	content: "厚切排骨";
-	color: #fff;
-	font-size: 28pt;
-	letter-spacing: 4px;
-	left: 18px;
-	top: 12px;
-	position: absolute;
-	z-index: 1;
-}
-.P-both::before{
-	content: "雙響組合";
-	color: #fff;
-	font-size: 28pt;
-	letter-spacing: 4px;
-	left: 18px;
-	top: 12px;
-	position: absolute;
-	z-index: 1;
-}
-.P-chicken::before{
-	content: "鮮嫩雞腿排";
-	color: #fff;
-	font-size: 28pt;
-	letter-spacing: 4px;
-	left: 18px;
-	top: 12px;
-	position: absolute;
-	z-index: 1;
-}*/
 
 
 /* brandStory start */
-.brandStory{
-	/*border:1pt solid #000;*/
+
+/*.brandStory{
 	width:100%;
 	height:400px;
 	margin-top: 80px;
@@ -136,13 +106,93 @@
 .story>p{
 	top: -50%;
 	font-size: 24px;
-}
+}*/
+
 /* brandStory end */
 
+
+/* shop-intro start*/
+
+.shop-intro{
+	margin-top: 60px;
+	width: 100%;
+}
+.intro-title-bar{
+	height: 32px;
+	width: 100%;
+}
+.intro-title{
+	float: left;
+	height: 32px;
+	margin: 0;
+}
+.intro-title-line{
+	background-color: #865519;
+}
+.shop-stack{
+	width: 100%;
+	height:400px;
+	padding-left: 20px;
+	padding-right: 20px;
+	margin: 40px 0 40px 0;
+}
+.shop-image{
+	display: inline-block;
+	height: 100%;
+	margin:0 18px 0 18px;
+	width: calc(50% - 40px);
+}
+.shop-image-full{
+	height: 100%;
+	margin:0 18px 0 18px;
+	width: calc(100% - 40px);	
+}
+.shop-info-img,.shop-info-discription{
+	position: absolute;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+.shop-info-discription{
+	z-index: 1;
+	/*color: #fff;*/
+	padding: 64px 80px;
+	cursor: pointer;
+}
+.shop-info-discription:hover + .shop-info-img img{
+	filter: opacity(0.8) brightness(1);
+}
+.shop-info-discription:hover{
+	color: #fff;
+}
+.shop-info-discription button{
+	padding: 10px 20px;
+	color: #fff;
+	border: none;
+	outline: none;
+	background-color: rgba(219, 22, 58, 1);
+	cursor: pointer;
+}
+.shop-info-discription button:hover{
+	background-color: rgba(146, 15, 39, 1);
+}
+.shop-info-img img{
+	width: 100%;
+	filter: opacity(0.6) blur(1px) brightness(1.2);
+	/*transition: all .5s ease-in-out;*/
+}
+.shop-image-full img{
+	transform: translateY(-30%);
+	/*top: -50*/
+}
+/* shop-intro end*/
+
+
 /* blog link down */
+/*
 .posts{
 	width: 100%;
-	/*border:1pt solid #000;*/
 	margin-bottom: 0px;
 	padding: 80px 0 80px 0;
 }
@@ -194,7 +244,8 @@
 }
 .pp3::before{
 	content: "【台北。西門】\A　老字號的金園排骨";
-}
+}*/
+
 /* blog link up */
 
 /* how to order down */
