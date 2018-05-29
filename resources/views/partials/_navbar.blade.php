@@ -78,9 +78,11 @@
   </div>
 </nav>
 
+@if(!Request::is('/'))
 <div class="marquee">
 	<span class="runner"></span>
 </div>
+@endif
 
 <div class="topSpace"></div>
 <div class="main-bg"></div>

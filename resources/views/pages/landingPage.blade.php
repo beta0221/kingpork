@@ -17,6 +17,9 @@
 		<div class="item"><a href="{{$banner->link}}"><img src="{{asset('images/banner') . '/' . $banner->image}}" alt="{{$banner->alt}}"></a></div>
     @endforeach
 </div>
+<div class="marquee-landing">
+	<span class="runner"></span>
+</div>
 {{-- banner end --}}
 
 {{-- products start --}}
