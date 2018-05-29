@@ -155,13 +155,13 @@
 }
 .catImg img{
 	width: 100%;
-	top: -50%;
+	top: 0%;
 }
 #currentCat{
 	filter:opacity(100%);
 	border:4pt solid rgba(195,28,34,1);;
 }
-.P-pork::before{
+/*.P-pork::before{
 	content: "厚切排骨";
 	color: #fff;
 	font-size: 28pt;
@@ -190,7 +190,7 @@
 	top: 12px;
 	position: absolute;
 	z-index: 1;
-}
+}*/
 .flash,.flashRed{
 	height: 80px;
 	width: 40%;
