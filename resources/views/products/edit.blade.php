@@ -20,26 +20,26 @@
 				{!! Form::model($product,['route'=>['products.update',$product->id],'method'=>'PUT','files'=>'true']) !!}
 				
 				
-				{{Form::label('name','品名：')}}
+				{{Form::label('name','品名：(必填)')}}
 				{{ Form::text('name',null,['class'=>'form-control']) }}<br>
 
 				
-				{{Form::label('slug','代號：')}}
+				{{Form::label('slug','代號：(必填｜大於5字元｜不可重複)')}}
 				{{ Form::text('slug',null,['class'=>'form-control'])}}<br>
 				
-				{{Form::label('category_id','類別：')}}
+				{{Form::label('category_id','類別：(必填)')}}
 				{{Form::select('category_id',$productCategorys,null,['class'=>'form-control'])}}<br>
 				
-				{{Form::label('format','每片單價：')}}
+				{{Form::label('format','每片單價：(必填)')}}
 				{{Form::text('format',null,['class'=>'form-control'])}}<br>
 				
-				{{Form::label('price','價格：')}}
+				{{Form::label('price','價格：(必填｜數字)')}}
 				{{Form::text('price',null,['class'=>'form-control'])}}<br>
 				
-				{{Form::label('bonus','紅利：')}}
+				{{Form::label('bonus','紅利：(必填｜數字)')}}
 				{{Form::text('bonus',null,['class'=>'form-control'])}}<br>
 				
-				{{Form::label('image','圖片：')}}
+				{{Form::label('image','圖片：(必填｜圖片)')}}
 				{{Form::file('image',['class'=>'form-control'])}}
 				<br>
 				
