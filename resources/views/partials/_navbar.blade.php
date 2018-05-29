@@ -84,7 +84,7 @@
 
 <div class="topSpace"></div>
 <div class="main-bg"></div>
-<div class="main-bg-filter"></div>
+{{-- <div class="main-bg-filter"></div> --}}
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
