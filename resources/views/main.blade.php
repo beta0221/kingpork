@@ -118,6 +118,15 @@ function delete_item(id){
     }
   });
 }
+
+function burgerUp(){
+  $('.navbar-ul-left').css('display','block');
+  $('.burger').css('display','none');
+}
+function burgerDown(){
+  $('.navbar-ul-left').css('display','none');
+  $('.burger').css('display','block'); 
+}
 </script>
 <script type="text/javascript">
   $('#myModal').on('shown.bs.modal', function () {

@@ -26,3 +26,33 @@
 	color: #fff;
 	background:rgba(56,6,6,0.9);
 }
+@media(max-width: 450px){
+	.foot1{
+		width: 100%;
+		/*border:1pt solid #000;*/
+		height: 56px;
+		color: #fff;
+		background:rgba(56,6,6,0.9);
+		
+	}
+	.foot1 img{
+		/*width: 100%;*/
+		height: auto;
+		width: auto;
+		max-width: 100%;
+		transform: scale(1);
+	}
+	.footIm{
+		padding: 2px;
+		height: 56px;
+	}
+	.footIm span{
+		top: 0px;
+		font-size: 12px;
+	}
+
+	.foot2{
+		height: 30px;
+		padding-top: 8px;
+	}
+}
