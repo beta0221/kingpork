@@ -128,14 +128,14 @@
 <div class="contentPage">
     <div class="container">
         <div class="row">
-            <div class="col-md-8 offset-md-2 outter">
+            <div class="col-md-8 offset-md-2 col-12 outter">
                 
                 <div class="sel col-md-6 offset-md-3">
                     <div class="row">
-                        <div id="selLog" onclick="selLog()" style="cursor: pointer;height: 48px;color:#fff;" class="col-md-6">
+                        <div id="selLog" onclick="selLog()" style="cursor: pointer;height: 48px;color:#fff;" class="col-md-6 col-6">
                             <span>登入</span>
                         </div>
-                        <div id="selReg" onclick="selReg()" style="cursor: pointer;height: 48px;color:#fff;" class="col-md-6">
+                        <div id="selReg" onclick="selReg()" style="cursor: pointer;height: 48px;color:#fff;" class="col-md-6 col-6">
                             <span>註冊</span>
                         </div>
                     </div>

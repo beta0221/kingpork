@@ -4,26 +4,15 @@
 
 @section('stylesheets')
 <style>
-	@media(max-width: 400px){
-	.contactUs h1{
-		font-size: 26px;
-	}
-}
 .contactUs{
+	min-height: 60vh;
 	text-align: center;
-	padding-top: 80px;
-	padding-bottom: 80px;
-}
-@media(max-width: 400px){
-	.contactUs{
-		padding-top: 20px;
-		padding-bottom: 20px;
-	}
+	margin-top: 80px;
+	margin-bottom: 80px;
 }
 .contactUs form{
 	/*border:1pt solid #000;*/
 	top: 20px;
-	margin-bottom: 60px;
 }
 .contactUs span{
 	margin: 0 16px 0 16px;
@@ -57,6 +46,17 @@
 	margin: 4px 0 0 0;
 }
 
+
+@media(max-width: 450px){
+	.contactUs{
+		margin-top: 60px;
+		margin-bottom: 60px;
+	}
+	.contactUs h1{
+		font-size: 26px;
+	}
+}
+
 </style>
 @endsection
 
@@ -87,6 +87,7 @@
 		            </p>
 		            <input type="submit" value="送 出" class="btn btn-danger btn-block" />
 		        </form>
+		        <p></p>
 		      </div>
 		    </div>
 		    
