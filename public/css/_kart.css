@@ -242,6 +242,10 @@
 /* mobile device under 450*/
 
 @media (max-width: 450px) {
+	.container{
+		padding-left:8px; 
+		padding-right: 8px;
+	}
 	.kartForm{
 		font-size: 13px;
 	}
@@ -252,6 +256,9 @@
 		height: 40px;
 		width: 44px;
 		padding-left: 4px;
+	}
+	.product-name-TD,.product-name-TH{
+		padding-left: 8px;
 	}
 	.product-quantity-TD,.product-price-TD,.product-del-TD{
 		width: 40px;
@@ -316,5 +323,11 @@
 		width: 100%;
 		color: red;
 		font-size: 28px;
+	}
+	#payBtn{
+		height: 60px;
+		line-height: 60px;
+		font-size: 18px;
+		width: 120px;
 	}
 }
