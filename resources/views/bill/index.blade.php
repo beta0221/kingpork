@@ -3,89 +3,18 @@
 @section('title','| 我的訂單')
 
 @section('stylesheets')
-<style>
-.wrapper h1{
-	margin-top: 60px;
-	margin-bottom: 20px;
-}
-.outter{
-	/*margin-top: 60px;*/
-	margin-bottom: 60px;
-	min-height: 520px;
-	/*overflow-y: scroll;*/
-	padding-bottom: 40px;
-	background-color: rgba(255,255,255,0.5);
-	box-shadow: 2px 2px 16px 2px rgba(0, 0, 0, 0.3);
-	border-radius: 0.3em;
-}
-.TDtotal{
-	width: 56px;
-}
-.TDproduct{
-	width: calc(100% - 276px);
-}
-.TNT2,.TNT3{
-	width: 56px;
-}
-.TNT1{
-	width: calc(100% - 112px);
-	text-align: left;
-	padding-left: 16px;
-}
-th{
-	padding-top: 12px;
-	padding-bottom: 12px;
-}
-td,th{
-	text-align: center;
-	vertical-align: middle;
-}
-.bill-tr{
-	border-top: 1px solid rgba(0,0,0,0.1)
-}
-.item-tr{
-	height: 48px;
-}
-.pagination-bar{
-	margin-top: 40px;
-	text-align: center;
-}
-.pagination-bar a{
-	display: inline-block;
-	background-color: rgba(0,0,0,0.4);
-	width: 32px;
-	color: #fff;
-	text-decoration: none;
-	border-radius: 0.25rem;
-	margin: 0 2px 0 2px;
-}
-.pagination-bar .now-pagination{
-	background-color: #0275d8;
-	transform: scale(1.2);
-}
-.some-more-dot{
-	text-align: center;
-	line-height: 0.1px;
-	margin: 8px;
-	font-size: 18px;
-}
-</style>
+{{Html::style('css/_bill.css')}}
 @endsection
-
 
 
 @section('content')
 
-
-
-
-
-<div class="wrapper">
+<div class="the-wrapper">
 	<h1 style="text-align: center;" id="contactUs">我的訂單</h1>
 	<div class="container">
 		<div class="row">
 			
-			<div class="col-md-12 outter">
+			<div class="col-12 outter">
 				
 				
 				
@@ -117,7 +46,7 @@ td,th{
 						<tr class="bill-tr">
 
 							<td class="TDdate">{{$billX[0]['created_at']}}</td>
-							<td>{{$billX[0]['bill_id']}}</td>
+							<td class="TDbill_id">{{$billX[0]['bill_id']}}</td>
 							<td class="TDproduct">
 								<table style="width: 100%;">
 									@foreach($billX as $billY)
