@@ -3,116 +3,7 @@
 @section('title','| 付款')
 
 @section('stylesheets')
-<style>
-.outter{
-	margin-top: 60px;
-	margin-bottom: 60px;
-	min-height: 520px;
-	/*overflow-y: scroll;*/
-	padding-bottom: 100px;
-	background-color: rgba(255,255,255,0.5);
-	box-shadow: 2px 2px 16px 2px rgba(0, 0, 0, 0.3);
-	border-radius: 0.3em;
-}
-.billTable{
-	border:1pt solid rgba(0,0,0,0.3);
-	border-radius: 0.3em;
-	margin-top: 20px;
-}
-.TDdate{
-	width: 220px;
-}
-.TDtotal{
-	width: 56px;
-}
-.TDproduct{
-	width: calc(100% - 276px);
-}
-.TNT2,.TNT3{
-	width: 56px;
-}
-.TNT1{
-	width: calc(100% - 112px);
-	text-align: left;
-}
-th{
-	padding-top: 12px;
-	padding-bottom: 12px;
-}
-td,th{
-	text-align: center;
-	vertical-align: middle;
-}
-.payBy{
-	position: absolute;
-	width: 100%;
-	bottom: 20px;
-	left: 0;
-	padding: 10px 0 10px 0;
-}
-.inner-payBy{
-	width: 20%;
-	left: 50%;
-	transform: translateX(-50%);
-	text-align: center;
-}
-.payByBtn{
-	width: 100%;
-}
-/* tnak you part*/
-.thankU{
-	/*border:1pt solid #000;*/
-	width: 100%;
-	height: 260px;
-	margin-top: 20px;
-}
-.U-1{
-	/*border:1pt solid #000;*/
-	width: 100%;
-	height: 33.33333%;
-	text-align: center;
-	padding: 12px 20px 0 20px;
-}
-.loader-bg{
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background-color: rgba(0,0,0,0.5);
-	z-index: 9999999998;
-}
-.loader-box{
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%,-50%);
-	text-align: center;
-	color:white;
-	z-index: 9999999999;
-}
-.loader {
-  width: 80px;
-  height: 80px;
-  border: 16px solid #f3f3f3;
-  border-radius: 50%;
-  border-top: 16px solid #0275d8;
-  margin-bottom: 20px;
-  -webkit-animation: spin 2s linear infinite; /* Safari */
-  animation: spin 2s linear infinite;
-}
-
-/* Safari */
-@-webkit-keyframes spin {
-  0% { -webkit-transform: rotate(0deg); }
-  100% { -webkit-transform: rotate(360deg); }
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-</style>
+{{Html::style('css/_payBill.css')}}
 {{Html::style('css/_process.css')}}
 @endsection
 
@@ -122,7 +13,7 @@ td,th{
 <div class="wrapper">
 	<div class="container">
 		<div class="row">
-			<div class="col-md-8 offset-md-2 outter">
+			<div class="col-lg-8 offset-lg-2 col-12 outter">
 
 				<ul class="process">
 					<li class="process-4">
@@ -163,11 +54,8 @@ td,th{
 				<p>　</p>
 				
 				<div class="thankU">
-					<div class="U-1">
-						<font style="font-size: 32pt;
-						font-weight: 500;
-						letter-spacing: 4px;
-						">
+					<div class="U-1 U-title">
+						<font>
 						@if($finalBill['pay_by'] == '貨到付款')
 						　感謝您的購買~
 						@elseif($finalBill['pay_by'] == 'CREDIT' AND $finalBill['status'] ==1)
@@ -191,7 +79,7 @@ td,th{
 						@endif
 						
 					</div>
-					<div class="U-1">
+					<div class="U-1 U-text">
 						@if($finalBill['pay_by'] == '貨到付款')
 						<font>我們衷心感謝您購買我們的產品，您將會收到一封電子確認信，內含您的購買明細。<br>若您對此次交易有任何問題，請隨時<a href="{{route('contact')}}">寫信給我們</a>。</font>
 						@elseif($finalBill['pay_by'] == 'CREDIT' AND $finalBill['status'] ==1)
@@ -208,7 +96,7 @@ td,th{
 				<div class="billTable">
 					<table style="width: 100%">	
 
-						<tr>
+						<tr class="product-title-TR">
 							<th>訂單編號</th>	
 							<th>
 								<table style="width: 100%;">
@@ -228,7 +116,7 @@ td,th{
 								<table style="width: 100%;">
 									
 									@foreach($finalBill['itemArray'] as $item)
-										<tr>
+										<tr class="product-TR">
 											<td class="TNT1">{{$item['name']}}</td>
 											<td class="TNT2">{{$item['price']}}</td>
 											<td class="TNT3">{{$item['quantity']}}</td>
@@ -240,7 +128,6 @@ td,th{
 							<td>{{$finalBill['bonus_use']}}</td>
 							<td class="TDtotal">{{$finalBill['price']}}</td>
 						</tr>
-						<tr><td>　</td><td>　</td><td>　</td></tr>
 					</table>
 				</div>
 
