@@ -309,9 +309,11 @@ $(document).ready(function(){
 	                	$('#ship_three_id').val(response.ship_three_id);
 	                	$('#ship_three_company').val(response.ship_three_company);
 	                }
+	                $('#myBonus span').empty();
 	                $('#myBonus span').append(response.bonus);
 	                $('#bonus').attr('max',response.bonus);
               	}else{
+              		$('#myBonus span').empty();
               		$('#myBonus span').append(response.bonus);
               		$('#bonus').attr('max',response.bonus);
               	}
