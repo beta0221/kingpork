@@ -189,7 +189,6 @@
 	data-PaymentType="ATM"
 	data-PaymentName="CREDIT"
 	data-CustomerBtn="1" >
-
 function PayBtn(ECPay) 
 {
     var button = document.createElement("button");
@@ -200,14 +199,11 @@ function PayBtn(ECPay)
     button.setAttribute("onclick", "checkOut('" + ECPay.dataPaymentType + "');");
     ECPay.div.appendChild(button);
 }
-
 function BtnDecorator(ECPay) {
     var DivECPay = document.createElement("div");
     DivECPay.setAttribute("style", "z-index: 2147483646; display: none; background: rgba(0, 0, 0, 0.5);width: 100%; height: 100%; left:0%;top:0%; border: 0px none transparent; overflow-x: hidden; overflow-y: auto; visibility: visible;padding: 0px; -webkit-tap-highlight-color: transparent; position: fixed;");
     DivECPay.setAttribute("id", "DivECPay_" + ECPay.dataPaymentType);
     ECPay.div.appendChild(DivECPay);
-
-
     var iframebutton = document.createElement("button");
     iframebutton.setAttribute("id", "iframeECPayClose_" + ECPay.dataPaymentType);
     iframebutton.innerHTML = "X";
@@ -216,12 +212,10 @@ function BtnDecorator(ECPay) {
     iframebutton.setAttribute("onclick", "CloseIframe('" + ECPay.dataPaymentType + "')");
     ECPay.div.appendChild(iframebutton);
 }
-
 var
     version = "1.0.0",
     description = "綠界科技(ECPay)_ECPayPayment",
     domain = "https://payment-stage.ecpay.com.tw";
-
 ECPay = {
     //### 初始化
     init: function () {
@@ -235,25 +229,21 @@ ECPay = {
         var userAgent = navigator.userAgent;
         var CheckMobile = new RegExp("android.+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino");
         var CheckMobile2 = new RegExp("mobile|mobi|nokia|samsung|sonyericsson|mot|blackberry|lg|htc|j2me|ucweb|opera mini|mobi|android|iphone");
-
         if (CheckMobile.test(userAgent) || CheckMobile2.test(userAgent.toLowerCase())) {
             // this.IsMobileAgent = true;
             this.IsMobileAgent = false;
         }
-
     },
     //### 設定參數值
     getContainer: function () {
         var script = document.getElementsByTagName("script");
         script = script[script.length - 1];
-
         this.dataMerchantId = script.getAttribute("data-MerchantId");
         this.dataSPToken = script.getAttribute("data-SPToken");
         this.dataPaymentName = script.getAttribute("data-PaymentName");
         this.dataPaymentType = script.getAttribute("data-PaymentType");
         this.dataCustomerBtn = script.getAttribute("data-CustomerBtn");
         this.div = script.parentElement;
-
     },
     //### 建立Button按鈕
     createPayButton: function () {
@@ -268,7 +258,6 @@ ECPay = {
             BtnDecorator(ECPay);
             PayBtn(ECPay);
         }
-
     },
     //### 初始化Iframe設定值
     createModal: function () {
@@ -280,16 +269,12 @@ ECPay = {
             iframe.allowtransparency = true;
             iframe.setAttribute("style", "z-index: 2147483646; display: none; background: rgba(0, 0, 0, 0.00392157); border: 0px none transparent; overflow-x: hidden; overflow-y: auto; visibility: visible;padding: 0px; -webkit-tap-highlight-color: transparent; position: fixed; left: 0%; top: 10%; width: 100%; height: 80%;margin-left:0px;margin-top:0px;");
             iframe.src = domain + "/SP/SPCheckOut?MerchantID=" + ECPay.dataMerchantId + "&SPToken=" + ECPay.dataSPToken + "&PaymentType=" + ECPay.dataPaymentType;
-
-
             this.div.appendChild(iframe);
             this.modalBody = iframe;
             return;
         }
     }
-
 }
-
 function checkOut(Data) {
     if (ECPay.IsMobileAgent) {
         var url = domain + "/SP/SPCheckOut?MerchantID=" + ECPay.dataMerchantId + "&SPToken=" + ECPay.dataSPToken + "&PaymentType=" + Data;
@@ -300,18 +285,16 @@ function checkOut(Data) {
     document.getElementById("iframeECPayClose_" + Data).style.display = "block";
     document.getElementById("DivECPay_" + Data).style.display = "block";   
 }
-
 function CloseIframe(Data) {
     document.getElementById("iframeECPay_" + Data).style.display = "none";
     document.getElementById("iframeECPayClose_" + Data).style.display = "none";
     document.getElementById("DivECPay_" + Data).style.display = "none";
 }
-
 ECPay.init();
-
-
-
 	</script> 
+
+
+
 	<script>
 		$(document).ready(function (){
 			window.addEventListener('message', function (e) {

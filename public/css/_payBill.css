@@ -23,10 +23,11 @@
 	width: 55%;
 }
 .TNT2,.TNT3{
-	width: 56px;
+	/*width: 56px;*/
 }
 .TNT1{
-	width: calc(100% - 112px);
+	/*width: calc(100% - 112px);*/
+	width: 70%;
 	text-align: left;
 	padding-top: 6px;
 	padding-bottom: 6px;
