@@ -103,6 +103,10 @@ td,th{
   -webkit-animation: spin 2s linear infinite; /* Safari */
   animation: spin 2s linear infinite;
 }
+#ECPay.light-box .wrapper {
+	top: 0 !important;
+	width: 100% !important;
+}
 
 /* Safari */
 @-webkit-keyframes spin {
