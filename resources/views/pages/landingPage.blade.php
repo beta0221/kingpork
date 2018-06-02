@@ -1,6 +1,6 @@
 @extends('main')
 
-@section('title','| 首頁')
+@section('title','| 官方商城')
 
 @section('stylesheets')
 {{Html::style('css/Style_landingPage.css')}}
@@ -72,7 +72,7 @@
 	<div class="intro-title-bar">
 		<div class="intro-title intro-title-line" style="width: 15%"></div>
 		<div class="intro-title intro-title-text" style="width: 20%">
-			<font size="6">Title Image Here</font>
+			<font>標題</font>
 		</div>
 		<div class="intro-title intro-title-line" style="width: 65%"></div>
 	</div>
@@ -110,7 +110,7 @@
 			</div>
 
 			<div class="shop-info-img">
-				<img src="{{asset('images/shop.png')}}" alt="">
+				<img src="{{asset('images/post3.png')}}" alt="">
 			</div>
 		</div>
 
@@ -243,7 +243,7 @@
 @endsection
 
 @section('scripts')
-{{Html::script('js/parallax/jquery.parallax-1.1.3.js')}}
+{{-- {{Html::script('js/parallax/jquery.parallax-1.1.3.js')}} --}}
 {{Html::script('js/owl-carousel/owl.carousel.min.js')}}
 <script>
 	$(document).ready(function(){

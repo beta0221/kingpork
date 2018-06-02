@@ -300,12 +300,14 @@
 		right: 4px;
 		top: 4px;
 		margin: 0;
+		z-index: 3;
 	}
 	#facebook-href{
 		position: absolute;
 		right: 44px;
 		top: 4px;
 		margin: 0;
+		z-index: 3;
 	}
 	#navbar-ul-left-close{
 		position: absolute;
