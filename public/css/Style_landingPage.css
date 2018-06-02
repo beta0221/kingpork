@@ -368,11 +368,11 @@
 		height: calc(100% - 4px);
 	}
 	.marquee-landing{
-		height: 32px;
-		font-size: 15px;
+		height: 28px;
+		font-size: 14px;
 	}
 	.marquee-landing .runner{
-		line-height: 32px;
+		line-height: 28px;
 	}
 	.P-buy{
 		right: 10px;
