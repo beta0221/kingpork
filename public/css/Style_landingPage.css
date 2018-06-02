@@ -356,6 +356,13 @@
 }
 
 @media(max-width: 450px){
+	.owl-theme .owl-dots {
+		bottom: 2px;
+	}
+	.owl-theme .owl-dots .owl-dot {
+		width: 8px;
+		height: 8px;
+	}
 	.P-{
 		width: calc(100% - 4px);
 		height: calc(100% - 4px);
