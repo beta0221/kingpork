@@ -71,11 +71,11 @@
 
 	<div class="intro-title-bar">
 
-		<div class="intro-title intro-title-line" style="width: 15%"></div>
-		<div class="intro-title intro-title-text" style="width: 20%">
+		<div class="intro-title intro-title-line intro-title-line-left"></div>
+		<div class="intro-title intro-title-text">
 			<img src="{{asset('images/culture.png')}}" alt="">
 		</div>
-		<div class="intro-title intro-title-line" style="width: 65%"></div>
+		<div class="intro-title intro-title-line intro-title-line-right"></div>
 	</div>
 
 	
@@ -87,45 +87,27 @@
 	<div class="shop-intro-container">
 
 		<div class="shop-intro-row">
-			<div class=" shop-intro-box">
-				<img id="shop-intro-img" src="{{asset('images/king1.png')}}" alt="">
+			<div id="story-1-box" class=" shop-intro-box">
+				<img class="shop-now-img" src="{{asset('images/king1.png')}}" alt="">
 
 				<div class="shop-info-discription">
-					<h3>金園排骨股份有限公司</h3>
-					<h6>客服專線：0800-552-999</h6>
-					<h6>傳真電話：03-334-8965;03-337-5338</h6>
-					<h6>e-mail：may@sacred.com.tw</h6>
-					<h6>　　　　kingpork@sacred.com.tw</h6>
-					<h6>地址：桃園市桃園區大有路59號３樓</h6>
-					<button>詳細資訊</button>
+					<h3>金園排骨總公司</h3>
 				</div>
 
 			</div>
-			<div class=" shop-intro-box">
-				<img src="{{asset('images/king2.png')}}" alt="">
-
-				<div class="shop-info-discription">
-					<h3>金園排骨股份有限公司</h3>
-					<h6>客服專線：0800-552-999</h6>
-					<h6>傳真電話：03-334-8965;03-337-5338</h6>
-					<h6>e-mail：may@sacred.com.tw</h6>
-					<h6>　　　　kingpork@sacred.com.tw</h6>
-					<h6>地址：桃園市桃園區大有路59號３樓</h6>
-					<button>詳細資訊</button>
-				</div>
-
-			</div>
-			<div class=" shop-intro-box">
+			<div id="story-2-box" class=" shop-intro-box">
 				<img src="{{asset('images/king3.png')}}" alt="">
 
 				<div class="shop-info-discription">
-					<h3>金園排骨股份有限公司</h3>
-					<h6>客服專線：0800-552-999</h6>
-					<h6>傳真電話：03-334-8965;03-337-5338</h6>
-					<h6>e-mail：may@sacred.com.tw</h6>
-					<h6>　　　　kingpork@sacred.com.tw</h6>
-					<h6>地址：桃園市桃園區大有路59號３樓</h6>
-					<button>詳細資訊</button>
+					<h3>春日店</h3>
+				</div>
+
+			</div>
+			<div id="story-3-box" class="shop-intro-box">
+				<img src="{{asset('images/king2.png')}}" alt="">
+
+				<div class="shop-info-discription">
+					<h3>長庚店</h3>
 				</div>
 
 			</div>
@@ -133,10 +115,35 @@
 
 	</div>	
 	
-	<div class="col-12 shop-intro-story">
-		<p>【金園排骨】是老字號的經典台灣品牌，我們遵循傳統手工製法，每片肉品堅持不添加任何防腐劑與化學製劑，就是要將最古早的原汁原味用心呈現給您！老字號的金園排骨，從阿公阿嬤，從爸爸媽媽，從我們小時候開始，一代一代口味的承傳，這正印證台灣念真情，也證明台灣懷念的古早味－金園排骨。</p>
-		<p>俗語說【人說情歌總是老的好，走遍天涯海角忘不了，人說情人卻是老的好，曾經滄海桑田分不了】金園排骨源自西門町傳承一甲子的古早味，陪伴著台灣人的成長，多少成功的企業家難以忘記的老口味，金園排骨像一首老歌，常常值得懷念，金園排骨更像老情人一樣，更值得細心回味。</p>
-
+	<div class="col-12 shop-intro-story-2">
+		<div class="arrow-up"></div>
+		<div id="story-1">
+			<h2>金園排骨股份有限公司</h3>
+			<h4>客服專線：0800-552-999</h4>
+			<h4>傳真電話：03-334-8965;03-337-5338</h4>
+			<h4>e-mail：may@sacred.com.tw</h4>
+			<h4>　　　　kingpork@sacred.com.tw</h4>
+			<h4>地址：桃園市桃園區大有路59號３樓</h4>
+			<h4>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos, error, ipsum consequatur voluptatem nihil saepe rerum animi assumenda aliquid dolore voluptates sint ad iste dolorum tenetur perferendis ullam quis aliquam quo ut velit? Cumque omnis quae sapiente totam quidem ipsam libero voluptatibus ut fugiat commodi, autem veritatis reiciendis reprehenderit impedit.</h4>
+		</div>
+		<div id="story-2">
+			<h2>金園排骨-春日店</h3>
+			<h4>客服專線：0800-552-999</h4>
+			<h4>傳真電話：03-334-8965;03-337-5338</h4>
+			<h4>e-mail：may@sacred.com.tw</h4>
+			<h4>　　　　kingpork@sacred.com.tw</h4>
+			<h4>地址：桃園市桃園區大有路59號３樓</h4>
+			<h4>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos, error, ipsum consequatur voluptatem nihil saepe rerum animi assumenda aliquid dolore voluptates sint ad iste dolorum tenetur perferendis ullam quis aliquam quo ut velit? Cumque omnis quae sapiente totam quidem ipsam libero voluptatibus ut fugiat commodi, autem veritatis reiciendis reprehenderit impedit.</h4>
+		</div>
+		<div id="story-3">
+			<h2>金園排骨-長庚店</h3>
+			<h4>客服專線：0800-552-999</h4>
+			<h4>傳真電話：03-334-8965;03-337-5338</h4>
+			<h4>e-mail：may@sacred.com.tw</h4>
+			<h4>　　　　kingpork@sacred.com.tw</h4>
+			<h4>地址：桃園市桃園區大有路59號３樓</h4>
+			<h4>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos, error, ipsum consequatur voluptatem nihil saepe rerum animi assumenda aliquid dolore voluptates sint ad iste dolorum tenetur perferendis ullam quis aliquam quo ut velit? Cumque omnis quae sapiente totam quidem ipsam libero voluptatibus ut fugiat commodi, autem veritatis reiciendis reprehenderit impedit.</h4>
+		</div>
 	</div>
 
 	
@@ -210,6 +217,7 @@
 @section('scripts')
 {{-- {{Html::script('js/parallax/jquery.parallax-1.1.3.js')}} --}}
 {{Html::script('js/owl-carousel/owl.carousel.min.js')}}
+{{Html::script('js/landingPage.js')}}
 <script>
 	$(document).ready(function(){
 		$(".owl-carousel").owlCarousel({
@@ -222,8 +230,8 @@
 			smartSpeed:500,
 		})
 
-		$('#brandStory').parallax("100%", 0.3);
-		$('#process').parallax("0%", 0.3);
+		// $('#brandStory').parallax("100%", 0.3);
+		// $('#process').parallax("0%", 0.3);
 	});
 </script>
 @endsection
