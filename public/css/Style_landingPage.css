@@ -206,6 +206,7 @@
 	height: 100%;
 	position: absolute;
 	top: 0;
+	padding: 0 20px;
 }
 .shop-intro-box{
 	float: left;
@@ -213,10 +214,11 @@
 	overflow: hidden;
 	width: 33.33333%;
 	height: 100%;
+	padding: 0 20px;
 }
 .shop-intro-box img{
 	height: auto;
-	widows: auto;
+	width: 100%;
 	min-width: 100%;
 	min-height: 100%;
 	/*filter: opacity(0.8);*/
@@ -317,6 +319,26 @@
 		top: 5%;
 		left: 2%;
 		padding: 4px 16px;
+	}
+	.shop-intro-story{
+		padding:0 5% 0 5%;
+		font-size: 14px;
+		margin: 20px 0 20px 0;
+	}
+	.shop-info-discription{
+		padding: 2px 2px;
+		color: #fff;
+	}
+	.shop-info-discription h3,.shop-info-discription h6{
+		display: none;
+	}
+	.shop-info-discription button{
+
+		left: 2px;
+		bottom: 2px;
+		padding: 4px 8px;
+		background-color: rgba(219, 22, 58, 1);
+		filter: opacity(0.7);
 	}
 }
 @media(max-width: 330px){
