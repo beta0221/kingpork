@@ -49,7 +49,7 @@
 						<div class="titleRow">
 							<h1>
 								{{Request::is('productCategory/1') ? '厚切手打豬排' : ''}}
-								{{Request::is('productCategory/3') ? '幸福雙響組合' : ''}}
+								{{Request::is('productCategory/3') ? '幸福雙饗組合' : ''}}
 								{{Request::is('productCategory/2') ? '無骨嫩雞腿排' : ''}}		
 							</h1>
 						</div>

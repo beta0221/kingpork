@@ -10,7 +10,6 @@
 @section('content')
 
 
-
 {{-- banner start --}}
 <div class="banner owl-carousel owl-theme">
 	@foreach($banners as $banner)
@@ -24,12 +23,12 @@
 
 {{-- products start --}}
 <div class="productArea container">
-	<h2 style="text-align: center;margin-bottom: 20px;letter-spacing: 4px;">我要購買<span style="margin: 0 12px 0 12px;">/</span>GO SHOPPING</h2>
+	{{-- <h2 style="text-align: center;margin-bottom: 20px;letter-spacing: 4px;">我要購買<span style="margin: 0 12px 0 12px;">/</span>GO SHOPPING</h2> --}}
 	<div class="row">
 		<div class="product col-md-4 col-4">
 			<div class="P- P-pork">
 				<a href="{{route('productCategory.show',1)}}">
-					<img src="{{asset('images/productsIMG/pork1.png')}}" alt="">
+					<img src="{{asset('images/productsIMG/pork.png')}}" alt="">
 				</a>
 				<div class="P-buy">購 買</div>
 			</div>
@@ -37,7 +36,7 @@
 		<div class="product col-md-4 col-4">
 			<div class="P- P-both">
 				<a href="{{route('productCategory.show',3)}}">
-					<img src="{{asset('images/productsIMG/both1.png')}}" alt="">
+					<img src="{{asset('images/productsIMG/both.png')}}" alt="">
 				</a>
 				<div class="P-buy">購 買</div>
 			</div>
@@ -45,7 +44,7 @@
 		<div class="product col-md-4 col-4">
 			<div class="P- P-chicken">
 				<a href="{{route('productCategory.show',2)}}">
-					<img src="{{asset('images/productsIMG/chicken1.png')}}" alt="">
+					<img src="{{asset('images/productsIMG/chicken.png')}}" alt="">
 				</a>
 				<div class="P-buy">購 買</div>
 			</div>
@@ -69,114 +68,80 @@
 
 {{-- shop intro start --}}
 <div class="shop-intro">
+
 	<div class="intro-title-bar">
+
 		<div class="intro-title intro-title-line" style="width: 15%"></div>
 		<div class="intro-title intro-title-text" style="width: 20%">
-			<font>標題</font>
+			<img src="{{asset('images/culture.png')}}" alt="">
 		</div>
 		<div class="intro-title intro-title-line" style="width: 65%"></div>
 	</div>
 
+	
+	<div class="col-12 shop-intro-story">
+		<p><font color="#860606">【金園排骨】</font>傳承了西門町一甲子的美好古早味</p>
+		<p>印證了台灣豐富、深刻、濃厚的在地人情味，陪伴許多人的成長，也紀錄了時代的變化，美好滋味猶如史詩般雋永絕對值得您細心品嘗回味。</p>
+	</div>
 
-	<div class="shop-stack">
-		<div class="shop-image">
+	<div class="shop-intro-container">
 
-			<div class="shop-info-discription">
-				<h3>金園排骨股份有限公司</h3>
-				<h6>客服專線：0800-552-999</h6>
-				<h6>傳真電話：03-334-8965;03-337-5338</h6>
-				<h6>e-mail：may@sacred.com.tw</h6>
-				<h6>　　　　kingpork@sacred.com.tw</h6>
-				<h6>地址：桃園市桃園區大有路59號３樓</h6><br><br>
-				<button>詳細資訊</button>
+		<div class="shop-intro-row">
+			<div class=" shop-intro-box">
+				<img id="shop-intro-img" src="{{asset('images/king1.png')}}" alt="">
+
+				<div class="shop-info-discription">
+					<h3>金園排骨股份有限公司</h3>
+					<h6>客服專線：0800-552-999</h6>
+					<h6>傳真電話：03-334-8965;03-337-5338</h6>
+					<h6>e-mail：may@sacred.com.tw</h6>
+					<h6>　　　　kingpork@sacred.com.tw</h6>
+					<h6>地址：桃園市桃園區大有路59號３樓</h6>
+					<button>詳細資訊</button>
+				</div>
+
 			</div>
+			<div class=" shop-intro-box">
+				<img src="{{asset('images/king2.png')}}" alt="">
 
-			<div class="shop-info-img">
-				<img src="{{asset('images/post3.png')}}" alt="">
+				<div class="shop-info-discription">
+					<h3>金園排骨股份有限公司</h3>
+					<h6>客服專線：0800-552-999</h6>
+					<h6>傳真電話：03-334-8965;03-337-5338</h6>
+					<h6>e-mail：may@sacred.com.tw</h6>
+					<h6>　　　　kingpork@sacred.com.tw</h6>
+					<h6>地址：桃園市桃園區大有路59號３樓</h6>
+					<button>詳細資訊</button>
+				</div>
+
 			</div>
+			<div class=" shop-intro-box">
+				<img src="{{asset('images/king3.png')}}" alt="">
 
+				<div class="shop-info-discription">
+					<h3>金園排骨股份有限公司</h3>
+					<h6>客服專線：0800-552-999</h6>
+					<h6>傳真電話：03-334-8965;03-337-5338</h6>
+					<h6>e-mail：may@sacred.com.tw</h6>
+					<h6>　　　　kingpork@sacred.com.tw</h6>
+					<h6>地址：桃園市桃園區大有路59號３樓</h6>
+					<button>詳細資訊</button>
+				</div>
+
+			</div>
 		</div>
-		
-		<div class="shop-image">
 
-			<div class="shop-info-discription">
-				<h3>金園排骨股份有限公司</h3>
-				<h6>客服專線：0800-552-999</h6>
-				<h6>傳真電話：03-334-8965;03-337-5338</h6>
-				<h6>e-mail：may@sacred.com.tw</h6>
-				<h6>　　　　kingpork@sacred.com.tw</h6>
-				<h6>地址：桃園市桃園區大有路59號３樓</h6><br><br>
-				<button>詳細資訊</button>
-			</div>
-
-			<div class="shop-info-img">
-				<img src="{{asset('images/post3.png')}}" alt="">
-			</div>
-		</div>
+	</div>	
+	
+	<div class="col-12 shop-intro-story">
+		<p>【金園排骨】是老字號的經典台灣品牌，我們遵循傳統手工製法，每片肉品堅持不添加任何防腐劑與化學製劑，就是要將最古早的原汁原味用心呈現給您！老字號的金園排骨，從阿公阿嬤，從爸爸媽媽，從我們小時候開始，一代一代口味的承傳，這正印證台灣念真情，也證明台灣懷念的古早味－金園排骨。</p>
+		<p>俗語說【人說情歌總是老的好，走遍天涯海角忘不了，人說情人卻是老的好，曾經滄海桑田分不了】金園排骨源自西門町傳承一甲子的古早味，陪伴著台灣人的成長，多少成功的企業家難以忘記的老口味，金園排骨像一首老歌，常常值得懷念，金園排骨更像老情人一樣，更值得細心回味。</p>
 
 	</div>
 
-	<div class="shop-stack">
-		<div class="shop-image-full">
+	
 
-			<div class="shop-info-discription">
-				<h3>金園排骨股份有限公司</h3>
-				<h6>客服專線：0800-552-999</h6>
-				<h6>傳真電話：03-334-8965;03-337-5338</h6>
-				<h6>e-mail：may@sacred.com.tw</h6>
-				<h6>　　　　kingpork@sacred.com.tw</h6>
-				<h6>地址：桃園市桃園區大有路59號３樓</h6><br><br>
-				<button>詳細資訊</button>
-			</div>
-			
-			<div class="shop-info-img">
-				<img src="{{asset('images/brandStory.png')}}" alt="">
-			</div>
-		</div>
-	</div>
-
-	{{-- <div class="shop-stack">
-		
-		<div class="shop-discription">
-			<div class="shop-info">
-				<h3>金園排骨股份有限公司</h3>
-				<h6>客服專線：0800-552-999</h6>
-				<h6>傳真電話：03-334-8965;03-337-5338</h6>
-				<h6>e-mail：may@sacred.com.tw</h6>
-				<h6>　　　　kingpork@sacred.com.tw</h6>
-				<h6>地址：桃園市桃園區大有路59號３樓</h6>	
-			</div>
-		</div>
-
-		<div class="shop-image">
-			<div class="shop-info-img">
-				<img src="{{asset('images/post3.png')}}" alt="">
-			</div>
-		</div>
-
-	</div>
-
-	<div class="shop-stack">
-		<div class="shop-image">
-			<div class="shop-info-img">
-				<img src="{{asset('images/post3.png')}}" alt="">
-			</div>
-		</div>
-		<div class="shop-discription">
-			<div class="shop-info">
-				<h3>金園排骨股份有限公司</h3>
-				<h6>客服專線：0800-552-999</h6>
-				<h6>傳真電話：03-334-8965;03-337-5338</h6>
-				<h6>e-mail：may@sacred.com.tw</h6>
-				<h6>　　　　kingpork@sacred.com.tw</h6>
-				<h6>地址：桃園市桃園區大有路59號３樓</h6>	
-			</div>
-		</div>
-	</div> --}}
-
-
-
-</div>
+</div> {{-- end of shop intro --}}
 
 
 {{-- shop intro end --}}

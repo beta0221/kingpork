@@ -84,9 +84,12 @@
 <div class="marquee">
 	<span class="runner"></span>
 </div>
+<div class="topSpace"></div>
+@else
+<div class="topSpace-landing"></div>
 @endif
 
-<div class="topSpace"></div>
+
 <div class="main-bg"></div>
 <div onclick="burgerUp();" class="burger"><img src="{{asset('images/burger.png')}}" alt=""></div>
 

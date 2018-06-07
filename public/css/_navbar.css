@@ -1,6 +1,40 @@
 .topSpace{
 	width: 100%;
+	height: 120px;
+}
+.topSpace-landing{
+	width: 100%;
 	height: 80px;
+}.marquee{
+	position: fixed;
+	background-color: rgba(240,150,40,0.9);
+	height: 40px;
+	width: 100%;
+	top: 80px;
+	z-index: 2;
+	font-size: 16px;
+	overflow:hidden;
+}
+.runner{
+	position: absolute;
+	display: inline-block;
+	width: 100%;
+	animation: runner 23s infinite linear;
+	color: #fff;
+	line-height: 40px;
+	z-index: 3;
+	left: 100%;
+}
+.marquee-landing{
+	background-color: rgba(240,150,40,0.9);
+	height: 40px;
+	width: 100%;
+	z-index: 2;
+	font-size: 18px;
+	overflow:hidden;
+}
+.marquee-landing .runner{
+	line-height: 40px;
 }
 .main-bg{
 	background-image: url(../images/mainBg.png);
@@ -93,37 +127,7 @@
     transition: all .2s ease-in-out;
     cursor: pointer;
 }
-.marquee{
-	position: fixed;
-	background-color: rgba(240,150,40,0.9);
-	height: 24px;
-	width: 100%;
-	top: 80px;
-	z-index: 2;
-	font-size: 16px;
-	overflow:hidden;
-}
-.runner{
-	position: absolute;
-	display: inline-block;
-	width: 100%;
-	animation: runner 23s infinite linear;
-	color: #fff;
-	line-height: 24px;
-	z-index: 3;
-	left: 100%;
-}
-.marquee-landing{
-	background-color: rgba(240,150,40,0.9);
-	height: 40px;
-	width: 100%;
-	z-index: 2;
-	font-size: 18px;
-	overflow:hidden;
-}
-.marquee-landing .runner{
-	line-height: 40px;
-}
+
 .burger{
 	display: none;
 	height: 40px;
@@ -230,13 +234,20 @@
 
 @media (max-width: 450px) {
 	.topSpace{
-		height: 56px;
+		height: 80px;
+	}
+	.topSpace-landing{
+		height: 56px;	
 	}
 	.navCostume{
 		height: 56px;
 	}
 	.marquee{
 		top: 56px;
+		height: 24px;
+	}
+	.runner{
+		line-height: 24px;
 	}
 	.navbar-ul{
 		line-height: 56px;

@@ -1,3 +1,7 @@
+@font-face{
+	font-family:King;
+	src:url(../特粗楷體.TTC);
+}
 .content{
 	margin:60px 0 80px 0;
 }
@@ -168,7 +172,47 @@
 .flashRed{
 	background-color: red;
 }
-
+.P-pork:before{
+	content: '厚切排骨';
+	font-family: King;
+	font-size: 32px;
+	letter-spacing: 4px;
+	color: #fff;
+	position: absolute;
+	top: 5%;
+	left: 2.5%;
+	padding: 8px 28px;
+	z-index: 1;
+	background: linear-gradient(to right, rgba(192,18,24,0) 0%,rgba(192,18,24,1) 20%,rgba(192,18,24,1) 80%,rgba(192,18,24,0) 100%); 
+	/*background: linear-gradient(to right, rgba(109,8,115,0) 0%,rgba(109,8,115,1) 20%,rgba(109,8,115,1) 80%,rgba(109,8,115,0) 100%); */
+	/*background: linear-gradient(to right, rgba(126,6,8,0) 0%,rgba(126,6,8,1) 20%,rgba(126,6,8,1) 80%,rgba(126,6,8,0) 100%);*/
+}
+.P-both:before{
+	content: '雙饗組合';
+	font-family: King;
+	font-size: 32px;
+	letter-spacing: 4px;
+	color: #fff;
+	position: absolute;
+	top: 5%;
+	left: 2.5%;
+	padding: 8px 28px;
+	z-index: 1;
+	background: linear-gradient(to right, rgba(126,6,8,0) 0%,rgba(126,6,8,1) 20%,rgba(126,6,8,1) 80%,rgba(126,6,8,0) 100%);
+}
+.P-chicken:before{
+	content: '鮮嫩雞腿';
+	font-family: King;
+	font-size: 32px;
+	letter-spacing: 4px;
+	color: #fff;
+	position: absolute;
+	top: 5%;
+	left: 2.5%;
+	padding: 8px 28px;
+	z-index: 1;
+	background: linear-gradient(to right, rgba(109,8,115,0) 0%,rgba(109,8,115,1) 20%,rgba(109,8,115,1) 80%,rgba(109,8,115,0) 100%); 
+}
 /* 1366 ~ 992 */
 
 @media (max-width: 1366px) {
@@ -235,6 +279,13 @@
 		height: 32px;
 		transform: translate(8px,-5px);
 	}
+	.P-pork:before,.P-both:before,.P-chicken:before{
+		font-size: 24px;
+		letter-spacing: 2px;
+		top: 5%;
+		left: 2%;
+		padding: 8px 28px;
+	}
 }
 
 /* under 450 mobile device */
@@ -245,7 +296,7 @@
 		padding-right: 4px;
 	}
 	.content{
-		margin: 30px 0 30px 0;
+		margin: 10px 0 30px 0;
 	}
 	.productsBar{
 		margin-bottom: 10px;
@@ -269,5 +320,21 @@
 	}
 	.hr{
 		margin: 30px 0 30px 0;
+	}
+	.P-pork:before,.P-both:before,.P-chicken:before{
+		font-size: 18px;
+		letter-spacing: 0px;
+		top: 5%;
+		left: 0%;
+		padding: 4px 16px;
+	}
+}
+@media(max-width: 330px){
+	.P-pork:before,.P-both:before,.P-chicken:before{
+		font-size: 14px;
+		letter-spacing: 0px;
+		top: 5%;
+		left: 0%;
+		padding: 4px 16px;
 	}
 }
