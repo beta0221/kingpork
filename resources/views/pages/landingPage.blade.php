@@ -25,15 +25,15 @@
 <div class="productArea container">
 	{{-- <h2 style="text-align: center;margin-bottom: 20px;letter-spacing: 4px;">我要購買<span style="margin: 0 12px 0 12px;">/</span>GO SHOPPING</h2> --}}
 	<div class="row">
-		<div class="product col-md-4 col-4">
+		<div class="product col-md-4 col-12">
 			<div class="P- P-pork">
 				<a href="{{route('productCategory.show',1)}}">
-					<img src="{{asset('images/productsIMG/pork.png')}}" alt="">
+					<img src="{{asset('images/productsIMG/123.png')}}" alt="">
 				</a>
 				<div class="P-buy">購 買</div>
 			</div>
 		</div>
-		<div class="product col-md-4 col-4">
+		<div class="product col-md-4 col-12">
 			<div class="P- P-both">
 				<a href="{{route('productCategory.show',3)}}">
 					<img src="{{asset('images/productsIMG/both.png')}}" alt="">
@@ -41,7 +41,7 @@
 				<div class="P-buy">購 買</div>
 			</div>
 		</div>
-		<div class="product col-md-4 col-4">
+		<div class="product col-md-4 col-12">
 			<div class="P- P-chicken">
 				<a href="{{route('productCategory.show',2)}}">
 					<img src="{{asset('images/productsIMG/chicken.png')}}" alt="">
