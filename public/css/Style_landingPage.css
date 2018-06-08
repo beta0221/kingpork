@@ -83,17 +83,19 @@
 }
 .P-buy{
 	position: absolute;
+	font-family: cwTeXKai , serif;
+	font-weight: 800;
 	right: 20px;
 	bottom: 20px;
 	width: 80px;
-	height: 48px;
-	font-size: 20px;
+	height: 40px;
+	font-size: 22px;
 	text-align: center;
 	color: #fff;
 	border-radius: 0.3em;
 	cursor: pointer;
 	background-color: rgba(146, 15, 39, 1);
-	line-height: 48px;
+	line-height: 40px;
 }
 .P- img{
 	min-width: 100%;
@@ -235,18 +237,34 @@
 	min-height: 100%;
 	filter: opacity(0.5);
 }
+.shop-intro-box h3{
+	position: absolute;
+	top: 20px;
+	left: 0;
+	z-index: 2;
+}
 .shop-intro-box .shop-now-img{
 	filter: opacity(1);
 }
-.shop-info-discription{
-	width: 100%;
-	height: 100%;
-	position: absolute;
-	top: 0;
-	padding: 20px 20px;
-	color: rgba(0,0,0,0.8);
-	transition: all 0.3s ease-in-out;
+/*#story-1-box:before{
+	content: '金園排骨總公司';
 }
+#story-2-box:before{
+	content: '春日店';
+}
+#story-3-box:before{
+	content: '長庚店';
+}
+#story-1-box:before,#story-2-box:before,#story-3-box:before{
+	position: absolute;
+	font-size: 24px;
+	top: 32px;
+	color: #fff;
+	width: 60%;
+	padding: 4px 32px;
+	background: linear-gradient(to right, rgba(146,15,39,1) 0%,rgba(146,15,39,1) 80%,rgba(146,15,39,0) 100%);
+	z-index: 2;
+}*/
 .shop-intro-story{
 	padding:0 15% 0 15%;
 	font-size: 24px;
@@ -262,9 +280,9 @@
 	left: 16.66666%;
 	width: 0; 
 	height: 0; 
-	border-left: 40px solid transparent;
-	border-right: 40px solid transparent;
-	border-bottom: 40px solid rgba(0,0,0,0.1);
+	border-left: 32px solid transparent;
+	border-right: 32px solid transparent;
+	border-bottom: 32px solid rgba(0,0,0,0.1);
 	transform: translate(-50%,-100%);
 	transition: all 0.3s ease-in-out;
 }
@@ -308,6 +326,16 @@
 	#story-1,#story-2,#story-3{
 		padding: 40px 80px;
 	}
+	/*#story-1-box:before,#story-2-box:before,#story-3-box:before{
+		position: absolute;
+		font-size: 24px;
+		top: 32px;
+		color: #fff;
+		width: 60%;
+		padding: 4px 32px;
+		background: linear-gradient(to right, rgba(146,15,39,1) 0%,rgba(146,15,39,1) 80%,rgba(146,15,39,0) 100%);
+		z-index: 2;
+	}*/
 }
 
 @media(max-width: 992px){
@@ -337,12 +365,6 @@
 		font-size: 18px;
 		margin: 60px 0 60px 0;
 	}
-	.shop-info-discription{
-		padding: 16px 0 0 16px;
-	}
-	.shop-info-discription h3{
-		font-size: 20px;
-	}
 	.shop-intro-story-2{
 		padding:0 20px 0 20px;
 		margin: 60px 0 60px 0;
@@ -362,6 +384,16 @@
 	#story-1,#story-2,#story-3{
 		padding: 24px 48px;
 	}
+	/*#story-1-box:before,#story-2-box:before,#story-3-box:before{
+		position: absolute;
+		font-size: 24px;
+		top: 32px;
+		color: #fff;
+		width: 60%;
+		padding: 4px 32px;
+		background: linear-gradient(to right, rgba(146,15,39,1) 0%,rgba(146,15,39,1) 80%,rgba(146,15,39,0) 100%);
+		z-index: 2;
+	}*/
 }
 
 @media(max-width: 450px){
@@ -444,12 +476,6 @@
 		font-size: 14px;
 		margin: 40px 0 40px 0;
 	}
-	.shop-info-discription{
-		padding: 8px 0 0 8px;
-	}
-	.shop-info-discription h3{
-		font-size: 16px;
-	}
 	.shop-intro-story-2{
 		padding:0 8px 0 8px;
 		margin: 20px 0 20px 0;
@@ -469,6 +495,16 @@
 	#story-1,#story-2,#story-3{
 		padding: 10px 20px;
 	}
+	/*#story-1-box:before,#story-2-box:before,#story-3-box:before{
+		position: absolute;
+		font-size: 24px;
+		top: 32px;
+		color: #fff;
+		width: 60%;
+		padding: 4px 32px;
+		background: linear-gradient(to right, rgba(146,15,39,1) 0%,rgba(146,15,39,1) 80%,rgba(146,15,39,0) 100%);
+		z-index: 2;
+	}*/
 	.arrow-up {
 		border-left: 16px solid transparent;
 		border-right: 16px solid transparent;

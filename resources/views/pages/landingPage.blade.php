@@ -88,28 +88,13 @@
 
 		<div class="shop-intro-row">
 			<div id="story-1-box" class=" shop-intro-box">
-				<img class="shop-now-img" src="{{asset('images/king1.png')}}" alt="">
-
-				<div class="shop-info-discription">
-					<h3>金園排骨總公司</h3>
-				</div>
-
+				<img class="shop-now-img" src="{{asset('images/king2-1.png')}}" alt="">
 			</div>
 			<div id="story-2-box" class=" shop-intro-box">
-				<img src="{{asset('images/king3.png')}}" alt="">
-
-				<div class="shop-info-discription">
-					<h3>春日店</h3>
-				</div>
-
+				<img src="{{asset('images/king2-2.png')}}" alt="">
 			</div>
 			<div id="story-3-box" class="shop-intro-box">
-				<img src="{{asset('images/king2.png')}}" alt="">
-
-				<div class="shop-info-discription">
-					<h3>長庚店</h3>
-				</div>
-
+				<img src="{{asset('images/king2-3.png')}}" alt="">
 			</div>
 		</div>
 

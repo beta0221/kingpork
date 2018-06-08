@@ -21,7 +21,9 @@
 	    	{{-- <li class="navbar-li">
 	    		<a class="{{Request::is('')?'now-page':''}}" href="#">美食廚房</a>
 	    	</li> --}}
-
+			<li class="navbar-li">
+	    		<a class="{{Request::is('')?'now-page':''}}" href="#">最新消息</a>
+	    	</li>
 	    	<li class="navbar-li">
 	    		<a class="{{Request::is('guide')?'now-page':''}}" href="{{route('guide')}}">訂購相關</a>
 	    	</li>
