@@ -28,7 +28,7 @@
 		<div class="product col-md-4 col-12">
 			<div class="P- P-pork">
 				<a href="{{route('productCategory.show',1)}}">
-					<img src="{{asset('images/productsIMG/123.png')}}" alt="">
+					<img src="{{asset('images/productsIMG/pork.png')}}" alt="">
 				</a>
 				<div class="P-buy">購 買</div>
 			</div>
