@@ -124,7 +124,7 @@
 			<h4>e-mail：may@sacred.com.tw</h4>
 			<h4>　　　　kingpork@sacred.com.tw</h4>
 			<h4>地址：桃園市桃園區大有路59號３樓</h4>
-			<h4>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos, error, ipsum consequatur voluptatem nihil saepe rerum animi assumenda aliquid dolore voluptates sint ad iste dolorum tenetur perferendis ullam quis aliquam quo ut velit? Cumque omnis quae sapiente totam quidem ipsam libero voluptatibus ut fugiat commodi, autem veritatis reiciendis reprehenderit impedit.</h4>
+			
 		</div>
 		<div id="story-2">
 			<h2>金園排骨-春日店</h3>
@@ -133,7 +133,7 @@
 			<h4>e-mail：may@sacred.com.tw</h4>
 			<h4>　　　　kingpork@sacred.com.tw</h4>
 			<h4>地址：桃園市桃園區大有路59號３樓</h4>
-			<h4>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos, error, ipsum consequatur voluptatem nihil saepe rerum animi assumenda aliquid dolore voluptates sint ad iste dolorum tenetur perferendis ullam quis aliquam quo ut velit? Cumque omnis quae sapiente totam quidem ipsam libero voluptatibus ut fugiat commodi, autem veritatis reiciendis reprehenderit impedit.</h4>
+			
 		</div>
 		<div id="story-3">
 			<h2>金園排骨-長庚店</h3>
@@ -142,7 +142,7 @@
 			<h4>e-mail：may@sacred.com.tw</h4>
 			<h4>　　　　kingpork@sacred.com.tw</h4>
 			<h4>地址：桃園市桃園區大有路59號３樓</h4>
-			<h4>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos, error, ipsum consequatur voluptatem nihil saepe rerum animi assumenda aliquid dolore voluptates sint ad iste dolorum tenetur perferendis ullam quis aliquam quo ut velit? Cumque omnis quae sapiente totam quidem ipsam libero voluptatibus ut fugiat commodi, autem veritatis reiciendis reprehenderit impedit.</h4>
+			
 		</div>
 	</div>
 
