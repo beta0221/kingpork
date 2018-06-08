@@ -1,7 +1,4 @@
-@font-face{
-	font-family:King;
-	src:url(../abc.TTC);
-}
+@import url(https://fonts.googleapis.com/earlyaccess/cwtexkai.css);
 .content{
 	margin:60px 0 80px 0;
 }
@@ -174,7 +171,8 @@
 }
 .P-pork:before{
 	content: '厚切排骨';
-	font-family: King;
+	font-family: cwTeXKai , serif;
+	font-weight: 900;
 	font-size: 32px;
 	letter-spacing: 4px;
 	color: #fff;
@@ -189,7 +187,8 @@
 }
 .P-both:before{
 	content: '雙饗組合';
-	font-family: King;
+	font-family: cwTeXKai , serif;
+	font-weight: 900;
 	font-size: 32px;
 	letter-spacing: 4px;
 	color: #fff;
@@ -202,7 +201,8 @@
 }
 .P-chicken:before{
 	content: '鮮嫩雞腿';
-	font-family: King;
+	font-family: cwTeXKai , serif;
+	font-weight: 900;
 	font-size: 32px;
 	letter-spacing: 4px;
 	color: #fff;

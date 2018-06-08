@@ -6,21 +6,21 @@
 
 
 	    <ul class="navbar-ul navbar-ul-left">
-	    	<li id="line-href" class="navbar-li">
+	    	{{-- <li id="line-href" class="navbar-li">
 	    		<a href="{{url('about-line')}}"><img src="{{asset('images/line.png')}}" alt=""></a>
 	    	</li>
 	    	<li id="facebook-href" class="navbar-li">
 	    		<a href="https://www.facebook.com/KINGPORK/" target="_blank"><img src="{{asset('images/facebook.png')}}" alt=""></a>
-	    	</li>
+	    	</li> --}}
 	    	<li class="navbar-li">
 	    		<a class="{{Request::is('/')?'now-page':''}}" href="{{url('/')}}">首頁</a>
 	    	</li>
 	    	<li class="navbar-li">
 	    		<a class="{{Request::is('productCategory/*')?'now-page':''}}" href="{{route('productCategory.show',1)}}">購物趣</a>
 	    	</li>
-	    	<li class="navbar-li">
+	    	{{-- <li class="navbar-li">
 	    		<a class="{{Request::is('')?'now-page':''}}" href="#">美食廚房</a>
-	    	</li>
+	    	</li> --}}
 	    	<li class="navbar-li">
 	    		<a class="{{Request::is('guide')?'now-page':''}}" href="{{route('guide')}}">訂購相關</a>
 	    	</li>
