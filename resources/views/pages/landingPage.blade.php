@@ -87,14 +87,18 @@
 	<div class="shop-intro-container">
 
 		<div class="shop-intro-row">
+			
 			<div id="story-1-box" class=" shop-intro-box">
 				<img class="shop-now-img" src="{{asset('images/king2-1.png')}}" alt="">
+
 			</div>
 			<div id="story-2-box" class=" shop-intro-box">
 				<img src="{{asset('images/king2-2.png')}}" alt="">
+
 			</div>
 			<div id="story-3-box" class="shop-intro-box">
 				<img src="{{asset('images/king2-3.png')}}" alt="">
+
 			</div>
 		</div>
 

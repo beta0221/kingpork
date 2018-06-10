@@ -333,4 +333,5 @@ $(document).ready(function(){
 		$('#payBtn').css('display','none');
 		$('.processing').removeClass('processing');
 		$('.process-1').addClass('processing');
+		$('.alert-field').empty();
 	}

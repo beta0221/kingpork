@@ -167,6 +167,7 @@
 @media (max-width: 1366px) {
 	.navbar-logo{
 		margin-left: 12px;
+		margin-right: 12px;
 	}
 	.navbar-ul-right{
 		right: 4px;
@@ -192,6 +193,7 @@
 @media (max-width: 992px) {
 	.navbar-logo{
 		margin-left: 8px;
+		margin-right: 8px;
 	}
 	.navbar-logo img{
 		margin-top: 20px;
@@ -273,6 +275,7 @@
 	}
 	.navbar-logo{
 		margin-left: 2px;
+		margin-right: 2px;
 		line-height: 56px;
 	}
 	.navbar-logo img{

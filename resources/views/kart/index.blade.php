@@ -58,7 +58,6 @@
 
 				<p>　</p>
 				<h3 id="h-title" style="text-align: center;margin: 0 0 10px 0;">我的購物車</h3>
-				<div onclick="back_kart();" id="back-kart" class="btn btn-primary mb-2">回購物車</div>
 
 				<form class="kartForm" action="{{route('bill.store')}}" method="POST">
 				{{csrf_field()}}
@@ -233,18 +232,25 @@
 
 					</table>
 					
+					
+					
+					<div class="priceSum">
+						<span style="margin: 0 8px 0 8px;font-size: 18pt;float: right;" id="sum"></span>
+						<span style=";margin: 0 8px 0 8px;font-size: 18pt;float: right;">總額：</span>
+					</div>
 
-					<div class="submitBtn" style="margin-top: 20px;position: absolute;right: 20px;">
-						<span style=";margin: 0 8px 0 8px;font-size: 18pt;">總額：</span>
-						<span style="font-size: 18pt;" id="sum"></span>
-						<div onclick="sureToBuy()" class="sureToBuy btn btn-primary" style="margin:0 0 0 20px;">
+					<div class="submitBtn">
+
+						<div class="back-shop btn btn-success mr-2" onclick="location.href='/productCategory/1'">繼續購物</div>
+						<div onclick="back_kart();" id="back-kart" class="btn btn-primary">回購物車</div>
+
+						<div onclick="sureToBuy()" class="sureToBuy btn btn-primary">
 							確定購買
 						</div>
-
 						<div onclick="checkForm();" id="payBtn" class="ml-3">送出訂單</div>
 						
-						
 					</div>
+
 				</form>
 					
 				@endif
