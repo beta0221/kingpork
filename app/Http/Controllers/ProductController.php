@@ -67,6 +67,7 @@ class ProductController extends Controller
 
         $product = new Products;
         $product->name = $request->name;
+        $product->discription = $request->discription;
         $product->slug = $request->slug;
         $product->category_id=$request->category_id;
         $product->format = $request->format;
@@ -189,6 +190,7 @@ class ProductController extends Controller
         ]);
 
         $product->name=$request->input('name');
+        $product->discription=$request->input('discription');
         $product->slug=$request->input('slug');
         $product->category_id=$request->input('category_id');
         $product->format=$request->input('format');

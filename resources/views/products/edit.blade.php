@@ -23,6 +23,8 @@
 				{{Form::label('name','品名：(必填)')}}
 				{{ Form::text('name',null,['class'=>'form-control']) }}<br>
 
+				{{Form::label('discription','小標題：(可忽略)')}}
+				{{ Form::text('discription',null,['class'=>'form-control']) }}<br>
 				
 				{{Form::label('slug','代號：(必填｜大於5字元｜不可重複)')}}
 				{{ Form::text('slug',null,['class'=>'form-control'])}}<br>

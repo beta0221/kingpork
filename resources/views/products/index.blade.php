@@ -47,6 +47,7 @@
 			<th scope="col">ID</th>
 			<th scope="col">圖片</th>
 			<th scope="col">名稱</th>
+			<th scope="col">小標</th>
 			<th scope="col">代號</th>
 			<th scope="col">類別</th>
 			<th scope="col">每片單價</th>
@@ -67,6 +68,7 @@
 				{{-- {{$product->image}} --}}
 			</td>
 			<td>{{$product->name}}</td>
+			<td>{{$product->discription}}</td>
 			<td>{{$product->slug}}</td>
 			<td>{{$product->productCategory->name}}</td>
 			<td>{{$product->format}}</td>

@@ -59,6 +59,8 @@
 						@foreach($productCategory->products as $product)
 							<div onclick="showProduct({{$product->id}});" class="productItem">
 								<span>{{$product->name}}</span>
+								{!!($product->discription == null)?'':'<span class="' . 'product-discription">'. $product->discription .'</span>'!!}
+
 								<span class="productPrice">${{$product->price}}</span>
 								<span class="productPrice productPrice_avg">（均價${{$product->format}}）</span>
 								<button id="add_{{$product->id}}" class="addToKartBtn" onclick="addToKart({{$product->id}})" product_id="{{$product->id}}">

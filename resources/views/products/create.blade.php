@@ -28,6 +28,9 @@
 							<label for="name">品名：(必填)</label>
 							<input class="form-control" type="text" name="name">
 
+							<label for="discription">小標題：（可忽略）</label>
+							<input class="form-control" type="text" name="discription">
+
 							<label for="slug">代號：(必填｜大於5字元｜不可重複)</label>
 							<input class="form-control" type="text" name="slug">
 

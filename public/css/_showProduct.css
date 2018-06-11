@@ -104,6 +104,13 @@
 .nowItem{
 	background-color: rgba(0,0,0,0.1);
 }
+.product-discription{
+	background-color: red;
+	border-radius: 0.2em;
+	color: yellow;
+	font-size: 15px;
+	padding: 4px;
+}
 .productPrice{
 	float: right;
 	color: #c80013;
