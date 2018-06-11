@@ -108,7 +108,7 @@
 	background-color: red;
 	border-radius: 0.2em;
 	color: yellow;
-	font-size: 15px;
+	font-size: 14px;
 	padding: 4px;
 }
 .productPrice{
@@ -234,7 +234,7 @@
 		font-size: 18px;
 	}
 	.product-discription{
-		font-size: 15px;
+		font-size: 14px;
 		padding: 2px;
 	}
 	.addToKartBtn{
@@ -264,7 +264,7 @@
 		cursor: pointer;
 	}
 	.product-discription{
-		font-size: 13px;
+		font-size: 12px;
 		padding: 0px;
 	}
 	.addToKartBtn{
