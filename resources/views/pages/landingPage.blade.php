@@ -113,25 +113,32 @@
 			<h4>e-mail：may@sacred.com.tw</h4>
 			<h4>　　　　kingpork@sacred.com.tw</h4>
 			<h4>地址：桃園市桃園區大有路59號３樓</h4>
-			
+			<div class="google-map">
+				<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3615.8630138224594!2d121.3224238588966!3d25.00477030090872!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34681e5a371e6323%3A0x3192af8956be9763!2zMzMw5qGD5ZyS5biC5qGD5ZyS5Y2A5aSn5pyJ6LevNTnomZ8!5e0!3m2!1szh-TW!2stw!4v1528712582756" width="100%" height="100%" frameborder="0" style="border:0" allowfullscreen></iframe>
+			</div>
 		</div>
 		<div id="story-2">
-			<h2>金園排骨-春日店</h3>
-			<h4>客服專線：0800-552-999</h4>
-			<h4>傳真電話：03-334-8965;03-337-5338</h4>
+			<h2>金園排骨-【春日店】</h3>
+			<h4>客服專線：03-339-0363 ; 03-339-0343</h4>
 			<h4>e-mail：may@sacred.com.tw</h4>
 			<h4>　　　　kingpork@sacred.com.tw</h4>
-			<h4>地址：桃園市桃園區大有路59號３樓</h4>
+			<h4>地址：桃園市桃園區春日路278號</h4>
+			<h4>店休日：週三</h4>
+
 			
 		</div>
 		<div id="story-3">
-			<h2>金園排骨-長庚店</h3>
-			<h4>客服專線：0800-552-999</h4>
-			<h4>傳真電話：03-334-8965;03-337-5338</h4>
+			<h2>金園排骨-【長庚店】</h3>
+			<h4>客服專線：03-318-3315</h4>
 			<h4>e-mail：may@sacred.com.tw</h4>
 			<h4>　　　　kingpork@sacred.com.tw</h4>
-			<h4>地址：桃園市桃園區大有路59號３樓</h4>
-			
+			<h4>地址：桃園市龜山區復興街5號</h4>
+			<h4>【林口長庚地下美食街】</h4>
+			<h4>店休日：週日</h4>
+			<div class="google-map">
+				<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3614.2203398053202!2d121.3662263148874!3d25.060519983959885!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442a73adf8e04d1%3A0x2f3929d61cb8ab77!2zMzMz5qGD5ZyS5biC6b6c5bGx5Y2A5b6p6IiI6KGXNS036Jmf!5e0!3m2!1szh-TW!2stw!4v1528713158239" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+			</div>
+
 		</div>
 	</div>
 
