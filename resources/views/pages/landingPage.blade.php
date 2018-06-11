@@ -135,9 +135,7 @@
 			<h4>地址：桃園市龜山區復興街5號</h4>
 			<h4>【林口長庚地下美食街】</h4>
 			<h4>店休日：週日</h4>
-			<div class="google-map">
-				<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3614.2203398053202!2d121.3662263148874!3d25.060519983959885!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442a73adf8e04d1%3A0x2f3929d61cb8ab77!2zMzMz5qGD5ZyS5biC6b6c5bGx5Y2A5b6p6IiI6KGXNS036Jmf!5e0!3m2!1szh-TW!2stw!4v1528713158239" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
-			</div>
+			
 
 		</div>
 	</div>
