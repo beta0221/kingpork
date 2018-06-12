@@ -23,7 +23,7 @@ class OrderManagementController extends Controller
     {
 
         $page = isset($_GET['page']) ? $_GET['page'] : 1 ;
-        $data_take = isset($_GET['data_take']) ? $_GET['data_take'] : 10 ;
+        $data_take = isset($_GET['data_take']) ? $_GET['data_take'] : 20 ;
         $data_from = $page * $data_take - $data_take;
         $rows_amount = Bill::all()->count();
         $page_amount = ceil($rows_amount / $data_take);
