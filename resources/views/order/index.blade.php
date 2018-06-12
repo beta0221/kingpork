@@ -127,7 +127,6 @@
 				
 				<span> - 每頁比數:</span>
 				<select name="data_take" id="data_taker">
-					<option value="10">10</option>
 					<option value="20">20</option>
 					<option value="50">50</option>
 					<option value="100">100</option>
