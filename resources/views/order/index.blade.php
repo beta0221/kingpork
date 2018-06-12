@@ -236,7 +236,7 @@
 						@if(($order['pay_by'] == '貨到付款' AND $order['shipment'] == 0) OR ($order['status'] == 1 AND $order['shipment'] == 0))
 						<button class="btn btn-sm btn-danger shipmentBtn" id="{{$order['bill_id']}}" onclick="shipment('{{$order['bill_id']}}');">可準備</button>
 
-						@elseif($order['status'] == 1 AND $order['shipment'] == 1)
+						@elseif(($order['pay_by'] == '貨到付款' AND $order['shipment'] == 1) OR ($order['status'] == 1 AND $order['shipment'] == 1))
 						<button class="btn btn-sm btn-warning shipmentBtn" id="{{$order['bill_id']}}" onclick="shipment('{{$order['bill_id']}}');">準備中</button>
 
 						@elseif($order['shipment']==2)
