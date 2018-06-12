@@ -44,7 +44,13 @@ class OrderManagementController extends Controller
             $date2 = isset($_GET['date2']) ? $_GET['date2'] : null;
 
             if (isset($shipment_0)) {
-                $query->orWhere('shipment',$shipment_0);
+                $query->orWhere([
+                    ['shipment','=',$shipment_0],
+                    ['pay_by','=','貨到付款'],
+                ])->orWhere([
+                    ['shipment','=',$shipment_0],
+                    ['status','=','1'],
+                ]);
             }
             if (isset($shipment_1)) {
                 $query->orWhere('shipment',$shipment_1);
