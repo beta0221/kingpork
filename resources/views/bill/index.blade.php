@@ -84,10 +84,14 @@
 								@endif
 							</td>
 							<td>
-								@if($billX[0]['shipment']=='已出貨')
-									<font color="#5cb85c">{{$billX[0]['shipment']}}</font>
-								@else
-									<font color="gray">{{$billX[0]['shipment']}}</font>
+								@if($billX[0]['shipment']==0)
+									-
+								@elseif($billX[0]['shipment']==1)
+									<font color="#eb9316">準備中</font>
+								@elseif($billX[0]['shipment']==2)
+									<font color="#5cb85c">已出貨</font>
+								@elseif($billX[0]['shipment']==3)
+									<font color="green">已收貨</font>
 								@endif
 								
 							</td>

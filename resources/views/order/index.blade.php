@@ -6,8 +6,9 @@
 <style>
 	.nav{
 		width: 100%;
-		height: 56px;
+		height: 80px;
 		border:1pt solid #000;
+		padding: 12px 12px;
 	}
 	.input{
 		height: 28px;
@@ -20,12 +21,32 @@
 	.table,.nav{
 		font-size: 14px;
 	}
-	.nav{
-		padding: 12px 12px;
-	}
 	.table td,.table th{
 		padding-left: 2px;
 		padding-right: 2px;
+	}
+	#search-btn{
+		position: absolute;
+		right: 12px;
+		top: 12px;
+	}
+	#separater{
+		margin-bottom: 4px;
+
+	}
+	.next-prev{
+		display: inline-block;
+		background-color: #0275d8;
+		color: #fff;
+		border-radius: 0.2rem;
+		border: none;
+		height: 20px;
+		width: 20px;
+		text-align: center;
+		cursor: pointer;
+	}
+	.next-prev span{
+		line-height: 20px;
 	}
 </style>
 @endsection
@@ -54,12 +75,12 @@
 {{-- Modal --}}
 
 		<div class="nav">
-			<form id="searchForm" action="{{route('order.search')}}" method="POST">
-				{{csrf_field()}}
-				<input style="width: 150px;" id="bill_id" name="bill_id" type="text" class="input form-control" placeholder="訂單編號" value="{{Session::get('bill_id')}}">
+			<form id="searchForm" action="{{URL::current()}}" method="GET">
+				{{-- {{csrf_field()}} --}}
+				<input style="width: 150px;" id="bill_id" name="bill_id" type="text" class="input form-control" placeholder="訂單編號" value="{{isset($_GET['bill_id'])?$_GET['bill_id']:''}}">
 				-
-				<input id="date1" name="date1" type="date" class="input form-control" value="{{Session::get('date1')}}">~
-				<input id="date2" name="date2" type="date" class="input form-control" value="{{Session::get('date2')}}">
+				<input id="date1" name="date1" type="date" class="input form-control" value="{{isset($_GET['date1'])?$_GET['date1']:''}}">~
+				<input id="date2" name="date2" type="date" class="input form-control" value="{{isset($_GET['date2'])?$_GET['date2']:''}}">
 				-
 				<select id="select_county" name="ship_county">
 					<option value="">縣市</option>
@@ -83,50 +104,78 @@
 					<option value="花蓮縣">花蓮縣</option>
 					<option value="宜蘭縣">宜蘭縣</option>
 				</select>
-				-
-				<input name="pay_by_ATM" type="checkbox" value="ATM" @if(Session::has('pay_by_ATM')) checked @endif>ATM
+				<p id="separater"> </p>
+				<input name="pay_by_ATM" type="checkbox" value="ATM" {{isset($_GET['pay_by_ATM'])?'checked':''}}>ATM
 				<span>/</span>
-				<input name="pay_by_cod" type="checkbox" value="貨到付款" @if(Session::has('pay_by_cod')) checked @endif>貨到付款
+				<input name="pay_by_cod" type="checkbox" value="貨到付款" {{isset($_GET['pay_by_cod'])?'checked':''}}>貨到付款
 				<span>/</span>
-				<input name="pay_by_credit" type="checkbox" value="CREDIT" @if(Session::has('pay_by_credit')) checked @endif>信用卡
+				<input name="pay_by_credit" type="checkbox" value="CREDIT" {{isset($_GET['pay_by_credit'])?'checked':''}}>信用卡
 				-
-				<input name="pay_1" type="checkbox" value="1" @if(Session::has('pay_1')) checked @endif>
-				<span style="color:#5cb85c;">已付款</span>
+				<input name="shipment_0" type="checkbox" value="0" {{isset($_GET['shipment_0'])?'checked':''}}>
+				<span style="color:#d9534f;">可準備</span>
 				<span>/</span>
-				<input name="pay_0" type="checkbox" value="1" @if(Session::has('pay_0')) checked @endif>
-				<span style="color: #d9534f;">未付款</span>
-				-
-				<input name="shipment_1" type="checkbox" value="已出貨"@if(Session::has('shipment_1')) checked @endif>
+				<input name="shipment_1" type="checkbox" value="1" {{isset($_GET['shipment_1'])?'checked':''}}>
+				<span style="color: #eb9316;">準備中</span>
+				<span>/</span>
+				<input name="shipment_2" type="checkbox" value="2"{{isset($_GET['shipment_2'])?'checked':''}}>
 				<span style="color: #5cb85c;">已出貨</span>
 				<span>/</span>
-				<input name="shipment_0" type="checkbox" value="未出貨"@if(Session::has('shipment_0')) checked @endif>
-				<span style="color: #f0ad4e;">未出貨</span>
+				<input name="shipment_3" type="checkbox" value="3"{{isset($_GET['shipment_3'])?'checked':''}}>
+				<span style="color: green;">已結案</span>
 
-				<button style="display: inline-block;margin: 0 10px 0 10px;" class="btn btn-sm btn-primary" type="submit">搜尋</button>
+				<button id="search-btn" class="btn btn-sm btn-primary" type="submit">搜尋</button>
+				
+				<span> - 每頁比數:</span>
+				<select name="data_take" id="data_taker">
+					<option value="10">10</option>
+					<option value="20">20</option>
+					<option value="50">50</option>
+					<option value="100">100</option>
+				</select>
+				
+				<span>-</span>
+				<div onclick="prevPage();" id="prev" class="next-prev"><span><</span></div>
+				<span>第</span>
+				<select name="page" id="pageSelecter">
+					@for($i = 1;$i <= $page_amount;$i ++)
+					<option value="{{$i}}">{{$i}}</option>
+					@endfor
+				</select>
+				<span>頁</span>
+				<div onclick="nextPage();" id="next" class="next-prev"><span>></span></div>
+
+				
 
 			</form>
-
 			
+
+
 		</div>
+
+
 		<div style="width: 100%;">
 		<table class="table">
 			<thead>
 				<tr>
 					<th>#</th>
 					<th>時間</th>
+					<th>收貨人</th>
 					<th>編號</th>
 					{{-- <th>訂購人</th> --}}
 					<th>商品</th>
-					<th>總價</th>
-					<th>收貨人</th>
-					<th>性別</th>
-					<th>電話</th>
-					<th>地址</th>
-					<th>付款方式</th>
-					<th>付款</th>
+
 					<th>到貨日</th>
 					<th>時間</th>
 					<th>發票</th>
+
+					<th>總價</th>
+					
+					{{-- <th>性別</th> --}}
+					{{-- <th>電話</th> --}}
+					{{-- <th>地址</th> --}}
+					<th>付款方式</th>
+					<th>付款狀態</th>
+					
 					<th>備註</th>
 					<th>出貨</th>
 				</tr>
@@ -139,48 +188,72 @@
 				<tr>
 					<td>{{$i++}}</td>
 					<td>{{$order['created_at']}}</td>
-					<td>{{$order['bill_id']}}</td>
-					{{-- <td>{{$order['user_name']}}</td> --}}
+					
+					<td>
+						@if($order['ship_gender']==1)
+							<font color="green">{{$order['ship_name']}}</font>
+						@else
+							<font color="purple">{{$order['ship_name']}}</font>
+						@endif
+					</td>
+
+					<td><a href="{{url('order/showAll').'/'.$order['bill_id']}}" target="_blank">{{$order['bill_id']}}</a></td>
+
 					<td>
 						@foreach($order['item'] as $item)
 						{{$item['name']}}*{{$item['quantity']}}<br>
 						@endforeach
 					</td>
+
+					<td>
+						@if($order['ship_arriveDate'] == null)-@else{{$order['ship_arriveDate']}}@endif
+					</td>
+
+					<td>
+						@if($order['ship_time'] == 'no')-@else{{$order['ship_time']}}@endif
+					</td>
+
+					<td>
+						@if($order['ship_receipt'] == '2')二連@else 3連@endif
+					</td>
+
 					<td>{{$order['price']}}</td>
-					<td>{{$order['ship_name']}}</td>
-					<td>
-						@if($order['ship_gender']==1)先生@else 小姐@endif
-					</td>
-					<td>{{$order['ship_phone']}}</td>
-					<td>{{$order['ship_county']}}-{{$order['ship_district']}}-{{$order['ship_address']}}</td>
+
 					<td>{{$order['pay_by']}}</td>
+
 					<td>{{$order['status']}}</td>
-					<td>
-						@if($order['ship_arriveDate'] == null)無@else{{$order['ship_arriveDate']}}@endif
-					</td>
-					<td>
-						@if($order['ship_time'] == 'no')無@else{{$order['ship_time']}}@endif
-					</td>
-					<td>
-						@if($order['ship_receipt'] == '2')二連@else{{$order['ship_three_id']}}{{$order['ship_three_company']}}@endif
-					</td>
+					
+
+
 					<td onclick="showMemo('{{$order['bill_id']}}');" data-toggle="modal" data-target="#exampleModal">
-						{{substr(strip_tags($order['ship_memo']),0,20)}}
-						{{strlen(strip_tags($order['ship_memo'])) > 20 ? '...' : ''}}
-					</td>
-					<td>
-						@if($order['pay_by']=='ATM' AND $order['status'] != '1')
-						-
-						@elseif($order['pay_by']=='CREDIT' AND $order['status'] != '1')
-						-
-						@elseif($order['shipment'] == '未出貨')
-						<button class="btn btn-sm btn-warning shipmentBtn" id="{{$order['bill_id']}}" onclick="shipment('{{$order['bill_id']}}');">{{$order['shipment']}}</button>
-						@else
-						<button class="btn btn-sm btn-success shipmentBtn" id="{{$order['bill_id']}}" onclick="shipment('{{$order['bill_id']}}');">{{$order['shipment']}}</button>
+						@if($order['ship_memo'] != null)
+							<font style="cursor: pointer;background-color: red;" color="yellow">！</font>
 						@endif
 					</td>
+
+
+					<td>
+						@if(($order['pay_by'] == '貨到付款' AND $order['shipment'] == 0) OR ($order['status'] == 1 AND $order['shipment'] == 0))
+						<button class="btn btn-sm btn-danger shipmentBtn" id="{{$order['bill_id']}}" onclick="shipment('{{$order['bill_id']}}');">可準備</button>
+
+						@elseif($order['status'] == 1 AND $order['shipment'] == 1)
+						<button class="btn btn-sm btn-warning shipmentBtn" id="{{$order['bill_id']}}" onclick="shipment('{{$order['bill_id']}}');">準備中</button>
+
+						@elseif($order['shipment']==2)
+						<button class="btn btn-sm btn-success shipmentBtn" id="{{$order['bill_id']}}" onclick="shipment('{{$order['bill_id']}}');">已出貨</button>
+
+						@elseif($order['shipment']==3)
+							<font class="btn-sm" style="background-color: green;" color="#fff">＊結案＊</font>
+
+						@else
+						-
+						@endif
+					</td>
+
+
 				</tr>
 				@endforeach
+				
 			</tbody>
 		</table>
 		</div>
@@ -190,12 +263,48 @@
 @section('scripts')
 {{ Html::script('js/bootstrap/bootstrap.min.js') }}
 	<script>
-	function shipment($id){
+	$(document).ready(function(){
+
 		$.ajaxSetup({
 	  		headers: {
 	    		'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
 	  		}
 		});
+
+		@if (isset($_GET['ship_county']))
+		$('#select_county').val('{{$_GET['ship_county']}}');
+		@endif
+
+		$('#date1').change(function(){
+			$('#date2').val($('#date1').val());
+		});
+
+		@if (isset($_GET['data_take']))
+		$('#data_taker').val('{{$_GET['data_take']}}');
+		@endif
+
+		@if (isset($_GET['page']))
+		$('#pageSelecter').val('{{$_GET['page']}}');
+		@endif
+
+		if (parseInt($('#pageSelecter').val()) == {{$page_amount}}) {
+			$('#next').css('display','none');
+		}else if (parseInt($('#pageSelecter').val()) == 1) {
+			$('#prev').css('display','none');
+		}
+
+		$('#data_taker').change(function(){
+			$('#pageSelecter').val('1');
+			$('#searchForm').submit();
+		});
+
+		$('#pageSelecter').change(function(){
+			$('#searchForm').submit();
+		});
+	});
+
+	function shipment($id){
+		
 		$.ajax({
 			type:'POST',
 			url:'order/'+$id,
@@ -205,11 +314,14 @@
 			},
 			success: function (response) {
 				if (response == 1) {
+					$('#'+$id).removeClass('btn-danger').addClass('btn-warning');
+					$('#'+$id).html('準備中');
+				}else if(response == 2){
 					$('#'+$id).removeClass('btn-warning').addClass('btn-success');
 					$('#'+$id).html('已出貨');
 				}else if(response == 0){
-					$('#'+$id).removeClass('btn-success').addClass('btn-warning');
-					$('#'+$id).html('未出貨');
+					$('#'+$id).removeClass('btn-success').addClass('btn-danger');
+					$('#'+$id).html('可準備');
 				}
 			},
 			error: function () {
@@ -221,11 +333,7 @@
 	function showMemo($id){
 		$('.modal-body').empty();
 		$('.modal-title').empty();
-		$.ajaxSetup({
-	  		headers: {
-	    		'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-	  		}
-		});
+		
 		$.ajax({
 			type:'GET',
 			url:'order/'+$id,
@@ -240,18 +348,19 @@
 		});
 	};
 
-	$(document).ready(function(){
-		@if (Session::has('ship_county'))
-		$('#select_county').val('{{Session::get('ship_county')}}');
-		@endif
-		$('#date1').change(function(){
-			$('#date2').val($('#date1').val());
-		});
-		$('#bill_id').keypress(function(e){
-			if (e.which == 13) {
-				$('#searchForm').submit();
-			}
-		});
-	});
+	function nextPage(){
+		var i = parseInt($('#pageSelecter').val());		
+		i = i + 1;
+		$('#pageSelecter').val(i);
+		$('#searchForm').submit();
+	}
+
+	function prevPage(){
+		var i = parseInt($('#pageSelecter').val());		
+		i = i - 1;
+		$('#pageSelecter').val(i);
+		$('#searchForm').submit();
+	}
+
 	</script>
 @endsection

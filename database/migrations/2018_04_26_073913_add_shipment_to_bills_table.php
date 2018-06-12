@@ -14,7 +14,7 @@ class AddShipmentToBillsTable extends Migration
     public function up()
     {
         Schema::table('bills', function (Blueprint $table) {
-            $table->string('shipment')->default('未出貨')->after('ship_memo');
+            $table->integer('shipment')->default('0')->after('ship_memo');
         });
     }
 

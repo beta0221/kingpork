@@ -52,7 +52,7 @@ Route::get('getRunner','RunnerController@getRunner');
 
 //Order Management
 Route::resource('order','OrderManagementController',['except'=>['create','store']]);
-Route::post('order','OrderManagementController@search')->name('order.search');
+Route::get('order/showAll/{bill}','OrderManagementController@showAll');
 
 //php artisan make:auth
 Auth::routes();
