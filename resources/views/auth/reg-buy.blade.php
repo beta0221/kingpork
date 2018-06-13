@@ -166,7 +166,7 @@
 
                         <div class="col-md-6 offset-md-3">
                             <input id="password" type="password" class="form-control" name="password" placeholder="密碼" required>
-
+                            <input type="text" name="reg_buy" style="display: none;" value="1">
                             {{-- @if ($errors->has('password'))
                                 <span class="help-block">
                                     <strong>{{ $errors->first('password') }}</strong>

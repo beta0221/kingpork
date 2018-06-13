@@ -5,6 +5,8 @@ namespace Illuminate\Foundation\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Session;
+use App\sessionCart;
+use App\Kart;
 
 trait AuthenticatesUsers
 {
@@ -101,6 +103,42 @@ trait AuthenticatesUsers
         $request->session()->regenerate();
 
         $this->clearLoginAttempts($request);
+
+        
+
+
+
+
+
+        //購物內容轉換進使用者購物車的切入點
+        $ip_address = request()->ip();
+        $sessionCart=sessionCart::where('ip_address',$ip_address)->first();
+        if ($sessionCart) {
+
+            $items=json_decode($sessionCart->item);
+
+            if (count($items) > 0) {
+                
+                Kart::where('user_id',Auth::user()->id)->delete();
+
+                foreach ($items as $item) {
+                    $kart = new Kart;
+                    $kart->user_id = Auth::user()->id;
+                    $kart->product_id = $item;
+                    $kart->save();
+                }
+
+            }
+            sessionCart::where('ip_address',$ip_address)->delete();
+        }
+        if ($request->reg_buy == 1) {
+            return redirect()->route('kart.index');
+        }
+        //購物內容轉換進使用者購物車的切入點
+
+        
+
+
 
         return $this->authenticated($request, $this->guard()->user())
                 ?: redirect()->intended($this->redirectPath());
