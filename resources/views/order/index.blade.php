@@ -76,7 +76,9 @@
 
 		<div class="nav">
 			<form id="searchForm" action="{{URL::current()}}" method="GET">
-				{{-- {{csrf_field()}} --}}
+				
+				<input style="width: 100px;" type="text" name="user_name" class="input form-control" placeholder="姓名" value="{{isset($_GET['user_name'])?$_GET['user_name']:''}}">
+				-
 				<input style="width: 150px;" id="bill_id" name="bill_id" type="text" class="input form-control" placeholder="訂單編號" value="{{isset($_GET['bill_id'])?$_GET['bill_id']:''}}">
 				-
 				<input id="date1" name="date1" type="date" class="input form-control" value="{{isset($_GET['date1'])?$_GET['date1']:''}}">~

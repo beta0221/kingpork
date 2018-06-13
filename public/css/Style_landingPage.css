@@ -452,6 +452,9 @@
 	.productArea{
 		margin-top: 0px;
 	}
+	.product{
+		padding-top: 70%;
+	}
 	.shop-intro{
 		margin-top: 40px;
 		margin-bottom: 20px;
@@ -465,7 +468,7 @@
 	.P- img{
 		min-width: 100%;
 		height: auto;
-		top: -100%;
+		top: -30%;
 	}
 	.P-pork:before,.P-both:before,.P-chicken:before{
 		font-size: 32px;
