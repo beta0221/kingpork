@@ -32,6 +32,7 @@ class OrderManagementController extends Controller
         $jsons = Bill::where(function($query){
 
             $user_name = isset($_GET['user_name']) ? $_GET['user_name'] : null;
+            $ship_phone = isset($_GET['ship_phone']) ? $_GET['ship_phone'] : null;
             $shipment_0 = isset($_GET['shipment_0']) ? $_GET['shipment_0'] : null;
             $shipment_1 = isset($_GET['shipment_1']) ? $_GET['shipment_1'] : null;
             $shipment_2 = isset($_GET['shipment_2']) ? $_GET['shipment_2'] : null;
@@ -46,6 +47,9 @@ class OrderManagementController extends Controller
 
             if (isset($user_name) AND $user_name != '') {
                 $query->orWhere('user_name',$user_name);
+            }
+            if (isset($ship_phone) AND $ship_phone != '') {
+                $query->orWhere('ship_phone',$ship_phone);
             }
             if (isset($shipment_0)) {
                 $query->orWhere([
