@@ -216,8 +216,11 @@ class OrderManagementController extends Controller
     public function update(Request $request, $id)
     {
         if (isset($request->selectArray)) {
-            
-            $bills = Bill::where('status',1)->orWhere('pay_by','貨到付款')->whereIn('bill_id',$request->selectArray)->get();
+
+            $bills = Bill::where(function($query){
+                $query->orWhere('pay_by','貨到付款')->orWhere([['status','=','1'],['pay_by','!=','貨到付款']]);  
+            })->whereIn('bill_id',$request->selectArray)->get();
+
 
             foreach ($bills as $bill) {
 
