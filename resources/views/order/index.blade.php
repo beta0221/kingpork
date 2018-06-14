@@ -156,8 +156,8 @@
 			
 
 			<div class="tool-box">
-				<button onclick="selectAll();" class="btn btn-dark btn-sm">全選</button>
-				<button onclick="selectPush();" class="btn btn-dark btn-sm">下階段</button>
+				<button style="background-color: #000;color: #fff" onclick="selectAll();" class="btn btn-sm">全選</button>
+				<button style="background-color: #000;color: #fff" onclick="selectPush();" class="btn btn-sm">下階段</button>
 			</div>
 		</div>
 
@@ -400,23 +400,30 @@
 			i++;
 		});
 
-		confirm("確定送出");
+		if (selected.length > 0) {
 
-		$.ajax({
-			type:'POST',
-			url:'order/1',
-			dataType:'json',
-			data: {
-				_method: 'PUT',
-				selectArray:selected,
-			},
-			success: function (response) {
-				location.reload();
-			},
-			error: function () {
-	            alert('錯誤');
-	        },
-		});
+
+			confirm("確定送出");
+
+			$.ajax({
+				type:'POST',
+				url:'order/1',
+				dataType:'json',
+				data: {
+					_method: 'PUT',
+					selectArray:selected,
+				},
+				success: function (response) {
+					location.reload();
+				},
+				error: function () {
+		            alert('錯誤');
+		        },
+			});
+		}else{
+			alert('請選取訂單');
+		}
+
 	}
 
 	</script>
