@@ -17,6 +17,15 @@
 @section('content')
 
 <a href="{{route('products.create')}}" class="btn btn-success btn-sm mt-2 mb-2 ml-3 mr-3" style="color: #fff;cursor: pointer;">新增產品</a>
+
+<form id="catForm" style="display: inline-block;" action="{{URL::current()}}" method="GET">
+	<select name="category" id="categorySelecter">
+		<option value="">全部分類</option>
+		<option value="1">排骨</option>
+		<option value="2">雞腿</option>
+		<option value="3">雙饗</option>
+	</select>
+</form>
 		
 <!-- Modal -->
 {{-- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -98,35 +107,15 @@
 
 
 
-
 @section('scripts')
 <script>
-	// function show(id){
-	// 	$('.modal-body').empty();
-	// 	$('.modal-title').empty();
-	// 	$.ajaxSetup({
- //  			headers: {
- //    			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
- //  			}
-	// 	});
-	// 	$.ajax({
-
-	// 		type:'GET',
-	// 		url:'/products/' + id,
-	// 		dataType:'json',
-	// 		success: function (response) {
-	// 			$('.modal-body').append(response.content);
-	// 			$('.modal-title').append(response.name);
-	// 		},
-	// 		error: function () {
- //                alert('錯誤');
- //            },
-	// 	});	
-	// };
+$(document).ready(function(){
+	$('#categorySelecter').change(function(){
+		$('#catForm').submit();
+	});
+	@if (isset($_GET['category']))
+	$('#categorySelecter').val('{{$_GET['category']}}');
+	@endif
+});
 </script>
-	{{-- <script type="text/javascript">
-		$('#myModal').on('shown.bs.modal', function () {
-		  $('#myInput').trigger('focus');
-		})
-	</script> --}}
 @endsection

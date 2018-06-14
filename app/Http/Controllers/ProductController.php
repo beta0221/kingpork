@@ -30,7 +30,14 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Products::all();
+        $category = isset($_GET['category']) ? $_GET['category'] : null;
+
+        if (isset($category) AND $category != '') {
+            $products = Products::where('category_id',$category)->get();
+        }
+        else{
+            $products = Products::all();    
+        }
 
         return view('products.index', ['products' => $products]);
     }
