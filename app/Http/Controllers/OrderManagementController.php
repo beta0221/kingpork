@@ -215,27 +215,59 @@ class OrderManagementController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $bill = Bill::where('bill_id','=',$id)->firstOrFail();
+        if (isset($request->selectArray)) {
+            
+            $bills = Bill::orWhere('pay_by','貨到付款')->orWhere('status',1)->whereIn('bill_id',$request->selectArray)->get();
+
+            foreach ($bills as $bill) {
+
+                if ($bill->shipment == 0) {
+                
+                    $bill->shipment = 1;
+                    $bill->save();
+
+
+                }elseif ($bill->shipment == 1) {
+
+                    $bill->shipment = 2;
+                    $bill->save();
+
+
+                }elseif ($bill->shipment == 2) {
+                    
+                    $bill->shipment = 0;
+                    $bill->save();
+
+                }
+
+            }
+
+
+            return response()->json('success');
+
+        }else{
+            $bill = Bill::where('bill_id','=',$id)->firstOrFail();
         
+            if ($bill->shipment == 0) {
+                
+                $bill->shipment = 1;
+                $bill->save();
+                return response()->json(1);
 
-        if ($bill->shipment == 0) {
-            
-            $bill->shipment = 1;
-            $bill->save();
-            return response()->json(1);
+            }elseif ($bill->shipment == 1) {
 
-        }elseif ($bill->shipment == 1) {
+                $bill->shipment = 2;
+                $bill->save();
+                return response()->json(2);
 
-            $bill->shipment = 2;
-            $bill->save();
-            return response()->json(2);
-
-        }elseif ($bill->shipment == 2) {
-            
-            $bill->shipment = 0;
-            $bill->save();
-            return response()->json(0);
+            }elseif ($bill->shipment == 2) {
+                
+                $bill->shipment = 0;
+                $bill->save();
+                return response()->json(0);
+            }    
         }
+        
     }
 
     /**

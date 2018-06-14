@@ -25,11 +25,6 @@
 		padding-left: 2px;
 		padding-right: 2px;
 	}
-	#search-btn{
-		position: absolute;
-		right: 12px;
-		top: 12px;
-	}
 	#separater{
 		margin-bottom: 4px;
 
@@ -47,6 +42,13 @@
 	}
 	.next-prev span{
 		line-height: 20px;
+	}
+	.tool-box{
+		position: absolute;
+		right: 12px;
+		top: 12px;
+	}
+	input.select-check-box{
 	}
 </style>
 @endsection
@@ -127,7 +129,7 @@
 				<input name="shipment_3" type="checkbox" value="3"{{isset($_GET['shipment_3'])?'checked':''}}>
 				<span style="color: green;">已結案</span>
 
-				<button id="search-btn" class="btn btn-sm btn-primary" type="submit">搜尋</button>
+				
 				
 				<span> - 每頁比數:</span>
 				<select name="data_take" id="data_taker">
@@ -146,13 +148,17 @@
 				</select>
 				<span>頁</span>
 				<div onclick="nextPage();" id="next" class="next-prev"><span>></span></div>
-
+				<span>　　-</span>
+				<button id="search-btn" class="btn btn-sm btn-primary" type="submit">搜尋</button>
 				
 
 			</form>
 			
 
-
+			<div class="tool-box">
+				<button onclick="selectAll();" class="btn btn-dark btn-sm">全選</button>
+				<button onclick="selectPush();" class="btn btn-dark btn-sm">下階段</button>
+			</div>
 		</div>
 
 
@@ -181,6 +187,7 @@
 					
 					<th>備註</th>
 					<th>出貨</th>
+					<th>-</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -251,6 +258,10 @@
 						@else
 						-
 						@endif
+					</td>
+
+					<td>
+						<input type="checkbox" class="select-check-box" value="{{$order['bill_id']}}">
 					</td>
 
 
@@ -326,9 +337,11 @@
 					$('#'+$id).removeClass('btn-success').addClass('btn-danger');
 					$('#'+$id).html('可準備');
 				}
+
 			},
 			error: function () {
 	            alert('錯誤');
+
 	        },
 		});
 	};
@@ -363,6 +376,47 @@
 		i = i - 1;
 		$('#pageSelecter').val(i);
 		$('#searchForm').submit();
+	}
+
+	var sel = 0;
+	function selectAll(){
+
+		if (sel == 0) {
+			$('.select-check-box').prop("checked",true);
+			sel = 1;	
+		}else{
+			$('.select-check-box').prop("checked",false);
+			sel = 0;
+		}
+		
+	}
+
+	function selectPush(){
+
+		var selected = [];
+		var i = 0;
+		$('.select-check-box:checked').each(function(){
+			selected[i] = $(this).val();
+			i++;
+		});
+
+		confirm("確定送出");
+
+		$.ajax({
+			type:'POST',
+			url:'order/1',
+			dataType:'json',
+			data: {
+				_method: 'PUT',
+				selectArray:selected,
+			},
+			success: function (response) {
+				location.reload();
+			},
+			error: function () {
+	            alert('錯誤');
+	        },
+		});
 	}
 
 	</script>
