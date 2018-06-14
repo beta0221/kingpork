@@ -217,7 +217,7 @@ class OrderManagementController extends Controller
     {
         if (isset($request->selectArray)) {
             
-            $bills = Bill::orWhere('pay_by','貨到付款')->orWhere('status',1)->whereIn('bill_id',$request->selectArray)->get();
+            $bills = Bill::where('status',1)->orWhere('pay_by','貨到付款')->whereIn('bill_id',$request->selectArray)->get();
 
             foreach ($bills as $bill) {
 
