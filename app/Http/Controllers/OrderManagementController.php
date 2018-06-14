@@ -245,7 +245,6 @@ class OrderManagementController extends Controller
 
             }
 
-
             return response()->json('success');
 
         }else{

@@ -118,6 +118,36 @@ class BannerController extends Controller
 
     }
 
+    public function switch(Request $request)
+    {
+
+       
+        if ($request->switch == 0) {
+            $from = $request->banner;
+            $to = $from - 1;
+        }
+        if ($request->switch == 1) {
+            $from = $request->banner;
+            $to = $from + 1;
+        }
+
+        $bannerTo = Banner::findOrFail($to);
+        $bannerTo->id = 0;
+        $bannerTo->save();
+
+        $bannerFrom = Banner::findOrFail($from);
+        $bannerFrom->id = $to;
+        $bannerFrom->save();
+
+        $return = Banner::findOrFail(0);
+        $return->id = $from;
+        $return->save();
+
+
+        return response()->json('success');
+        
+    }
+
     /**
      * Remove the specified resource from storage.
      *

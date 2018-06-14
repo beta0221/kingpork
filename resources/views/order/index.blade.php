@@ -303,7 +303,8 @@
 
 		if (parseInt($('#pageSelecter').val()) == {{$page_amount}}) {
 			$('#next').css('display','none');
-		}else if (parseInt($('#pageSelecter').val()) == 1) {
+		}
+		if (parseInt($('#pageSelecter').val()) == 1) {
 			$('#prev').css('display','none');
 		}
 

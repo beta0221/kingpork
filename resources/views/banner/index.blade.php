@@ -10,6 +10,22 @@
 .table{
 	font-size: 14px;
 }
+.switch-box{
+	height: 80px;
+	width: 40px;
+}
+.switch{
+	height: 50%;
+	width: 100%;
+	background-color: #000;
+	color: #fff;
+	text-align: center;
+	line-height: 40px;
+	margin: 4px 0;
+}
+.switch-up{
+	transform: rotate(180deg);
+}
 </style>
 @endsection
 
@@ -22,6 +38,7 @@
 	<table class="table">
 		<thead>
 			<tr>
+				<th>-</th>
 				<th style="width: 40%;" scope="col">圖片</th>
 				<th style="width: 25%;" scope="col">超連結</th>
 				<th style="width: 25%;" scope="col">關鍵字</th>
@@ -31,6 +48,12 @@
 		</thead>
 		@foreach($banners as $banner)
 		<tr>
+			<td>
+				<div class="switch-box">
+					<div onclick="switchIt({{$banner->id}},0);" class="switch switch-up">v</div>
+					<div onclick="switchIt({{$banner->id}},1);" class="switch switch-down">v</div>
+				</div>
+			</td>
 			<td><img style="width: 100%;" src="{{asset('images/banner') .'/' . $banner->image}}"></td>
 			<td>{{$banner->link}}</td>
 			<td>{{$banner->alt}}</td>
@@ -49,15 +72,18 @@
 
 @section('scripts')
 <script>
-		function deleteBanner(id){
+		$(document).ready(function(){
 			$.ajaxSetup({
   				headers: {
     				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
   				}
 			});
+		});
+		function deleteBanner(id){
+			
 			$.ajax({
 				type:'POST',
-				url:'banner/' + id,
+				url:'/banner/' + id,
 				dataType:'json',
 				data:{
 					_method:'delete',
@@ -69,6 +95,30 @@
 					alert('刪除失敗');
 				}
 			});
+		}
+
+		function switchIt(id,go){
+
+
+			$.ajax({
+				type:'POST',
+				url:'/banner/switch',
+				dataType:'json',
+				data:{
+					_method:'POST',
+					switch:go,
+					banner:id,
+				},
+				success:function(response){
+					location.reload();
+
+				},
+				error:function(){
+
+				}
+			});
+
+
 		}
 	</script>
 @endsection
