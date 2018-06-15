@@ -1,7 +1,8 @@
 <?php 
+$d = date('md');
 
 header("Content-type: text/x-csv");
-header("Content-Disposition: attachment; filename=output.csv");
+header("Content-Disposition: attachment; filename=".$d."-shipping.csv");
 
 $orders = $_POST['orders'];
 $orders = json_decode($orders);

@@ -140,6 +140,9 @@ class OrderManagementController extends Controller
     public function csv_download(Request $request)
     {
 
+        // $jsons = Bill::where(function($query){
+        //     $query->orWhere('pay_by','貨到付款')->orWhere([['status','=','1'],['pay_by','!=','貨到付款']]);  
+        // })->whereIn('bill_id',$request->selectArray)->get();
 
         $jsons = Bill::whereIn('bill_id',$request->selectArray)->get();
 
