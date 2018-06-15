@@ -92,7 +92,7 @@ class OrderManagementController extends Controller
                 }
             }
 
-        })->orderBy('id','asc')->skip($data_from)->take($data_take)->get();
+        })->orderBy('id','desc')->skip($data_from)->take($data_take)->get();
 
         $j = 0;
         $orders = [];
