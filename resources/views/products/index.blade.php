@@ -56,6 +56,7 @@
 			<th scope="col">ID</th>
 			<th scope="col">圖片</th>
 			<th scope="col">名稱</th>
+			<th scope="col">縮寫</th>
 			<th scope="col">小標</th>
 			<th scope="col">代號</th>
 			<th scope="col">類別</th>
@@ -77,6 +78,7 @@
 				{{-- {{$product->image}} --}}
 			</td>
 			<td>{{$product->name}}</td>
+			<td>{{$product->short}}</td>
 			<td>{{$product->discription}}</td>
 			<td>{{$product->slug}}</td>
 			<td>{{$product->productCategory->name}}</td>
