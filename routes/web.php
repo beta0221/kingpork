@@ -54,6 +54,7 @@ Route::get('getRunner','RunnerController@getRunner');
 //Order Management
 Route::resource('order','OrderManagementController',['except'=>['create','store']]);
 Route::get('order/showAll/{bill}','OrderManagementController@showAll');
+Route::post('order/get_csv','OrderManagementController@csv_download');
 
 //php artisan make:auth
 Auth::routes();

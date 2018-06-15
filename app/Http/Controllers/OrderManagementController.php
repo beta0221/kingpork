@@ -137,6 +137,54 @@ class OrderManagementController extends Controller
     }
 
    
+    public function csv_download(Request $request)
+    {
+
+
+        $jsons = Bill::whereIn('bill_id',$request->selectArray)->get();
+
+        $j = 0;
+        $orders = [];
+        foreach($jsons as $json)
+        {   
+            $bills = json_decode($json->item,true);
+            $itemArray = "";
+            foreach($bills as $bill)       
+            {
+                $product = Products::where('slug', $bill['slug'])->firstOrFail();
+                $itemArray = $itemArray.$product->short.'*'.$bill['quantity'].';';    
+            }
+
+            if ($json->ship_time == '14:00-18:00') {
+                $ship_time = '2';
+            }else{
+                $ship_time = '1';
+            }
+
+            if ($json->ship_arriveDate == null) {
+                $arrive = date('Y/m/d',strtotime('3 day'));
+            }else{
+                $arrive = str_replace('-', '/', $json->ship_arriveDate);
+            }
+
+            $orders[$j] = 
+                $json->bill_id.",".
+                $json->id.",".
+                $json->ship_phone.",".
+                $ship_time.",".
+                $json->ship_name.",".
+                $json->ship_phone.",".
+                $itemArray.",".
+                $json->ship_county.$json->ship_district.$json->ship_address.",".
+                date('Y/m/d').",".
+                $arrive;
+                $j++;
+        }
+        $orders = json_encode($orders);
+        return response()->json($orders);
+
+    }
+
 
     /**
      * Show the form for creating a new resource.

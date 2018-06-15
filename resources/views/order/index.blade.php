@@ -157,8 +157,18 @@
 
 			<div class="tool-box">
 				<button style="background-color: #000;color: #fff" onclick="selectAll();" class="btn btn-sm">全選</button>
+				<button style="background-color: #000;color: #fff" onclick="csv_download();" class="btn btn-sm">匯出CSV</button>
 				<button style="background-color: #000;color: #fff" onclick="selectPush();" class="btn btn-sm">下階段</button>
 			</div>
+
+
+			<form id="csvForm" action="csv_download.php" target="_blank" method="POST" style="display:none ;">
+				
+				<input id="selectArray" type="text" name="orders" value="">
+				<button id="csvGo" type="submit">go</button>
+			</form>
+
+
 		</div>
 
 
@@ -416,14 +426,59 @@
 				},
 				success: function (response) {
 					location.reload();
+					
 				},
 				error: function () {
 		            alert('錯誤');
 		        },
 			});
+
 		}else{
 			alert('請選取訂單');
 		}
+
+	}
+
+	function csv_download(){
+
+
+		var selected = [];
+		var i = 0;
+		$('.select-check-box:checked').each(function(){
+			selected[i] = $(this).val();
+			i++;
+		});
+
+		
+		if (selected.length > 0) {
+			
+		
+			$.ajax({
+				type:'POST',
+				url:'/order/get_csv',
+				dataType:'json',
+				data: {
+					selectArray:selected,
+				},
+				success: function (response) {
+					
+					$('#selectArray').val(response);
+					// alert(response);
+					
+				},
+				error: function () {
+		            alert('錯誤');
+		        },
+			});
+			
+		}else{
+			alert('請選取訂單');
+		}
+
+		setTimeout(function(){
+			$('#csvForm').submit();	
+		},1000);
+
 
 	}
 
