@@ -193,7 +193,7 @@
 			<tbody>
 				
 				<?php $i=1 ?>
-				@foreach(array_reverse($orders) as $order)
+				@foreach($orders as $order)
 
 				<tr>
 					<td>{{$i++}}</td>
