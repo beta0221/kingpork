@@ -7,7 +7,7 @@
 	.nav{
 		width: 100%;
 		height: 80px;
-		border:1pt solid #000;
+		background-color: rgba(0,0,0,0.2);
 		padding: 12px 12px;
 	}
 	.input{
@@ -22,8 +22,8 @@
 		font-size: 14px;
 	}
 	.table td,.table th{
-		padding-left: 2px;
-		padding-right: 2px;
+		text-align: center;
+		border:1pt solid gray;
 	}
 	#separater{
 		margin-bottom: 4px;
@@ -48,7 +48,17 @@
 		right: 12px;
 		top: 12px;
 	}
-	input.select-check-box{
+	.th-green,.th-red,.th-yellow{
+		color: #fff;
+	}
+	.th-green{
+		background-color: green;
+	}
+	.th-red{
+		background-color: darkred;
+	}
+	.th-yellow{
+		background-color: darkorange;
 	}
 </style>
 @endsection
@@ -176,28 +186,31 @@
 		<table class="table">
 			<thead>
 				<tr>
-					<th>#</th>
-					<th>時間</th>
-					<th>收貨人</th>
-					<th>編號</th>
+					<th class="th-green">#</th>
+					<th class="th-green">日期</th>
+					<th class="th-green">訂購人</th>
+					<th class="th-green">編號</th>
 					{{-- <th>訂購人</th> --}}
-					<th>商品</th>
+					<th class="th-green">商品</th>
+					<th class="th-yellow">總價</th>
+					<th class="th-yellow">付款方式</th>
 
-					<th>到貨日</th>
-					<th>時間</th>
-					<th>發票</th>
+					<th class="th-red">付款狀態</th>
 
-					<th>總價</th>
+					<th class="th-green">到貨日</th>
+					<th class="th-green">時間</th>
 					
 					{{-- <th>性別</th> --}}
 					{{-- <th>電話</th> --}}
 					{{-- <th>地址</th> --}}
-					<th>付款方式</th>
-					<th>付款狀態</th>
+					<th class="th-red">-</th>
+					<th class="th-red">出貨</th>
 					
-					<th>備註</th>
-					<th>出貨</th>
-					<th>-</th>
+					
+					<th class="th-green">發票</th>
+					
+					<th class="th-green">備註</th>
+					
 				</tr>
 			</thead>
 			<tbody>
@@ -210,11 +223,12 @@
 					<td>{{$order['created_at']}}</td>
 					
 					<td>
-						@if($order['ship_gender']==1)
+						{{-- @if($order['ship_gender']==1)
 							<font color="green">{{$order['ship_name']}}</font>
 						@else
 							<font color="purple">{{$order['ship_name']}}</font>
-						@endif
+						@endif --}}
+						{{$order['user_name']}}
 					</td>
 
 					<td><a href="{{url('order/showAll').'/'.$order['bill_id']}}" target="_blank">{{$order['bill_id']}}</a></td>
@@ -225,6 +239,12 @@
 						@endforeach
 					</td>
 
+					<td>{{$order['price']}}</td>
+
+					<td>{{$order['pay_by']}}</td>
+
+					<td>{{$order['status']}}</td>
+
 					<td>
 						@if($order['ship_arriveDate'] == null)-@else{{$order['ship_arriveDate']}}@endif
 					</td>
@@ -234,23 +254,8 @@
 					</td>
 
 					<td>
-						@if($order['ship_receipt'] == '2')二連@else 3連@endif
+						<input type="checkbox" class="select-check-box" value="{{$order['bill_id']}}">
 					</td>
-
-					<td>{{$order['price']}}</td>
-
-					<td>{{$order['pay_by']}}</td>
-
-					<td>{{$order['status']}}</td>
-					
-
-
-					<td onclick="showMemo('{{$order['bill_id']}}');" data-toggle="modal" data-target="#exampleModal">
-						@if($order['ship_memo'] != null)
-							<font style="cursor: pointer;background-color: red;" color="yellow">！</font>
-						@endif
-					</td>
-
 
 					<td>
 						@if(($order['pay_by'] == '貨到付款' AND $order['shipment'] == 0) OR ($order['status'] == 1 AND $order['shipment'] == 0))
@@ -270,9 +275,20 @@
 						@endif
 					</td>
 
+					
+
 					<td>
-						<input type="checkbox" class="select-check-box" value="{{$order['bill_id']}}">
+						@if($order['ship_receipt'] == '2')二連@else <font color="red">3連</font>@endif
 					</td>
+
+					<td onclick="showMemo('{{$order['bill_id']}}');" data-toggle="modal" data-target="#exampleModal">
+						@if($order['ship_memo'] != null)
+							<font style="cursor: pointer;background-color: red;" color="yellow">！</font>
+						@endif
+					</td>
+
+
+					
 
 
 				</tr>
