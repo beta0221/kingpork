@@ -262,13 +262,13 @@
 
 					<td>
 						@if(($order['pay_by'] == '貨到付款' AND $order['shipment'] == 0) OR ($order['status'] == 1 AND $order['shipment'] == 0))
-						<button class="btn btn-sm btn-danger shipmentBtn" id="{{$order['bill_id']}}" onclick="shipment('{{$order['bill_id']}}');">可準備</button>
+						<button class="btn btn-sm btn-danger shipmentBtn" id="{{$order['bill_id']}}" onclick="shipment('{{$order['bill_id']}}','{{$order['shipment']}}');">可準備</button>
 
 						@elseif(($order['pay_by'] == '貨到付款' AND $order['shipment'] == 1) OR ($order['status'] == 1 AND $order['shipment'] == 1))
-						<button class="btn btn-sm btn-warning shipmentBtn" id="{{$order['bill_id']}}" onclick="shipment('{{$order['bill_id']}}');">準備中</button>
+						<button class="btn btn-sm btn-warning shipmentBtn" id="{{$order['bill_id']}}" onclick="shipment('{{$order['bill_id']}}','{{$order['shipment']}}');">準備中</button>
 
 						@elseif($order['shipment']==2)
-						<button class="btn btn-sm btn-success shipmentBtn" id="{{$order['bill_id']}}" onclick="shipment('{{$order['bill_id']}}');">已出貨</button>
+						<button class="btn btn-sm btn-success shipmentBtn" id="{{$order['bill_id']}}" onclick="shipment('{{$order['bill_id']}}','{{$order['shipment']}}');">已出貨</button>
 
 						@elseif($order['shipment']==3)
 							<font class="btn-sm" style="background-color: green;" color="#fff">＊結案＊</font>
@@ -347,8 +347,11 @@
 		});
 	});
 
-	function shipment($id){
+	function shipment($id,$val){
 		
+		if ($val == 2) {
+			confirm('確定修改出貨狀態');
+		}
 		$.ajax({
 			type:'POST',
 			url:'order/'+$id,
@@ -360,12 +363,15 @@
 				if (response == 1) {
 					$('#'+$id).removeClass('btn-danger').addClass('btn-warning');
 					$('#'+$id).html('準備中');
+					$('#'+$id).attr("onclick","shipment('"+$id+"',"+"'"+1+"');");
 				}else if(response == 2){
 					$('#'+$id).removeClass('btn-warning').addClass('btn-success');
 					$('#'+$id).html('已出貨');
+					$('#'+$id).attr("onclick","shipment('"+$id+"',"+"'"+2+"');");
 				}else if(response == 0){
 					$('#'+$id).removeClass('btn-success').addClass('btn-danger');
 					$('#'+$id).html('可準備');
+					$('#'+$id).attr("onclick","shipment('"+$id+"',"+"'"+0+"');");
 				}
 
 			},

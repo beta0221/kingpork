@@ -98,24 +98,24 @@ class OrderManagementController extends Controller
         $orders = [];
         foreach($jsons as $json)
         {   
-            $bills = json_decode($json->item,true);
-            $i = 0;
-            $itemArray = [];
-            foreach($bills as $bill)       
-            {
-                $product = Products::where('slug', $bill['slug'])->firstOrFail();
-                $itemArray[$i] = [
-                    'name' => $product->name,
-                    'price' => $product->price,
-                    'quantity' => $bill['quantity'],
-                ];
-                $i++;
-            }
+            // $bills = json_decode($json->item,true);
+            // $i = 0;
+            // $itemArray = [];
+            // foreach($bills as $bill)       
+            // {
+            //     $product = Products::where('slug', $bill['slug'])->firstOrFail();
+            //     $itemArray[$i] = [
+            //         'name' => $product->name,
+            //         'price' => $product->price,
+            //         'quantity' => $bill['quantity'],
+            //     ];
+            //     $i++;
+            // }
             $orders[$j] = [
                 'created_at' => str_replace(" ","<br>",$json->created_at),
                 'bill_id' => $json->bill_id,
                 'user_name' => $json->user_name,
-                'item' => $itemArray,
+                // 'item' => $itemArray,
                 'price' => $json->price,
                 'status' => $json->status,
                 'pay_by' => $json->pay_by,
