@@ -30,7 +30,7 @@
 				<a href="{{route('productCategory.show',1)}}">
 					<img src="{{asset('images/productsIMG/pork.png')}}" alt="">
 				</a>
-				<div class="P-buy">購 買</div>
+				<div class="P-buy">我要買</div>
 			</div>
 		</div>
 		<div class="product col-md-4 col-12">
@@ -38,7 +38,7 @@
 				<a href="{{route('productCategory.show',3)}}">
 					<img src="{{asset('images/productsIMG/both.png')}}" alt="">
 				</a>
-				<div class="P-buy">購 買</div>
+				<div class="P-buy">我要買</div>
 			</div>
 		</div>
 		<div class="product col-md-4 col-12">
@@ -46,7 +46,7 @@
 				<a href="{{route('productCategory.show',2)}}">
 					<img src="{{asset('images/productsIMG/chicken.png')}}" alt="">
 				</a>
-				<div class="P-buy">購 買</div>
+				<div class="P-buy">我要買</div>
 			</div>
 		</div>
 	</div>

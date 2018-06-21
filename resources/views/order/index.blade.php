@@ -24,10 +24,13 @@
 	.table td,.table th{
 		text-align: center;
 		border:1pt solid gray;
+		padding: 6px;
+	}
+	.table-tr:hover{
+		background-color: rgba(0,0,0,0.2);
 	}
 	#separater{
 		margin-bottom: 4px;
-
 	}
 	.next-prev{
 		display: inline-block;
@@ -191,7 +194,7 @@
 					<th class="th-green">訂購人</th>
 					<th class="th-green">編號</th>
 					{{-- <th>訂購人</th> --}}
-					<th class="th-green">商品</th>
+					{{-- <th class="th-green">商品</th> --}}
 					<th class="th-yellow">總價</th>
 					<th class="th-yellow">付款方式</th>
 
@@ -218,9 +221,9 @@
 				<?php $i=1 ?>
 				@foreach($orders as $order)
 
-				<tr>
+				<tr class="table-tr">
 					<td>{{$i++}}</td>
-					<td>{{$order['created_at']}}</td>
+					<td>{!!$order['created_at']!!}</td>
 					
 					<td>
 						{{-- @if($order['ship_gender']==1)
@@ -233,11 +236,11 @@
 
 					<td><a href="{{url('order/showAll').'/'.$order['bill_id']}}" target="_blank">{{$order['bill_id']}}</a></td>
 
-					<td>
+					{{-- <td>
 						@foreach($order['item'] as $item)
 						{{$item['name']}}*{{$item['quantity']}}<br>
 						@endforeach
-					</td>
+					</td> --}}
 
 					<td>{{$order['price']}}</td>
 

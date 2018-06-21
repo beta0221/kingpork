@@ -112,7 +112,7 @@ class OrderManagementController extends Controller
                 $i++;
             }
             $orders[$j] = [
-                'created_at' => substr($json->created_at,0,10),
+                'created_at' => str_replace(" ","<br>",$json->created_at),
                 'bill_id' => $json->bill_id,
                 'user_name' => $json->user_name,
                 'item' => $itemArray,
