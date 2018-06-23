@@ -549,7 +549,7 @@ class BillController extends Controller
             });
 
             return response()->json('s');
-            
+
         }elseif ($request->pay_by == 'CREDIT') {
             $data = array(
                 'user_name'=>Auth::user()->name,
@@ -660,14 +660,15 @@ class BillController extends Controller
             'status'=>$bill->status,
         ];
 
-        if ($bill->pay_by == 'CREDIT') {
-            $HV1 = md5('rhRwy1KRNsQbjgXR'.'|'.$bill->bill_id);
-            $V2 = md5($HV1 . "|" . "008786350353296" . "|" . "77543256" . "|" . $bill->price);
-            $checkValue = substr($V2,16,32);
-            return view('bill.payBill', ['finalBill'=>$finalBill,'checkValue'=>$checkValue]);
-        }else{
-            return view('bill.payBill', ['finalBill'=>$finalBill]);  
-        }
+        // if ($bill->pay_by == 'CREDIT') {
+            // $HV1 = md5('rhRwy1KRNsQbjgXR'.'|'.$bill->bill_id);
+            // $V2 = md5($HV1 . "|" . "008786350353296" . "|" . "77543256" . "|" . $bill->price);
+            // $checkValue = substr($V2,16,32);
+            // return view('bill.payBill', ['finalBill'=>$finalBill,'checkValue'=>$checkValue]);
+        // }
+        
+        return view('bill.payBill', ['finalBill'=>$finalBill]);  
+        
         
     }
 
