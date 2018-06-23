@@ -518,6 +518,9 @@ class BillController extends Controller
         if ($request->pay_by=='ATM') {
             $bill->status = 's';
             $bill->save();
+        }elseif ($request->pay_by == 'CREDIT') {
+            $bill->status = '1';
+            $bill->save();
         }
         
         $items = json_decode($bill->item,true);
