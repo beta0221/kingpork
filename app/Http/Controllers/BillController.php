@@ -382,21 +382,22 @@ class BillController extends Controller
         $MerchantID = $request->MerchantID;
         $MerchantTradeNo = $request->MerchantTradeNo;
         $StoreID = $request->StoreID;
-        $RtnCode = $request->RtnCode;
-        $RtnMsg = $request->RtnMsg;
-        $TradeNo = $request->TradeNo;
+        $RtnCode = $request->RtnCode; //
+        $RtnMsg = $request->RtnMsg; //
+        $TradeNo = $request->TradeNo; //
         $TradeAmt = $request->TradeAmt;
-        $PaymentDate = $request->PaymentDate;
+        $PaymentDate = $request->PaymentDate; //
         $PaymentType = $request->PaymentType;
-        $PaymentTypeChargeFee = $request->PaymentTypeChargeFee;
-        $TradeDate = $request->TradeDate;
-        $SimulatePaid = $request->SimulatePaid;
+        $PaymentTypeChargeFee = $request->PaymentTypeChargeFee; //
+        $TradeDate = $request->TradeDate; //
+        $SimulatePaid = $request->SimulatePaid; //
         $CustomField1 = $request->CustomField1;
         $CustomField2 = $request->CustomField2;
         $CustomField3 = $request->CustomField3;
         $CustomField4 = $request->CustomField4;
+        $CheckMacValue = $request->CheckMacValue;
         
-        $allReturn = 
+        $allReturn = //
         'MerchantID='.$MerchantID.'&'.
         'MerchantTradeNo='.$MerchantTradeNo.'&'.
         'StoreID='.$StoreID.'&'.
@@ -408,7 +409,12 @@ class BillController extends Controller
         'PaymentType='.$PaymentType.'&'.
         'PaymentTypeChargeFee='.$PaymentTypeChargeFee.'&'.
         'TradeDate='.$TradeDate.'&'.
-        'SimulatePaid='.$SimulatePaid;
+        'SimulatePaid='.$SimulatePaid.'&'.
+        'CustomField1='.$CustomField1.'&'.
+        'CustomField2='.$CustomField2.'&'.
+        'CustomField3='.$CustomField3.'&'.
+        'CustomField4='.$CustomField4.'&'.
+        'CheckMacValue='.$CheckMacValue;
 
         if ($RtnCode == 1) {
             $the = Bill::where('bill_id',$MerchantTradeNo)->firstOrFail();
@@ -463,6 +469,9 @@ class BillController extends Controller
         
     // }                                              // }!!! API !!!
 
+
+
+
     public function checkBill($id)
     {
         //test
@@ -505,8 +514,12 @@ class BillController extends Controller
     public function sendMail(Request $request)
     {   
         $bill = Bill::where('bill_id',$request->MerchantTradeNo)->firstOrFail();
-        $bill->status = 's';
-        $bill->save();
+        
+        if ($request->pay_by=='ATM') {
+            $bill->status = 's';
+            $bill->save();
+        }
+        
         $items = json_decode($bill->item,true);
         $i = 0;
         $itemArray = [];

@@ -181,7 +181,8 @@
 
 @if(($finalBill['pay_by']=='ATM'AND$finalBill['SPToken']!=null AND$finalBill['status']!=1)OR($finalBill['pay_by']=='CREDIT'AND$finalBill['SPToken']!=null AND$finalBill['status']!=1))
 
-	{{-- <script src="https://payment-stage.ecpay.com.tw/Scripts/SP/ECPayPayment_1.0.0.js" --}}
+	{{-- <script src="https://payment-stage.ecpay.com.tw/Scripts/SP/ECPayPayment_1.0.0.js" --}} 		{{-- test --}}
+	{{-- <script src="https://payment.ecpay.com.tw/Scripts/SP/ECPayPayment_1.0.0.js" --}}     {{-- production --}}
 	<script
 	data-MerchantID="2000132" {{-- test --}}
 	{{-- data-MerchantID="1044372" --}} {{-- kingpork --}}
@@ -215,7 +216,8 @@ function BtnDecorator(ECPay) {
 var
     version = "1.0.0",
     description = "綠界科技(ECPay)_ECPayPayment",
-    domain = "https://payment-stage.ecpay.com.tw";
+    domain = "https://payment-stage.ecpay.com.tw";  //test
+    // domain = "https://payment.ecpay.com.tw";   //production
 ECPay = {
     //### 初始化
     init: function () {
@@ -268,7 +270,12 @@ ECPay = {
             iframe.frameborder = 0;
             iframe.allowtransparency = true;
             iframe.setAttribute("style", "z-index: 2147483646; display: none; background: rgba(0, 0, 0, 0.00392157); border: 0px none transparent; overflow-x: hidden; overflow-y: auto; visibility: visible;padding: 0px; -webkit-tap-highlight-color: transparent; position: fixed; left: 0%; top: 10%; width: 100%; height: 80%;margin-left:0px;margin-top:0px;");
-            iframe.src = domain + "/SP/SPCheckOut?MerchantID=" + ECPay.dataMerchantId + "&SPToken=" + ECPay.dataSPToken + "&PaymentType=" + ECPay.dataPaymentType;
+
+
+            iframe.src = domain + "/SP/SPCheckOut?MerchantID=" + ECPay.dataMerchantId + "&SPToken=" + ECPay.dataSPToken + "&PaymentType=" + ECPay.dataPaymentType;			//!* test *!
+
+            // iframe.src = domain + "/SP/SPCheckOut?MerchantID=" + ECPay.dataMerchantId + "&SPToken=" + ECPay.dataSPToken + "&PaymentType=" + ECPay.dataPaymentType + "&ts=" + Date.now();			!* production *!
+
             this.div.appendChild(iframe);
             this.modalBody = iframe;
             return;
@@ -277,7 +284,11 @@ ECPay = {
 }
 function checkOut(Data) {
     if (ECPay.IsMobileAgent) {
-        var url = domain + "/SP/SPCheckOut?MerchantID=" + ECPay.dataMerchantId + "&SPToken=" + ECPay.dataSPToken + "&PaymentType=" + Data;
+
+        var url = domain + "/SP/SPCheckOut?MerchantID=" + ECPay.dataMerchantId + "&SPToken=" + ECPay.dataSPToken + "&PaymentType=" + Data;				//!* test *!
+
+        // var url = domain + "/SP/SPCheckOut?MerchantID=" + ECPay.dataMerchantId + "&SPToken=" + ECPay.dataSPToken + "&PaymentType=" + Data + "&ts=" + Date.now();			!* production *!
+
         window.open(url);
         return;
     }
@@ -290,7 +301,8 @@ function CloseIframe(Data) {
     document.getElementById("iframeECPayClose_" + Data).style.display = "none";
     document.getElementById("DivECPay_" + Data).style.display = "none";
 }
-ECPay.init();
+ECPay.init();							//!* test *!
+// window.onload = ECPay.init();		!* production *!
 	</script> 
 
 {{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  --}}
@@ -370,15 +382,11 @@ ECPay.init();
 								$('.payByBtn').remove();
 								$('.inner-payBy').append('<a href="/" style="color: white;" class="payByBtn btn btn-success">回首頁</a>');
 								$('.U-title').html('<font>感謝您的購買~</font>');
-
 								$('.U-img').html("<img style='height: 70%;'' src='{{asset('images/thankYou.png')}}'>");
-
 								$('.U-text').html("<font>我們衷心感謝您購買我們的產品，您將會收到一封電子確認信，內含您的購買明細。<br>若您對此次交易有任何問題，請隨時<a href='{{route('contact')}}'>寫信給我們</a>。</font>");
-
-
 								setTimeout(function(){
 									alert('電子確認信已寄出，內含您的購買明細及繳款資訊');
-								},10)
+								},20)
 							}
 						},
 						error: function () {
