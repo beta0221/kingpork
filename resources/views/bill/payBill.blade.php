@@ -67,15 +67,15 @@
 						@endif
 						</font>
 					</div>
-					<div class="U-1">
+					<div class="U-1 U-img">
 						@if($finalBill['pay_by'] == '貨到付款')
-						<img style="height: 70%;" src="{{asset('images/thankYou.png')}}" alt="">
+						<img style="height: 70%;" src="{{asset('images/thankYou.png')}}">
 						@elseif($finalBill['pay_by'] == 'CREDIT' AND $finalBill['status'] ==1)
-						<img style="height: 70%;" src="{{asset('images/thankYou.png')}}" alt="">
+						<img style="height: 70%;" src="{{asset('images/thankYou.png')}}">
 						@elseif($finalBill['pay_by'] == 'ATM')
-						<img style="height: 70%;" src="{{asset('images/atm.png')}}" alt="">
+						<img style="height: 70%;" src="{{asset('images/atm.png')}}">
 						@elseif($finalBill['pay_by'] == 'CREDIT'AND$finalBill['status']!=1)
-						<img style="height: 70%;" src="{{asset('images/credit.png')}}" alt="">
+						<img style="height: 70%;" src="{{asset('images/credit.png')}}">
 						@endif
 						
 					</div>
@@ -369,6 +369,13 @@ ECPay.init();
 								$('.loader-bg').remove();
 								$('.payByBtn').remove();
 								$('.inner-payBy').append('<a href="/" style="color: white;" class="payByBtn btn btn-success">回首頁</a>');
+								$('.U-title').html('<font>感謝您的購買~</font>');
+
+								$('.U-img').html("<img style='height: 70%;'' src='{{asset('images/thankYou.png')}}'>");
+
+								$('.U-text').html("<font>我們衷心感謝您購買我們的產品，您將會收到一封電子確認信，內含您的購買明細。<br>若您對此次交易有任何問題，請隨時<a href="{{route('contact')}}">寫信給我們</a>。</font>");
+
+
 								setTimeout(function(){
 									alert('電子確認信已寄出，內含您的購買明細及繳款資訊');
 								},10)
