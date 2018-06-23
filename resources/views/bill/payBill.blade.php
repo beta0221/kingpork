@@ -352,7 +352,7 @@ ECPay.init();
 					});
 					$.ajax({
 						type:'POST',
-						url:'',
+						url:'/bill/sendMail',
 						dataType:'json',
 						data: {
 							'MerchantID':json.MerchantID,
