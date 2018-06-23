@@ -62,7 +62,7 @@
 						　感謝您的購買~
 						@elseif($finalBill['pay_by'] == 'ATM')
 						ATM轉帳繳費
-						@elseif($finalBill['pay_by'] == 'CREDIT')
+						@elseif($finalBill['pay_by'] == 'CREDIT' AND $finalBill['status']!=1)
 						信用卡繳費
 						@endif
 						</font>
@@ -74,7 +74,7 @@
 						<img style="height: 70%;" src="{{asset('images/thankYou.png')}}" alt="">
 						@elseif($finalBill['pay_by'] == 'ATM')
 						<img style="height: 70%;" src="{{asset('images/atm.png')}}" alt="">
-						@elseif($finalBill['pay_by'] == 'CREDIT')
+						@elseif($finalBill['pay_by'] == 'CREDIT'AND$finalBill['status']!=1)
 						<img style="height: 70%;" src="{{asset('images/credit.png')}}" alt="">
 						@endif
 						
@@ -87,7 +87,7 @@
 						@elseif($finalBill['pay_by'] == 'ATM')
 						<font>取得繳費帳號後您將收到一封電子確認信，內含您的購買明細及繳款資訊，<br>
 						商品會於繳款確認後寄出，若您對此次交易有任何問題，請隨時<a href="{{route('contact')}}">寫信給我們</a>。</font>
-						@elseif($finalBill['pay_by'] == 'CREDIT')
+						@elseif($finalBill['pay_by']=='CREDIT'AND$finalBill['status']!=1)
 						請確認訂單資訊正確無誤後點擊“前往繳費”<br>若您對此次交易有任何問題，請隨時<a href="{{route('contact')}}">寫信給我們</a>。
 						@endif
 					</div>
@@ -145,7 +145,7 @@
 
 						<a href="{{url('/')}}" style="color: white;" class="payByBtn btn btn-success">回首頁</a>
 
-					@elseif($finalBill['pay_by'] == 'CREDIT')
+					@elseif($finalBill['pay_by'] == 'CREDIT'AND$finalBill['status']!=1)
 
 						<button class="payByBtn btn btn-primary" onclick="checkOut('CREDIT')">前往繳費</button>
 
