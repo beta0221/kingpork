@@ -373,7 +373,7 @@ ECPay.init();
 
 								$('.U-img').html("<img style='height: 70%;'' src='{{asset('images/thankYou.png')}}'>");
 
-								$('.U-text').html("<font>我們衷心感謝您購買我們的產品，您將會收到一封電子確認信，內含您的購買明細。<br>若您對此次交易有任何問題，請隨時<a href="{{route('contact')}}">寫信給我們</a>。</font>");
+								$('.U-text').html("<font>我們衷心感謝您購買我們的產品，您將會收到一封電子確認信，內含您的購買明細。<br>若您對此次交易有任何問題，請隨時<a href='{{route('contact')}}'>寫信給我們</a>。</font>");
 
 
 								setTimeout(function(){
