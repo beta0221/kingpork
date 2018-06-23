@@ -345,7 +345,7 @@ ECPay.init();
 				else if (json.RtnCode == '1') {
 					$('body').append('<div class="loader-bg"></div>');
 					$('body').append('<div class="loader-box"><div class="loader"></div><strong>請稍候...</strong></div>');
-					.ajaxSetup({
+					$.ajaxSetup({
 				  		headers: {
 				    		'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
 				  		}
