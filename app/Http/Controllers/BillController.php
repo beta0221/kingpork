@@ -168,15 +168,15 @@ class BillController extends Controller
         if ($bonus / 50 > $total) {
             $bonus = $total * 50;
         }
-
         $bonusCount = $bonus / 50;
-        $total = $total - $bonusCount;
-                                                // }bonus
+        $total = $total - $bonusCount;          // }bonus
 
         $MerchantTradeNo = time() . rand(10,99);//先給訂單編號
 
-        switch ($request->ship_pay_by) {
-            case 'atm':                             //  Pay By ATM !!!
+//---------------------------------------------------------------------
+
+        if ($request->ship_pay_by=='ATM'OR$request->ship_pay_by=='CREDIT') {
+            
             //test
             $HashKey = '5294y06JbISpM5x9';
             $HashIV = 'v77hoKGq4kWxNNIS';
@@ -190,7 +190,7 @@ class BillController extends Controller
             $MerchantTradeDate = date('Y\/m\/d H:i:s');
             $PaymentType = 'aio';
             $TotalAmount = $total;
-            $TradeDesc = 'ecpay商城購物';
+            $TradeDesc = '金園排骨官方商城';
             $ItemName = '商品名稱1#商品名稱2';
             $ReturnURL = 'http://45.76.104.218/api/billPaied';
             $ChoosePayment = 'ALL';
@@ -244,7 +244,7 @@ class BillController extends Controller
                 $bill->item = json_encode($kart);
                 $bill->bonus_use = $bonusCount;
                 $bill->price = $total;
-                $bill->SPToken = $SPToken;//SPToken
+                $bill->SPToken = $SPToken;              //SPToken
                 $bill->ship_name = $request->ship_name;
                 $bill->ship_gender = $request->ship_gender;
                 $bill->ship_phone = $request->ship_phone ;
@@ -260,108 +260,108 @@ class BillController extends Controller
                 $bill->ship_three_id = $request->ship_three_id ;
                 $bill->ship_three_company = $request->ship_three_company ;
                 $bill->ship_memo = $request->ship_memo ;
-                $bill->pay_by = 'ATM';
+                $bill->pay_by = $request->ship_pay_by;
                 $bill->save();
             }else{
                 print_r(json_decode((string) $body));
             }    
-                break;
-
-            case 'credit':                             //  Pay By Credit !!!
-                
-                $bill = new Bill;
-                $bill->user_id = Auth::user()->id;
-                $bill->bill_id = $MerchantTradeNo;
-                $bill->user_name = Auth::user()->name;
-                $bill->item = json_encode($kart);
-                $bill->bonus_use = $bonusCount;
-                $bill->price = $total;
-                $bill->ship_name = $request->ship_name;
-                $bill->ship_gender = $request->ship_gender;
-                $bill->ship_phone = $request->ship_phone;
-                $bill->ship_county = $request->ship_county;
-                $bill->ship_district = $request->ship_district;
-                $bill->ship_address = $request->ship_address;
-                $bill->ship_email = $request->ship_email;
-                $bill->ship_arrive = $request->ship_arrive;
-                $bill->ship_arriveDate = $request->ship_arriveDate;
-                $bill->ship_time = $request->ship_time;
-                $bill->ship_receipt = $request->ship_receipt;
-                // $bill->ship_three_name = $request->ship_three_name;
-                $bill->ship_three_id = $request->ship_three_id;
-                $bill->ship_three_company = $request->ship_three_company;
-                $bill->ship_memo = $request->ship_memo;
-                $bill->pay_by = 'CREDIT';
-                $bill->save();
 
 
-                break;
-            case 'cod':                             //  Pay By Cod !!!
-                
-                $bill = new Bill;
-                $bill->user_id = Auth::user()->id;
-                $bill->bill_id = $MerchantTradeNo;
-                $bill->user_name = Auth::user()->name;
-                $bill->item = json_encode($kart);
-                $bill->bonus_use = $bonusCount;
-                $bill->price = $total;
-                $bill->ship_name = $request->ship_name;
-                $bill->ship_gender = $request->ship_gender;
-                $bill->ship_phone = $request->ship_phone;
-                $bill->ship_county = $request->ship_county;
-                $bill->ship_district = $request->ship_district;
-                $bill->ship_address = $request->ship_address;
-                $bill->ship_email = $request->ship_email;
-                $bill->ship_arrive = $request->ship_arrive;
-                $bill->ship_arriveDate = $request->ship_arriveDate;
-                $bill->ship_time = $request->ship_time;
-                $bill->ship_receipt = $request->ship_receipt;
-                // $bill->ship_three_name = $request->ship_three_name;
-                $bill->ship_three_id = $request->ship_three_id;
-                $bill->ship_three_company = $request->ship_three_company;
-                $bill->ship_memo = $request->ship_memo;
-                $bill->pay_by = '貨到付款';
-                $bill->save();
+        }elseif ($request->ship_pay_by == 'cod') {
+            
 
-                $user = User::find(Auth::user()->id);//紅利回算機制{
-                $total = (int)$total;
-                $user->bonus = $user->bonus+$total;
-                $user->save();                      //}紅利回算機制
+            $bill = new Bill;
+            $bill->user_id = Auth::user()->id;
+            $bill->bill_id = $MerchantTradeNo;
+            $bill->user_name = Auth::user()->name;
+            $bill->item = json_encode($kart);
+            $bill->bonus_use = $bonusCount;
+            $bill->price = $total;
+            $bill->ship_name = $request->ship_name;
+            $bill->ship_gender = $request->ship_gender;
+            $bill->ship_phone = $request->ship_phone;
+            $bill->ship_county = $request->ship_county;
+            $bill->ship_district = $request->ship_district;
+            $bill->ship_address = $request->ship_address;
+            $bill->ship_email = $request->ship_email;
+            $bill->ship_arrive = $request->ship_arrive;
+            $bill->ship_arriveDate = $request->ship_arriveDate;
+            $bill->ship_time = $request->ship_time;
+            $bill->ship_receipt = $request->ship_receipt;
+            // $bill->ship_three_name = $request->ship_three_name;
+            $bill->ship_three_id = $request->ship_three_id;
+            $bill->ship_three_company = $request->ship_three_company;
+            $bill->ship_memo = $request->ship_memo;
+            $bill->pay_by = '貨到付款';
+            $bill->save();
 
-                $i = 0;
-                $itemArray = [];
-                foreach($kart as $item)
-                {
-                    $product = Products::where('slug', $item['slug'])->firstOrFail();   
-                    $itemArray[$i] = [
-                        'name' => $product->name,
-                        'price' => $product->price,
-                        'quantity' => $item['quantity'],
-                    ];
-                    $i++;
-                }
-                $data = array(
-                    'user_name'=>Auth::user()->name,
-                    'ship_gender'=>$request->ship_gender,
-                    'ship_name'=>$request->ship_name,
-                    'ship_phone'=>$request->ship_phone,
-                    'ship_county'=>$request->ship_county,
-                    'ship_district'=>$request->ship_district,
-                    'ship_address'=>$request->ship_address,
-                    'email' => $request->ship_email,
-                    'items' => $itemArray,
-                    'bill_id' =>$MerchantTradeNo,
-                    'bonus_use'=>$bonusCount,
-                    'price' => $total,
-                    'pay_by'=>'貨到付款',
-                );
-                Mail::send('emails.cod',$data,function($message) use ($data){
-                    $message->from('beta0221@gmail.com','金園排骨');
-                    $message->to($data['email']);
-                    $message->subject('金園排骨-購買確認通知');
-                });
-                break;
+            $user = User::find(Auth::user()->id);//紅利回算機制{
+            $total = (int)$total;
+            $user->bonus = $user->bonus+$total;
+            $user->save();                      //}紅利回算機制
+
+            $i = 0;
+            $itemArray = [];
+            foreach($kart as $item)
+            {
+                $product = Products::where('slug', $item['slug'])->firstOrFail();   
+                $itemArray[$i] = [
+                    'name' => $product->name,
+                    'price' => $product->price,
+                    'quantity' => $item['quantity'],
+                ];
+                $i++;
             }
+            $data = array(
+                'user_name'=>Auth::user()->name,
+                'ship_gender'=>$request->ship_gender,
+                'ship_name'=>$request->ship_name,
+                'ship_phone'=>$request->ship_phone,
+                'ship_county'=>$request->ship_county,
+                'ship_district'=>$request->ship_district,
+                'ship_address'=>$request->ship_address,
+                'email' => $request->ship_email,
+                'items' => $itemArray,
+                'bill_id' =>$MerchantTradeNo,
+                'bonus_use'=>$bonusCount,
+                'price' => $total,
+                'pay_by'=>'貨到付款',
+            );
+            Mail::send('emails.cod',$data,function($message) use ($data){
+                $message->from('beta0221@gmail.com','金園排骨');
+                $message->to($data['email']);
+                $message->subject('金園排骨-購買確認通知');
+            });
+
+        }
+
+            //case 'credit':            //  Pay By hwa-nan Credit !!!
+                // $bill = new Bill;
+                // $bill->user_id = Auth::user()->id;
+                // $bill->bill_id = $MerchantTradeNo;
+                // $bill->user_name = Auth::user()->name;
+                // $bill->item = json_encode($kart);
+                // $bill->bonus_use = $bonusCount;
+                // $bill->price = $total;
+                // $bill->ship_name = $request->ship_name;
+                // $bill->ship_gender = $request->ship_gender;
+                // $bill->ship_phone = $request->ship_phone;
+                // $bill->ship_county = $request->ship_county;
+                // $bill->ship_district = $request->ship_district;
+                // $bill->ship_address = $request->ship_address;
+                // $bill->ship_email = $request->ship_email;
+                // $bill->ship_arrive = $request->ship_arrive;
+                // $bill->ship_arriveDate = $request->ship_arriveDate;
+                // $bill->ship_time = $request->ship_time;
+                // $bill->ship_receipt = $request->ship_receipt;
+                // $bill->ship_three_id = $request->ship_three_id;
+                // $bill->ship_three_company = $request->ship_three_company;
+                // $bill->ship_memo = $request->ship_memo;
+                // $bill->pay_by = 'CREDIT';
+                // $bill->save();
+                // break;
+
+//-----------------------------------------------------------------------
 
         Kart::where('user_id',Auth::user()->id)->delete();
 
@@ -372,6 +372,9 @@ class BillController extends Controller
         Session::flash('success','訂單已成功送出');
         return redirect()->route('bill.show', $MerchantTradeNo);
     }
+
+
+
 
     public function billPaied(Request $request)     // !!! API !!!{
     {

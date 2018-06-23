@@ -139,12 +139,13 @@
   <li class="sideBar_item {{Request::is('banner*') ? 'sideBar_now' : ''}}">
     <a href="{{route('banner.index')}}"><img src="{{asset('images/admin_wall.png')}}" alt="">轉撥牆管理</a>
   </li>
-  <li class="sideBar_item {{Request::is('order*') ? 'sideBar_now' : ''}}">
-    <a href="{{route('order.index')}}"><img src="{{asset('images/admin_delivery.png')}}" alt="">訂單管理</a>
-  </li>
   <li class="sideBar_item {{Request::is('runner*') ? 'sideBar_now' : ''}}">
     <a href="{{route('runner.index')}}"><img src="{{asset('images/admin_marquee.png')}}" alt="">跑馬燈管理</a>
   </li>
+  <li class="sideBar_item {{Request::is('order*') ? 'sideBar_now' : ''}}">
+    <a href="{{route('order.index')}}"><img src="{{asset('images/admin_delivery.png')}}" alt="">訂單管理</a>
+  </li>
+  
 </ul>
 <div class="content">
 @yield('content')

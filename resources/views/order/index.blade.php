@@ -209,7 +209,6 @@
 					<th class="th-red">-</th>
 					<th class="th-red">出貨</th>
 					
-					
 					<th class="th-green">發票</th>
 					
 					<th class="th-green">備註</th>
@@ -278,8 +277,6 @@
 						@endif
 					</td>
 
-					
-
 					<td>
 						@if($order['ship_receipt'] == '2')二連@else <font color="red">3連</font>@endif
 					</td>
@@ -289,9 +286,6 @@
 							<font style="cursor: pointer;background-color: red;" color="yellow">！</font>
 						@endif
 					</td>
-
-
-					
 
 
 				</tr>

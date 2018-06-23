@@ -222,8 +222,8 @@
 							<td class="shipping-bottom-TD">
 								<label for=""><span class="required">*</span>付款方式：</label>
 								<div class="pay_by">
-									<input id="pay_by_credit" class="radio" type="radio" name="ship_pay_by" value="credit"><span>信用卡</span>
-	  								<input id="pay_by_atm" class="radio" type="radio" name="ship_pay_by" value="atm"><span>ATM</span>
+									<input id="pay_by_credit" class="radio" type="radio" name="ship_pay_by" value="CREDIT"><span>信用卡</span>
+	  								<input id="pay_by_atm" class="radio" type="radio" name="ship_pay_by" value="ATM"><span>ATM</span>
 	  								<input id="pay_by_cod" class="radio" type="radio" name="ship_pay_by" value="cod"><span>貨到付款</span>	
 								</div>
 							</td>

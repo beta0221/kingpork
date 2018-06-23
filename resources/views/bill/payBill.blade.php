@@ -147,7 +147,7 @@
 
 					@elseif($finalBill['pay_by'] == 'CREDIT')
 
-						<button class="payByBtn btn btn-primary" onclick="creditSubmit();">前往繳費</button>
+						<button class="payByBtn btn btn-primary" onclick="checkOut('CREDIT')">前往繳費</button>
 
 					@endif
 				</div>
@@ -156,38 +156,38 @@
 			</div>
 		</div>
 	</div>
-
-@if($finalBill['pay_by'] == 'CREDIT')
+{{-- @if($finalBill['pay_by'] == 'CREDIT')
 <form class="creditForm" style="display: none;" method=post action="https://epost.hncb.com.tw/ezpostw/auth/SSLAuthUI.jsp"> 
 <INPUT value="6940" name=merID><br>
 <INPUT value="金園排骨股份有限公司" name=MerchantName><br>
 <INPUT value="008786350353296" name=MerchantID><br>
 <INPUT value="77543256" name=TerminalID><br>
-<INPUT maxLength=100 size=50 name="AuthResURL" value="http://45.76.104.218/api/creditPaied"><!-- (optional, 亦可不使用本參數)  --><br>
+<INPUT maxLength=100 size=50 name="AuthResURL" value="http://45.76.104.218/api/creditPaied"><br>
 <INPUT value="{{$finalBill['bill_id']}}" name=lidm><br>
 <INPUT onclick=chkTxType(); type=radio value=0 name=txType checked><br>
 <INPUT type=radio value=0 name=AutoCap CHECKED><br>
-<INPUT size=3 value="{{$finalBill['price']}}" name=purchAmt><!-- 金額 --><br>
+<INPUT size=3 value="{{$finalBill['price']}}" name=purchAmt><br>
 <input type="text" value="UTF-8" name="encode"><br>
 <INPUT NAME=checkValue Value="{{$checkValue}}" > <br>
 <INPUT onclick=doSubmit(); type=submit value="Pay by credit card" border=0 name=imageField height="32" width="161">  <br>
 </form>
-@endif
-
+@endif --}}
 </div>
 @endsection
 
+
+
 @section('scripts')
 
-@if($finalBill['pay_by'] == 'ATM' AND $finalBill['SPToken'] != null)
+@if(($finalBill['pay_by']=='ATM'AND$finalBill['SPToken']!=null)OR($finalBill['pay_by']=='CREDIT'AND$finalBill['SPToken']!=null))
 
 	{{-- <script src="https://payment-stage.ecpay.com.tw/Scripts/SP/ECPayPayment_1.0.0.js" --}}
 	<script
 	data-MerchantID="2000132" {{-- test --}}
 	{{-- data-MerchantID="1044372" --}} {{-- kingpork --}}
 	data-SPToken="{{$finalBill['SPToken']}}"
-	data-PaymentType="ATM"
-	data-PaymentName="CREDIT"
+	data-PaymentType="{{$finalBill['pay_by']}}"
+	data-PaymentName="{{$finalBill['pay_by']}}"
 	data-CustomerBtn="1" >
 function PayBtn(ECPay) 
 {
@@ -293,14 +293,50 @@ function CloseIframe(Data) {
 ECPay.init();
 	</script> 
 
-
+{{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  --}}
 
 	<script>
 		$(document).ready(function (){
 			window.addEventListener('message', function (e) {
 				var json = JSON.parse(e.data);
-				// alert(e.data);
+				alert(e.data);
 				// alert(json.MerchantTradeNo);
+				// if (json.RtnCode == '1') {
+				// 	$('body').append('<div class="loader-bg"></div>');
+				// 	$('body').append('<div class="loader-box"><div class="loader"></div><strong>請稍候...</strong></div>');
+				// 	.ajaxSetup({
+				//   		headers: {
+				//     		'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+				//   		}
+				// 	});
+				// 	$.ajax({
+				// 		type:'POST',
+				// 		url:'',
+				// 		dataType:'json',
+				// 		data: {
+				// 			'MerchantID':json.MerchantID,
+				// 			'MerchantTradeNo':json.MerchantTradeNo,
+				// 			'TradeNo':json.TradeNo,
+				// 			'TradeAmt':json.TradeAmt,
+				// 			'TradeDate':json.TradeDate,
+				// 		},
+				// 		success: function (response) {
+				// 			if (response == 's') {
+				// 				$('.loader').remove();
+				// 				$('.loader-box').remove();
+				// 				$('.loader-bg').remove();
+				// 				$('.payByBtn').remove();
+				// 				$('.inner-payBy').append('<a href="/" style="color: white;" class="payByBtn btn btn-success">回首頁</a>');
+				// 				setTimeout(function(){
+				// 					alert('電子確認信已寄出，內含您的購買明細及繳款資訊');
+				// 				},10)
+				// 			}
+				// 		},
+				// 		error: function () {
+				//             alert('錯誤');
+				//         },
+				// 	});
+				// }
 				if (json.RtnCode == '2') {
 					$('body').append('<div class="loader-bg"></div>');
 					$('body').append('<div class="loader-box"><div class="loader"></div><strong>請稍候...</strong></div>');
@@ -382,7 +418,7 @@ ECPay.init();
 	</script>
 @endif
 
-@if($finalBill['pay_by'] == 'CREDIT' AND $finalBill['status'] !=1)
+{{-- @if($finalBill['pay_by'] == 'CREDIT' AND $finalBill['status'] !=1)
 <script>
 	function creditSubmit(){
 		$('.creditForm').submit();
@@ -414,6 +450,6 @@ ECPay.init();
 	     },
 	});
 </script>
-@endif
+@endif --}}
 
 @endsection
