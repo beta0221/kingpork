@@ -58,11 +58,11 @@
 						<font>
 						@if($finalBill['pay_by'] == '貨到付款')
 						　感謝您的購買~
-						@elseif($finalBill['pay_by'] == 'CREDIT' AND $finalBill['status'] =='1')
+						@elseif($finalBill['pay_by'] == 'CREDIT' AND $finalBill['status'] ==1)
 						　感謝您的購買~
 						@elseif($finalBill['pay_by'] == 'ATM')
 						ATM轉帳繳費
-						@elseif($finalBill['pay_by'] == 'CREDIT' AND $finalBill['status']!='1')
+						@elseif($finalBill['pay_by'] == 'CREDIT' AND $finalBill['status']!=1)
 						信用卡繳費
 						@endif
 						</font>
@@ -70,11 +70,11 @@
 					<div class="U-1">
 						@if($finalBill['pay_by'] == '貨到付款')
 						<img style="height: 70%;" src="{{asset('images/thankYou.png')}}" alt="">
-						@elseif($finalBill['pay_by'] == 'CREDIT' AND $finalBill['status'] =='1')
+						@elseif($finalBill['pay_by'] == 'CREDIT' AND $finalBill['status'] ==1)
 						<img style="height: 70%;" src="{{asset('images/thankYou.png')}}" alt="">
 						@elseif($finalBill['pay_by'] == 'ATM')
 						<img style="height: 70%;" src="{{asset('images/atm.png')}}" alt="">
-						@elseif($finalBill['pay_by'] == 'CREDIT'AND$finalBill['status']!='1')
+						@elseif($finalBill['pay_by'] == 'CREDIT'AND$finalBill['status']!=1)
 						<img style="height: 70%;" src="{{asset('images/credit.png')}}" alt="">
 						@endif
 						
@@ -82,12 +82,12 @@
 					<div class="U-1 U-text">
 						@if($finalBill['pay_by'] == '貨到付款')
 						<font>我們衷心感謝您購買我們的產品，您將會收到一封電子確認信，內含您的購買明細。<br>若您對此次交易有任何問題，請隨時<a href="{{route('contact')}}">寫信給我們</a>。</font>
-						@elseif($finalBill['pay_by'] == 'CREDIT' AND $finalBill['status'] =='1')
+						@elseif($finalBill['pay_by'] == 'CREDIT' AND $finalBill['status'] ==1)
 						<font>我們衷心感謝您購買我們的產品，您將會收到一封電子確認信，內含您的購買明細。<br>若您對此次交易有任何問題，請隨時<a href="{{route('contact')}}">寫信給我們</a>。</font>
 						@elseif($finalBill['pay_by'] == 'ATM')
 						<font>取得繳費帳號後您將收到一封電子確認信，內含您的購買明細及繳款資訊，<br>
 						商品會於繳款確認後寄出，若您對此次交易有任何問題，請隨時<a href="{{route('contact')}}">寫信給我們</a>。</font>
-						@elseif($finalBill['pay_by']=='CREDIT'AND$finalBill['status']!='1')
+						@elseif($finalBill['pay_by']=='CREDIT'AND$finalBill['status']!=1)
 						請確認訂單資訊正確無誤後點擊“前往繳費”<br>若您對此次交易有任何問題，請隨時<a href="{{route('contact')}}">寫信給我們</a>。
 						@endif
 					</div>
@@ -141,11 +141,11 @@
 
 						<a href="{{url('/')}}" style="color: white;" class="payByBtn btn btn-success">回首頁</a>
 
-					@elseif($finalBill['pay_by'] == 'CREDIT' AND $finalBill['status'] =='1')
+					@elseif($finalBill['pay_by'] == 'CREDIT' AND $finalBill['status'] ==1)
 
 						<a href="{{url('/')}}" style="color: white;" class="payByBtn btn btn-success">回首頁</a>
 
-					@elseif($finalBill['pay_by'] == 'CREDIT'AND$finalBill['status']!='1')
+					@elseif($finalBill['pay_by'] == 'CREDIT'AND$finalBill['status']!=1)
 
 						<button class="payByBtn btn btn-primary" onclick="checkOut('CREDIT')">前往繳費</button>
 
@@ -179,7 +179,7 @@
 
 @section('scripts')
 
-@if(($finalBill['pay_by']=='ATM'AND$finalBill['SPToken']!=null)OR($finalBill['pay_by']=='CREDIT'AND$finalBill['SPToken']!=null))
+@if(($finalBill['pay_by']=='ATM'AND$finalBill['SPToken']!=null AND$finalBill['status']!=1)OR($finalBill['pay_by']=='CREDIT'AND$finalBill['SPToken']!=null AND$finalBill['status']!=1))
 
 	{{-- <script src="https://payment-stage.ecpay.com.tw/Scripts/SP/ECPayPayment_1.0.0.js" --}}
 	<script
@@ -383,7 +383,7 @@ ECPay.init();
 					$('.payByBtn').remove();
 					$('.inner-payBy').append('已取得繳費代碼，<br>請留意電子信箱。');
 				}
-				else if (json.RtnCode == '10200164') {
+				else if (json.RtnCode == '10200164') { //超時
 					$('.payByBtn').remove();
 					$.ajaxSetup({
 				  		headers: {
