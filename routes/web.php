@@ -38,7 +38,7 @@ Route::get('ajaxShowIndex','kartController@ajaxShowIndex');
 Route::resource('bill','BillController');
 Route::get('checkBill/{bill}','BillController@checkBill');
 Route::post('bill/sendMail','BillController@sendMail')->name('bill.sendMail');
-Route::post('bill/sendMailC','BillController@sendMailC')->name('bill.sendMailC');
+// Route::post('bill/sendMailC','BillController@sendMailC')->name('bill.sendMailC');
 Route::get('findMemory','BillController@findMemory')->name('findMemory');
 
 

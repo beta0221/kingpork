@@ -301,42 +301,7 @@ ECPay.init();
 				var json = JSON.parse(e.data);
 				alert(e.data);
 				// alert(json.MerchantTradeNo);
-				// if (json.RtnCode == '1') {
-				// 	$('body').append('<div class="loader-bg"></div>');
-				// 	$('body').append('<div class="loader-box"><div class="loader"></div><strong>請稍候...</strong></div>');
-				// 	.ajaxSetup({
-				//   		headers: {
-				//     		'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-				//   		}
-				// 	});
-				// 	$.ajax({
-				// 		type:'POST',
-				// 		url:'',
-				// 		dataType:'json',
-				// 		data: {
-				// 			'MerchantID':json.MerchantID,
-				// 			'MerchantTradeNo':json.MerchantTradeNo,
-				// 			'TradeNo':json.TradeNo,
-				// 			'TradeAmt':json.TradeAmt,
-				// 			'TradeDate':json.TradeDate,
-				// 		},
-				// 		success: function (response) {
-				// 			if (response == 's') {
-				// 				$('.loader').remove();
-				// 				$('.loader-box').remove();
-				// 				$('.loader-bg').remove();
-				// 				$('.payByBtn').remove();
-				// 				$('.inner-payBy').append('<a href="/" style="color: white;" class="payByBtn btn btn-success">回首頁</a>');
-				// 				setTimeout(function(){
-				// 					alert('電子確認信已寄出，內含您的購買明細及繳款資訊');
-				// 				},10)
-				// 			}
-				// 		},
-				// 		error: function () {
-				//             alert('錯誤');
-				//         },
-				// 	});
-				// }
+				
 				if (json.RtnCode == '2') {
 					$('body').append('<div class="loader-bg"></div>');
 					$('body').append('<div class="loader-box"><div class="loader"></div><strong>請稍候...</strong></div>');
@@ -358,6 +323,44 @@ ECPay.init();
 							'BankCode':json.BankCode,
 							'vAccount':json.vAccount,
 							'ExpireDate':json.ExpireDate,
+							'pay_by':'ATM',
+						},
+						success: function (response) {
+							if (response == 's') {
+								$('.loader').remove();
+								$('.loader-box').remove();
+								$('.loader-bg').remove();
+								$('.payByBtn').remove();
+								$('.inner-payBy').append('<a href="/" style="color: white;" class="payByBtn btn btn-success">回首頁</a>');
+								setTimeout(function(){
+									alert('電子確認信已寄出，內含您的購買明細及繳款資訊');
+								},10)
+							}
+						},
+						error: function () {
+				            alert('錯誤');
+				        },
+					});
+				}
+				else if (json.RtnCode == '1') {
+					$('body').append('<div class="loader-bg"></div>');
+					$('body').append('<div class="loader-box"><div class="loader"></div><strong>請稍候...</strong></div>');
+					.ajaxSetup({
+				  		headers: {
+				    		'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+				  		}
+					});
+					$.ajax({
+						type:'POST',
+						url:'',
+						dataType:'json',
+						data: {
+							'MerchantID':json.MerchantID,
+							'MerchantTradeNo':json.MerchantTradeNo,
+							'TradeNo':json.TradeNo,
+							'TradeAmt':json.TradeAmt,
+							'TradeDate':json.TradeDate,
+							'pay_by':'CREDIT',
 						},
 						success: function (response) {
 							if (response == 's') {

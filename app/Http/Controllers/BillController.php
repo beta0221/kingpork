@@ -431,37 +431,37 @@ class BillController extends Controller
         return('1|OK');
     }
 
-    public function creditPaied(Request $request)
-    {
+    // public function creditPaied(Request $request)
+    // {
         
-        if ($request->status == 0) {
-            $the = Bill::where('bill_id',$request->lidm)->firstOrFail();
-            $the->status = 1;
-            $allReturn = 
-            'status='.$request->status.'|'.
-            'errcode='.$request->errcode.'|'.
-            'authCode='.$request->authCode.'|'.
-            'authAmt='.$request->authAmt.'|'.
-            'lidm='.$request->lidm.'|'.
-            'xid='.$request->xid.'|'.
-            'merID='.$request->merID.'|'.
-            'Last4digitPAN='.$request->Last4digitPAN.'|'.
-            'errDesc='.$request->errDesc.'|'.
-            'checkValue='.$request->checkValue;
-            $the->allReturn = $allReturn;
-            $the->save();
+    //     if ($request->status == 0) {
+    //         $the = Bill::where('bill_id',$request->lidm)->firstOrFail();
+    //         $the->status = 1;
+    //         $allReturn = 
+    //         'status='.$request->status.'|'.
+    //         'errcode='.$request->errcode.'|'.
+    //         'authCode='.$request->authCode.'|'.
+    //         'authAmt='.$request->authAmt.'|'.
+    //         'lidm='.$request->lidm.'|'.
+    //         'xid='.$request->xid.'|'.
+    //         'merID='.$request->merID.'|'.
+    //         'Last4digitPAN='.$request->Last4digitPAN.'|'.
+    //         'errDesc='.$request->errDesc.'|'.
+    //         'checkValue='.$request->checkValue;
+    //         $the->allReturn = $allReturn;
+    //         $the->save();
 
-            $user = User::where('name',$the->user_name)->firstOrFail();//紅利回算機制{
-            $authAmt = (int)$request->authAmt;
-            $user->bonus = $user->bonus+$authAmt;
-            $user->save();                                          // }紅利回算機制
+    //         $user = User::where('name',$the->user_name)->firstOrFail();//紅利回算機制{
+    //         $authAmt = (int)$request->authAmt;
+    //         $user->bonus = $user->bonus+$authAmt;
+    //         $user->save();                                          // }紅利回算機制
 
-            return redirect()->route('bill.show', $request->lidm);
-        }else{
-            return redirect()->route('bill.show', $request->lidm);
-        }
+    //         return redirect()->route('bill.show', $request->lidm);
+    //     }else{
+    //         return redirect()->route('bill.show', $request->lidm);
+    //     }
         
-    }                                              // }!!! API !!!
+    // }                                              // }!!! API !!!
 
     public function checkBill($id)
     {
@@ -520,52 +520,37 @@ class BillController extends Controller
             ];
             $i++;
         }
-        $data = array(
-            'user_name'=>Auth::user()->name,
-            'ship_gender'=>$bill->ship_gender,
-            'ship_name'=>$bill->ship_name,
-            'ship_phone'=>$bill->ship_phone,
-            'ship_county'=>$bill->ship_county,
-            'ship_district'=>$bill->ship_district,
-            'ship_address'=>$bill->ship_address,
-            'email' => $bill->ship_email,
-            'items' => $itemArray,
-            'bill_id' =>$bill->bill_id,
-            'bonus_use'=>$bill->bonus_use,
-            'price' => $bill->price,
-            'pay_by'=>'ATM轉帳繳費',
-            'TradeDate'=>$request->TradeDate,
-            'BankCode'=>$request->BankCode,
-            'vAccount'=>$request->vAccount,
-            'ExpireDate'=>$request->ExpireDate,
-        );
-        Mail::send('emails.atm',$data,function($message) use ($data){
-            $message->from('beta0221@gmail.com','金園排骨');
-            $message->to($data['email']);
-            $message->subject('金園排骨-購買確認通知');
-        });
-        return response()->json('s');
-    }
-    public function sendMailC(Request $request)
-    {
-        $bill = Bill::where('bill_id',$request->bill_id)->firstOrFail();
-        if ($bill->SimulatePaid != 1) {
-            $bill->SimulatePaid = 1;
-            $bill->save();
 
-            $items = json_decode($bill->item,true);
-            $i = 0;
-            $itemArray = [];
-            foreach($items as $item)
-            {
-                $product = Products::where('slug', $item['slug'])->firstOrFail();   
-                $itemArray[$i] = [
-                    'name' => $product->name,
-                    'price' => $product->price,
-                    'quantity' => $item['quantity'],
-                ];
-                $i++;
-            }
+
+        if ($request->pay_by == 'ATM') {
+            $data = array(
+                'user_name'=>Auth::user()->name,
+                'ship_gender'=>$bill->ship_gender,
+                'ship_name'=>$bill->ship_name,
+                'ship_phone'=>$bill->ship_phone,
+                'ship_county'=>$bill->ship_county,
+                'ship_district'=>$bill->ship_district,
+                'ship_address'=>$bill->ship_address,
+                'email' => $bill->ship_email,
+                'items' => $itemArray,
+                'bill_id' =>$bill->bill_id,
+                'bonus_use'=>$bill->bonus_use,
+                'price' => $bill->price,
+                'pay_by'=>'ATM轉帳繳費',
+                'TradeDate'=>$request->TradeDate,
+                'BankCode'=>$request->BankCode,
+                'vAccount'=>$request->vAccount,
+                'ExpireDate'=>$request->ExpireDate,
+            );
+            Mail::send('emails.atm',$data,function($message) use ($data){
+                $message->from('beta0221@gmail.com','金園排骨');
+                $message->to($data['email']);
+                $message->subject('金園排骨-購買確認通知');
+            });
+
+            return response()->json('s');
+            
+        }elseif ($request->pay_by == 'CREDIT') {
             $data = array(
                 'user_name'=>Auth::user()->name,
                 'ship_gender'=>$bill->ship_gender,
@@ -580,18 +565,66 @@ class BillController extends Controller
                 'bonus_use'=>$bill->bonus_use,
                 'price' => $bill->price,
                 'pay_by'=>'信用卡繳費',
+                'TradeDate'=>$request->TradeDate,
             );
-            Mail::send('emails.cod',$data,function($message) use ($data){
+            Mail::send('emails.credit',$data,function($message) use ($data){
                 $message->from('beta0221@gmail.com','金園排骨');
                 $message->to($data['email']);
                 $message->subject('金園排骨-購買確認通知');
             });
+
             return response()->json('s');
-        }else{
-            return response()->json('1');
         }
         
+
+        
     }
+    // public function sendMailC(Request $request)
+    // {
+    //     $bill = Bill::where('bill_id',$request->bill_id)->firstOrFail();
+    //     if ($bill->SimulatePaid != 1) {
+    //         $bill->SimulatePaid = 1;
+    //         $bill->save();
+
+    //         $items = json_decode($bill->item,true);
+    //         $i = 0;
+    //         $itemArray = [];
+    //         foreach($items as $item)
+    //         {
+    //             $product = Products::where('slug', $item['slug'])->firstOrFail();   
+    //             $itemArray[$i] = [
+    //                 'name' => $product->name,
+    //                 'price' => $product->price,
+    //                 'quantity' => $item['quantity'],
+    //             ];
+    //             $i++;
+    //         }
+    //         $data = array(
+    //             'user_name'=>Auth::user()->name,
+    //             'ship_gender'=>$bill->ship_gender,
+    //             'ship_name'=>$bill->ship_name,
+    //             'ship_phone'=>$bill->ship_phone,
+    //             'ship_county'=>$bill->ship_county,
+    //             'ship_district'=>$bill->ship_district,
+    //             'ship_address'=>$bill->ship_address,
+    //             'email' => $bill->ship_email,
+    //             'items' => $itemArray,
+    //             'bill_id' =>$bill->bill_id,
+    //             'bonus_use'=>$bill->bonus_use,
+    //             'price' => $bill->price,
+    //             'pay_by'=>'信用卡繳費',
+    //         );
+    //         Mail::send('emails.cod',$data,function($message) use ($data){
+    //             $message->from('beta0221@gmail.com','金園排骨');
+    //             $message->to($data['email']);
+    //             $message->subject('金園排骨-購買確認通知');
+    //         });
+    //         return response()->json('s');
+    //     }else{
+    //         return response()->json('1');
+    //     }
+        
+    // }
 
     /**
      * Display the specified resource.
