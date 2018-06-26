@@ -87,16 +87,16 @@
 	font-weight: 800;
 	right: 20px;
 	bottom: 20px;
-	width: 80px;
-	height: 40px;
-	font-size: 22px;
+	width: 100px;
+	height: 56px;
+	font-size: 26px;
 	text-align: center;
 	color: #fff;
 	border-radius: 0.3em;
 	cursor: pointer;
 	background-color:darkorange;
-	border:1pt solid #fff;
-	line-height: 40px;
+	border:2pt solid #fff;
+	line-height: 56px;
 }
 .P- img{
 	min-width: 100%;

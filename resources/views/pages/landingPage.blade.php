@@ -30,7 +30,7 @@
 				<a href="{{route('productCategory.show',1)}}">
 					<img src="{{asset('images/productsIMG/pork.png')}}" alt="">
 				</a>
-				<div class="P-buy">我要買</div>
+				<div onclick="location.href='{{route('productCategory.show',1)}}';" class="P-buy">我要買</div>
 			</div>
 		</div>
 		<div class="product col-md-4 col-12">
@@ -38,7 +38,7 @@
 				<a href="{{route('productCategory.show',3)}}">
 					<img src="{{asset('images/productsIMG/both.png')}}" alt="">
 				</a>
-				<div class="P-buy">我要買</div>
+				<div onclick="location.href='{{route('productCategory.show',3)}}';" class="P-buy">我要買</div>
 			</div>
 		</div>
 		<div class="product col-md-4 col-12">
@@ -46,7 +46,7 @@
 				<a href="{{route('productCategory.show',2)}}">
 					<img src="{{asset('images/productsIMG/chicken.png')}}" alt="">
 				</a>
-				<div class="P-buy">我要買</div>
+				<div onclick="location.href='{{route('productCategory.show',2)}}';" class="P-buy">我要買</div>
 			</div>
 		</div>
 	</div>
@@ -113,17 +113,18 @@
 			<h4>e-mail：may@sacred.com.tw</h4>
 			<h4>　　　　kingpork@sacred.com.tw</h4>
 			<h4>地址：桃園市桃園區大有路59號３樓</h4>
+			<h4>上班日：8:30-18:00</h4>
 			<div class="google-map">
 				<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3615.8630138224594!2d121.3224238588966!3d25.00477030090872!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34681e5a371e6323%3A0x3192af8956be9763!2zMzMw5qGD5ZyS5biC5qGD5ZyS5Y2A5aSn5pyJ6LevNTnomZ8!5e0!3m2!1szh-TW!2stw!4v1528712582756" width="100%" height="100%" frameborder="0" style="border:0" allowfullscreen></iframe>
 			</div>
 		</div>
 		<div id="story-2">
 			<h2>金園排骨-【春日店】</h3>
-			<h4>客服專線：03-339-0363 ; 03-339-0343</h4>
+			<h4>客服專線：03-339-0363 ; 03-339-0347</h4>
 			<h4>e-mail：may@sacred.com.tw</h4>
 			<h4>　　　　kingpork@sacred.com.tw</h4>
 			<h4>地址：桃園市桃園區春日路278號</h4>
-			<h4>店休日：週三</h4>
+			<h4>店休日：三大節(端午/中秋/年節)</h4>
 			
 		</div>
 		<div id="story-3">

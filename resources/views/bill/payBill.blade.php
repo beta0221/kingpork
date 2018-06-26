@@ -311,8 +311,8 @@ ECPay.init();							//!* test *!
 		$(document).ready(function (){
 			window.addEventListener('message', function (e) {
 				var json = JSON.parse(e.data);
-				alert(e.data);
-				// alert(json.MerchantTradeNo);
+				// alert(e.data);
+				
 				
 				if (json.RtnCode == '2') {
 					$('body').append('<div class="loader-bg"></div>');

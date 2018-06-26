@@ -116,6 +116,39 @@
 	width: 25%;
 	display: none;
 }
+#date_alert_tr{
+	display: none;
+}
+.date_alert{
+	/*display: inline-block;*/
+	background-color: #EC971F;
+	color: #fff;
+	border-radius: 0.2rem;
+	padding: 0 2px 0 2px;
+	height: 24px;
+	margin-left: 22px;
+	display: none;
+	line-height: 24px;
+	cursor: pointer;
+}
+.date_alert img{
+	height: 80%;
+	transform: translateY(-1px);
+}
+.date_alert_after::after{
+	content: "1.上班日(週一至週五)上午12點前之訂單並完成付款，可於隔日到貨。\A 2.平日下午14:00之後的訂單，恕隔日無法到貨。\A 3.星期五下午14:00之後至週日的訂單，於下週二開始出貨，次日到貨。";
+	white-space: pre-line;
+	background-color: #EC971F;
+	opacity: 0.9;
+	color: #fff;
+	border-radius: 0.3em;
+	position: absolute;
+	padding: 6px;
+	top: 0;
+	left: 120px;
+	width: 400px;
+	z-index: 1;
+}
 .ifThree{
 	display: none;
 	width: 60%;
@@ -343,5 +376,22 @@
 		line-height: 60px;
 		font-size: 18px;
 		width: 120px;
+	}
+	.date_alert{
+		padding: 0 2px 0 2px;
+		height: 24px;
+		margin-left: 14px;
+		display: none;
+		line-height: 24px;
+	}
+	.date_alert img{
+		height: 80%;
+		transform: translateY(-1px);
+	}
+	.date_alert_after::after{
+		padding: 6px;
+		top: 0;
+		left: 100px;
+		width: 240px;
 	}
 }

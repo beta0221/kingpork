@@ -15,10 +15,25 @@ $(document).ready(function(){
 		});
 		$('#arriveYes').click(function(){
 			$('#arriveDate').css('display','inline-block');
+			$('.date_alert').css('display','inline-block');
+			$('#date_alert_tr').css('display','table-row');
 		});
 		$('#arriveNo').click(function(){
 			$('#arriveDate').css('display','none');
 			$('#arriveDate').val(null);
+			$('.date_alert').css('display','none');
+			$('#date_alert_tr').css('display','none');
+		});
+		var date_alert = 0;
+		$('.date_alert').click(function(){
+			if (date_alert==0) {
+				$('.date_alert').addClass('date_alert_after');
+				date_alert = 1;
+			}else if(date_alert==1){
+				$('.date_alert').removeClass('date_alert_after');
+				date_alert = 0;
+			}
+			
 		});
 		$('.two-three').change(function(){
 			if ($(this).val() == '3'){

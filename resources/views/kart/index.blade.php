@@ -175,7 +175,18 @@
 
 								<input name="ship_arriveDate" id="arriveDate" type="date" class="form-control">
 
+								
+
 								<input type="text" class="form-control" style="width: 1%;height: 42px;visibility: hidden;">
+							</td>
+						</tr>
+
+						<tr id="date_alert_tr">
+							<td>
+								<div class="date_alert">
+									<img src="{{asset('images/date_alert.png')}}">
+									<font>交貨說明</font>
+								</div>
 							</td>
 						</tr>
 
