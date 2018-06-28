@@ -54,28 +54,61 @@
 							</h1>
 						</div>
 
-						<hr style="margin: 0;width: 95%;margin: 0 auto;">
-						
+
+						<div class="productBox">
 						@foreach($productCategory->products as $product)
+
+
+
 							<div onclick="showProduct({{$product->id}});" class="productItem">
-								<span>{{$product->name}}</span>
-								{!!($product->discription == null)?'':'<span class="' . 'product-discription">'. $product->discription .'</span>'!!}
+								
+								<div class="left-name-box">
 
-								<span class="productPrice">${{$product->price}}</span>
-								<span class="productPrice productPrice_avg">（均價${{$product->format}}）</span>
-								<button id="add_{{$product->id}}" class="addToKartBtn" onclick="addToKart({{$product->id}})" product_id="{{$product->id}}">
-									加入<img src="{{asset('images/cart.png')}}">
-								</button>
+									<div class="left-top-box">
+										<span>{{$product->name}}</span>
+									</div>
+
+									<div class="left-bottom-box">
+										{!!($product->discription == null)?'':'<span class="' . 'product-discription">'. $product->discription .'</span>'!!}
+									</div>
+									
+								</div>
+								<div class="right-price-box">
+
+									<div class="right-top-box">
+										<span class="productPrice">${{$product->price}}</span>
+									</div>
+									
+									<div class="right-bottom-box">
+										<span class="productPrice productPrice_avg">(均價${{$product->format}})</span>
+									</div>
+
+								</div>
+								<div class="right-button-box">
+
+									<button id="add_{{$product->id}}" class="addToKartBtn" onclick="addToKart({{$product->id}})" product_id="{{$product->id}}">
+
+										加入<img src="{{asset('images/cart.png')}}">
+
+									</button>
+
+								</div>
+								{{-- 
+
+								
+
+								
+
+								
+
+								 --}}
+
 							</div>
-						@endforeach
-						
 
-						{{-- <div class="flash">
-							<span></span>
+
+
+						@endforeach
 						</div>
-						<div class="flashRed">
-							<span></span>
-						</div> --}}
 							
 						<button id="goToKartBtn" class="goToKartBtn" onclick="location.href='{{route('kart.index')}}'">前往結帳<img src="{{asset('images/point.png')}}" alt=""></button>
 							
