@@ -21,15 +21,15 @@
 	    	{{-- <li class="navbar-li">
 	    		<a class="{{Request::is('')?'now-page':''}}" href="#">美食廚房</a>
 	    	</li> --}}
-			<li class="navbar-li">
+			{{-- <li class="navbar-li">
 	    		<a class="{{Request::is('')?'now-page':''}}" href="#">最新消息</a>
-	    	</li>
+	    	</li> --}}
 	    	<li class="navbar-li">
 	    		<a class="{{Request::is('guide')?'now-page':''}}" href="{{route('guide')}}">訂購相關</a>
 	    	</li>
-	    	<li class="navbar-li">
+	    	{{-- <li class="navbar-li">
 	    		<a class="{{Request::is('')?'now-page':''}}" href="#">食在安心</a>
-	    	</li>
+	    	</li> --}}
 	    	<li class="navbar-li">
 	    		<a class="{{Request::is('contact')?'now-page':''}}" href="{{route('contact')}}">聯絡我們</a>
 	    	</li>
