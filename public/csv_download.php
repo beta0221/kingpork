@@ -12,7 +12,7 @@ foreach ($orders as $order) {
 	$content = $content . $order."\n";
 }
 
-$content = mb_convert_encoding($content , "Big5" , "UTF-8");
+$content = mb_convert_encoding($content , "BIG5" , "auto");
 echo $content;
 exit;
 ?>
