@@ -146,7 +146,9 @@ class BillController extends Controller
         $cc = DB::table('products')->whereIn('slug', $itemArray)->get();
         $n = 0;
         $total = 0;
+        $short = "";
         foreach($cc as $c){
+            $short = $short.$c->short.'*'.$quantityArray[$n].';';
             $total = $total + ($c->price * $quantityArray[$n]);
             $n++;
         }
@@ -176,7 +178,7 @@ class BillController extends Controller
 //---------------------------------------------------------------------
 
         if ($request->ship_pay_by=='ATM'OR$request->ship_pay_by=='CREDIT') {
-            
+
             //test
             $HashKey = '5294y06JbISpM5x9';
             $HashIV = 'v77hoKGq4kWxNNIS';
@@ -191,7 +193,7 @@ class BillController extends Controller
             $PaymentType = 'aio';
             $TotalAmount = $total;
             $TradeDesc = '金園排骨官方商城';
-            $ItemName = '商品名稱1#商品名稱2';
+            $ItemName = $short;
             $ReturnURL = 'http://45.76.104.218/api/billPaied';
             $ChoosePayment = 'ALL';
             $EncryptType = '1';
