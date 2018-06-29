@@ -183,7 +183,7 @@
 
 						<tr id="date_alert_tr">
 							<td>
-								<div class="date_alert">
+								<div class="date_alert date_alert_after">
 									<img src="{{asset('images/date_alert.png')}}">
 									<font>交貨說明</font>
 								</div>

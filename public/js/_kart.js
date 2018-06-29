@@ -24,7 +24,7 @@ $(document).ready(function(){
 			$('.date_alert').css('display','none');
 			$('#date_alert_tr').css('display','none');
 		});
-		var date_alert = 0;
+		var date_alert = 1;
 		$('.date_alert').click(function(){
 			if (date_alert==0) {
 				$('.date_alert').addClass('date_alert_after');
