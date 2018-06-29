@@ -184,8 +184,8 @@
 	{{-- <script src="https://payment-stage.ecpay.com.tw/Scripts/SP/ECPayPayment_1.0.0.js" --}} 		{{-- test --}}
 	{{-- <script src="https://payment.ecpay.com.tw/Scripts/SP/ECPayPayment_1.0.0.js" --}}     {{-- production --}}
 	<script
-	data-MerchantID="2000132" {{-- test --}}
-	{{-- data-MerchantID="1044372" --}} {{-- kingpork --}}
+	{{-- data-MerchantID="2000132" --}} {{-- test --}}
+	data-MerchantID="1044372" {{-- kingpork --}}
 	data-SPToken="{{$finalBill['SPToken']}}"
 	data-PaymentType="{{$finalBill['pay_by']}}"
 	data-PaymentName="{{$finalBill['pay_by']}}"
@@ -216,8 +216,8 @@ function BtnDecorator(ECPay) {
 var
     version = "1.0.0",
     description = "綠界科技(ECPay)_ECPayPayment",
-    domain = "https://payment-stage.ecpay.com.tw";  //test
-    // domain = "https://payment.ecpay.com.tw";   //production
+    //domain = "https://payment-stage.ecpay.com.tw";  //test
+    domain = "https://payment.ecpay.com.tw";   //production
 ECPay = {
     //### 初始化
     init: function () {
@@ -272,9 +272,9 @@ ECPay = {
             iframe.setAttribute("style", "z-index: 2147483646; display: none; background: rgba(0, 0, 0, 0.00392157); border: 0px none transparent; overflow-x: hidden; overflow-y: auto; visibility: visible;padding: 0px; -webkit-tap-highlight-color: transparent; position: fixed; left: 0%; top: 10%; width: 100%; height: 80%;margin-left:0px;margin-top:0px;");
 
 
-            iframe.src = domain + "/SP/SPCheckOut?MerchantID=" + ECPay.dataMerchantId + "&SPToken=" + ECPay.dataSPToken + "&PaymentType=" + ECPay.dataPaymentType;			//!* test *!
+            //iframe.src = domain + "/SP/SPCheckOut?MerchantID=" + ECPay.dataMerchantId + "&SPToken=" + ECPay.dataSPToken + "&PaymentType=" + ECPay.dataPaymentType;			//!* test *!
 
-            // iframe.src = domain + "/SP/SPCheckOut?MerchantID=" + ECPay.dataMerchantId + "&SPToken=" + ECPay.dataSPToken + "&PaymentType=" + ECPay.dataPaymentType + "&ts=" + Date.now();			!* production *!
+            iframe.src = domain + "/SP/SPCheckOut?MerchantID=" + ECPay.dataMerchantId + "&SPToken=" + ECPay.dataSPToken + "&PaymentType=" + ECPay.dataPaymentType + "&ts=" + Date.now();			//!* production *!
 
             this.div.appendChild(iframe);
             this.modalBody = iframe;
@@ -285,9 +285,9 @@ ECPay = {
 function checkOut(Data) {
     if (ECPay.IsMobileAgent) {
 
-        var url = domain + "/SP/SPCheckOut?MerchantID=" + ECPay.dataMerchantId + "&SPToken=" + ECPay.dataSPToken + "&PaymentType=" + Data;				//!* test *!
+        //var url = domain + "/SP/SPCheckOut?MerchantID=" + ECPay.dataMerchantId + "&SPToken=" + ECPay.dataSPToken + "&PaymentType=" + Data;				//!* test *!
 
-        // var url = domain + "/SP/SPCheckOut?MerchantID=" + ECPay.dataMerchantId + "&SPToken=" + ECPay.dataSPToken + "&PaymentType=" + Data + "&ts=" + Date.now();			!* production *!
+        var url = domain + "/SP/SPCheckOut?MerchantID=" + ECPay.dataMerchantId + "&SPToken=" + ECPay.dataSPToken + "&PaymentType=" + Data + "&ts=" + Date.now();			//!* production *!
 
         window.open(url);
         return;
@@ -301,8 +301,8 @@ function CloseIframe(Data) {
     document.getElementById("iframeECPayClose_" + Data).style.display = "none";
     document.getElementById("DivECPay_" + Data).style.display = "none";
 }
-ECPay.init();							//!* test *!
-// window.onload = ECPay.init();		!* production *!
+//ECPay.init();							//!* test *!
+window.onload = ECPay.init();		//!* production *!
 	</script> 
 
 {{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  --}}

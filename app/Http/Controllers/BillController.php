@@ -180,13 +180,13 @@ class BillController extends Controller
         if ($request->ship_pay_by=='ATM'OR$request->ship_pay_by=='CREDIT') {
 
             //test
-            $HashKey = '5294y06JbISpM5x9';
-            $HashIV = 'v77hoKGq4kWxNNIS';
-            $MerchantID = '2000132';
+            // $HashKey = '5294y06JbISpM5x9';
+            // $HashIV = 'v77hoKGq4kWxNNIS';
+            // $MerchantID = '2000132';
             //kingPork
-            // $HashKey = '6HWkOeX5RsDZnDFn';
-            // $HashIV = 'Zfo3Ml2OQXRmnjha';
-            // $MerchantID = '1044372';
+            $HashKey = '6HWkOeX5RsDZnDFn';
+            $HashIV = 'Zfo3Ml2OQXRmnjha';
+            $MerchantID = '1044372';
 
             date_default_timezone_set('Asia/Taipei');
             $MerchantTradeDate = date('Y\/m\/d H:i:s');
@@ -215,8 +215,8 @@ class BillController extends Controller
 
             $client = new \GuzzleHttp\Client();
             $response = $client->post(
-                'https://payment-stage.ecpay.com.tw/SP/CreateTrade',
-                // 'https://payment.ecpay.com.tw/SP/CreateTrade',
+                // 'https://payment-stage.ecpay.com.tw/SP/CreateTrade',
+                'https://payment.ecpay.com.tw/SP/CreateTrade',
                 [
                     'form_params' => [
                         'MerchantID' => $MerchantID,
@@ -237,6 +237,7 @@ class BillController extends Controller
             $body = $response->getBody();
             $phpBody = json_decode($body);
            
+            return($body);
             if ($phpBody->{'RtnCode'} == 1) {
                 $SPToken = $phpBody->{'SPToken'};
                 $bill = new Bill;
@@ -265,7 +266,7 @@ class BillController extends Controller
                 $bill->pay_by = $request->ship_pay_by;
                 $bill->save();
             }else{
-                print_r(json_decode((string) $body));
+                print_r(json_decode((string)$body));
             }    
 
 
