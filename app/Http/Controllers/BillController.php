@@ -211,9 +211,21 @@ class BillController extends Controller
                    'TradeDesc='.$TradeDesc . '&' . 
                    'HashIV='.$HashIV;
 
-            $CheckMacValue = strtoupper(hash('sha256', strtolower(urlencode($all))));
+            // $CheckMacValue = strtoupper(hash('sha256', strtolower(urlencode($all))));
+            $CheckMacValue = strtolower(urlencode($all));
+
+            $CheckMacValue = str_replace('%2d', '-', $CheckMacValue);
+            $CheckMacValue = str_replace('%5f', '_', $CheckMacValue);
+            $CheckMacValue = str_replace('%2e', '.', $CheckMacValue);
+            $CheckMacValue = str_replace('%21', '!', $CheckMacValue);
+            $CheckMacValue = str_replace('%2a', '*', $CheckMacValue);
+            $CheckMacValue = str_replace('%28', '(', $CheckMacValue);
+            $CheckMacValue = str_replace('%29', ')', $CheckMacValue);
+            $CheckMacValue = hash('sha256',$CheckMacValue);
+            $CheckMacValue = strtoupper($CheckMacValue);
 
             // return($CheckMacValue);
+
             $client = new \GuzzleHttp\Client();
             $response = $client->post(
                 // 'https://payment-stage.ecpay.com.tw/SP/CreateTrade',
