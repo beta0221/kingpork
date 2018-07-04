@@ -213,7 +213,7 @@ class BillController extends Controller
 
             $CheckMacValue = strtoupper(hash('sha256', strtolower(urlencode($all))));
 
-            return($CheckMacValue);
+            // return($CheckMacValue);
             $client = new \GuzzleHttp\Client();
             $response = $client->post(
                 // 'https://payment-stage.ecpay.com.tw/SP/CreateTrade',
