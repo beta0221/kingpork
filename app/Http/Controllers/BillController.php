@@ -196,7 +196,7 @@ class BillController extends Controller
             $ItemName = $short;
             $ReturnURL = 'http://45.76.104.218/api/billPaied';
             $ChoosePayment = 'ALL';
-            $EncryptType = '1';
+            $EncryptType = 1;
 
             $all = 'HashKey='.$HashKey . '&' .
                    'ChoosePayment='.$ChoosePayment . '&' . 
@@ -211,8 +211,9 @@ class BillController extends Controller
                    'TradeDesc='.$TradeDesc . '&' . 
                    'HashIV='.$HashIV;
 
-            $CheckMacValue = hash('sha256', strtolower(urlencode($all)));
+            $CheckMacValue = strtoupper(hash('sha256', strtolower(urlencode($all))));
 
+            return($CheckMacValue);
             $client = new \GuzzleHttp\Client();
             $response = $client->post(
                 // 'https://payment-stage.ecpay.com.tw/SP/CreateTrade',
