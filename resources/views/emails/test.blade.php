@@ -1,0 +1,13 @@
+MerchantID:{{$MerchantID}}
+MerchantTradeNo:{{$MerchantTradeNo}}
+StoreID:{{$StoreID}}
+RtnCode:{{$RtnCode}}
+RtnMsg:{{$RtnMsg}}
+TradeNo:{{$TradeNo}}
+TradeAmt:{{$TradeAmt}}
+PaymentDate:{{$PaymentDate}}
+PaymentType:{{$PaymentType}}
+PaymentTypeChargeFee:{{$PaymentTypeChargeFee}}
+TradeDate:{{$TradeDate}}
+SimulatePaid:{{$SimulatePaid}}
+CheckMacValue:{{$CheckMacValue}}
