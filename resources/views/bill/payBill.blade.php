@@ -184,8 +184,8 @@
 	{{-- <script src="https://payment-stage.ecpay.com.tw/Scripts/SP/ECPayPayment_1.0.0.js" --}} 		{{-- test --}}
 	{{-- <script src="https://payment.ecpay.com.tw/Scripts/SP/ECPayPayment_1.0.0.js" --}}     {{-- production --}}
 	<script
-	{{-- data-MerchantID="2000132" --}} {{-- test --}}
-	data-MerchantID="1044372" {{-- kingpork --}}
+	data-MerchantID="2000132" {{-- test --}}
+	{{-- data-MerchantID="1044372" --}} {{-- kingpork --}}
 	data-SPToken="{{$finalBill['SPToken']}}"
 	data-PaymentType="{{$finalBill['pay_by']}}"
 	data-PaymentName="{{$finalBill['pay_by']}}"
