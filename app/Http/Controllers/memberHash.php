@@ -13,13 +13,14 @@ class memberHash extends Controller
 
 		
 
-		// $users = User::where('id','>=',818)->where('id','<=',841)->get();
-		// foreach ($users as $user) {
-		// 	$user->password=Hash::make($user->password);
-		// 	$user->save();
-		// }
+		$users = User::where('id','>=',1201)->get();
+		foreach ($users as $user) {
+			$user->password=Hash::make($user->password);
+			$user->save();
+		}
 		
-		return('404 not found');
+		return('success');
+		// return('404 not found');
 	}
     
 }
