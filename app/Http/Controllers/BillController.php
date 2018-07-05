@@ -467,9 +467,9 @@ class BillController extends Controller
             $the->RtnCode = $RtnCode;
             $the->RtnMsg = $RtnMsg;
             $the->TradeNo = $TradeNo;
-            $the->PaymentDate = 1;
-            $the->PaymentTypeChargeFee = 1;
-            $the->TradeDate = 1;
+            $the->PaymentDate = $PaymentDate;
+            $the->PaymentTypeChargeFee = $PaymentTypeChargeFee;
+            $the->TradeDate = $TradeDate;
             $the->SimulatePaid = 1;
             $the->allReturn = 1;
             $the->save();
