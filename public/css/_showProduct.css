@@ -589,7 +589,7 @@
 	}
 	.left-top-box span{
 		position: absolute;
-		font-size: 24px;
+		font-size: 22px;
 		top: 50%;
 		left: 8px;
 		transform: translateY(-50%);
@@ -607,7 +607,7 @@
 	}
 	.productPrice{
 		position: absolute;
-		font-size: 24px;
+		font-size: 22px;
 		top: 50%;
 		right: 8px;
 		transform: translateY(-50%);
@@ -713,7 +713,7 @@
 	}
 	.left-top-box span{
 		position: absolute;
-		font-size: 20px;
+		font-size: 18px;
 		top: 50%;
 		left: 8px;
 		transform: translateY(-50%);
@@ -731,7 +731,7 @@
 	}
 	.productPrice{
 		position: absolute;
-		font-size: 20px;
+		font-size: 18px;
 		top: 50%;
 		right: 8px;
 		transform: translateY(-50%);
