@@ -45,6 +45,7 @@ Route::get('findMemory','BillController@findMemory')->name('findMemory');
 //Banner routes
 Route::resource('banner','BannerController');
 Route::post('banner/switch','BannerController@switch');
+Route::patch('banner/public/{id}','BannerController@publicBanner');
 
 //Runner routes
 Route::resource('runner','RunnerController');

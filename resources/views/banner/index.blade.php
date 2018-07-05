@@ -26,6 +26,12 @@
 .switch-up{
 	transform: rotate(180deg);
 }
+.public-btn{
+	cursor:pointer;
+}
+.unpublic{
+	background-color: gray;
+}
 </style>
 @endsection
 
@@ -44,10 +50,11 @@
 				<th style="width: 25%;" scope="col">關鍵字</th>
 				<th style="width: ;" scope="col">-</th>
 				<th style="width: ;" scope="col">-</th>
+				<th style="width: ;" scope="col">-</th>
 			</tr>
 		</thead>
 		@foreach($banners as $banner)
-		<tr>
+		<tr class="{{($banner->public == 0)?'unpublic':''}}">
 			<td>
 				<div class="switch-box">
 					<div onclick="switchIt({{$banner->id}},0);" class="switch switch-up">v</div>
@@ -58,6 +65,13 @@
 			<td>{{$banner->link}}</td>
 			<td>{{$banner->alt}}</td>
 			<td><a class="btn btn-sm btn-primary ml-1 mr-1" href="{{route('banner.edit',$banner->id)}}">修改</a></td>
+			<td>
+				@if($banner->public == 1)
+					<div class="public-btn btn btn-sm btn-success ml-1 mr-1" onclick="publicBanner({{$banner->id}});">已發布</div>
+				@else
+					<div class="public-btn btn btn-sm btn-warning ml-1 mr-1" onclick="publicBanner({{$banner->id}});">已停止</div>
+				@endif
+			</td>
 			<td><div class="btn btn-sm btn-danger ml-1 mr-1" onclick="deleteBanner({{$banner->id}})">刪除</div></td>
 		</tr>
 		@endforeach
@@ -118,7 +132,26 @@
 				}
 			});
 
+		}
 
+		function publicBanner(id){
+
+			$.ajax({
+				type:'POST',
+				url:'/banner/public/' + id,
+				dataType:'json',
+				data:{
+					_method:'patch',
+				},
+				success:function(response){
+					location.reload();
+					// alert(response);
+
+				},
+				error:function(){
+					// alert('error');
+				}
+			});
 		}
 	</script>
 @endsection

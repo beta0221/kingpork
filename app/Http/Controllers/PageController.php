@@ -12,7 +12,7 @@ class PageController extends Controller
 {
     public function getLanding(){
 
-    	$banners = Banner::all();
+    	$banners = Banner::where('public',1)->get();
         if ($banners == null) {
             return view('pages.landingPage',['banners'=>'default.png']);
         }

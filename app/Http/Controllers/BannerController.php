@@ -148,6 +148,24 @@ class BannerController extends Controller
         
     }
 
+
+    public function publicBanner($id)
+    {
+
+        $banner = Banner::find($id);
+
+        if ($banner->public == 1) {
+            $banner->public = 0;
+            $banner->save();
+            return response()->json(0);    
+        }else{
+            $banner->public = 1;
+            $banner->save();
+            return response()->json(1);
+        }
+
+        
+    }
     /**
      * Remove the specified resource from storage.
      *
