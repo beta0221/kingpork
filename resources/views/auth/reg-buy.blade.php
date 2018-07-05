@@ -59,7 +59,6 @@
 }
 .form-group{
     width: calc(100% - 30px);
-
 }
 .loginBtn,.regBtn{
     color: #fff;
@@ -126,6 +125,9 @@
 @section('content')
 
 <div class="contentPage">
+
+    
+
     <div class="container">
         <div class="row">
             <div class="col-md-8 offset-md-2 col-12 outter">
@@ -184,6 +186,8 @@
                             </div>
                         </div>
                     </div> --}}
+
+ 
 
                     <div class="form-group">
                         <div class="col-md-6 offset-md-3">
@@ -281,6 +285,7 @@
                                     註冊
                                 </button>
                             </div>
+                            <font style="display: block;text-align: center;margin: 4px 0 0 0;color: #d9534f">！！馬上獲得 5 0 0 0 點紅利！！</font>
                         </div>
                     </form>
 

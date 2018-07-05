@@ -279,6 +279,7 @@
                                     註冊
                                 </button>
                             </div>
+                            <font style="display: block;text-align: center;margin: 4px 0 0 0;color: #d9534f">！！馬上獲得 5 0 0 0 點紅利！！</font>
                         </div>
                     </form>
 

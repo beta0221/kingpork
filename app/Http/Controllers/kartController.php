@@ -126,6 +126,8 @@ class kartController extends Controller
 
         }
         else{
+
+            
             return view('auth.reg-buy');
         }
 
