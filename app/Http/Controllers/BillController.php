@@ -491,13 +491,14 @@ class BillController extends Controller
     public function checkBill($id)
     {
         //test
-        $HashKey = '5294y06JbISpM5x9';
-        $HashIV = 'v77hoKGq4kWxNNIS';
-        $MerchantID = '2000132';
+        // $HashKey = '5294y06JbISpM5x9';
+        // $HashIV = 'v77hoKGq4kWxNNIS';
+        // $MerchantID = '2000132';
         //kingPork
-        // $HashKey = '6HWkOeX5RsDZnDFn';
-        // $HashIV = 'Zfo3Ml2OQXRmnjha';
-        // $MerchantID = '1044372';
+        $HashKey = '6HWkOeX5RsDZnDFn';
+        $HashIV = 'Zfo3Ml2OQXRmnjha';
+        $MerchantID = '1044372';
+
         $MerchantTradeNo = $id;
         $PlatformID = '';
         $TimeStamp = time();
@@ -508,11 +509,23 @@ class BillController extends Controller
                 'TimeStamp=' . $TimeStamp . '&' .
                 'HashIV='.$HashIV;
 
-        $CheckMacValue = hash('sha256', strtolower(urlencode($all)));
+        $CheckMacValue = strtolower(urlencode($all));
+        $CheckMacValue = str_replace('%2d', '-', $CheckMacValue);
+        $CheckMacValue = str_replace('%5f', '_', $CheckMacValue);
+        $CheckMacValue = str_replace('%2e', '.', $CheckMacValue);
+        $CheckMacValue = str_replace('%21', '!', $CheckMacValue);
+        $CheckMacValue = str_replace('%2a', '*', $CheckMacValue);
+        $CheckMacValue = str_replace('%28', '(', $CheckMacValue);
+        $CheckMacValue = str_replace('%29', ')', $CheckMacValue);
+        $CheckMacValue = hash('sha256',$CheckMacValue);
+        $CheckMacValue = strtoupper($CheckMacValue);
+
+
+
         $client = new \GuzzleHttp\Client();
         $response = $client->post(
-            'https://payment-stage.ecpay.com.tw/Cashier/QueryTradeInfo/V5',
-            // 'https://payment.ecpay.com.tw/Cashier/QueryTradeInfo/V5',
+            // 'https://payment-stage.ecpay.com.tw/Cashier/QueryTradeInfo/V5',
+            'https://payment.ecpay.com.tw/Cashier/QueryTradeInfo/V5',
             [
                 'form_params' => [
                     'MerchantID' => $MerchantID,
@@ -527,6 +540,9 @@ class BillController extends Controller
         $phpBody = json_decode($body);
         return($body);
     }
+
+
+
     public function sendMail(Request $request)
     {   
         $bill = Bill::where('bill_id',$request->MerchantTradeNo)->firstOrFail();
