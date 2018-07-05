@@ -35,7 +35,7 @@
 				{{Form::label('category_id','類別：(必填)')}}
 				{{Form::select('category_id',$productCategorys,null,['class'=>'form-control'])}}<br>
 				
-				{{Form::label('format','每片單價：(必填)')}}
+				{{Form::label('format','每片單價：(可忽略)')}}
 				{{Form::text('format',null,['class'=>'form-control'])}}<br>
 				
 				{{Form::label('price','價格：(必填｜數字)')}}

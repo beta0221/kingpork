@@ -80,7 +80,10 @@
 									</div>
 									
 									<div class="right-bottom-box">
-										<span class="productPrice productPrice_avg">(均價${{$product->format}})</span>
+										<span class="productPrice productPrice_avg">
+											{{($product->format!=null)?'(均價$'.$product->format.')':''}}
+											
+										</span>
 									</div>
 
 								</div>

@@ -44,7 +44,7 @@
 							@endforeach
 							</select><br>
 
-							<label for="format">每片單價：(必填)</label>
+							<label for="format">每片單價：(可忽略)</label>
 							<input class="form-control" type="text" name="format">
 
 							<label for="price">價格：(必填｜數字)</label>

@@ -66,7 +66,7 @@ class ProductController extends Controller
             'slug'=>'required|alpha_dash|min:5|max:255|unique:products,slug',
             'short'=>'required',
             'category_id'=>'required|integer',
-            'format'=>'required|max:255',
+            // 'format'=>'required|max:255',
             'price'=>'required|integer',
             'bonus'=>'required|integer',
             'image'=>'required|image',
@@ -192,7 +192,7 @@ class ProductController extends Controller
             'slug'=>"required|alpha_dash|min:5|max:255|unique:products,slug,$id",//unique（table,column,except除了自己以外）!!!外圍一定要用雙引號才有辦法把變數$id放進來!!!
             'short'=>'required',
             'category_id'=>'required|integer',
-            'format'=>'required|max:255',
+            // 'format'=>'required|max:255',
             'price'=>'required|integer',
             'bonus'=>'required|integer',
             'image'=>'sometimes|image',
