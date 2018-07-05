@@ -58,10 +58,10 @@
 		background-color: green;
 	}
 	.th-red{
-		background-color: darkred;
+		background-color: #d9534f;
 	}
 	.th-yellow{
-		background-color: darkorange;
+		background-color: #ec971f;
 	}
 </style>
 @endsection

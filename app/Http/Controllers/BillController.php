@@ -432,26 +432,26 @@ class BillController extends Controller
         'CustomField4='.$CustomField4.'&'.
         'CheckMacValue='.$CheckMacValue; //
 
-        $data = array(
-                'MerchantID'=>$MerchantID,
-                'MerchantTradeNo'=>$MerchantTradeNo,
-                'StoreID'=>$StoreID,
-                'RtnCode'=>$RtnCode,
-                'RtnMsg'=>$RtnMsg,
-                'TradeNo'=>$TradeNo,
-                'TradeAmt'=>$TradeAmt,
-                'PaymentDate' => $PaymentDate,
-                'PaymentType' => $PaymentType,
-                'PaymentTypeChargeFee' =>$PaymentTypeChargeFee,
-                'TradeDate'=>$TradeDate,
-                'SimulatePaid' => $SimulatePaid,
-                'CheckMacValue'=>$CheckMacValue,
-            );
-            Mail::send('emails.test',$data,function($message) use ($data){
-                $message->from('beta0221@gmail.com','金園排骨');
-                $message->to('beta0221@gmail.com');
-                $message->subject('綠界回傳測試');
-            });
+        // $data = array(.     //測試用
+        //         'MerchantID'=>$MerchantID,
+        //         'MerchantTradeNo'=>$MerchantTradeNo,
+        //         'StoreID'=>$StoreID,
+        //         'RtnCode'=>$RtnCode,
+        //         'RtnMsg'=>$RtnMsg,
+        //         'TradeNo'=>$TradeNo,
+        //         'TradeAmt'=>$TradeAmt,
+        //         'PaymentDate' => $PaymentDate,
+        //         'PaymentType' => $PaymentType,
+        //         'PaymentTypeChargeFee' =>$PaymentTypeChargeFee,
+        //         'TradeDate'=>$TradeDate,
+        //         'SimulatePaid' => $SimulatePaid,
+        //         'CheckMacValue'=>$CheckMacValue,
+        //     );
+        //     Mail::send('emails.test',$data,function($message) use ($data){
+        //         $message->from('beta0221@gmail.com','金園排骨');
+        //         $message->to('beta0221@gmail.com');
+        //         $message->subject('綠界回傳測試');
+        //     });
 
         if ($RtnCode == 1) {
             $the = Bill::where('bill_id',$MerchantTradeNo)->firstOrFail();
