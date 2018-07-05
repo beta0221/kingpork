@@ -456,14 +456,22 @@ class BillController extends Controller
         if ($RtnCode == 1) {
             $the = Bill::where('bill_id',$MerchantTradeNo)->firstOrFail();
             $the->status = 1;
-            $the->RtnCode = $RtnCode;
-            $the->RtnMsg = $RtnMsg;
-            $the->TradeNo = $TradeNo;
-            $the->PaymentDate = $PaymentDate;
-            $the->PaymentTypeChargeFee = $PaymentTypeChargeFee;
-            $the->TradeDate = $TradeDate;
-            $the->SimulatePaid = $SimulatePaid;
-            $the->allReturn = $allReturn;
+            // $the->RtnCode = $RtnCode;
+            // $the->RtnMsg = $RtnMsg;
+            // $the->TradeNo = $TradeNo;
+            // $the->PaymentDate = $PaymentDate;
+            // $the->PaymentTypeChargeFee = $PaymentTypeChargeFee;
+            // $the->TradeDate = $TradeDate;
+            // $the->SimulatePaid = $SimulatePaid;
+            // $the->allReturn = $allReturn;
+            $the->RtnCode = 1;
+            $the->RtnMsg = 1;
+            $the->TradeNo = 1;
+            $the->PaymentDate = 1;
+            $the->PaymentTypeChargeFee = 1;
+            $the->TradeDate = 1;
+            $the->SimulatePaid = 1;
+            $the->allReturn = 1;
             $the->save();
 
             $user = User::where('name',$the->user_name)->firstOrFail();//紅利回算機制{
