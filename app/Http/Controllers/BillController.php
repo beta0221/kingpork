@@ -413,7 +413,7 @@ class BillController extends Controller
         $CustomField4 = $request->CustomField4;
         $CheckMacValue = $request->CheckMacValue;
         
-        $allReturn = //
+        $allReturn = 
         'MerchantID='.$MerchantID.'&'.
         'MerchantTradeNo='.$MerchantTradeNo.'&'.
         'StoreID='.$StoreID.'&'.
@@ -430,7 +430,7 @@ class BillController extends Controller
         'CustomField2='.$CustomField2.'&'.
         'CustomField3='.$CustomField3.'&'.
         'CustomField4='.$CustomField4.'&'.
-        'CheckMacValue='.$CheckMacValue;
+        'CheckMacValue='.$CheckMacValue; //
 
         $data = array(
                 'MerchantID'=>$MerchantID,
@@ -470,8 +470,8 @@ class BillController extends Controller
             $the->PaymentDate = $PaymentDate;
             $the->PaymentTypeChargeFee = $PaymentTypeChargeFee;
             $the->TradeDate = $TradeDate;
-            $the->SimulatePaid = 1;
-            $the->allReturn = 1;
+            $the->SimulatePaid = $SimulatePaid;
+            $the->allReturn = $allReturn;
             $the->save();
 
             $user = User::where('name',$the->user_name)->firstOrFail();//紅利回算機制{
