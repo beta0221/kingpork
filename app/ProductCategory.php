@@ -10,6 +10,6 @@ class ProductCategory extends Model
 
     public function products()
     {
-    	return $this->hasMany('App\Products','category_id');
+    	return $this->hasMany('App\Products','category_id')->orderBy('price','asc');
     }
 }
