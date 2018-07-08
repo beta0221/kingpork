@@ -88,7 +88,7 @@ class OrderManagementController extends Controller
                 if ($date1 == $date2) {
                     $query->orWhere('created_at','LIKE','%'.$date1.'%');
                 }else{
-                    $query->orWhereBetween('created_at',[$date1,$date2]);
+                    $query->orWhereBetween('created_at',[$date1,$date2])->orWhere('created_at','LIKE','%'.$date2.'%');
                 }
             }
 
