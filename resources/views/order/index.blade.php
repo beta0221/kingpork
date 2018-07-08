@@ -344,8 +344,13 @@
 	function shipment($id,$val){
 		
 		if ($val == 2) {
-			confirm('確定修改出貨狀態');
+			var r = confirm('確定修改出貨狀態');
+			if(r ==false){
+				return;
+			}
 		}
+
+
 		$.ajax({
 			type:'POST',
 			url:'order/'+$id,
@@ -374,6 +379,8 @@
 
 	        },
 		});
+
+
 	};
 
 	function showMemo($id){
@@ -433,7 +440,10 @@
 		if (selected.length > 0) {
 
 
-			confirm("確定送出");
+			var r = confirm('確定送出');
+			if(r ==false){
+				return;
+			}
 
 			$.ajax({
 				type:'POST',
