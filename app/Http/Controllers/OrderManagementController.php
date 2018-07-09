@@ -180,7 +180,8 @@ class OrderManagementController extends Controller
                 $itemArray.",".
                 $json->ship_county.$json->ship_district.$json->ship_address.",".
                 date('Y/m/d').",".
-                $arrive;
+                $arrive.",".
+                $json->price;
                 $j++;
         }
         $orders = json_encode($orders);
