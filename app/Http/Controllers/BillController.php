@@ -252,7 +252,7 @@ class BillController extends Controller
             $body = $response->getBody();
             $phpBody = json_decode($body);
            
-            return($phpBody);
+            // return($phpBody);
             if ($phpBody->{'RtnCode'} == 1) {
                 $SPToken = $phpBody->{'SPToken'};
                 $bill = new Bill;
