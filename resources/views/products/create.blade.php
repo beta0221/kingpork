@@ -28,7 +28,7 @@
 							<label for="name">品名：(必填)</label>
 							<input class="form-control" type="text" name="name">
 
-							<label for="short">縮寫：(必填)</label>
+							<label for="short">物流用縮寫：(必填)</label>
 							<input class="form-control" type="text" name="short">
 
 							<label for="discription">小標題：（可忽略）</label>

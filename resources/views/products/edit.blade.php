@@ -23,7 +23,7 @@
 				{{Form::label('name','品名：(必填)')}}
 				{{ Form::text('name',null,['class'=>'form-control']) }}<br>
 
-				{{Form::label('short','縮寫：(必填)')}}
+				{{Form::label('short','物流用縮寫：(必填)')}}
 				{{ Form::text('short',null,['class'=>'form-control']) }}<br>
 
 				{{Form::label('discription','小標題：(可忽略)')}}
