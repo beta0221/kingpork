@@ -131,27 +131,40 @@ class BillController extends Controller
             'ship_email'=>'required|E-mail',
             'ship_pay_by'=>'required',
         ]);
+
+
         $i = 0;
         $itemArray = [];
         foreach($request->item as $item){
             $itemArray[$i] = $item;
             $i++;
         } 
+
+
         $j = 0;
         $quantityArray = [];
         foreach($request->quantity as $quantity){
             $quantityArray[$j] = $quantity;
             $j++;
         }
+
+
         $cc = DB::table('products')->whereIn('slug', $itemArray)->get();
         $n = 0;
         $total = 0;
         $short = '';
+
+
         foreach($cc as $c){
             $short = $short.$c->short.'*'.$quantityArray[$n].';';
             $total = $total + ($c->price * $quantityArray[$n]);
             $n++;
         }
+
+        if (!in_array('99999',$itemArray) AND $total <= 499) {
+            return('錯誤：請檢查網頁JAVASCRIPT是否正常運作');
+        }
+
         $kart = [];
         for ($i=0; $i < count($itemArray); $i++) { 
             $kart[$i] = [
@@ -159,6 +172,7 @@ class BillController extends Controller
                 'quantity' => $quantityArray[$i],
             ];
         }
+
 
         $bonus = $request->bonus;               // bonus{
         if ($bonus > Auth::user()->bonus) {
@@ -172,6 +186,8 @@ class BillController extends Controller
         }
         $bonusCount = $bonus / 50;
         $total = $total - $bonusCount;          // }bonus
+
+        
 
         $MerchantTradeNo = time() . rand(10,99);//先給訂單編號
 

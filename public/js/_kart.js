@@ -1,10 +1,7 @@
 $(document).ready(function(){
-		var price = 0;
-		$('.priceTag').each(function(){
-			price =  price + parseInt($(this).html());
-		});
-		$('#sum').append(price);
-
+		
+		uploadSum();
+		
 		//------- 
 		$('.quantity').change(function(){
 			var slug = $(this).attr('id');
@@ -284,7 +281,20 @@ $(document).ready(function(){
 			$('.priceTag').each(function(){
 				price =  price + parseInt($(this).html());
 			});
+
+			if (price > 499) {
+				$('#transport-item').attr('name','');
+				$('#transport-quantity').attr('name','');
+				$('#transport-fee').css('display','none');	
+			}else{
+				price = price + 150;
+				$('#transport-item').attr('name','item[]');
+				$('#transport-quantity').attr('name','quantity[]');
+				$('#transport-fee').css('display','table-row');	
+			}
+
 			$('#sum').empty().append(price);
+
 			if (price == 0) {
 				$('.sureToBuy').css('display','none');
 			}else{

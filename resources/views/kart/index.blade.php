@@ -95,6 +95,22 @@
 							</td>
 						</tr>
 						@endforeach
+
+						<tr id="transport-fee">
+							<td class="product-TR"></td>
+							<td class="product-name-TD">
+								運費(未滿499)
+								<input id="transport-item" style="display: none;" type="text" value="99999" name="item[]">
+							</td>
+							<td class="product-quantity-TD">
+								<input id="transport-quantity" style="display: none;" type="number" value="1" name="quantity[]">
+							</td>
+							<td class="product-price-TD">
+								<span>150</span>
+							</td>
+							<td></td>
+						</tr>
+
 					</table>	
 					
 					<table class="shipping">
