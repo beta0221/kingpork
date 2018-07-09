@@ -242,7 +242,7 @@ class BillController extends Controller
                         'ItemName' => $ItemName,
                         'ReturnURL' => $ReturnURL,
                         'ChoosePayment' => $ChoosePayment,
-                        'NeedExtraPaidInfo' =>$NeedExtraPaidInfo,
+                        'NeedExtraPaidInfo' => $NeedExtraPaidInfo,
                         'CheckMacValue' => $CheckMacValue,
                         'EncryptType' => $EncryptType
                     ]
