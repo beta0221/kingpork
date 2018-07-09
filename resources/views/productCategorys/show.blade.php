@@ -59,7 +59,7 @@
 						@foreach($productCategory->products as $product)
 
 
-
+							@if($product->public == 1)
 							<div onclick="showProduct({{$product->id}});" class="productItem">
 								
 								<div class="left-name-box">
@@ -96,18 +96,10 @@
 									</button>
 
 								</div>
-								{{-- 
 
-								
-
-								
-
-								
-
-								 --}}
 
 							</div>
-
+							@endif
 
 
 						@endforeach
