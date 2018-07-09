@@ -416,6 +416,8 @@ class BillController extends Controller
         $CustomField4 = $request->CustomField4;
         $CheckMacValue = $request->CheckMacValue;
         
+        $auth_code = $request->auth_code;
+
         $allReturn = 
         'MerchantID='.$MerchantID.'&'.
         'MerchantTradeNo='.$MerchantTradeNo.'&'.
