@@ -17,6 +17,9 @@
 				width: calc(100% + 4px);
 				margin-left: -4px;
 			}
+			.item-col-td{
+				width: 25%;
+			}
 			.outter{
 				position: absolute;
 				left: 50%;
@@ -81,6 +84,7 @@
 						<table class="item-table">
 							<tr>
 								<td class="head">產品</td>
+								<td class="head">優惠</td>
 								<td class="head">價格</td>
 								<td class="head">數量</td>
 							</tr>
@@ -94,9 +98,10 @@
 						<table class="item-table">
 							@foreach($items as $item)
 							<tr>
-								<td>{{$item['name']}}</td>
-								<td>{{$item['price']}}</td>
-								<td>{{$item['quantity']}}</td>
+								<td class="item-col-td">{{$item['name']}}</td>
+								<td class="item-col-td">{{$item['discription']}}</td>	
+								<td class="item-col-td">{{$item['price']}}</td>
+								<td class="item-col-td">{{$item['quantity']}}</td>
 							</tr>
 							@endforeach
 						</table>

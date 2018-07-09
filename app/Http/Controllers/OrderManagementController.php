@@ -237,6 +237,7 @@ class OrderManagementController extends Controller
                 'name' => $product->name,
                 'price' => $product->price,
                 'quantity' => $item['quantity'],
+                'discription'=>$product->discription,
             ];
             $i++;
         }
