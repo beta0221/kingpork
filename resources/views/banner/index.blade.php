@@ -72,7 +72,9 @@
 					<div class="public-btn btn btn-sm btn-warning ml-1 mr-1" onclick="publicBanner({{$banner->id}});">已停止</div>
 				@endif
 			</td>
-			<td><div class="btn btn-sm btn-danger ml-1 mr-1" onclick="deleteBanner({{$banner->id}})">刪除</div></td>
+			<td>
+				<div class="btn btn-sm btn-danger ml-1 mr-1" onclick="deleteBanner({{$banner->id}})">刪除</div>
+			</td>
 		</tr>
 		@endforeach
 	</table>

@@ -163,7 +163,6 @@ class BannerController extends Controller
             $banner->save();
             return response()->json(1);
         }
-
         
     }
     /**

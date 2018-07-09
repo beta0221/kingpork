@@ -25,6 +25,7 @@ Route::get('/about-line','PageController@aboutLine');
 
 // product routes
 Route::resource('products','ProductController');
+Route::patch('products/public/{id}','ProductController@publicProduct');
 
 // productCategory routes
 Route::resource('productCategory','ProductCategoryController');

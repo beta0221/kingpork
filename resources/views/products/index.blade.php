@@ -11,6 +11,9 @@
 	.table{
 		font-size: 14px;
 	}
+	.unpublic{
+		background-color: gray;
+	}
 </style>
 @endsection
 
@@ -71,7 +74,7 @@
 	</thead>
 	<tbody>
 	@foreach($products as $product)
-		<tr>
+		<tr class="{{($product->public == 0)?'unpublic':''}}">
 			<td>{{$product->id}}</td>
 			<td>
 				<img class="productsIMG" src="{{asset('images/productsIMG') . '/' . $product->image}}" alt="">
@@ -96,9 +99,14 @@
 				<a class="btn btn-sm btn-warning" href="{{ route('products.edit', $product->id)}}">編輯</a>
 			</td>
 			<td>
-				{!!Form::open(['route'=> ['products.destroy',$product->id],'method'=>'DELETE'])!!}
+				{{-- {!!Form::open(['route'=> ['products.destroy',$product->id],'method'=>'DELETE'])!!}
 					{!!Form::submit('刪除',['class'=>'btn btn-danger btn-sm','style'=>'cursor:pointer;'])!!}
-				{!!Form::close()!!}
+				{!!Form::close()!!} --}}
+				@if($product->public == 1)
+					<div class="public-btn btn btn-sm btn-success ml-1 mr-1" onclick="publicProduct({{$product->id}});">已上架</div>
+				@else
+					<div class="public-btn btn btn-sm btn-warning ml-1 mr-1" onclick="publicProduct({{$product->id}});">已下架</div>
+				@endif
 			</td>
 		</tr>
 	@endforeach
@@ -112,12 +120,40 @@
 @section('scripts')
 <script>
 $(document).ready(function(){
+	$.ajaxSetup({
+  		headers: {
+    		'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  		}
+	});
+
 	$('#categorySelecter').change(function(){
 		$('#catForm').submit();
 	});
+
 	@if (isset($_GET['category']))
 	$('#categorySelecter').val('{{$_GET['category']}}');
 	@endif
 });
+
+function publicProduct(id){
+
+	$.ajax({
+		type:'POST',
+		url:'/products/public/' + id,
+		dataType:'json',
+		data:{
+			_method:'patch',
+		},
+		success:function(response){
+			location.reload();
+			// alert(response);
+
+		},
+		error:function(){
+			// alert('error');
+		}
+	});
+
+}
 </script>
 @endsection

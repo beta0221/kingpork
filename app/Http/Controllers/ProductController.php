@@ -176,6 +176,24 @@ class ProductController extends Controller
 
     }
 
+    public function publicProduct($id)
+    {
+
+        $product = Products::find($id);
+
+        if ($product->public == 1) {
+            $product->public = 0;
+            $product->save();
+            return response()->json(0);    
+        }else{
+            $product->public = 1;
+            $product->save();
+            return response()->json(1);
+        }
+        
+    }
+
+
     /**
      * Update the specified resource in storage.
      *
