@@ -196,15 +196,17 @@ class BillController extends Controller
             $ItemName = $short;
             $ReturnURL = 'http://45.76.104.218/api/billPaied';
             $ChoosePayment = 'ALL';
+            $NeedExtraPaidInfo='Y';//
             $EncryptType = 1;
 
             $all = 'HashKey='.$HashKey . '&' .
-                   'ChoosePayment='.$ChoosePayment . '&' . 
-                   'EncryptType='.$EncryptType . '&' . 
-                   'ItemName='.$ItemName . '&' . 
-                   'MerchantID='.$MerchantID . '&' . 
-                   'MerchantTradeDate='.$MerchantTradeDate . '&' . 
-                   'MerchantTradeNo='.$MerchantTradeNo . '&' . 
+                   'ChoosePayment='.$ChoosePayment . '&' .
+                   'EncryptType='.$EncryptType . '&' .
+                   'ItemName='.$ItemName . '&' .
+                   'MerchantID='.$MerchantID . '&' .
+                   'MerchantTradeDate='.$MerchantTradeDate . '&' .
+                   'MerchantTradeNo='.$MerchantTradeNo . '&' .
+                   'NeedExtraPaidInfo'.$NeedExtraPaidInfo. '&' .//
                    'PaymentType='.$PaymentType . '&' . 
                    'ReturnURL='.$ReturnURL . '&' . 
                    'TotalAmount='.$TotalAmount . '&' . 
@@ -241,6 +243,7 @@ class BillController extends Controller
                         'ItemName' => $ItemName,
                         'ReturnURL' => $ReturnURL,
                         'ChoosePayment' => $ChoosePayment,
+                        'NeedExtraPaidInfo'=>$NeedExtraPaidInfo,
                         'CheckMacValue' => $CheckMacValue,
                         'EncryptType' => $EncryptType
                     ]
@@ -250,7 +253,7 @@ class BillController extends Controller
             $body = $response->getBody();
             $phpBody = json_decode($body);
            
-            // return($body);
+            return($phpBody);
             if ($phpBody->{'RtnCode'} == 1) {
                 $SPToken = $phpBody->{'SPToken'};
                 $bill = new Bill;
