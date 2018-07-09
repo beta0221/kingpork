@@ -153,7 +153,7 @@
 				</tr>
 				<tr>
 					<td class="head">繳費方式</td>
-					<td>{{$bill->pay_by}}-{{$bill->auth_code}}</td>
+					<td>{{$bill->pay_by}}-授權碼:{{$bill->auth_code}}</td>
 					<td class="head">繳費狀態</td>
 					<td>
 						@if($bill->status==1)
