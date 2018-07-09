@@ -196,7 +196,7 @@ class BillController extends Controller
             $ItemName = $short;
             $ReturnURL = 'http://45.76.104.218/api/billPaied';
             $ChoosePayment = 'ALL';
-            $NeedExtraPaidInfo='Y';//
+            $NeedExtraPaidInfo='Y';
             $EncryptType = 1;
 
             $all = 'HashKey='.$HashKey . '&' .
@@ -206,7 +206,7 @@ class BillController extends Controller
                    'MerchantID='.$MerchantID . '&' .
                    'MerchantTradeDate='.$MerchantTradeDate . '&' .
                    'MerchantTradeNo='.$MerchantTradeNo . '&' .
-                   'NeedExtraPaidInfo'.$NeedExtraPaidInfo. '&' .//
+                   'NeedExtraPaidInfo'.$NeedExtraPaidInfo. '&' .
                    'PaymentType='.$PaymentType . '&' . 
                    'ReturnURL='.$ReturnURL . '&' . 
                    'TotalAmount='.$TotalAmount . '&' . 
@@ -253,7 +253,7 @@ class BillController extends Controller
             $body = $response->getBody();
             $phpBody = json_decode($body);
            
-            return($phpBody);
+            return($phpBody);//
             if ($phpBody->{'RtnCode'} == 1) {
                 $SPToken = $phpBody->{'SPToken'};
                 $bill = new Bill;
