@@ -155,13 +155,19 @@
 					<td class="head">繳費方式</td>
 					<td>{{$bill->pay_by}}</td>
 					<td class="head">繳費狀態</td>
-					<td>{{$bill->status}}</td>
+					<td>
+						@if($bill->status==1)
+							<font color="green">已繳費</font>
+						@else
+							<font color="red">未繳費</font>
+						@endif
+					</td>
 				</tr>
 				<tr>
 					<td class="head">指定到貨時間</td>
 					<td>{{$bill->ship_arriveDate}}{{$bill->ship_time}}</td>
 					<td class="head">發票</td>
-					<td>{{$bill->ship_receipt}}{{$bill->ship_three_id}}{{$bill->ship_three_company}}</td>
+					<td>{{$bill->ship_three_id}}/{{$bill->ship_three_company}}</td>
 				</tr>
 				<tr>
 					<td class="head">備註</td>

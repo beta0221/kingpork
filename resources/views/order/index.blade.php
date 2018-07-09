@@ -278,7 +278,7 @@
 					</td>
 
 					<td>
-						@if($order['ship_receipt'] == '2')二連@else <font color="red">3連</font>@endif
+						@if($order['ship_receipt'] == '2')二聯@else <font color="red">3聯</font>@endif
 					</td>
 
 					<td onclick="showMemo('{{$order['bill_id']}}');" data-toggle="modal" data-target="#exampleModal">
