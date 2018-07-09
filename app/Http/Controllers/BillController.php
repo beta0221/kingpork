@@ -206,7 +206,6 @@ class BillController extends Controller
                    'MerchantID='.$MerchantID . '&' .
                    'MerchantTradeDate='.$MerchantTradeDate . '&' .
                    'MerchantTradeNo='.$MerchantTradeNo . '&' .
-                   'NeedExtraPaidInfo'.$NeedExtraPaidInfo. '&' .
                    'PaymentType='.$PaymentType . '&' . 
                    'ReturnURL='.$ReturnURL . '&' . 
                    'TotalAmount='.$TotalAmount . '&' . 
@@ -243,7 +242,6 @@ class BillController extends Controller
                         'ItemName' => $ItemName,
                         'ReturnURL' => $ReturnURL,
                         'ChoosePayment' => $ChoosePayment,
-                        'NeedExtraPaidInfo'=>$NeedExtraPaidInfo,
                         'CheckMacValue' => $CheckMacValue,
                         'EncryptType' => $EncryptType
                     ]
@@ -253,7 +251,7 @@ class BillController extends Controller
             $body = $response->getBody();
             $phpBody = json_decode($body);
            
-            return($phpBody);//
+
             if ($phpBody->{'RtnCode'} == 1) {
                 $SPToken = $phpBody->{'SPToken'};
                 $bill = new Bill;
