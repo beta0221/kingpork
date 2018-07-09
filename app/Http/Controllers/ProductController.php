@@ -33,10 +33,14 @@ class ProductController extends Controller
         $category = isset($_GET['category']) ? $_GET['category'] : null;
 
         if (isset($category) AND $category != '') {
-            $products = Products::where('category_id',$category)->orderBy('price','asc')->get();
+            if ($category == 0) {
+                $products = Products::where('public',0)->orderBy('price','asc')->get(); 
+            }else{
+                $products = Products::where('category_id',$category)->where('public',1)->orderBy('price','asc')->get();    
+            }
         }
         else{
-            $products = Products::orderBy('price','asc')->get();    
+            $products = Products::orderBy('price','asc')->where('public',1)->get();    
         }
 
         return view('products.index', ['products' => $products]);
