@@ -129,6 +129,7 @@ class OrderManagementController extends Controller
                 'ship_three_id' =>$json->ship_three_id,
                 'ship_three_company' =>$json->ship_three_company,
                 'shipment'=>$json->shipment,
+                'auth_code'=>$json->auth_code,
             ];
             $j++;
         }

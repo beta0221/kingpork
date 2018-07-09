@@ -197,6 +197,7 @@
 					{{-- <th class="th-green">商品</th> --}}
 					<th class="th-yellow">總價</th>
 					<th class="th-yellow">付款方式</th>
+					<th class="th-yellow">授權碼</th>
 
 					<th class="th-red">付款狀態</th>
 
@@ -244,6 +245,8 @@
 					<td>{{$order['price']}}</td>
 
 					<td>{{$order['pay_by']}}</td>
+
+					<td>{{$order['auth_code']}}</td>
 
 					<td>{{$order['status']}}</td>
 
