@@ -206,6 +206,7 @@ class BillController extends Controller
                    'MerchantID='.$MerchantID . '&' .
                    'MerchantTradeDate='.$MerchantTradeDate . '&' .
                    'MerchantTradeNo='.$MerchantTradeNo . '&' .
+                   'NeedExtraPaidInfo='.$NeedExtraPaidInfo. '&' .
                    'PaymentType='.$PaymentType . '&' . 
                    'ReturnURL='.$ReturnURL . '&' . 
                    'TotalAmount='.$TotalAmount . '&' . 
