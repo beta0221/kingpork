@@ -187,7 +187,7 @@ class BillController extends Controller
         $bonusCount = $bonus / 50;
         $total = $total - $bonusCount;          // }bonus
 
-        
+        date_default_timezone_set('Asia/Taipei');
 
         $MerchantTradeNo = time() . rand(10,99);//先給訂單編號
 
@@ -204,7 +204,7 @@ class BillController extends Controller
             $HashIV = 'Zfo3Ml2OQXRmnjha';
             $MerchantID = '1044372';
 
-            date_default_timezone_set('Asia/Taipei');
+            
             $MerchantTradeDate = date('Y\/m\/d H:i:s');
             $PaymentType = 'aio';
             $TotalAmount = $total;
