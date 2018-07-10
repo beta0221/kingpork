@@ -121,7 +121,8 @@
 
 <div class="topBar">
   <ul class="topBar_left">
-    <li><a href="/" target="_blank"><img src="{{asset('images/admin_haveLook.png')}}" alt="">瀏覽網頁</a></li>
+    <li><a href="/" target="_blank"><img src="{{asset('images/admin_haveLook.png')}}">瀏覽網頁</a></li>
+    <li><a href="https://analytics.google.com/analytics/web/?hl=zh-TW&pli=1#/realtime/rt-overview/a121883818w179867443p178085533" target="_blank"><img src="{{asset('images/admin_GA.png')}}">GA分析</a></li>
   </ul>
   <ul class="topBar_right">
     <li>{{Auth::user()->job_title}}</li>
