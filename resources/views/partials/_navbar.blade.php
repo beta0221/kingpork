@@ -1,7 +1,7 @@
 <div class="navCostume">
 
   <a class="navbar-logo" href="{{url('/')}}">
-  	<img src="{{asset('images/logo.png')}}" alt="">
+  	<img src="{{asset('images/logo.png')}}" alt="金園排骨">
   </a>
 
 
@@ -45,7 +45,7 @@
 		        <a href="{{route('login')}}">登入/註冊</a>
 			</li>
 			<li class="navbar-li">
-		        <a href="#" data-toggle="modal" data-target="#exampleModal" onclick="event.preventDefault();ajaxShowKart();"><img src="{{asset('images/cart.png')}}" alt=""></a>
+		        <a href="#" data-toggle="modal" data-target="#exampleModal" onclick="event.preventDefault();ajaxShowKart();"><img src="{{asset('images/cart.png')}}"></a>
 			</li>
 			<li class="navbar-li">
 		        <span id="inKart"></span>
@@ -72,7 +72,7 @@
 				{{ csrf_field() }}
 	        </form>
 	        <li class="navbar-li">
-		        <a href="#" data-toggle="modal" data-target="#exampleModal" onclick="event.preventDefault();ajaxShowKart();"><img src="{{asset('images/cart.png')}}" alt=""></a>
+		        <a href="#" data-toggle="modal" data-target="#exampleModal" onclick="event.preventDefault();ajaxShowKart();"><img src="{{asset('images/cart.png')}}"></a>
 			</li>
 			<li class="navbar-li">
 		        <span id="inKart"></span>
@@ -97,7 +97,7 @@
 
 
 <div class="main-bg"></div>
-<div onclick="burgerUp();" class="burger"><img src="{{asset('images/burger.png')}}" alt=""></div>
+<div onclick="burgerUp();" class="burger"><img src="{{asset('images/burger.png')}}"></div>
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

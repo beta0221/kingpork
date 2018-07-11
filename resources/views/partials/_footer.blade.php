@@ -2,7 +2,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="footIm col-md-3 col-3">
-				<img src="{{asset('images/logo.png')}}" alt="">
+				<img src="{{asset('images/logo.png')}}" alt="金園排骨">
 			</div>
 			<div class="footIm col-md-3 col-3">
 				<span>地址:</span><span>桃園市桃園區大有路59號3樓</span>
@@ -12,8 +12,8 @@
 			</div>
 			<div class="footIm col-md-3 col-3">
 				<div class="fb-line">
-					<a href="{{url('about-line')}}"><img src="{{asset('images/line.png')}}" alt=""></a>
-					<a href="https://www.facebook.com/KINGPORK/" target="_blank"><img src="{{asset('images/facebook.png')}}" alt=""></a>	
+					<a href="{{url('about-line')}}"><img src="{{asset('images/line.png')}}"></a>
+					<a href="https://www.facebook.com/KINGPORK/" target="_blank"><img src="{{asset('images/facebook.png')}}"></a>	
 				</div>
 			</div>
 			

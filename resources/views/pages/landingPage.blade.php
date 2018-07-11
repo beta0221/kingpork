@@ -28,7 +28,7 @@
 		<div class="product col-md-4 col-12">
 			<div class="P- P-pork">
 				<a href="{{route('productCategory.show',1)}}">
-					<img src="{{asset('images/productsIMG/pork.png')}}" alt="">
+					<img src="{{asset('images/productsIMG/pork.png')}}" alt="金園排骨">
 				</a>
 				<div onclick="location.href='{{route('productCategory.show',1)}}';" class="P-buy">我要買</div>
 			</div>
@@ -36,7 +36,7 @@
 		<div class="product col-md-4 col-12">
 			<div class="P- P-both">
 				<a href="{{route('productCategory.show',3)}}">
-					<img src="{{asset('images/productsIMG/both.png')}}" alt="">
+					<img src="{{asset('images/productsIMG/both.png')}}" alt="金園幸福雙響">
 				</a>
 				<div onclick="location.href='{{route('productCategory.show',3)}}';" class="P-buy">我要買</div>
 			</div>
@@ -44,7 +44,7 @@
 		<div class="product col-md-4 col-12">
 			<div class="P- P-chicken">
 				<a href="{{route('productCategory.show',2)}}">
-					<img src="{{asset('images/productsIMG/chicken.png')}}" alt="">
+					<img src="{{asset('images/productsIMG/chicken.png')}}" alt="金園排骨厚切雞腿排">
 				</a>
 				<div onclick="location.href='{{route('productCategory.show',2)}}';" class="P-buy">我要買</div>
 			</div>
@@ -73,7 +73,7 @@
 
 		<div class="intro-title intro-title-line intro-title-line-left"></div>
 		<div class="intro-title intro-title-text">
-			<img src="{{asset('images/culture.png')}}" alt="">
+			<img src="{{asset('images/culture.png')}}" alt="各店簡介">
 		</div>
 		<div class="intro-title intro-title-line intro-title-line-right"></div>
 	</div>
@@ -89,15 +89,15 @@
 		<div class="shop-intro-row">
 			
 			<div id="story-1-box" class=" shop-intro-box">
-				<img class="shop-now-img" src="{{asset('images/king2-1.png')}}" alt="">
+				<img class="shop-now-img" src="{{asset('images/king2-1.png')}}" alt="金園排骨總公司">
 
 			</div>
 			<div id="story-2-box" class=" shop-intro-box">
-				<img src="{{asset('images/king2-2.png')}}" alt="">
+				<img src="{{asset('images/king2-2.png')}}" alt="金園排骨春日店">
 
 			</div>
 			<div id="story-3-box" class="shop-intro-box">
-				<img src="{{asset('images/king2-3.png')}}" alt="">
+				<img src="{{asset('images/king2-3.png')}}" alt="金園排骨長庚店">
 
 			</div>
 		</div>

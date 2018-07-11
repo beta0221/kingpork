@@ -15,7 +15,7 @@
 			<div class="col-md-4 col-4">
 				<div id="{{Request::is('productCategory/1') ? 'currentCat' : ''}}" class="catImg P-pork">
 					<a href="{{route('productCategory.show',1)}}">
-						<img src="{{asset('images/productsIMG/pork2.png')}}" alt="">	
+						<img src="{{asset('images/productsIMG/pork2.png')}}" alt="厚切手打豬排">	
 					</a>
 				</div>
 				
@@ -23,7 +23,7 @@
 			<div class="col-md-4 col-4">
 				<div id="{{Request::is('productCategory/3') ? 'currentCat' : ''}}" class="catImg P-both">
 					<a href="{{route('productCategory.show',3)}}">
-						<img src="{{asset('images/productsIMG/both2.png')}}" alt="">	
+						<img src="{{asset('images/productsIMG/both2.png')}}" alt="幸福雙響組合">	
 					</a>
 				</div>
 				
@@ -31,7 +31,7 @@
 			<div class="col-md-4 col-4">
 				<div id="{{Request::is('productCategory/2') ? 'currentCat' : ''}}" class="catImg P-chicken">
 					<a href="{{route('productCategory.show',2)}}">
-						<img src="{{asset('images/productsIMG/chicken2.png')}}" alt="">
+						<img src="{{asset('images/productsIMG/chicken2.png')}}" alt="無骨嫩雞腿排">
 					</a>
 				</div>
 			</div>
@@ -40,7 +40,7 @@
 		<div class="row">
 			<div class="col-md-6 col-12">
 				<div class="productIMG">
-					<img id="productIMG" src="{{asset('images/productsIMG') . '/'}}{{Request::is('productCategory/1') ? 'pork.png' : ''}}{{Request::is('productCategory/3') ? 'both.png' : ''}}{{Request::is('productCategory/2') ? 'chicken.png' : ''}}" alt="">
+					<img id="productIMG" src="{{asset('images/productsIMG') . '/'}}{{Request::is('productCategory/1') ? 'pork.png' : ''}}{{Request::is('productCategory/3') ? 'both.png' : ''}}{{Request::is('productCategory/2') ? 'chicken.png' : ''}}">
 				</div>
 			</div>
 			<div class="col-md-6 col-12">
@@ -105,7 +105,7 @@
 						@endforeach
 						</div>
 							
-						<button id="goToKartBtn" class="goToKartBtn" onclick="location.href='{{route('kart.index')}}'">前往結帳<img src="{{asset('images/point.png')}}" alt=""></button>
+						<button id="goToKartBtn" class="goToKartBtn" onclick="location.href='{{route('kart.index')}}'">前往結帳<img src="{{asset('images/point.png')}}" alt="前往結帳"></button>
 							
 						</div>
 					</div>
