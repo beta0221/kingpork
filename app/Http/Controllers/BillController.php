@@ -827,7 +827,13 @@ class BillController extends Controller
     {
         $bill = Bill::where('bill_id',$id)->firstOrFail();
         if ($bill->status == '0') {
+
+
+            $user = User::find($bill->user_id);
+            $user->bonus = $user->bonus + $bill->bonus_use;
+
             $delete = Bill::where('bill_id',$id)->delete();
+
             if($delete){
                 return response()->json('1');
             }else{
