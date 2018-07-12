@@ -139,11 +139,11 @@
 
 					@elseif($finalBill['pay_by'] == '貨到付款')
 
-						<a href="{{url('/')}}" style="color: white;" class="payByBtn btn btn-success">回首頁</a>
+						<a href="{{url('/bill')}}" style="color: white;" class="payByBtn btn btn-success">我的訂單</a>
 
 					@elseif($finalBill['pay_by'] == 'CREDIT' AND $finalBill['status'] ==1)
 
-						<a href="{{url('/')}}" style="color: white;" class="payByBtn btn btn-success">回首頁</a>
+						<a href="{{url('/bill')}}" style="color: white;" class="payByBtn btn btn-success">我的訂單</a>
 
 					@elseif($finalBill['pay_by'] == 'CREDIT'AND$finalBill['status']!=1)
 
@@ -343,7 +343,7 @@ window.onload = ECPay.init();		//!* production *!
 								$('.loader-box').remove();
 								$('.loader-bg').remove();
 								$('.payByBtn').remove();
-								$('.inner-payBy').append('<a href="/" style="color: white;" class="payByBtn btn btn-success">回首頁</a>');
+								$('.inner-payBy').append('<a href="/bill" style="color: white;" class="payByBtn btn btn-success">我的訂單</a>');
 								setTimeout(function(){
 									alert('電子確認信已寄出，內含您的購買明細及繳款資訊');
 								},10)
@@ -380,7 +380,7 @@ window.onload = ECPay.init();		//!* production *!
 								$('.loader-box').remove();
 								$('.loader-bg').remove();
 								$('.payByBtn').remove();
-								$('.inner-payBy').append('<a href="/" style="color: white;" class="payByBtn btn btn-success">回首頁</a>');
+								$('.inner-payBy').append('<a href="/bill" style="color: white;" class="payByBtn btn btn-success">我的訂單</a>');
 								$('.U-title').html('<font>感謝您的購買~</font>');
 								$('.U-img').html("<img style='height: 70%;'' src='{{asset('images/thankYou.png')}}'>");
 								$('.U-text').html("<font>我們衷心感謝您購買我們的產品，您將會收到一封電子確認信，內含您的購買明細。<br>若您對此次交易有任何問題，請隨時<a href='{{route('contact')}}'>寫信給我們</a>。</font>");
