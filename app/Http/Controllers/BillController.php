@@ -830,9 +830,9 @@ class BillController extends Controller
 
 
             $user = User::find($bill->user_id);
-            $user->bonus = $user->bonus + $bill->bonus_use;
+            $user->bonus = $user->bonus + $bill->bonus_use * 50;
             $user->save();
-            
+
             $delete = Bill::where('bill_id',$id)->delete();
 
             if($delete){
