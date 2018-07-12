@@ -38,6 +38,7 @@
 						<th>付款狀態</th>
 						<th>出貨狀態</th>
 						<th>-</th>
+						<th>-</th>
 					</tr>
 
 					{{-- @foreach(array_reverse($finalBills) as $billX) --}}
@@ -85,7 +86,7 @@
 							</td>
 							<td>
 								@if($billX[0]['shipment']==0)
-									-
+									<font color="gray">-</font>
 								@elseif($billX[0]['shipment']==1)
 									<font color="#eb9316">準備中</font>
 								@elseif($billX[0]['shipment']==2)
@@ -102,6 +103,13 @@
 									<a href="{{route('bill.show', $billX[0]['bill_id'])}}">付款</a>
 								@endif
 								
+							</td>
+							<td>
+								@if($billX[0]['status'] != 1 AND $billX[0]['shipment']==0)
+									<font style="cursor: pointer;" color="gray" onclick="cancelBill({{$billX[0]['bill_id']}})">取消訂單</font>
+								@else
+									<font color="gray">-</font>
+								@endif
 							</td>
 						</tr>
 						
@@ -130,5 +138,37 @@
 
 
 @section('scripts')
+<script>
+	$(document).ready(function(){
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+			}
+		});
+	});
 
+	function cancelBill(id){
+		var r = confirm('是否確定取消訂單？');
+		if (r==true) {
+			$.ajax({
+				type:'POST',
+				url:'/bill/cancel/'+id,
+				dataType:'json',
+				data: {
+					_method: 'delete',
+				},
+				success: function (response) {
+						
+					window.location.href = '/bill';
+					
+				},
+				error: function () {
+			        alert('錯誤');
+			    },
+			});
+		}
+		
+
+	}
+</script>
 @endsection

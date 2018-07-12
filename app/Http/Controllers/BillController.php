@@ -844,6 +844,26 @@ class BillController extends Controller
             return response()->json('s');
         }
         
-        
     }
+
+    public function cancelBill($id)
+    {
+        $bill = Bill::where('bill_id',$id)->firstOrFail();
+
+        if ($bill->status !=1 AND $bill->shipment==0){
+
+            $user = User::find($bill->user_id);
+            $user->bonus = $user->bonus + $bill->bonus_use * 50;
+            $user->save();
+
+            $delete = Bill::where('bill_id',$id)->delete();
+            if ($delete) {
+                return response()->json('success');
+            }else{
+                return response()->json('error');
+            }
+        }
+
+    }
+
 }
