@@ -80,6 +80,7 @@
   }
   .content{
     width: calc(100% - 150px);
+    height: calc(100% - 40px);
     position: absolute;
     top: 40px;
     left: 150px;
