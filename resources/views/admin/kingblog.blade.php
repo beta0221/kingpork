@@ -13,7 +13,7 @@
 
 
 
-<iframe src="https://www.kingpork.com.tw/kingblog/wp-admin/" height="100%" width="100%" frameborder="0"></iframe>
+<iframe src="https://www.kingpork.com.tw/kingblog/wp-admin/edit.php" height="100%" width="100%" frameborder="0"></iframe>
 
 
 
