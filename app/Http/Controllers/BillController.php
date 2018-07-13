@@ -363,7 +363,7 @@ class BillController extends Controller
                 'pay_by'=>'貨到付款',
             );
             Mail::send('emails.cod',$data,function($message) use ($data){
-                $message->from('beta0221@gmail.com','金園排骨');
+                $message->from('kingpork80390254@gmail.com','金園排骨');
                 $message->to($data['email']);
                 $message->subject('金園排骨-購買確認通知');
             });
@@ -635,7 +635,7 @@ class BillController extends Controller
                 'ExpireDate'=>$request->ExpireDate,
             );
             Mail::send('emails.atm',$data,function($message) use ($data){
-                $message->from('beta0221@gmail.com','金園排骨');
+                $message->from('kingpork80390254@gmail.com','金園排骨');
                 $message->to($data['email']);
                 $message->subject('金園排骨-購買確認通知');
             });
@@ -660,7 +660,7 @@ class BillController extends Controller
                 'TradeDate'=>$request->TradeDate,
             );
             Mail::send('emails.credit',$data,function($message) use ($data){
-                $message->from('beta0221@gmail.com','金園排骨');
+                $message->from('kingpork80390254@gmail.com','金園排骨');
                 $message->to($data['email']);
                 $message->subject('金園排骨-購買確認通知');
             });

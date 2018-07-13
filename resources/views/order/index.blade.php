@@ -190,7 +190,7 @@
 			<thead>
 				<tr>
 					<th class="th-green">#</th>
-					<th class="th-green">日期</th>
+					<th class="th-green">訂單日期</th>
 					<th class="th-green">訂購人</th>
 					<th class="th-green">編號</th>
 					{{-- <th>訂購人</th> --}}
