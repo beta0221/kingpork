@@ -75,3 +75,5 @@ Route::post('/admin/password/email','Auth\AdminForgotPasswordController@sendRese
 Route::get('/admin/password/reset/{token}','Auth\AdminResetPasswordController@showResetForm')->name('admin.password.reset');//3
 Route::post('/admin/password/reset','Auth\AdminResetPasswordController@reset');//4
 
+Route::get('/admin-kingblog','PageController@kingblog');
+

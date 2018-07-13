@@ -10,6 +10,12 @@ use Mail;
 
 class PageController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth:admin',['only'=>'kingblog']);
+    }
+
     public function getLanding(){
 
     	$banners = Banner::where('public',1)->get();
@@ -60,6 +66,11 @@ class PageController extends Controller
         Session::flash('success','訊息已成功送出，我們將會儘速回覆您。');
         return view('pages.contact');
 
+    }
+
+    public function kingblog(){
+        return view('admin.kingblog');
+        // return('hello');
     }
 
 }
