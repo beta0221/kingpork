@@ -149,8 +149,8 @@
   <li class="sideBar_item {{Request::is('order*') ? 'sideBar_now' : ''}}">
     <a href="{{route('order.index')}}"><img src="{{asset('images/admin_delivery.png')}}" alt="">訂單管理</a>
   </li>
-  <li class="sideBar_item {{Request::is('order*') ? 'sideBar_now' : ''}}">
-    <a href="/admin-kingblog"><img src="{{asset('images/admin_delivery.png')}}" alt="">美食廚房</a>
+  <li class="sideBar_item {{Request::is('admin-kingblog') ? 'sideBar_now' : ''}}">
+    <a href="/admin-kingblog"><img src="{{asset('images/admin_wordpress.png')}}" alt="">美食廚房</a>
   </li>
   
 </ul>
