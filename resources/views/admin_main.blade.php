@@ -45,7 +45,7 @@
   }
   .topBar_left{
     position: absolute;
-    left:240px;
+    left:180px;
     top: 0;
   }
   .topBar_left li{
@@ -123,9 +123,17 @@
 <div class="topBar">
   <ul class="topBar_left">
     <li><a href="/" target="_blank"><img src="{{asset('images/admin_haveLook.png')}}">瀏覽網頁</a></li>
-    <li><a href="https://analytics.google.com/analytics/web/?hl=zh-TW&pli=1#/realtime/rt-overview/a121883818w179867443p178085533" target="_blank"><img src="{{asset('images/admin_GA.png')}}"></a></li>
-    <li><a href="https://my.vultr.com/subs/?SUBID=14512165" target="_blank"><img src="{{asset('images/admin_server.png')}}"></a></li>
+
     <li><a href="https://vendor.ecpay.com.tw/" target="_blank"><img src="{{asset('images/admin_ecpay.png')}}"></a></li>
+
+    <li><a href="https://analytics.google.com/analytics/web/?hl=zh-TW&pli=1#/realtime/rt-overview/a121883818w179867443p178085533" target="_blank"><img src="{{asset('images/admin_GA.png')}}"></a></li>
+
+    <li><a href="https://my.vultr.com/subs/?SUBID=14512165" target="_blank"><img src="{{asset('images/admin_server.png')}}"></a></li>
+
+    <li><a href="https://www.kingpork.com.tw/kingblog/wp-admin/" target="_blank"><img src="{{asset('images/admin_wordpress.png')}}">廚房後台</a></li>
+
+
+    
   </ul>
   <ul class="topBar_right">
     <li>{{Auth::user()->job_title}}</li>
