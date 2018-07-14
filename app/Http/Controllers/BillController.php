@@ -24,7 +24,7 @@ class BillController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth',['except'=>['billPaied','creditPaied']]);
+        $this->middleware('auth',['except'=>['billPaied','creditPaied','cancelBill']]);
     }
 
 

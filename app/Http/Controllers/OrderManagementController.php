@@ -130,6 +130,7 @@ class OrderManagementController extends Controller
                 'ship_three_company' =>$json->ship_three_company,
                 'shipment'=>$json->shipment,
                 'auth_code'=>$json->auth_code,
+                'allReturn'=>$json->allReturn,
             ];
             $j++;
         }
@@ -221,7 +222,7 @@ class OrderManagementController extends Controller
     public function show($id)
     {
         $bill = Bill::where('bill_id','=',$id)->firstOrFail();
-        return response()->json($bill->ship_memo);
+        return response()->json(['memo'=>$bill->ship_memo,'mark'=>$bill->allReturn]);
     }
 
     public function showAll($id)
@@ -351,6 +352,25 @@ class OrderManagementController extends Controller
         }
         
     }
+
+
+
+    public function marking(Request $request,$id)
+    {
+        $bill = Bill::where('bill_id',$id)->firstOrFail();
+        $mark = $request->mark;
+        $bill->allReturn = $request->mark;
+        $bill->save();
+
+        if ($bill->allReturn == null) {
+            return response()->json(0);
+        }else{
+            return response()->json(1);
+        }
+
+        
+    }
+
 
     /**
      * Remove the specified resource from storage.

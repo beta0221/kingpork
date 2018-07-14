@@ -24,7 +24,7 @@
 	.table td,.table th{
 		text-align: center;
 		border:1pt solid gray;
-		padding: 6px;
+		padding: 6px 4px;
 	}
 	.table-tr:hover{
 		background-color: rgba(0,0,0,0.2);
@@ -63,6 +63,9 @@
 	.th-yellow{
 		background-color: #ec971f;
 	}
+	.table img{
+		width: 26px;
+	}
 </style>
 @endsection
 
@@ -82,6 +85,27 @@
         ...
       </div>
       <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="markingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">註記</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      	<span>訂單編號：</span><span id="markingID"></span>
+        <textarea id="markingTextarea" style="height: 200px;width: 100%;border-radius: 5px;" placeholder="註記..."></textarea>
+      </div>
+      <div class="modal-footer">
+      	<button onclick="markingDown();" type="button" class="btn btn-primary" data-dismiss="modal">註記</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
       </div>
     </div>
@@ -213,6 +237,8 @@
 					<th class="th-green">發票</th>
 					
 					<th class="th-green">備註</th>
+					<th class="th-red">註記</th>
+					<th class="th-red">刪除</th>
 					
 				</tr>
 			</thead>
@@ -290,6 +316,20 @@
 						@endif
 					</td>
 
+					<td>
+						@if($order['allReturn'] == null)
+						<img id="mark_{{$order['bill_id']}}" src="{{asset('images/admin_icon_markgray.png')}}" onclick="mark({{$order['bill_id']}});" data-toggle="modal" data-target="#markingModal">
+						@else
+						<img id="mark_{{$order['bill_id']}}" src="{{asset('images/admin_icon_markred.png')}}" onclick="mark({{$order['bill_id']}});" data-toggle="modal" data-target="#markingModal">
+						@endif
+					</td>
+
+					<td>
+						@if($order['status']!= 1 AND $order['shipment']==0)
+						<img onclick="cancelBill({{$order['bill_id']}})" src="{{asset('images/admin_icon_delete.png')}}">
+						@endif
+					</td>
+
 
 				</tr>
 				@endforeach
@@ -302,6 +342,7 @@
 
 @section('scripts')
 {{ Html::script('js/bootstrap/bootstrap.min.js') }}
+<script src="{{asset('js/order_marking.js')}}"></script>
 	<script>
 	$(document).ready(function(){
 
@@ -387,22 +428,22 @@
 	};
 
 	function showMemo($id){
-		$('.modal-body').empty();
-		$('.modal-title').empty();
+		$('#exampleModal .modal-body').empty();
+		$('#exampleModal .modal-title').empty();
 		
 		$.ajax({
 			type:'GET',
-			url:'order/'+$id,
+			url:'/order/'+$id,
 			dataType:'json',
 			success: function (response) {
-				$('.modal-body').append(response);
-				$('.modal-title').append($id);
+				$('#exampleModal .modal-body').append(response.memo);
+				$('#exampleModal .modal-title').append($id);
 			},
 			error: function () {
 	            alert('錯誤');
 	        },
 		});
-	};
+	}
 
 	function nextPage(){
 		var i = parseInt($('#pageSelecter').val());		
