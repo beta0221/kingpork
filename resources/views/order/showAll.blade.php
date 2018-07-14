@@ -167,7 +167,14 @@
 					<td class="head">指定到貨時間</td>
 					<td>{{$bill->ship_arriveDate}}{{$bill->ship_time}}</td>
 					<td class="head">發票</td>
-					<td>{{$bill->ship_name}}/{{$bill->ship_three_id}}/{{$bill->ship_three_company}}</td>
+					<td>
+						@if($bill->ship_receipt == 2)
+						二聯：{{$bill->ship_name}}
+						@else
+						三聯：{{$bill->ship_three_id}}/{{$bill->ship_three_company}}
+						@endif
+						
+					</td>
 				</tr>
 				<tr>
 					<td class="head">備註</td>
