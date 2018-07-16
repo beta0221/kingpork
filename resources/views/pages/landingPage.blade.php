@@ -100,6 +100,10 @@
 				<img src="{{asset('images/king2-3.png')}}" alt="金園排骨長庚店">
 
 			</div>
+			<div id="story-4-box" class="shop-intro-box">
+				<img src="{{asset('images/king2-4.png')}}" alt="金園排骨萬年店">
+
+			</div>
 		</div>
 
 	</div>	
@@ -119,7 +123,7 @@
 			</div>
 		</div>
 		<div id="story-2">
-			<h2>金園排骨-【春日店】</h3>
+			<h2>金園排骨 -【春日店】</h3>
 			<h4>客服專線：03-339-0363 ; 03-339-0347</h4>
 			<h4>e-mail：may@sacred.com.tw</h4>
 			<h4>　　　　kingpork@sacred.com.tw</h4>
@@ -128,13 +132,21 @@
 			
 		</div>
 		<div id="story-3">
-			<h2>金園排骨-【長庚店】</h3>
+			<h2>金園排骨 -【長庚店】</h3>
 			<h4>客服專線：03-318-3315</h4>
 			<h4>e-mail：may@sacred.com.tw</h4>
 			<h4>　　　　kingpork@sacred.com.tw</h4>
 			<h4>地址：桃園市龜山區復興街5號</h4>
 			<h4>【林口長庚地下美食街】</h4>
 			<h4>店休日：週日</h4>
+
+		</div>
+		<div id="story-4">
+			<h2>金園排骨 -【萬年店】</h3>
+			<h4>聯絡電話：02-2381-9797</h4>
+			<h4>地址：台北市萬華區西寧南路70號</h4>
+			<h4>【萬年商業大樓Ｂ1】</h4>
+			
 
 		</div>
 	</div>
