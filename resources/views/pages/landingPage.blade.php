@@ -80,8 +80,8 @@
 
 	
 	<div class="col-12 shop-intro-story">
-		<p><font color="#860606">【金園排骨】</font>傳承了西門町一甲子的美好古早味</p>
-		<p>印證了台灣豐富、深刻、濃厚的在地人情味，陪伴許多人的成長，也紀錄了時代的變化，美好滋味猶如史詩般雋永絕對值得您細心品嘗回味。</p>
+		<h1 style="font-size: 28px;"><font color="#860606">【金園排骨】</font>傳承了西門町一甲子的美好古早味</h1>
+		<h2 style="font-size: 24px;line-height: 30px;">印證了台灣豐富、深刻、濃厚的在地人情味，陪伴許多人的成長，也紀錄了時代的變化，美好滋味猶如史詩般雋永絕對值得您細心品嘗回味。</h2>
 	</div>
 
 	<div class="shop-intro-container">
