@@ -638,7 +638,7 @@
 		display: none;
 	}
 	.addToKartBtn img{
-		height: 16px;
+		height: 14px;
 	}
 	.deleteKartBtn{
 		background:rgba(0,0,0,0.3);
@@ -762,7 +762,7 @@
 		display: none;
 	}
 	.addToKartBtn img{
-		height: 14px;
+		height: 12px;
 	}
 	.deleteKartBtn{
 		background:rgba(0,0,0,0.3);
