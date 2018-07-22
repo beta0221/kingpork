@@ -43,11 +43,12 @@
 	transform: scale(0.8);
 	top: 0;
 }
-@media(max-width: 450px){
+@media(max-width: 720px){
 	.foot1{
 		width: 100%;
 		/*border:1pt solid #000;*/
-		height: 56px;
+		/*height: 56px;*/
+		height: auto;
 		color: #fff;
 		background:rgba(56,6,6,0.9);
 		
@@ -59,6 +60,14 @@
 	.footIm span{
 		top: 0px;
 		font-size: 12px;
+	}
+	.fb-line{
+		width: 40%;
+		left: 50%;
+		transform: translateX(-50%);
+	}
+	.fb-line a{
+		display: inline-block;
 	}
 	.foot2{
 		height: 30px;
