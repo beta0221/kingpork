@@ -23,12 +23,18 @@ Route::get('/guide','PageController@guide')->name('guide');
 Route::post('/contactUs','PageController@contactUs');
 Route::get('/about-line','PageController@aboutLine');
 
+
 // product routes
 Route::resource('products','ProductController');
 Route::patch('products/public/{id}','ProductController@publicProduct');
 
 // productCategory routes
 Route::resource('productCategory','ProductCategoryController');
+// singleCategory routes
+Route::resource('/buynow','SingleController');
+Route::get('/buynow/form/{id}','SingleController@showToBuy');
+Route::get('/thankYou/{id}','SingleController@thankYou')->name('thankYou');
+
 // kart routes
 Route::resource('kart','kartController',['only'=>['index','store','destroy']]);
 Route::post('inKart','kartController@inKart')->name('getInKart');//for api

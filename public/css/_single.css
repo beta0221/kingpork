@@ -1,0 +1,179 @@
+@import url(https://fonts.googleapis.com/earlyaccess/cwtexkai.css);
+* {
+    font-family: 微软雅黑;
+    margin: 0px;
+    padding: 0px;
+    position: relative;
+    box-sizing: border-box;
+}
+body{
+	font-size: 14px;
+	margin: 0 auto;
+	min-width: 320px;
+	max-width: 640px;
+	background: #fff;
+}
+div{
+	/*border:1pt solid #000;*/
+}
+.bar{
+	background-color: #fff;
+	max-width: 640px;
+	min-width: 320px;
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	z-index: 99;
+}
+.bar .query,.service{
+	width: 25%;
+    height: 56px;
+    border: 1px solid rgb(222, 222, 222);
+    text-align: center;
+    float: left;
+    border-radius: 4px 4px 4px 4px;
+    padding: 8px 0;
+}
+.bar .purchase{
+	float: left;
+    width: 48%;
+    height: 56px;
+    padding: 8px 0;
+    border: 1px solid rgb(222, 222, 222);
+    margin: 0px 0.5%;
+    text-align: center;
+    background-color: #F00;
+    border-radius: 4px 4px 4px 4px;
+}
+.bar .query span,.service span,.purchase span{
+	line-height: 40px;
+}
+.catBar{
+	width: 100%;
+	height: 100px;
+}
+.cat{
+	display: inline-block;
+	height: 100%;
+	width: 33.33333%;
+	padding: 4px;
+	margin: 0;
+	
+}
+.cat-img{
+	height: 100%;
+	width: 100%;
+	border-radius: 0.3em;
+    box-shadow: 2px 2px 16px 2px rgba(0, 0, 0, 0.3);
+    filter: opacity(40%);
+    overflow: hidden;
+    cursor: pointer;
+}
+.cat-img:hover{
+	filter: opacity(100%);
+}
+.cat-img img{
+	min-height: 100%;
+    width: 100%;
+    min-width: 100%;
+    top: 0%;
+}
+.currentCat{
+	filter:opacity(100%);
+	border:2pt solid rgba(195,28,34,1);;
+}
+.P-pork:before,.P-both:before,.P-chicken:before{
+	font-family: cwTeXKai , serif;
+	font-weight: 400;
+	font-size: 16px;
+	letter-spacing: 4px;
+	color: #fff;
+	position: absolute;
+	top: 5%;
+	left: 2.5%;
+	padding: 8px 24px;
+	z-index: 1;
+}
+.P-pork:before{
+	content: '厚切排骨';
+	background: linear-gradient(to right, rgba(192,18,24,0) 0%,rgba(192,18,24,1) 20%,rgba(192,18,24,1) 80%,rgba(192,18,24,0) 100%); 
+}
+.P-both:before{
+	content: '雙饗組合';
+	background: linear-gradient(to right, rgba(192,18,24,0) 0%,rgba(192,18,24,1) 20%,rgba(109,8,115,1) 80%,rgba(109,8,115,0) 100%);
+}
+.P-chicken:before{
+	content: '鮮嫩雞腿';
+	background: linear-gradient(to right, rgba(109,8,115,0) 0%,rgba(109,8,115,1) 20%,rgba(109,8,115,1) 80%,rgba(109,8,115,0) 100%); 
+}
+.purchase span{
+	color: #fff;
+	font-size: 22px;
+}
+.content{
+	margin-bottom: 56px;
+}
+.slider{
+	position: relative;
+    overflow: hidden;
+    width: 100%;
+    padding-top: 80%;
+}
+.slider-group{
+	position: absolute;
+	top: 0;
+	width: 100%;
+	height: 100%;
+}
+.slider-group img{
+	width: 100%;
+	height: 100%;
+}
+.clear{
+	height: 10px;
+}
+.introduce-stack{
+	height: 56px;
+	line-height: 40px;
+	padding: 8px;
+	border-bottom: 1pt dotted #c8c8c8;
+	
+}
+.introduce-stack span{
+	float: left;
+	margin: 0 4px;
+}
+.introduce-stack img{
+	height: 100%;
+	float: left;
+	margin: 0 4px;
+}
+.flag{
+    padding: 0px 4px;
+    background: #FF0000;
+    color: #fff;
+    line-height: 40px;
+    /*margin:0 4px;*/
+    font-size: 12px;
+    border-radius: 3px;
+    border: none;
+}
+.introduce-stack .progress-bar-outter{
+	margin: 17px 4px;
+	border:0.5px solid #ff0000;
+	width: 120px;
+	height: 6px;
+}
+.introduce-stack .progress-bar-inner{
+	width: 80%;
+	height: 100%;
+	background-color: #ff0000;
+	margin: 0;
+}
+.introduce-stack .timmer{
+	border-radius: 4px;
+	background-color: #000;
+	color: #fff;
+	width: 40px;
+	text-align: center;
+}

@@ -19,6 +19,18 @@ foreach($item_array as $item){ //foreach($陣列名稱 as $自己取){    裡面
 }
 ?>
 
+<?php date_default_timezone_set('Asia/Taipei'); ?>
+<?php echo time(); ?>
+<br>
+<?php echo date("m",time()); ?>
+<br>
+<?php echo date("d"); ?>
+<br>
+<?php echo date("H"); ?>
+<br>
+<?php echo date("i"); ?>
+<br>
+<?php echo date("s"); ?>	
 </body>
 <script>
 	function show(id){

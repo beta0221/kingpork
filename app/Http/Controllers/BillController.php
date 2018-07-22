@@ -330,10 +330,6 @@ class BillController extends Controller
             $bill->pay_by = '貨到付款';
             $bill->save();
 
-            // $user = User::find(Auth::user()->id);//紅利回算機制{
-            // $total = (int)$total;
-            // $user->bonus = $user->bonus+$total;
-            // $user->save();                      //}紅利回算機制
 
             $i = 0;
             $itemArray = [];

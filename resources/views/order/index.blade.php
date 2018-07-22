@@ -118,12 +118,12 @@
 				
 				<input style="width: 100px;" type="text" name="user_name" class="input form-control" placeholder="姓名" value="{{isset($_GET['user_name'])?$_GET['user_name']:''}}">
 				-
-				<input style="width: 150px;" type="text" name="ship_phone" class="input form-control" placeholder="電話" value="{{isset($_GET['ship_phone'])?$_GET['ship_phone']:''}}">
+				<input style="width: 130px;" type="text" name="ship_phone" class="input form-control" placeholder="電話" value="{{isset($_GET['ship_phone'])?$_GET['ship_phone']:''}}">
 				-
-				<input style="width: 150px;" id="bill_id" name="bill_id" type="text" class="input form-control" placeholder="訂單編號" value="{{isset($_GET['bill_id'])?$_GET['bill_id']:''}}">
+				<input style="width: 130px;" id="bill_id" name="bill_id" type="text" class="input form-control" placeholder="訂單編號" value="{{isset($_GET['bill_id'])?$_GET['bill_id']:''}}">
 				-
-				<input id="date1" name="date1" type="date" class="input form-control" value="{{isset($_GET['date1'])?$_GET['date1']:''}}">~
-				<input id="date2" name="date2" type="date" class="input form-control" value="{{isset($_GET['date2'])?$_GET['date2']:''}}">
+				<input style="width: 170px;" id="date1" name="date1" type="date" class="input form-control" value="{{isset($_GET['date1'])?$_GET['date1']:''}}">~
+				<input style="width: 170px;" id="date2" name="date2" type="date" class="input form-control" value="{{isset($_GET['date2'])?$_GET['date2']:''}}">
 				-
 				<select id="select_county" name="ship_county">
 					<option value="">縣市</option>

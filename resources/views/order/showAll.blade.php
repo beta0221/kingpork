@@ -61,6 +61,7 @@
 		<div class="outter">
 			<h2>No. <font color="steelblue">{{$bill->bill_id}}</font></h2>
 			<hr>
+			@if(isset($user))
 			<table class="bill-table">
 				<tr>
 					<td class="head">姓名</td>
@@ -75,6 +76,7 @@
 					<td>{{$user->bonus}}</td>
 				</tr>
 			</table>
+			@endif
 
 
 

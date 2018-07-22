@@ -23,7 +23,7 @@
 			<div class="col-md-4 col-4">
 				<div id="{{Request::is('productCategory/3') ? 'currentCat' : ''}}" class="catImg P-both">
 					<a href="{{route('productCategory.show',3)}}">
-						<img src="{{asset('images/productsIMG/both2.png')}}" alt="幸福雙響組合">	
+						<img src="{{asset('images/productsIMG/both2.png')}}" alt="幸福雙響組合">
 					</a>
 				</div>
 				

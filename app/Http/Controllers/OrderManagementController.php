@@ -46,49 +46,52 @@ class OrderManagementController extends Controller
             $date2 = isset($_GET['date2']) ? $_GET['date2'] : null;
 
             if (isset($user_name) AND $user_name != '') {
-                $query->orWhere('user_name',$user_name);
+                $query->Where('user_name',$user_name);
             }
             if (isset($ship_phone) AND $ship_phone != '') {
-                $query->orWhere('ship_phone',$ship_phone);
+                $query->Where('ship_phone',$ship_phone);
             }
             if (isset($shipment_0)) {
-                $query->orWhere([
-                    ['shipment','=',$shipment_0],
-                    ['pay_by','=','貨到付款'],
-                ])->orWhere([
-                    ['shipment','=',$shipment_0],
-                    ['status','=','1'],
-                ]);
+                if (isset($pay_by_ATM) OR isset($pay_by_credit)) {
+                    $query->Where('status','1')->where('shipment',$shipment_0);
+                }else{
+                    $query->Where(function($query){
+                        $shipment_0 = $_GET['shipment_0'];
+                        $query->Where([['pay_by','貨到付款'],['shipment',$shipment_0]])->orWhere([['status','1'],['shipment',$shipment_0]]);
+                    });
+                    
+                }
             }
             if (isset($shipment_1)) {
-                $query->orWhere('shipment',$shipment_1);
+                $query->Where('shipment',$shipment_1);
             }
             if (isset($shipment_2)) {
-                $query->orWhere('shipment',$shipment_2);
+                $query->Where('shipment',$shipment_2);
             }
             if (isset($shipment_3)) {
-                $query->orWhere('shipment',$shipment_3);
+                $query->Where('shipment',$shipment_3);
             }
             if (isset($pay_by_ATM)) {
-                $query->orWhere('pay_by',$pay_by_ATM);
+                $query->Where('pay_by',$pay_by_ATM);
             }
             if (isset($pay_by_cod)) {
-                $query->orWhere('pay_by',$pay_by_cod);
+                $query->Where('pay_by',$pay_by_cod);
             }
             if (isset($pay_by_credit)) {
-                $query->orWhere('pay_by',$pay_by_credit);
+                $query->Where('pay_by',$pay_by_credit);
             }
             if (isset($ship_county) AND $ship_county != '') {
-                $query->orWhere('ship_county',$ship_county);
+                $query->Where('ship_county',$ship_county);
             }
             if (isset($bill_id) AND $bill_id != '') {
-                $query->orWhere('bill_id',$bill_id);
+                $query->Where('bill_id',$bill_id);
             }
             if (isset($date1) AND isset($date2) AND $date1 != '') {
                 if ($date1 == $date2) {
-                    $query->orWhere('created_at','LIKE','%'.$date1.'%');
+                    $query->Where('created_at','LIKE','%'.$date1.'%');
                 }else{
-                    $query->orWhereBetween('created_at',[$date1,$date2])->orWhere('created_at','LIKE','%'.$date2.'%');
+                    $date2 = date('Y-m-d',strtotime($date2."+1 day"));
+                    $query->WhereBetween('created_at',[$date1,$date2]);             
                 }
             }
 
@@ -98,19 +101,7 @@ class OrderManagementController extends Controller
         $orders = [];
         foreach($jsons as $json)
         {   
-            // $bills = json_decode($json->item,true);
-            // $i = 0;
-            // $itemArray = [];
-            // foreach($bills as $bill)       
-            // {
-            //     $product = Products::where('slug', $bill['slug'])->firstOrFail();
-            //     $itemArray[$i] = [
-            //         'name' => $product->name,
-            //         'price' => $product->price,
-            //         'quantity' => $bill['quantity'],
-            //     ];
-            //     $i++;
-            // }
+            
             $orders[$j] = [
                 'created_at' => str_replace(" ","<br>",$json->created_at),
                 'bill_id' => $json->bill_id,
@@ -183,7 +174,8 @@ class OrderManagementController extends Controller
                 $json->ship_county.$json->ship_district.$json->ship_address.",".
                 date('Y/m/d').",".
                 $arrive.",".
-                $json->price;
+                $json->price.",".
+                $json->created_at;
                 $j++;
         }
         $orders = json_encode($orders);
@@ -244,10 +236,13 @@ class OrderManagementController extends Controller
             ];
             $i++;
         }
-
-        $user = User::find($bill->user_id);
-
-        return view('order.showAll',['bill'=>$bill,'items'=>$itemArray,'user'=>$user]);
+        if ($bill->user_id!=null) {
+            $user = User::find($bill->user_id);
+            return view('order.showAll',['bill'=>$bill,'items'=>$itemArray,'user'=>$user]);
+        }else{
+            return view('order.showAll',['bill'=>$bill,'items'=>$itemArray]);
+        }
+        
     }
 
     /**
@@ -290,7 +285,7 @@ class OrderManagementController extends Controller
                     $bill->shipment = 2;
                     $bill->save();
 
-                    if ($bill->pay_by == '貨到付款') {//如果是貨到付款->累計紅利
+                    if ($bill->pay_by == '貨到付款' AND $bill->user_id !=null) {//如果是貨到付款->累計紅利
                         $user = User::find($bill->user_id);
                         $user->bonus = $user->bonus + $bill->price;
                         $user->save();
@@ -302,7 +297,7 @@ class OrderManagementController extends Controller
                     $bill->shipment = 0;
                     $bill->save();
 
-                    if ($bill->pay_by == '貨到付款') {//如果是貨到付款->扣除紅利
+                    if ($bill->pay_by == '貨到付款' AND $bill->user_id !=null) {//如果是貨到付款->扣除紅利
                         $user = User::find($bill->user_id);
                         $user->bonus = $user->bonus - $bill->price;
                         $user->save();
@@ -328,7 +323,7 @@ class OrderManagementController extends Controller
                 $bill->shipment = 2;
                 $bill->save();
 
-                if ($bill->pay_by == '貨到付款') {//如果是貨到付款->累計紅利
+                if ($bill->pay_by == '貨到付款' AND $bill->user_id !=null) {//如果是貨到付款->累計紅利
                     $user = User::find($bill->user_id);
                     $user->bonus = $user->bonus + $bill->price;
                     $user->save();
@@ -341,7 +336,7 @@ class OrderManagementController extends Controller
                 $bill->shipment = 0;
                 $bill->save();
 
-                if ($bill->pay_by == '貨到付款') {//如果是貨到付款->扣除紅利
+                if ($bill->pay_by == '貨到付款' AND $bill->user_id !=null) {//如果是貨到付款->扣除紅利
                     $user = User::find($bill->user_id);
                     $user->bonus = $user->bonus - $bill->price;
                     $user->save();
