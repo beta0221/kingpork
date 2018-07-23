@@ -13,7 +13,7 @@
 		<img src="{{asset('images/logo.png')}}" alt="金園排骨">
 	</div>
 	<div class="bar">
-			<a href="searchOrder">
+			<a href="/searchOrder">
 				<span class="query">
 					<span style="color: #000">訂單查詢</span>
 				</span>
