@@ -45,7 +45,22 @@
 			top: 50%;
 			transform: translate(-50%,-50%);
 			height: 60%;
-		}.footer{
+		}
+		.title-bar{
+			background-color: rgba(255,255,255,0.5);
+			text-align:center;
+			height: 40px;
+		}
+		.title-bar span{
+			line-height: 40px;
+		}
+		.title-bar a {
+			position: absolute;
+			left: 10px;
+			text-decoration: none;
+			line-height: 40px;
+		}
+		.footer{
 			text-align:center;
 			margin-top: 20px;
 			background-color: rgba(56,6,6,0.9);
@@ -110,6 +125,10 @@
 	<div class="background"></div>
 	<div class="U-logo">
 		<img src="{{asset('images/logo.png')}}" alt="金園排骨">
+	</div>
+
+	<div class="title-bar">
+		<a href="/buynow/1"><span><</span></a><span>訂單查詢</span>
 	</div>
 
 	<div class="content">

@@ -141,7 +141,7 @@
 						</tr>
 					</table>
 				</th>
-				<th width="10%">總金額</th>
+				<th width="20%">總金額</th>
 			</tr>
 			<tr>
 				<td class="TDdate">{{$finalBill['bill_id']}}</td>

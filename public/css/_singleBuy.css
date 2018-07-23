@@ -59,7 +59,7 @@ div{
 .title-bar{
 	text-align:center;
 	height: 40px;
-	border:0.5pt solid gray;
+	background-color: rgba(255,255,255,0.5);
 }
 .title-bar span{
 	line-height: 40px;
