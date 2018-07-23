@@ -34,6 +34,54 @@ class SingleController extends Controller
         //
     }
 
+    public function searchOrder()
+    {
+        $billNum = isset($_GET['billNum'])?$_GET['billNum']:null;
+        $phone = isset($_GET['phone'])?$_GET['phone']:null;
+
+        if ($billNum!=null) {
+            $bills = Bill::where('bill_id',$billNum)->get();
+
+        }elseif ($phone!=null) {
+            $bills = Bill::where('ship_phone',$phone)->get();
+        }
+
+        if ($billNum!=null or $phone!=null) {
+            
+            if (count($bills) != 0) {
+
+                $j=0;
+                $i = 0;
+                // $itemArray=[][];
+                foreach ($bills as $bill) {
+                    $items = json_decode($bill->item,true);
+
+                    
+                    
+                    foreach($items as $item)
+                    {
+                        $product = Products::where('slug', $item['slug'])->firstOrFail();   
+                        $itemArray[$j][$i] = [
+                            'name' => $product->name,
+                            'price' => $product->price,
+                            'quantity' => $item['quantity'],
+                        ];
+                        $i++;
+                    }
+                    $j++;
+                }
+
+                return view('single.myorder',['bills'=>$bills,'items'=>$itemArray]);
+            }else{
+                Session::flash('noResult','很抱歉，找不到這筆訂單');
+                return view('single.myorder');
+            }
+
+        }
+
+        return view('single.myorder');
+    }
+
     /**
      * Store a newly created resource in storage.
      *

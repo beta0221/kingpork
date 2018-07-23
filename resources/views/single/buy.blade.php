@@ -8,6 +8,10 @@
 	{{Html::style('css/_singleBuy.css')}}
 </head>
 <body>
+	<div class="background"></div>
+	<div class="U-logo">
+		<img src="{{asset('images/logo.png')}}" alt="金園排骨">
+	</div>
 	<div class="content">
 		<div class="title-bar">
 			<a href="{{URL::previous()}}"><span><</span></a><span>確認訂單</span>
@@ -52,7 +56,7 @@
 						</div>
 					</div>
 					<div class="right-buy-box">
-						<button>購買</button>
+						<button>選擇</button>
 					</div>
 					
 
@@ -145,7 +149,23 @@
 		</div>
 
 	</div>
-	
+
+	<div class="footer">
+		<div class="footer-1">
+			<img src="{{asset('images/logo.png')}}" alt="金園排骨">
+		</div>
+		<div class="footer-2">
+			<span>地址:桃園市桃園區大有路59號3樓</span>
+		</div>
+		<div class="footer-3">
+			<span>服務電話:0800-552-999</span>
+		</div>
+		<div class="footer-4">
+			<a href="{{url('about-line')}}"><img src="{{asset('images/line.png')}}"></a>
+			<a href="https://www.facebook.com/KINGPORK/" target="_blank"><img src="{{asset('images/facebook.png')}}" ></a>
+		</div>
+	</div>
+
 </body>
 <script src="{{asset('js/jquery/jquery-3.2.1.min.js')}}"></script>
 <script src="{{asset('js/_singleBuy.js')}}"></script>

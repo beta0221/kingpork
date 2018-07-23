@@ -34,6 +34,7 @@ Route::resource('productCategory','ProductCategoryController');
 Route::resource('/buynow','SingleController');
 Route::get('/buynow/form/{id}','SingleController@showToBuy');
 Route::get('/thankYou/{id}','SingleController@thankYou')->name('thankYou');
+Route::get('/searchOrder','SingleController@searchOrder');
 
 // kart routes
 Route::resource('kart','kartController',['only'=>['index','store','destroy']]);
