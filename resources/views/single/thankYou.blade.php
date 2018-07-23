@@ -141,7 +141,6 @@
 						</tr>
 					</table>
 				</th>
-				<th width="10%">紅利折扣</th>
 				<th width="10%">總金額</th>
 			</tr>
 			<tr>
@@ -159,7 +158,6 @@
 						
 					</table>
 				</td>
-				<td>{{$finalBill['bonus_use']}}</td>
 				<td class="TDtotal">{{$finalBill['price']}}</td>
 			</tr>
 		</table>
