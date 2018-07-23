@@ -848,9 +848,12 @@ class BillController extends Controller
 
         if ($bill->status !=1 AND $bill->shipment==0){
 
-            $user = User::find($bill->user_id);
-            $user->bonus = $user->bonus + $bill->bonus_use * 50;
-            $user->save();
+            if ($bill->user_id !=null) {
+                $user = User::find($bill->user_id);
+                $user->bonus = $user->bonus + $bill->bonus_use * 50;
+                $user->save();
+            }
+            
 
             $delete = Bill::where('bill_id',$id)->delete();
             if ($delete) {
