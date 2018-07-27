@@ -1,5 +1,7 @@
 $(document).ready(function(){
 
+	product_select(40001,700);
+
 	$('.product-row').on('click', function(){
 		$('.product-row').removeClass('product-select');
 	     $(this).addClass('product-select');
@@ -117,4 +119,25 @@ function quantity(value){
 		$('#current-total').html(total);	
 		
 	}
+}
+
+function checkingForm(){
+	$('.required').removeClass('alert-input');
+	var name = $('#ship_name').val();
+	var phone = $('#ship_phone').val();
+	var address = $('#ship_address').val();
+	var email = $('#ship_email').val();
+	var pay_by = $('#ship_pay_by').val();
+
+	if (name=='' || phone=='' || address=='' || email=='' || pay_by=='') {
+		$('.alert-area').css('display','block');
+		$('.required').each(function(){
+			if ($(this).val() == '') {
+				$(this).addClass('alert-input');
+			}
+		})
+	}else{
+		$('#form-buynow').submit();
+	}
+
 }

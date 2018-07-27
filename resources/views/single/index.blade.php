@@ -18,7 +18,7 @@
 					<span style="color: #000">訂單查詢</span>
 				</span>
 			</a>	
-			<a style="text-decoration: none;color: #fff;" href="{{Request::is('buynow/1') ? '/buynow/form/1' : ''}}{{Request::is('buynow/2') ? '/buynow/form/2' : ''}}{{Request::is('buynow/3') ? '/buynow/form/3' : ''}}">
+			<a style="text-decoration: none;color: #fff;" href="/buynow/form/4">
 				<span class="purchase">
 					<span>
 						立即下單
@@ -71,8 +71,8 @@
 			<div class="introduce-stack">
 
 				<span>
-				<font style="font-size: 18px;color:red;font-weight: 800">NT${{$min}}~${{$max}} </font>
-				<font style="font-size: 12px;text-decoration: line-through;">(NT${{$min/0.8}}~${{$max/0.8}})</font>
+				<font style="font-size: 18px;color:red;font-weight: 800">NT${{$min}} </font>
+				<font style="font-size: 12px;text-decoration: line-through;">(NT${{$min/0.8}})</font>
 				</span>
 
 				<span class="flag">免運費</span>

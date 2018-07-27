@@ -164,7 +164,7 @@
 	</div>
 
 	<div class="goTo">
-		<a href="/buynow/1" class="">繼續購物</a>
+		<a href="/buynow/4" class="">繼續購物</a>
 	</div>
 	
 	<div class="footer">

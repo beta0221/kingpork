@@ -30,7 +30,7 @@
 			<div class="product-content">
 				@foreach($productCategory->products as $product)
 				@if($product->public == 1)
-				<div class="product-row" price="{{$product->price}}" onclick="product_select({{$product->slug}},{{$product->price}});">
+				<div class="product-row product-select" price="{{$product->price}}" onclick="product_select({{$product->slug}},{{$product->price}});">
 
 					<div class="left-name-box">
 
@@ -82,7 +82,7 @@
 		<div class="clear"></div>
 
 		<div class="buynow-form">
-			<form action="{{route('buynow.store')}}" method="POST">
+			<form id="form-buynow" action="{{route('buynow.store')}}" method="POST">
 				{{csrf_field()}}
 				<div class="form-stack">
 					<input id="input-item" style="display: none;" value="" name="item[]" type="text">
@@ -96,10 +96,10 @@
 				<div style="border-bottom: 0.5pt solid #c8c8c8;" class="clear"></div>
 				<div class="clear"></div>
 				<div class="form-stack">
-					<span><font color="red">*</font>姓名</span><input name="ship_name" type="text" placeholder="填寫收件人姓名">
+					<span><font color="red">*</font>姓名</span><input id="ship_name"  class="required" name="ship_name" type="text" placeholder="填寫收件人姓名">
 				</div>
 				<div class="form-stack">
-					<span><font color="red">*</font>手機</span><input name="ship_phone" type="text" placeholder="填寫收件人聯繫電話">
+					<span><font color="red">*</font>手機</span><input id="ship_phone" class="required" name="ship_phone" type="text" placeholder="填寫收件人聯繫電話">
 				</div>
 				<div class="form-stack">
 					<span><font color="red">*</font>地址</span>
@@ -131,22 +131,28 @@
 					</select>
 				</div>
 				<div class="form-stack">
-					<span></span><input name="ship_address" type="text" placeholder="街道門牌資訊">
+					<span></span><input id="ship_address" class="required" name="ship_address" type="text" placeholder="街道門牌資訊">
 				</div>
 				<div class="form-stack">
-					<span><font color="red">*</font>E-mail</span><input name="ship_email" type="text" placeholder="選填，收件人電子郵件">
+					<span><font color="red">*</font>E-mail</span><input id="ship_email" class="required" name="ship_email" type="text" placeholder="選填，收件人電子郵件">
 				</div>
 				<div class="form-stack">
-					<span><font color="red">*</font>付款方式</span><span><font color="orange">貨到付款</font></span><input name="ship_pay_by" style="display: none;" type="text" value="cod">
+					<span><font color="red">*</font>付款方式</span><span><font color="orange">貨到付款</font></span><input id="ship_pay_by" name="ship_pay_by" style="display: none;" type="text" value="cod">
 				</div>
 				<div class="form-stack">
 					<span>&nbsp備註</span><textarea name="ship_memo" id="" placeholder="選填，配送時間或其他通知事項"></textarea>
 				</div>
 				<div class="form-stack">
-					<button type="submit">確定送出</button>
+					<span id="submit-btn" onclick="checkingForm();">確定送出</span>
 				</div>
 			</form>
 		</div>
+
+
+		<div style="display: none;" class="alert-area">
+			<span><font color="red">＊</font>號處不得空白</span>
+		</div>
+
 
 	</div>
 
