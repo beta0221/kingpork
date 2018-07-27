@@ -41,7 +41,7 @@
 
 		<div class="clear"></div>
 
-		<div class="catBar">
+		{{-- <div class="catBar">
 			      <div class="cat P-pork">
 			      	<div class="cat-img {{Request::is('buynow/1') ? 'currentCat' : ''}}">
 			      		<a href="/buynow/1">
@@ -62,7 +62,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="clear"></div>
+		<div class="clear"></div> --}}
 
 		<div class="introduce">
 			<div class="introduce-stack">
