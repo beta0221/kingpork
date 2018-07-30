@@ -137,6 +137,7 @@ function checkingForm(){
 			}
 		})
 	}else{
+		
 		$('#form-buynow').submit();
 	}
 

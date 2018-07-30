@@ -163,6 +163,12 @@ class OrderManagementController extends Controller
                 $arrive = str_replace('-', '/', $json->ship_arriveDate);
             }
 
+            if ($json->pay_by != '貨到付款') {
+                $cash = null;
+            }else{
+                $cash = $json->price;
+            }
+
             $orders[$j] = 
                 $json->bill_id.",".
                 $json->id.",".
@@ -174,7 +180,7 @@ class OrderManagementController extends Controller
                 $json->ship_county.$json->ship_district.$json->ship_address.",".
                 date('Y/m/d').",".
                 $arrive.",".
-                $json->price.",".
+                $cash.",".
                 $json->created_at;
                 $j++;
         }
