@@ -6,7 +6,8 @@ header("Content-Disposition: attachment; filename=".$d."-shipping.csv");
 
 $orders = $_POST['orders'];
 $orders = json_decode($orders);
-$content = "訂單編號,備註,檔次編號,配送時段,收件人,電話,品名,收件地址,出貨日期,到貨日期,金額,訂單日期\n";
+// $content = "訂單編號,備註,檔次編號,配送時段,收件人,電話,品名,收件地址,出貨日期,到貨日期,金額,訂單日期\n";
+$content = "訂單編號,備註,代收貨款,配送時段,收件人,電話,品名,收件地址,出貨日期,到貨日期,金額\n";
 
 foreach ($orders as $order) {
 	$content = $content . $order."\n";

@@ -171,8 +171,8 @@ class OrderManagementController extends Controller
 
             $orders[$j] = 
                 $json->bill_id.",".
-                $json->id.",".
-                $json->ship_phone.",".
+                '官網'.$json->pay_by.",".
+                $cash.",".
                 $ship_time.",".
                 $json->ship_name.",".
                 $json->ship_phone.",".
@@ -180,8 +180,7 @@ class OrderManagementController extends Controller
                 $json->ship_county.$json->ship_district.$json->ship_address.",".
                 date('Y/m/d').",".
                 $arrive.",".
-                $cash.",".
-                $json->created_at;
+                $json->price;
                 $j++;
         }
         $orders = json_encode($orders);

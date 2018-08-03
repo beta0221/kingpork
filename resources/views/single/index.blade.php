@@ -33,6 +33,8 @@
 	</div>
 
 	<div class="content">
+
+		
 		<div class="slider">
 			<div class="slider-group">	{{-- 5:4 --}}
 				<img src="{{asset('images/productsIMG/pork.png')}}">
