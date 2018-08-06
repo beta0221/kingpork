@@ -126,10 +126,10 @@ function checkingForm(){
 	var name = $('#ship_name').val();
 	var phone = $('#ship_phone').val();
 	var address = $('#ship_address').val();
-	var email = $('#ship_email').val();
+	// var email = $('#ship_email').val();
 	var pay_by = $('#ship_pay_by').val();
 
-	if (name=='' || phone=='' || address=='' || email=='' || pay_by=='') {
+	if (name=='' || phone=='' || address=='' ||  pay_by=='') {
 		$('.alert-area').css('display','block');
 		$('.required').each(function(){
 			if ($(this).val() == '') {
