@@ -96,7 +96,7 @@ class SingleController extends Controller
             'ship_name'=>'required',
             'ship_phone'=>'required',
             'ship_address'=>'required',
-            'ship_email'=>'required|E-mail',
+            // 'ship_email'=>'required|E-mail',
             'ship_pay_by'=>'required',
         ]);
 
