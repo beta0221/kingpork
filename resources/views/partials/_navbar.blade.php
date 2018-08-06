@@ -18,9 +18,9 @@
 	    	<li class="navbar-li">
 	    		<a class="{{Request::is('productCategory/*')?'now-page':''}}" href="{{route('productCategory.show',1)}}">購物趣</a>
 	    	</li>
-	    	{{-- <li class="navbar-li">
-	    		<a class="{{Request::is('')?'now-page':''}}" href="#">美食廚房</a>
-	    	</li> --}}
+	    	<li class="navbar-li">
+	    		<a href="/kingblog/">美食廚房</a>
+	    	</li>
 			{{-- <li class="navbar-li">
 	    		<a class="{{Request::is('')?'now-page':''}}" href="#">最新消息</a>
 	    	</li> --}}
