@@ -199,11 +199,12 @@ class SingleController extends Controller
                 'price' => $total,
                 'pay_by'=>'貨到付款',
             );
-            Mail::send('emails.cod',$data,function($message) use ($data){
-                $message->from('kingpork80390254@gmail.com','金園排骨');
-                $message->to($data['email']);
-                $message->subject('金園排骨-購買確認通知');
-            });
+            
+            // Mail::send('emails.cod',$data,function($message) use ($data){
+            //     $message->from('kingpork80390254@gmail.com','金園排骨');
+            //     $message->to($data['email']);
+            //     $message->subject('金園排骨-購買確認通知');
+            // });
 
         }
 
