@@ -169,19 +169,39 @@ class OrderManagementController extends Controller
                 $cash = $json->price;
             }
 
-            $orders[$j] = 
-                $json->bill_id.",".
-                '官網'.$json->pay_by.",".
-                $cash.",".
-                $ship_time.",".
-                $json->ship_name.",".
-                $json->ship_phone.",".
-                $itemArray.",".
-                $json->ship_county.$json->ship_district.$json->ship_address.",".
-                date('Y/m/d').",".
-                $arrive.",".
-                $json->price;
-                $j++;
+            if ($request->type == 0) {
+                $orders[$j] = 
+                    $json->bill_id.",".
+                    '官網'.$json->pay_by.",".
+                    $cash.",".
+                    $ship_time.",".
+                    $json->ship_name.",".
+                    $json->ship_phone.",".
+                    $itemArray.",".
+                    $json->ship_county.$json->ship_district.$json->ship_address.",".
+                    date('Y/m/d').",".
+                    $arrive.",".
+                    $json->price;
+                    $j++;
+            }else{
+                $created_at = str_replace('-','/',substr($json->created_at,0,10));
+                $orders[$j] = 
+                    $created_at.",".
+                    $json->bill_id.",".
+                    '官網'.$json->pay_by.",".
+                    $cash.",".
+                    $ship_time.",".
+                    $json->ship_name.",".
+                    $json->ship_phone.",".
+                    $itemArray.",".
+                    $json->ship_county.$json->ship_district.$json->ship_address.",".
+                    date('Y/m/d').",".
+                    $arrive.",".
+                    $json->price;
+                    $j++;
+            }
+
+
         }
         $orders = json_encode($orders);
         return response()->json($orders);

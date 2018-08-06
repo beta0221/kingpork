@@ -17,10 +17,11 @@
 			<a href="{{URL::previous()}}"><span><</span></a><span>確認訂單</span>
 		</div>
 
-		<div class="slider">
-			<div class="slider-group">	{{-- 5:4 --}}
-				<img src="{{asset('images/productsIMG/pork.png')}}">
-			</div>
+		<div class="slider">{{-- 1920 x 1080 --}}
+			<video autoplay muted loop class="slider-group" >
+  				<source src="{{asset('vedios/head.mp4')}}" type="video/mp4">
+  			您的瀏覽器不支援此影片
+			</video>
 		</div>
 
 		<div class="product-outter">

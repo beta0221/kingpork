@@ -35,10 +35,14 @@
 	<div class="content">
 
 		
-		<div class="slider">
-			<div class="slider-group">	{{-- 5:4 --}}
-				<img src="{{asset('images/productsIMG/pork.png')}}">
-			</div>
+		<div class="slider">{{-- 1920 x 1080 --}}
+			<video autoplay muted loop class="slider-group" >
+  				<source src="{{asset('vedios/head.mp4')}}" type="video/mp4">
+  			您的瀏覽器不支援此影片
+			</video>
+			{{-- <div class="slider-group"> --}}
+				{{-- <img src="{{asset('images/productsIMG/pork.png')}}">
+			</div> --}}
 		</div>
 
 		<div class="clear"></div>

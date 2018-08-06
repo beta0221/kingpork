@@ -194,7 +194,8 @@
 
 			<div class="tool-box">
 				<button style="background-color: #000;color: #fff" onclick="selectAll();" class="btn btn-sm">全選</button>
-				<button style="background-color: #000;color: #fff" onclick="csv_download();" class="btn btn-sm">匯出CSV</button>
+				<button style="background-color: steelblue;color: #fff" onclick="csv_download();" class="btn btn-sm">出貨CSV</button>
+				<button style="background-color: #d9534f;color: #fff" onclick="csv_accountant();" class="btn btn-sm">會計CSV</button>
 				<button style="background-color: #000;color: #fff" onclick="selectPush();" class="btn btn-sm">下階段</button>
 			</div>
 
@@ -202,9 +203,11 @@
 			<form id="csvForm" action="csv_download.php" target="_blank" method="POST" style="display:none ;">
 				
 				<input id="selectArray" type="text" name="orders" value="">
-				<button id="csvGo" type="submit">go</button>
+				{{-- <button id="csvGo" type="submit">go</button> --}}
 			</form>
-
+			<form id="csvForm_accountant" action="csv_accountant.php" target="_blank" method="POST" style="display:none ;">
+				<input id="selectArray_accountant" type="text" name="orders" value="">
+			</form>
 
 		</div>
 
@@ -531,6 +534,7 @@
 				url:'/order/get_csv',
 				dataType:'json',
 				data: {
+					type:0,
 					selectArray:selected,
 				},
 				success: function (response) {
@@ -552,6 +556,48 @@
 			$('#csvForm').submit();	
 		},1000);
 
+	}
+
+	function csv_accountant(){
+
+
+		var selected = [];
+		var i = 0;
+		$('.select-check-box:checked').each(function(){
+			selected[i] = $(this).val();
+			i++;
+		});
+
+		
+		if (selected.length > 0) {
+			
+		
+			$.ajax({
+				type:'POST',
+				url:'/order/get_csv',
+				dataType:'json',
+				data: {
+					type:1,
+					selectArray:selected,
+				},
+				success: function (response) {
+					
+					$('#selectArray_accountant').val(response);
+					// alert(response);
+					
+				},
+				error: function () {
+		            alert('錯誤');
+		        },
+			});
+			
+		}else{
+			alert('請選取訂單');
+		}
+
+		setTimeout(function(){
+			$('#csvForm_accountant').submit();	
+		},1000);
 
 	}
 
