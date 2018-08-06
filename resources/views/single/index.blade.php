@@ -36,7 +36,7 @@
 
 		
 		<div class="slider">{{-- 1920 x 1080 --}}
-			<video autoplay muted loop class="slider-group" >
+			<video playsinline autoplay muted loop class="slider-group" >
   				<source src="{{asset('vedios/head.mp4')}}" type="video/mp4">
   			您的瀏覽器不支援此影片
 			</video>
