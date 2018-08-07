@@ -163,7 +163,7 @@ class SingleController extends Controller
             $bill->ship_county = $request->ship_county;
             $bill->ship_district = $request->ship_district;
             $bill->ship_address = $request->ship_address;
-            $bill->ship_email = $request->ship_email;
+            $bill->ship_email = null;
             $bill->ship_arrive = 'no';
             $bill->ship_time = 'no';
             $bill->ship_receipt = '2';
@@ -172,33 +172,33 @@ class SingleController extends Controller
             $bill->save();
 
 
-            $i = 0;
-            $itemArray = [];
-            foreach($kart as $item)
-            {
-                $product = Products::where('slug', $item['slug'])->firstOrFail();   
-                $itemArray[$i] = [
-                    'name' => $product->name,
-                    'price' => $product->price,
-                    'quantity' => $item['quantity'],
-                ];
-                $i++;
-            }
-            $data = array(
-                'user_name'=>$request->ship_name,
-                'ship_gender'=>$request->ship_gender,
-                'ship_name'=>$request->ship_name,
-                'ship_phone'=>$request->ship_phone,
-                'ship_county'=>$request->ship_county,
-                'ship_district'=>$request->ship_district,
-                'ship_address'=>$request->ship_address,
-                'email' => $request->ship_email,
-                'items' => $itemArray,
-                'bill_id' =>$MerchantTradeNo,
-                'bonus_use'=>0,
-                'price' => $total,
-                'pay_by'=>'貨到付款',
-            );
+            // $i = 0;
+            // $itemArray = [];
+            // foreach($kart as $item)
+            // {
+            //     $product = Products::where('slug', $item['slug'])->firstOrFail();   
+            //     $itemArray[$i] = [
+            //         'name' => $product->name,
+            //         'price' => $product->price,
+            //         'quantity' => $item['quantity'],
+            //     ];
+            //     $i++;
+            // }
+            // $data = array(
+            //     'user_name'=>$request->ship_name,
+            //     'ship_gender'=>$request->ship_gender,
+            //     'ship_name'=>$request->ship_name,
+            //     'ship_phone'=>$request->ship_phone,
+            //     'ship_county'=>$request->ship_county,
+            //     'ship_district'=>$request->ship_district,
+            //     'ship_address'=>$request->ship_address,
+            //     'email' => $request->ship_email,
+            //     'items' => $itemArray,
+            //     'bill_id' =>$MerchantTradeNo,
+            //     'bonus_use'=>0,
+            //     'price' => $total,
+            //     'pay_by'=>'貨到付款',
+            // );
             
             // Mail::send('emails.cod',$data,function($message) use ($data){
             //     $message->from('kingpork80390254@gmail.com','金園排骨');

@@ -107,6 +107,7 @@ class OrderManagementController extends Controller
                 'bill_id' => $json->bill_id,
                 'user_name' => $json->user_name,
                 // 'item' => $itemArray,
+                'user_id'=>$json->user_id,
                 'price' => $json->price,
                 'status' => $json->status,
                 'pay_by' => $json->pay_by,

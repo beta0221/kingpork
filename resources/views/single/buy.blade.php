@@ -134,9 +134,9 @@
 				<div class="form-stack">
 					<span></span><input id="ship_address" class="required" name="ship_address" type="text" placeholder="街道門牌資訊">
 				</div>
-				<div class="form-stack">
+				{{-- <div class="form-stack">
 					<span><font color="red">*</font>E-mail</span><input id="ship_email" name="ship_email" type="text" placeholder="選填，收件人電子郵件">
-				</div>
+				</div> --}}
 				<div class="form-stack">
 					<span><font color="red">*</font>付款方式</span><span><font color="orange">貨到付款</font></span><input id="ship_pay_by" name="ship_pay_by" style="display: none;" type="text" value="cod">
 				</div>
