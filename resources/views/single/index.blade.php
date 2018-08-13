@@ -102,6 +102,9 @@
 
 			</div>
 			<div class="introduce-stack">
+				<span style="font-size: 16px;font-weight: 600">加購第二組只要</span><font style="font-size: 18px;color:red;font-weight: 800">NT$339</font><font style="font-size: 16px;font-weight: 600"> ～！</font>
+			</div>
+			<div class="introduce-stack">
 				<img src="{{asset('images/black_cat.png')}}"><span>黑貓冷凍配送</span>
 			</div>
 			

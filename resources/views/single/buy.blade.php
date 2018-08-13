@@ -14,7 +14,7 @@
 	</div>
 	<div class="content">
 		<div class="title-bar">
-			<a href="{{URL::previous()}}"><span><</span></a><span>確認訂單</span>
+			<a href="/buynow/4"><span><</span></a><span>確認訂單</span>
 		</div>
 
 		<div class="slider">{{-- 1920 x 1080 --}}

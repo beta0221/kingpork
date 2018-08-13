@@ -128,7 +128,7 @@
 	</div>
 
 	<div class="title-bar">
-		<a href="/buynow/1"><span><</span></a><span>訂單查詢</span>
+		<a href="/buynow/4"><span><</span></a><span>訂單查詢</span>
 	</div>
 
 	<div class="content">
