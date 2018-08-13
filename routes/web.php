@@ -32,7 +32,7 @@ Route::patch('products/public/{id}','ProductController@publicProduct');
 Route::resource('productCategory','ProductCategoryController');
 // singleCategory routes
 Route::resource('/buynow','SingleController');
-Route::get('/buynow/form/{id}','SingleController@showToBuy');
+Route::get('/buynow/form/{id}','SingleController@showToBuy')->name('showToBuy');
 Route::get('/thankYou/{id}','SingleController@thankYou')->name('thankYou');
 Route::get('/searchOrder','SingleController@searchOrder');
 

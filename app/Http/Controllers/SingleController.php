@@ -225,6 +225,9 @@ class SingleController extends Controller
      */
     public function show($id)
     {
+        if ($id!=4) {
+            return redirect()->route('buynow.show',4);
+        }
         $productCategory = ProductCategory::find($id);
         $max = $productCategory->products->max('price');
         $min = $productCategory->products->min('price');
@@ -251,6 +254,9 @@ class SingleController extends Controller
 
     public function showToBuy($id)
     {
+        if ($id!=4) {
+            return redirect()->route('showToBuy',4);
+        }
         $productCategory = ProductCategory::find($id);
         return view('single.buy',['productCategory'=>$productCategory]);   
     }
