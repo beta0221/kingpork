@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-	product_select(40001,700);
+	product_select(40001,660);
 
 	$('.product-row').on('click', function(){
 		$('.product-row').removeClass('product-select');

@@ -20,3 +20,13 @@ function counter(){
 	}
 	$('#timer_s').html(s);
 }
+var i = 0;
+function contact(){
+	if (i==0) {
+		$('.contact-info-bg').css('display','block');
+		i = 1;
+	}else if (i==1) {
+		$('.contact-info-bg').css('display','none');
+		i=0;
+	}
+}

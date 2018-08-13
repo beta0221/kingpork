@@ -9,6 +9,19 @@
 </head>
 <body>
 	<div class="background"></div>
+
+	<div class="contact-info-bg">
+		<div class="contact-info">
+			<div onclick="contact();" id="contact-close">Ｘ</div>
+			<span>金園排骨股份有限公司</span><br>
+			<span>客服　：0800-552-999</span><br>
+			<span>傳真　：03-334-8965;03-337-5338</span><br>
+			<span>E-mail ：may@sacred.com.tw</span><br>
+			<span>地址　：桃園市桃園區大有路59號３樓</span><br>
+			<img src="{{asset('images/line.png')}}"><span>Line線上客服 ID：kingpork</span><br>
+			<a href="https://www.facebook.com/KINGPORK/" target="_blank"><img src="{{asset('images/facebook.png')}}" ><span>Facebook線上客服</span></a>
+		</div>
+	</div>
 	<div class="U-logo">
 		<img src="{{asset('images/logo.png')}}" alt="金園排骨">
 	</div>
@@ -25,11 +38,11 @@
 					</span>
 				</span>
 			</a>
-			<a href="{{route('contact')}}">
-				<span class="service">
+			{{-- <a href="{{route('contact')}}"> --}}
+				<span onclick="contact();" class="service">
 					<span style="color: #000">聯絡我們</span>
 				</span>
-			</a>
+			{{-- </a> --}}
 	</div>
 
 	<div class="content">
@@ -72,7 +85,10 @@
 
 		<div class="introduce">
 			<div class="introduce-stack">
-				<h1 style="font-size: 20px;margin-left: -10px">【金園排骨】西門町傳承一甲子的古早味</h1>
+				<h2 style="font-size: 18px;margin-left: -10px">【金園排骨】西門町傳承一甲子的古早味</h2>
+			</div>
+			<div class="introduce-stack">
+				<h1 style="font-size: 24px;">粉絲專屬組合(3P+3G)</h1>
 			</div>
 			<div class="introduce-stack">
 
@@ -126,7 +142,7 @@
 			<span>服務電話:0800-552-999</span>
 		</div>
 		<div class="footer-4">
-			<a href="{{url('about-line')}}"><img src="{{asset('images/line.png')}}"></a>
+			<a href="#"><img src="{{asset('images/line.png')}}"></a>
 			<a href="https://www.facebook.com/KINGPORK/" target="_blank"><img src="{{asset('images/facebook.png')}}" ></a>
 		</div>
 	</div>

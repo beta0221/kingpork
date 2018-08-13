@@ -31,7 +31,7 @@
 			<div class="product-content">
 				@foreach($productCategory->products as $product)
 				@if($product->public == 1)
-				<div class="product-row product-select" price="{{$product->price}}" onclick="product_select({{$product->slug}},{{$product->price}});">
+				<div class="product-row {{($product->slug=='40001')?'product-select':''}}" price="{{$product->price}}" onclick="product_select({{$product->slug}},{{$product->price}});">
 
 					<div class="left-name-box">
 
