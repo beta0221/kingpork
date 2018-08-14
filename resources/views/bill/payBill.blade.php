@@ -209,7 +209,7 @@ function BtnDecorator(ECPay) {
     iframebutton.setAttribute("id", "iframeECPayClose_" + ECPay.dataPaymentType);
     iframebutton.innerHTML = "X";
     iframebutton.type = "button";
-    iframebutton.setAttribute("style", "z-index: 2147483647;display: none; position: fixed; right: 24%; top: 12%; margin-left:0px; margin-top:0px; background-color: #fff;  color: #6d6d6d;  width: 25px;  height: 25px;  border-radius: 5px;  font-size: 16px;  cursor: pointer;  box-shadow: 0 2px 0 0 black;  font-weight: bold;  -webkit-transition: 0.3s;  -moz-transition: 0.3s;  -o-transition: 0.3s;  -ms-transition: 0.3s;  transition: 0.3s;");
+    iframebutton.setAttribute("style", "z-index: 2147483647;display: none; position: fixed; right: 24%; top: 1%; margin-left:0px; margin-top:0px; background-color: #fff;  color: #6d6d6d;  width: 25px;  height: 25px;  border-radius: 5px;  font-size: 16px;  cursor: pointer;  box-shadow: 0 2px 0 0 black;  font-weight: bold;  -webkit-transition: 0.3s;  -moz-transition: 0.3s;  -o-transition: 0.3s;  -ms-transition: 0.3s;  transition: 0.3s;");
     iframebutton.setAttribute("onclick", "CloseIframe('" + ECPay.dataPaymentType + "')");
     ECPay.div.appendChild(iframebutton);
 }
@@ -269,7 +269,8 @@ ECPay = {
             iframe.setAttribute("id", "iframeECPay_" + ECPay.dataPaymentType);
             iframe.frameborder = 0;
             iframe.allowtransparency = true;
-            iframe.setAttribute("style", "z-index: 2147483646; display: none; background: rgba(0, 0, 0, 0.00392157); border: 0px none transparent; overflow-x: hidden; overflow-y: auto; visibility: visible;padding: 0px; -webkit-tap-highlight-color: transparent; position: fixed; left: 0%; top: 10%; width: 100%; height: 80%;margin-left:0px;margin-top:0px;");
+            // iframe.setAttribute("style", "z-index: 2147483646; display: none; background: rgba(0, 0, 0, 0.00392157); border: 0px none transparent; overflow-x: hidden; overflow-y: auto; visibility: visible;padding: 0px; -webkit-tap-highlight-color: transparent; position: fixed; left: 0%; top: 10%; width: 100%; height: 80%;margin-left:0px;margin-top:0px;");
+            iframe.setAttribute("style", "z-index: 2147483646; display: none; background: rgba(0, 0, 0, 0.00392157); border: 0px none transparent; overflow-x: hidden; overflow-y: auto; visibility: visible;padding: 0px; -webkit-tap-highlight-color: transparent; position: fixed; left: 0%; top: 0; width: 100%; height: 100%;margin-left:0px;margin-top:0px;");
 
 
             //iframe.src = domain + "/SP/SPCheckOut?MerchantID=" + ECPay.dataMerchantId + "&SPToken=" + ECPay.dataSPToken + "&PaymentType=" + ECPay.dataPaymentType;			//!* test *!
