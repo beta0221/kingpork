@@ -187,7 +187,7 @@
 			<span>服務電話:0800-552-999</span>
 		</div>
 		<div class="footer-4">
-			<a href="{{url('about-line')}}"><img src="{{asset('images/line.png')}}"></a>
+			<a href="#"><img src="{{asset('images/line.png')}}"></a>
 			<a href="https://www.facebook.com/KINGPORK/" target="_blank"><img src="{{asset('images/facebook.png')}}" ></a>
 		</div>
 	</div>
