@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-121883818-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-121883818-1');
+</script>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>【金園排骨】西門町傳承一甲子的古早味</title>
@@ -115,7 +124,7 @@
 					<span class="progress-bar-inner"></span>
 				</span>
 
-				<span>{{floor($count/$target*100)}}%</span>
+				<span id="target-progress">{{floor($count/$target*100)}}%</span>
 			</div>
 			<div class="introduce-stack">
 				<span>限時搶購</span>

@@ -232,7 +232,7 @@ div{
 	height: 6px;
 }
 .introduce-stack .progress-bar-inner{
-	width: 80%;
+	/*width: 80%;*/
 	height: 100%;
 	background-color: #ff0000;
 	margin: 0;

@@ -1,5 +1,7 @@
 $(document).ready(function(){
 	setInterval(counter,1000);
+	var a = $('#target-progress').html();
+	$('.progress-bar-inner').width(a);
 });
 function counter(){
 	var s = parseInt($('#timer_s').html());
