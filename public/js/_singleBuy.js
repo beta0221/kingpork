@@ -144,5 +144,6 @@ function checkingForm(){
 }
 
 function close_use_chrome(){
-	$('.use-chrome-bg').css('display','none');
+	$('.use-chrome-bg').remove();
+	// $('.use-chrome-bg').css('display','none');
 }
