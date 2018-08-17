@@ -18,6 +18,11 @@
 </head>
 <body>
 	<div class="background"></div>
+
+	<div onclick="close_use_chrome()" class="use-chrome-bg">
+		<img src="{{asset('images/use_chrome.png')}}">
+	</div>
+
 	<div class="U-logo">
 		<img src="{{asset('images/logo.png')}}" alt="金園排骨">
 	</div>

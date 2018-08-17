@@ -26,6 +26,17 @@ div{
 	z-index: -3;
 	background-image: url(../images/mainBg.png);
 }
+.use-chrome-bg{
+	position: fixed;
+	height: 100%;
+	width: 100%;
+	z-index: 2;
+	background-color: rgba(0,0,0,0.7);
+}
+.use-chrome-bg img{
+	position: absolute;
+	right: 0;
+}
 .U-logo{
 	height: 100px;
 	background-color: rgba(56,6,6,0.9);
