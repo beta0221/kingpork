@@ -127,7 +127,7 @@ div{
 }
 .left-top-box,.right-top-box{
 	line-height: 56px;
-	font-size: 20px;
+	font-size: 18px;
 }
 .left-bottom-box,.right-bottom-box{
 	line-height: 24px;
@@ -143,7 +143,7 @@ div{
 }
 /* --------------------------------------- */
 .buynow-form input{
-	width: 80%;
+	width: calc(100% - 80px);
 	height: 100%;
 	float: right;
 	border-radius: 3px;
@@ -152,7 +152,7 @@ div{
 	padding-left: 4px;
 }
 .buynow-form textarea{
-	width: 80%;
+	width: calc(100% - 80px);
 	height: 100%;
 	float: right;
 	border-radius: 3px;
@@ -163,7 +163,7 @@ div{
 	padding-left: 4px;
 }
 .buynow-form span{
-	width: 20%;
+	width: 80px;
 	display: inline-block;
 	line-height: 32px;
 }
@@ -191,6 +191,9 @@ div{
 	text-align: center;
 	border:0.5pt solid gray;
 }
+#span-quantity{
+	width: 32px;
+}
 .quantity-minus,.quantity-plus{
 	cursor: pointer;
 	background-color: gray;
@@ -201,6 +204,9 @@ div{
 }
 .quantity-plus{
 	border-radius: 0 4px 4px 0;
+}
+.ship_county,.ship_district{
+	background-color: #fff;
 }
 /* ------------------------- */
 .alert-area{
@@ -224,7 +230,7 @@ div{
 .current-price-bar div{
 	height: 28px;
 	padding: 2px 6px;
-	width: 25%;
+	width: 50%;
 }
 .current-price-bar span{
 	display: inline-block;
