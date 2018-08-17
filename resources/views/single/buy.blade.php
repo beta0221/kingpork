@@ -19,7 +19,7 @@
 <body>
 	<div class="background"></div>
 
-	<div onclick="close_use_chrome()" id="use-chrome-bg" class="use-chrome-bg">
+	<div onclick="document.getElementById('use-chrome-bg').style.display='none';" id="use-chrome-bg" class="use-chrome-bg">
 		<img src="{{asset('images/use_chrome.png')}}">
 	</div>
 
