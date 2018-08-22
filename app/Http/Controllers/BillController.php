@@ -485,10 +485,16 @@ class BillController extends Controller
             // $the->allReturn = $allReturn;
             $the->save();
 
-            $user = User::where('name',$the->user_name)->firstOrFail();//紅利回算機制{
+            //$user = User::where('name',$the->user_name)->firstOrFail();//紅利回算機制{
+            $user = User::find($the->user_id);
             $TradeAmt = (int)$TradeAmt;
             $user->bonus = $user->bonus+$TradeAmt;
             $user->save();                                          //}紅利回算機制
+
+
+            // $user = User::find($bill->user_id);
+                    
+                    
         }
         return('1|OK');
     }
