@@ -27,6 +27,7 @@
 		<option value="1">排骨</option>
 		<option value="2">雞腿</option>
 		<option value="3">雙饗</option>
+		<option value="5">雙饗</option>
 		<option value="4">FB專屬</option>
 		<option value="0">已下架</option>
 	</select>
