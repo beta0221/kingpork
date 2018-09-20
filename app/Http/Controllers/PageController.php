@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Banner;
+use App\Contact;
 use Session;
 use Mail;
 
@@ -50,6 +51,13 @@ class PageController extends Controller
             'title'=>'required',
             'text'=>'required'
         ]);
+
+        $contact = new Contact;
+        $contact->name = $request->name;
+        $contact->email = $request->email;
+        $contact->title = $request->title;
+        $contact->message = $request->text;
+        $contact->save();
 
         $data =[
             'name'=>$request->name,
