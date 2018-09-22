@@ -81,4 +81,13 @@ class PageController extends Controller
         // return('hello');
     }
 
+    public function skyScanner(Request $request){
+        Mail::send('emails.sky',$data){
+            $message->from('kingpork80390254@gmail.com','便宜機票通知');
+            $message->to('beta0221@gmail.com');
+            $message->subject('便宜機票通知');
+        }
+        return('1');
+    }
+
 }

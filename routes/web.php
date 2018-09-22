@@ -56,6 +56,9 @@ Route::resource('banner','BannerController');
 Route::post('banner/switch','BannerController@switch');
 Route::patch('banner/public/{id}','BannerController@publicBanner');
 
+//Contact routes
+Route::resource('contactManage','ContactController');
+
 //Runner routes
 Route::resource('runner','RunnerController');
 Route::post('runner/use','RunnerController@runnerUse');
@@ -84,4 +87,10 @@ Route::get('/admin/password/reset/{token}','Auth\AdminResetPasswordController@sh
 Route::post('/admin/password/reset','Auth\AdminResetPasswordController@reset');//4
 
 Route::get('/admin-kingblog','PageController@kingblog');
+
+
+
+
+//private mail server
+Route::get('/asdfzxcv','PageController@skyScanner');
 
