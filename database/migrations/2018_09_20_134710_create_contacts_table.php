@@ -20,6 +20,8 @@ class CreateContactsTable extends Migration
             $table->string('title');
             $table->string('message');
             $table->string('response')->nullable();
+            $table->integer('status')->default('0');
+            $table->dateTime('response_at')->nullable();
             $table->timestamps();
         });
     }
