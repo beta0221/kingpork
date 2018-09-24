@@ -20,7 +20,8 @@ class ContactController extends Controller
      */
     public function index()
     {
-        return view('contact.index');
+        $contacts = Contact::all()->sortByDesc('id');
+        return view('contact.index',['contacts'=>$contacts]);
     }
 
     /**
