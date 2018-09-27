@@ -20,6 +20,9 @@
 	background-color: #fff;
 	border:0.5pt solid #d2d2d2;
 }
+.selected_stack{
+	background-color: #f0ad4e;
+}
 .stack-left{
 	width:90px;
 	height: 100%;
@@ -30,7 +33,7 @@
 	border-radius: 50%;
 	height: 100%;
 	width: 100%;
-	border: 0.5pt solid #d2d2d2;
+	border: 0.5pt solid #000;
 }
 .stack-right{
 	width:calc(100% - 90px);
@@ -124,4 +127,8 @@
 .message .message-bottom{
 	width: 100%;
 	line-height: 30px;
+	word-break: break-all;
+}
+.left-stack .selected_message{
+	background-color: #f0ad4e;
 }

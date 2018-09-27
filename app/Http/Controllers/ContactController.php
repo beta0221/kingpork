@@ -53,7 +53,9 @@ class ContactController extends Controller
      */
     public function show($id)
     {
-        //
+        $email = Contact::find($id)->email;
+        $dialogue = Contact::where('email',$email)->get();
+        return response()->json($dialogue);
     }
 
     /**
