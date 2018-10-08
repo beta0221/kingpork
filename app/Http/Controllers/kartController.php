@@ -114,7 +114,7 @@ class kartController extends Controller
     {
         if(Auth::user()){
             
-            $kart = Kart::where('user_id', Auth::user()->id)->get();
+            $kart = Kart::where('user_id', Auth::user()->id)->orderBy('product_id')->get();
             $shit = [];
             $i = 0;
             foreach ($kart as $k) {

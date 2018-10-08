@@ -78,7 +78,19 @@ class ContactController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        $dialogue = Contact::find($id);
+        if ($dialogue->response==null) {
+            date_default_timezone_set('Asia/Taipei');
+            $dialogue->response = $request->text;
+            $dialogue->response_at = date('Y\/m\/d H:i:s');
+            $dialogue->save();
+        }else{
+            return response()->json('錯誤：重複回覆');            
+        }
+        
+
+        return response()->json('傳送成功');
     }
 
     /**

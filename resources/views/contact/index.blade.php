@@ -46,8 +46,8 @@
 		
 	</div>
 	<div class="textarea-box">
-		<textarea id=""></textarea>
-		<button class="btn btn-primary">送出</button>
+		<textarea id="response-text"></textarea>
+		<button onclick="sendMail();" class="btn btn-primary">送出</button>
 	</div>
 	{{--  --}}
 

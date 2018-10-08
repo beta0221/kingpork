@@ -149,7 +149,7 @@ class BillController extends Controller
         }
 
 
-        $cc = DB::table('products')->whereIn('slug', $itemArray)->get();
+        $cc = DB::table('products')->whereIn('slug', $itemArray)->orderBy('id')->get();
         $n = 0;
         $total = 0;
         $short = '';
@@ -157,7 +157,7 @@ class BillController extends Controller
 
         foreach($cc as $c){
             $short = $short.$c->short.'*'.$quantityArray[$n].';';
-            $total = $total + ($c->price * $quantityArray[$n]);
+            $total = $total + (int)($c->price * (int)$quantityArray[$n]);
             $n++;
         }
 

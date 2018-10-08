@@ -10,8 +10,9 @@ $(document).ready(function(){
 
 });
 
+var selected_id = null;
 function dialogue_select(id){
-
+	selected_id = id;
 	$('.selected_stack').removeClass('selected_stack');
 	$('.left-outter #'+id).addClass('selected_stack');
 	$('.conversation-box').empty();
@@ -28,7 +29,6 @@ function dialogue_select(id){
 				if (item.id == id) {
 					t = false;
 				}
-
 				if (t) {
 					scrollSpace=scrollSpace+parseInt($('.mLeft'+index).height())+10;
 
@@ -55,5 +55,35 @@ function appendToView(item,index){
 	if (item.response!=null&&item.response_at!=null) {
 		$('<div class="conversation-stack right-stack mRight'+index+'"><div class="message"><div class="message-top">'+'金園排骨 kingpork '+item.response_at+'</div><div class="message-middle">'+'客服回覆'+'</div><div class="message-bottom">'+item.response+'</div></div></div>').appendTo('.conversation-box');
 	}
+}
+
+function sendMail(){
+	// alert(selected_id);
+	var text = $('#response-text').val();
+	
+	if (text.length > 20 && selected_id !=null) {
+		
+		$.ajax({
+			type:'POST',
+			url:'contactManage/'+selected_id,
+			dataType:'json',
+			data:{
+				_method:'patch',
+				text:text,
+			},
+			success:function(responese){
+				alert(responese);
+				$('#response-text').val('');
+				dialogue_select(selected_id);
+			},
+			error:function(){
+				alert('錯誤');
+			}
+		});
+			
+	}else{
+		alert('請確認回覆字數20字以上，並選擇對象。');
+	}
+	
 
 }
