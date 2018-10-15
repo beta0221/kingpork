@@ -2,6 +2,16 @@ $(document).ready(function(){
 		
 		uploadSum();
 		
+		//判斷今天日期 
+		var d = new Date();
+		var date = d.getDate();
+		var year = d.getFullYear();
+		var m = d.getMonth();
+		var Month = ((m+1).toString().length === 1) ? "0" + m : m+1;
+		var min = year+"-"+Month+"-"+date;
+		// 指定到貨日從今天開始
+		$('#arriveDate').attr('min',min);
+
 		//------- 
 		$('.quantity').change(function(){
 			var slug = $(this).attr('id');

@@ -85,6 +85,13 @@ class ContactController extends Controller
             $dialogue->response = $request->text;
             $dialogue->response_at = date('Y\/m\/d H:i:s');
             $dialogue->save();
+
+
+
+            //寄送信件
+            
+
+
         }else{
             return response()->json('錯誤：重複回覆');            
         }
