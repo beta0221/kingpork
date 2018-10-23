@@ -194,6 +194,8 @@ class OrderManagementController extends Controller
                     $ship_time.",".
                     $json->ship_name.",".
                     $json->ship_phone.",".
+                    $json->ship_three_id.",".
+                    $json->ship_three_company.",".
                     $itemArray.",".
                     $json->ship_county.$json->ship_district.$json->ship_address.",".
                     date('Y/m/d').",".

@@ -7,7 +7,7 @@ header("Content-Disposition: attachment; filename=".$d."-accountant.csv");
 $orders = $_POST['orders'];
 $orders = json_decode($orders);
 
-$content = "訂單日期,訂單編號,來源,代收貨款,配送時段,收件人,電話,品名,收件地址,出貨日期,到貨日期,金額\n";
+$content = "訂單日期,訂單編號,來源,代收貨款,配送時段,收件人,電話,三聯發票,抬頭,品名,收件地址,出貨日期,到貨日期,金額\n";
 
 foreach ($orders as $order) {
 	$content = $content . $order."\n";

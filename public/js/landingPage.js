@@ -50,7 +50,7 @@ $(document).ready(function(){
 		$('.shop-now-img').removeClass('shop-now-img');
 		$('#story-4-box img').addClass('shop-now-img');
 		if (story4_ismap == 0) {
-			$('#story-4').append('<div class="'+'google-map">'+'<iframe src="'+'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3615.8630138224594!2d121.3224238588966!3d25.00477030090872!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34681e5a371e6323%3A0x3192af8956be9763!2zMzMw5qGD5ZyS5biC5qGD5ZyS5Y2A5aSn5pyJ6LevNTnomZ8!5e0!3m2!1szh-TW!2stw!4v1528712582756" '+'frameborder="'+'0"'+' allowfullscreen></iframe></div>');
+			$('#story-4').append('<div class="'+'google-map">'+'<iframe src="'+'https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d962.9620002394962!2d121.5057460611311!3d25.043638155559304!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xa8da6f98aafe0d4b!2z6YeR5ZyS5o6S6aqo!5e0!3m2!1szh-TW!2stw!4v1531730898720" '+'frameborder="'+'0"'+' allowfullscreen></iframe></div>');
 			story4_ismap = 1;
 		}
 	})
