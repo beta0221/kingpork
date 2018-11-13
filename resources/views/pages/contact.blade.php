@@ -87,7 +87,7 @@
 		              <textarea name="text" class="feedback-input" id="comment" placeholder="訊息..."></textarea>
 		            </p>
 
-		            <input type="submit" value="送 出" class="btn btn-danger btn-block" />
+		            <input id="submitBtn" type="submit" value="送 出" class="btn btn-danger btn-block" />
 		        </form>
 		        <p></p>
 		      </div>
@@ -100,4 +100,11 @@
 
 @section('scripts')
 <script src='https://www.google.com/recaptcha/api.js'></script>
+<script>
+	$(document).ready(function(){
+		$('#submitBtn').click(function(){
+			$('#submitBtn').css('display','none');
+		});
+	});
+</script>
 @endsection
