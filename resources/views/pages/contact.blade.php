@@ -82,9 +82,11 @@
 		            <p class="title">
 		              <input name="title" type="text" class="feedback-input" placeholder="主旨" id="title" />
 		            </p>
+		            <div class="g-recaptcha" data-sitekey="6LfOZnoUAAAAANBhKzIm2Clc64yH5cYujcq6X_Iv"></div>
 		            <p class="text">
 		              <textarea name="text" class="feedback-input" id="comment" placeholder="訊息..."></textarea>
 		            </p>
+
 		            <input type="submit" value="送 出" class="btn btn-danger btn-block" />
 		        </form>
 		        <p></p>
@@ -97,5 +99,5 @@
 @endsection
 
 @section('scripts')
-
+<script src='https://www.google.com/recaptcha/api.js'></script>
 @endsection

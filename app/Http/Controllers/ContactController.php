@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Contact;
+use Mail;
 
 class ContactController extends Controller
 {
@@ -87,9 +88,21 @@ class ContactController extends Controller
             $dialogue->save();
 
 
+            $mailData = [
+
+                
+            ];
 
             //寄送信件
-            
+            Mail::send('',$mailData,function($message)use($mailData){
+                $message->from('kingpork80390254@gmail.com','金園排骨');
+                $message->to();
+                $message->subject();
+            });
+
+
+
+
 
 
         }else{
