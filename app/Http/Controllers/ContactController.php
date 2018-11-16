@@ -82,26 +82,30 @@ class ContactController extends Controller
 
         $dialogue = Contact::find($id);
         if ($dialogue->response==null) {
+            
+            try {
+                $mailData = [
+                    'name'=>$dialogue->name,
+                    'email'=>$dialogue->email,
+                    'title'=>$dialogue->title,
+                    'mailMessage'=>$dialogue->message,
+                    'response'=>$request->text
+                ];
+                //寄送信件
+                Mail::send('emails.contact',$mailData,function($message)use($mailData){
+                    $message->from('kingpork80390254@gmail.com','金園排骨');
+                    $message->to($mailData['email']);
+                    $message->subject('金園排骨-客服回覆');
+                });
+            } catch (Exception $e) {
+                return response()->json($e);
+            }
+
+
             date_default_timezone_set('Asia/Taipei');
             $dialogue->response = $request->text;
             $dialogue->response_at = date('Y\/m\/d H:i:s');
             $dialogue->save();
-
-
-            $mailData = [
-
-                
-            ];
-
-            //寄送信件
-            Mail::send('',$mailData,function($message)use($mailData){
-                $message->from('kingpork80390254@gmail.com','金園排骨');
-                $message->to();
-                $message->subject();
-            });
-
-
-
 
 
 
@@ -111,6 +115,7 @@ class ContactController extends Controller
         
 
         return response()->json('傳送成功');
+        
     }
 
     /**
