@@ -88,7 +88,7 @@ class PageController extends Controller
         //     $message->to('beta0221@gmail.com');
         //     $message->subject($data['title']);
         // });
-        Session::flash('success',$request->input('g-recaptcha-response'));
+        Session::flash('success',request()->ip());
         // Session::flash('success','訊息已成功送出，我們將會儘速回覆您。');
         return view('pages.contact');
 
