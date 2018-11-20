@@ -8,7 +8,7 @@ use App\Banner;
 use App\Contact;
 use Session;
 use Mail;
-use App\Libraries\recaptchalib;
+use App\Libraries\Recaptchalib;
 
 class PageController extends Controller
 {
