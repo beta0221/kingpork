@@ -89,7 +89,7 @@ class PageController extends Controller
         //     $message->subject($data['title']);
         // });
         
-        // Session::flash('success','訊息已成功送出，我們將會儘速回覆您。');
+        Session::flash('success',$response);
         return view('pages.contact');
 
     }
@@ -195,7 +195,6 @@ class ReCaptcha
             )
         );
         $answers = json_decode($getResponse, true);
-        Session::flash('success',$answers);
         // $recaptchaResponse = new ReCaptchaResponse();
         // if (trim($answers ['success']) == true) {
         //     $recaptchaResponse->success = true;
@@ -203,6 +202,6 @@ class ReCaptcha
         //     $recaptchaResponse->success = false;
         //     $recaptchaResponse->errorCodes = $answers [error-codes];
         // }
-        // return $recaptchaResponse;
+        return $answers;
     }
 }
