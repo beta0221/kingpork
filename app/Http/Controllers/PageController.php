@@ -65,7 +65,7 @@ class PageController extends Controller
             'title'=>$request->title,
             'text'=>$request->text
         ];
-        Mail::send('emails.contact',$data,function($message) use ($data){
+        Mail::send('emails.messageNotification',$data,function($message) use ($data){
             $message->from('kingpork80390254@gmail.com','金園排骨-客服通知');
             $message->to('beta0221@gmail.com');
             $message->subject($data['title']);
