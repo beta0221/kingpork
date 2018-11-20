@@ -46,10 +46,35 @@ class PageController extends Controller
 
     public function contactUs(Request $request){
 
-        $secret = "6LfOZnoUAAAAAFNdAX43Z17487emgfmW5r1Rj9CQ";
-        $response = null;
-        //validate from google
-        $reCaptcha = new ReCaptcha($secret);
+        // $sender_name = stripslashes($_POST["sender_name"]);
+        // $sender_email = stripslashes($_POST["sender_email"]);
+        // $sender_message = stripslashes($_POST["sender_message"]);
+        // $response = $request->input('g-recaptcha-response');
+        $url = 'https://www.google.com/recaptcha/api/siteverify';
+        $data = array(
+            'secret' => '6LfOZnoUAAAAAFNdAX43Z17487emgfmW5r1Rj9CQ',
+            'response' => $request->input('g-recaptcha-response')
+        );
+        $options = array(
+            'http' => array (
+                'method' => 'POST',
+                'content' => http_build_query($data)
+            )
+        );
+        $context  = stream_context_create($options);
+        $verify = file_get_contents($url, false, $context);
+        $captcha_success=json_decode($verify);
+        if ($captcha_success->success==false) {
+            // echo "<p>You are a bot! Go away!</p>";
+            return response()->json($captcha_success);
+        } else if ($captcha_success->success==true) {
+            // echo "<p>You are not not a bot!</p>";
+            return response()->json($captcha_success);
+        }
+        // $secret = "6LfOZnoUAAAAAFNdAX43Z17487emgfmW5r1Rj9CQ";
+        // $response = null;
+        // //validate from google
+        // $reCaptcha = new ReCaptcha($secret);
 
         // if ($request->input('g-recaptcha-response')) {
         //     $response = $reCaptcha->verifyResponse(
@@ -91,7 +116,7 @@ class PageController extends Controller
         
         // Session::flash('success','訊息已成功送出，我們將會儘速回覆您。');
         // return view('pages.contact');
-        return response()->json($request->input('g-recaptcha-response'));
+        
 
     }
 
