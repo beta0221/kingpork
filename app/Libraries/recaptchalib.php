@@ -32,7 +32,7 @@
 /**
  * A ReCaptchaResponse is returned from checkAnswer().
  */
-namespace App\Libraries
+namespace App\Libraries;
 
 class ReCaptchaResponse
 {
