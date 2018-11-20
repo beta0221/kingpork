@@ -51,12 +51,12 @@ class PageController extends Controller
         //validate from google
         $reCaptcha = new ReCaptcha($secret);
 
-        if ($request->input('g-recaptcha-response')) {
-            $response = $reCaptcha->verifyResponse(
-                request()->ip(),
-                $request->input('g-recaptcha-response')
-            );
-        }
+        // if ($request->input('g-recaptcha-response')) {
+        //     $response = $reCaptcha->verifyResponse(
+        //         request()->ip(),
+        //         $request->input('g-recaptcha-response')
+        //     );
+        // }
 
         // if ($response != null && $response->success){
 
@@ -89,9 +89,9 @@ class PageController extends Controller
         //     $message->subject($data['title']);
         // });
         
-        Session::flash('success','訊息已成功送出，我們將會儘速回覆您。');
+        // Session::flash('success','訊息已成功送出，我們將會儘速回覆您。');
         // return view('pages.contact');
-        return response()->json($response);
+        return response()->json($request->input('g-recaptcha-response'));
 
     }
 
