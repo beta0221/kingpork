@@ -58,6 +58,7 @@ class PageController extends Controller
         $options = array(
             'http' => array (
                 'method' => 'POST',
+                'header'=>"Content-Type: application/x-www-form-urlencoded",
                 'content' => http_build_query($data)
             )
         );
