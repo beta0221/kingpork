@@ -90,7 +90,8 @@ class PageController extends Controller
         // });
         
         Session::flash('success','訊息已成功送出，我們將會儘速回覆您。');
-        return view('pages.contact');
+        // return view('pages.contact');
+        return response()->json($response);
 
     }
 
