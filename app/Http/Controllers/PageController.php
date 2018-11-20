@@ -88,8 +88,8 @@ class PageController extends Controller
         //     $message->to('beta0221@gmail.com');
         //     $message->subject($data['title']);
         // });
-        // Session::flash('success',request()->ip());
-        Session::flash('success','訊息已成功送出，我們將會儘速回覆您。');
+        
+        // Session::flash('success','訊息已成功送出，我們將會儘速回覆您。');
         return view('pages.contact');
 
     }
@@ -195,13 +195,14 @@ class ReCaptcha
             )
         );
         $answers = json_decode($getResponse, true);
-        $recaptchaResponse = new ReCaptchaResponse();
-        if (trim($answers ['success']) == true) {
-            $recaptchaResponse->success = true;
-        } else {
-            $recaptchaResponse->success = false;
-            $recaptchaResponse->errorCodes = $answers [error-codes];
-        }
-        return $recaptchaResponse;
+        Session::flash('success',$answers);
+        // $recaptchaResponse = new ReCaptchaResponse();
+        // if (trim($answers ['success']) == true) {
+        //     $recaptchaResponse->success = true;
+        // } else {
+        //     $recaptchaResponse->success = false;
+        //     $recaptchaResponse->errorCodes = $answers [error-codes];
+        // }
+        // return $recaptchaResponse;
     }
 }
