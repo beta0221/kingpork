@@ -8,6 +8,7 @@ use App\Banner;
 use App\Contact;
 use Session;
 use Mail;
+use App\Libraries\recaptchalib;
 
 class PageController extends Controller
 {
@@ -44,6 +45,23 @@ class PageController extends Controller
     }
 
     public function contactUs(Request $request){
+
+        $secret = "6LfOZnoUAAAAAFNdAX43Z17487emgfmW5r1Rj9CQ";
+        $response = null;
+        //validate from google
+        $reCaptcha = new ReCaptcha($secret);
+
+        if ($request->input('g-recaptcha-response')) {
+            $response = $reCaptcha->verifyResponse(
+                $_SERVER["REMOTE_ADDR"],
+                $request->input('g-recaptcha-response')
+            );
+        }
+
+        if ($response != null && $response->success){
+            
+        }
+
 
         $this->validate($request,[
             'name'=>'required',
