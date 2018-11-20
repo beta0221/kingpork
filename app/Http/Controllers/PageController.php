@@ -53,7 +53,7 @@ class PageController extends Controller
 
         if ($request->input('g-recaptcha-response')) {
             $response = $reCaptcha->verifyResponse(
-                $request->ip(),
+                request()->ip(),
                 $request->input('g-recaptcha-response')
             );
         }
