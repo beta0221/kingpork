@@ -29,6 +29,7 @@
 		<option value="3">雙饗</option>
 		<option value="5">肉乾</option>
 		<option value="4">FB專屬</option>
+		<option value="6">團購VIP</option>
 		<option value="0">已下架</option>
 	</select>
 </form>

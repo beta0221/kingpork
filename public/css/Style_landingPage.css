@@ -60,11 +60,12 @@
 /*banner up */
 .productArea{
 	margin-top: 40px;
+	margin-bottom: 120px;
 }
 .product{
 	height: 0px;
 	width: 100%;
-	padding-top: 33.33333%;
+	padding-top:33.33333%;
 }
 .P-{
 	position: absolute;
@@ -82,10 +83,11 @@
 	box-shadow: 4px 4px 16px 2px rgba(0, 0, 0, 0.4);	
 }
 .P-buy{
+	display: none;
 	position: absolute;
 	font-family: cwTeXKai , serif;
 	font-weight: 800;
-	right: 20px;
+	left: 20px;
 	bottom: 20px;
 	width: 88px;
 	height: 48px;
@@ -104,50 +106,36 @@
 	width: 100%;
 	height: auto;
 }
-.P-pork:before{
-	content: '厚切排骨';
+.test-pork:before{
+	content: '我要買　厚切排骨';
+}
+.test-both:before{
+	content: '我要買　雙響組合';
+}
+.test-chicken:before{
+	content: '我要買　鮮嫩雞腿';
+}
+.test-pork:before,.test-both:before,.test-chicken:before{
 	font-family: cwTeXKai , serif;
+	background-color: transparent;
+	color: transparent;
 	font-weight: 900;
 	font-size: 32px;
 	letter-spacing: 4px;
-	color: #fff;
 	position: absolute;
-	top: 5%;
-	left: 2.5%;
-	padding: 8px 28px;
-	z-index: 1;
-	background: linear-gradient(to right, rgba(192,18,24,0) 0%,rgba(192,18,24,1) 20%,rgba(192,18,24,1) 80%,rgba(192,18,24,0) 100%); 
-	/*background: linear-gradient(to right, rgba(109,8,115,0) 0%,rgba(109,8,115,1) 20%,rgba(109,8,115,1) 80%,rgba(109,8,115,0) 100%); */
-	/*background: linear-gradient(to right, rgba(126,6,8,0) 0%,rgba(126,6,8,1) 20%,rgba(126,6,8,1) 80%,rgba(126,6,8,0) 100%);*/
+	top: 0%;
+	right: 0%;
+	padding-top: 100%;
+	padding-left: 28px;
+	z-index: 0;
+	height: calc(100% + 80px);
+	width:100%;
 }
-.P-both:before{
-	content: '雙饗組合';
-	font-family: cwTeXKai , serif;
-	font-weight: 900;
-	font-size: 32px;
-	letter-spacing: 4px;
+.test-pork:hover:before,.test-both:hover:before,.test-chicken:hover:before{
+	background-color: rgba(192,18,24,1);
 	color: #fff;
-	position: absolute;
-	top: 5%;
-	left: 2.5%;
-	padding: 8px 28px;
-	z-index: 1;
-	background: linear-gradient(to right, rgba(192,18,24,0) 0%,rgba(192,18,24,1) 20%,rgba(109,8,115,1) 80%,rgba(109,8,115,0) 100%);
 }
-.P-chicken:before{
-	content: '鮮嫩雞腿';
-	font-family: cwTeXKai , serif;
-	font-weight: 900;
-	font-size: 32px;
-	letter-spacing: 4px;
-	color: #fff;
-	position: absolute;
-	top: 5%;
-	left: 2.5%;
-	padding: 8px 28px;
-	z-index: 1;
-	background: linear-gradient(to right, rgba(109,8,115,0) 0%,rgba(109,8,115,1) 20%,rgba(109,8,115,1) 80%,rgba(109,8,115,0) 100%); 
-}
+
 
 /* brandStory start */
 
@@ -315,12 +303,13 @@
 	border: 0;
 }
 @media(max-width: 1200px){
-	.P-pork:before,.P-both:before,.P-chicken:before{
-		font-size: 20px;
-		letter-spacing: 2px;
-		top: 5%;
-		left: 2%;
-		padding: 8px 28px;
+	.test-pork:before,.test-both:before,.test-chicken:before{
+		font-weight: 900;
+		font-size: 32px;
+		letter-spacing: 4px;
+		padding-top: 100%;
+		padding-left: 28px;
+		height: calc(100% + 80px);
 	}
 	.shop-intro-story{
 		padding:0 15% 0 15%;
@@ -360,12 +349,13 @@
 }
 
 @media(max-width: 992px){
-	.P-pork:before,.P-both:before,.P-chicken:before{
+	.test-pork:before,.test-both:before,.test-chicken:before{
+		font-weight: 900;
 		font-size: 18px;
 		letter-spacing: 2px;
-		top: 5%;
-		left: 2%;
-		padding: 8px 28px;
+		padding-top: 100%;
+		padding-left: 22px;
+		height: calc(100% + 40px);
 	}
 
 	.intro-title-line-left{
@@ -440,6 +430,7 @@
 		line-height: 28px;
 	}
 	.P-buy{
+		display: block;
 		right: 10px;
 		bottom: 10px;
 		width: 100px;
@@ -469,14 +460,11 @@
 	.P- img{
 		min-width: 100%;
 		height: auto;
-		top: -20%;
+		top: -10%;
 	}
-	.P-pork:before,.P-both:before,.P-chicken:before{
-		font-size: 32px;
-		letter-spacing: 4px;
-		top: 5%;
-		left: 2.5%;
-		padding: 8px 28px;
+	.test-pork:hover:before,.test-both:hover:before,.test-chicken:hover:before{
+		background-color: transparent;
+		color: transparent;
 	}
 	.intro-title-bar{
 		height: 12px;

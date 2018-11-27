@@ -25,26 +25,26 @@
 <div class="productArea container">
 	{{-- <h2 style="text-align: center;margin-bottom: 20px;letter-spacing: 4px;">我要購買<span style="margin: 0 12px 0 12px;">/</span>GO SHOPPING</h2> --}}
 	<div class="row">
-		<div class="product col-md-4 col-12">
-			<div class="P- P-pork">
+		<div class="product col-md-4 col-12 test-pork">
+			<div class="P-">
 				<a href="{{route('productCategory.show',1)}}">
-					<img src="{{asset('images/productsIMG/pork.png')}}" alt="金園排骨">
+					<img src="{{asset('images/pork-test.png')}}" alt="金園排骨">
 				</a>
 				<div onclick="location.href='{{route('productCategory.show',1)}}';" class="P-buy">我要買</div>
 			</div>
 		</div>
-		<div class="product col-md-4 col-12">
-			<div class="P- P-both">
+		<div class="product col-md-4 col-12 test-both">
+			<div class="P-">
 				<a href="{{route('productCategory.show',3)}}">
-					<img src="{{asset('images/productsIMG/both.png')}}" alt="金園幸福雙響">
+					<img src="{{asset('images/both-test.png')}}" alt="金園幸福雙響">
 				</a>
 				<div onclick="location.href='{{route('productCategory.show',3)}}';" class="P-buy">我要買</div>
 			</div>
 		</div>
-		<div class="product col-md-4 col-12">
-			<div class="P- P-chicken">
+		<div class="product col-md-4 col-12 test-chicken">
+			<div class="P-">
 				<a href="{{route('productCategory.show',2)}}">
-					<img src="{{asset('images/productsIMG/chicken.png')}}" alt="金園排骨厚切雞腿排">
+					<img src="{{asset('images/chicken-test.png')}}" alt="金園排骨厚切雞腿排">
 				</a>
 				<div onclick="location.href='{{route('productCategory.show',2)}}';" class="P-buy">我要買</div>
 			</div>
