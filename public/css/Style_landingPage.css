@@ -126,7 +126,7 @@
 	top: 0%;
 	right: 0%;
 	padding-top: 100%;
-	padding-left: 28px;
+	text-align: center;
 	z-index: 0;
 	height: calc(100% + 80px);
 	width:100%;
@@ -308,7 +308,7 @@
 		font-size: 32px;
 		letter-spacing: 4px;
 		padding-top: 100%;
-		padding-left: 28px;
+		
 		height: calc(100% + 80px);
 	}
 	.shop-intro-story{
@@ -354,7 +354,6 @@
 		font-size: 18px;
 		letter-spacing: 2px;
 		padding-top: 100%;
-		padding-left: 22px;
 		height: calc(100% + 40px);
 	}
 
