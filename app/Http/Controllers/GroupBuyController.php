@@ -10,9 +10,10 @@ class GroupBuyController extends Controller
 {
     public function index()
     {
-    	return('hello');
-    	// $products = Products::where('category_id',6)->get();
     	
+    	$products = Products::where('category_id',6)->get();
+    	
+    	return view('groupBuy.test');
     	// return view('groupBuy.index',['products'=>$products]);
     }
 
