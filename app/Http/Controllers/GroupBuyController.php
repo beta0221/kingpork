@@ -8,12 +8,17 @@ use App\Products;
 
 class GroupBuyController extends Controller
 {
+
+	public function __construct()
+	{
+		$this->middleware('auth',['only'=>['index']]);
+	}
+
     public function index()
     {
     	
     	$products = Products::where('category_id',6)->get();
     	
-    	// return view('groupBuy.test',['products'=>$products]);
     	return view('groupBuy.index',['products'=>$products]);
     }
 
