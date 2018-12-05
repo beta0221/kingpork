@@ -13,7 +13,7 @@ class GroupBuyController extends Controller
     	
     	$products = Products::where('category_id',6)->get();
     	
-    	return view('groupBuy.test');
+    	return view('groupBuy.test',['products'=>$products]);
     	// return view('groupBuy.index',['products'=>$products]);
     }
 
