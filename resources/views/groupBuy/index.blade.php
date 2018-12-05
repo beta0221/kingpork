@@ -1,168 +1,59 @@
 @extends('main')
 
-@section('title','| 我的購物車')
+@section('title','| VIP團購區')
 
 @section('stylesheets')
+{{Html::style('css/_groupBuy.css')}}
 {{Html::style('css/_kart.css')}}
-{{Html::style('css/_process.css')}}
-<style>
-	.contentPage{
-	    width: 100%;
-	    height: auto;
-	}
-	.outter{
-		margin-top: 60px;
-		margin-bottom: 60px;
-		/*min-height: 520px;*/
-		min-height: 60vh;
-		/*overflow-y: scroll;*/
-		padding-bottom: 140px;
-		background-color: rgba(255,255,255,0.5);
-		box-shadow: 2px 2px 16px 2px rgba(0, 0, 0, 0.3);
-		border-radius: 0.3em;
-	}
-	.quantity{
-		width: 32px;
-		border:1pt solid rgba(0,0,0,0.1);
-		border-radius: 4px;
-		/*outline: none;*/
-	}
-	.delBtn{
-		display: inline-block;
-		padding: 4px 8px 4px 8px;
-		border-radius: 0.3em;
-		cursor: pointer;
-		background-color: #d9534f;
-		box-shadow: 2px 2px 16px 2px rgba(0, 0, 0, 0.3);
-		border:none;
-		color: #fff;
-		outline: none;
-	}
-	#payBtn{
-		float: right;
-		box-shadow: 2px 2px 16px 2px rgba(0, 0, 0, 0.3);
-		cursor: pointer;
-		width: 160px;
-		height: 80px;
-		font-size: 22px;
-		line-height: 80px;
-		padding: 0;
-		text-align: center;
-		background-color: #ec971f;
-		border-radius: 0.25rem;
-		color: #fff;
-	}
-	.delBtn:hover,#payBtn:hover{
-		box-shadow: 2px 2px 16px 2px rgba(0, 0, 0, 0.5);
-	}
-</style>
+{{Html::style('css/_groupBuy_kart.css')}}
 @endsection
 
 @section('content')
 
+
 <div class="contentPage">
 	<div class="container">
 		<div class="row">
-			<div class="col-lg-10 offset-lg-1 col-12 outter">
-				
-				@if(count($products) == 0)
-					<div style="position: absolute;top: 50%;transform: translateY(-50%);width: calc(100% - 30px);text-align: center;">
-						<h1 style="">您的購物車中目前沒有商品</h1>	
+			<div class="col-lg-10 offset-lg-1 col-12 mt-4 mb-4">
+				<div class="alert-field"></div>
+				@foreach($products as $product)
+					
+				<div class="product-cell mt-4 mb-4" data-toggle="modal" data-target="#orderModal" onclick="selectItem({{$product->slug}},{{$product->price}})">
+					<div class="product-cell-inBox">
+						<img src="{{asset('/images/productsIMG').'/'. $product->image}}">
+						<h2 class="product-cell-inBox-name">{{$product->name}}</h2>
+						<h3 class="product-cell-inBox-des">{{$product->discription}}</h3>
+						<h3 class="product-cell-inBox-price">${{$product->price}}</h3>
+						<h3 class="product-cell-inBox-bonus">累積紅利<font size="22pt" color="#c80013">{{$product->bonus}}</font>點！</h3>
 					</div>
-				@else
-				<ul class="process">
-					<li class="process-4">
-						<div class="process-bg process-1 processing"></div>
-						<img src="{{asset('images/step-1-1.png')}}">
-					</li>
-					<li class="process-g">
-						<img src="{{asset('images/arrow-right.png')}}">
-					</li>
-					<li class="process-4">
-						<div class="process-bg process-2"></div>
-						<img src="{{asset('images/step-1-2.png')}}">
-					</li>
-					<li class="process-g">
-						<img src="{{asset('images/arrow-right.png')}}">
-					</li>
-					<li class="process-4">
-						<div class="process-bg"></div>
-						<img src="{{asset('images/step-1-3.png')}}">
-					</li>
-					<li class="process-g">
-						<img src="{{asset('images/arrow-right.png')}}">
-					</li>
-					<li class="process-4">
-						<div class="process-bg"></div>
-						<img src="{{asset('images/step-1-4.png')}}">
-					</li>
-				</ul>
-				<ul class="process">
-					<il class="process-4"><p>STEP.1</p><p>放入購物車</p></il>
-					<il class="process-g">　</il>
-					<il class="process-4"><p>STEP.2</p><p>填寫寄送資料</p></il>
-					<il class="process-g">　</il>
-					<il class="process-4"><p>STEP.3</p><p>結帳付款</p></il>
-					<il class="process-g">　</il>
-					<il class="process-4"><p>STEP.4</p><p>完成，貨物送出</p></il>
-				</ul>
+				</div>
 
-				<p>　</p>
-				<h3 id="h-title" style="text-align: center;margin: 0 0 10px 0;">我的購物車</h3>
+				@endforeach
+			</div>
+		</div>
+	</div>
+</div>
 
-				<form class="kartForm" action="{{route('bill.store')}}" method="POST">
+
+
+<!-- Modal -->
+<div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">填寫寄送資料</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+		{{-- form start --}}
+			
+			<form class="kartForm" action="{{route('bill.store')}}" method="POST">
 				{{csrf_field()}}
-					<table class="kartTable">	
-						<tr class="product-title-TR">
-							<th></th>
-							<th class="product-name-TH">商品名稱</th>
-							<th>數量</th>
-							<th>價格</th>
-							<th></th>
-						</tr>
-						@foreach($products as $product)
-						<tr class="product-TR" id="item{{$product->id}}">
-							<td class="product-img-TD">
-								<div>
-									<img class="littleIMG" src="{{asset('images/productsIMG') . '/' . $product->image}}" alt="">
-								</div>
-							</td>
-
-							<td class="product-name-TD">
-								<span>{{$product->name}}</span>
-								<input style="display: none;" type="text" value="{{$product->slug}}" name="item[]">
-							</td>
-
-							<td class="product-quantity-TD">
-								<input id="{{$product->slug}}" class="quantity" type="number" value="1" name="quantity[]" price="{{$product->price}}">
-							</td>
-
-							<td class="product-price-TD">
-								<span class="priceTag" id="priceTag{{$product->slug}}">{{$product->price}}</span>
-							</td>
-
-							<td class="product-del-TD">
-								<div class="delBtn" data-method="delete" onclick="deleteWithAjax({{$product->id}})">刪除</div>
-							</td>
-						</tr>
-						@endforeach
-
-						<tr id="transport-fee">
-							<td class="product-TR"></td>
-							<td class="product-name-TD">
-								運費(未滿499)
-								<input id="transport-item" style="display: none;" type="text" value="99999" name="item[]">
-							</td>
-							<td class="product-quantity-TD">
-								<input id="transport-quantity" style="display: none;" type="number" value="1" name="quantity[]">
-							</td>
-							<td class="product-price-TD">
-								<span>150</span>
-							</td>
-							<td></td>
-						</tr>
-
-					</table>	
+				<input id="itemSlug" style="display: none;" type="text" name="item[]" value="">
+				<input style="display:none;" class="quantity" type="number" value="1" name="quantity[]">
 					
 					<table class="shipping">
 						<tr>
@@ -300,46 +191,43 @@
 							<td class="shipping-bottom-TD">
 								<label for=""><span class="required">*</span>付款方式：</label>
 								<div class="pay_by">
-									<input id="pay_by_credit" class="radio" type="radio" name="ship_pay_by" value="CREDIT"><span>信用卡</span>
-	  								<input id="pay_by_atm" class="radio" type="radio" name="ship_pay_by" value="ATM"><span>ATM</span>
-	  								<input id="pay_by_cod" class="radio" type="radio" name="ship_pay_by" value="cod"><span>貨到付款</span>	
+									
+	  								<input id="pay_by_atm" class="radio" type="radio" name="ship_pay_by" value="ATM"><span>僅限ATM轉帳</span>
+	  								
 								</div>
 							</td>
 						</tr>
 
-
 					</table>
 					
-					
-					
-					<div class="priceSum">
-						<span style="margin: 0 8px 0 8px;font-size: 18pt;float: right;" id="sum"></span>
-						<span style=";margin: 0 8px 0 8px;font-size: 18pt;float: right;">總額：</span>
-					</div>
-
-					<div class="submitBtn">
-
-						<div class="back-shop btn btn-success mr-2" onclick="location.href='/productCategory/1'">繼續購物</div>
-						<div onclick="back_kart();" id="back-kart" class="btn btn-primary">回購物車</div>
-
-						<div onclick="sureToBuy()" class="sureToBuy btn btn-primary">
-							確定購買
-						</div>
-						<div onclick="checkForm();" id="payBtn" class="ml-3">送出訂單</div>
-						
-					</div>
 
 				</form>
-					
-				@endif
-				<div class="alert-field"></div>
-			</div>
+			{{-- form end --}}
+
+      </div>
+      <div class="modal-footer">
+
+		<div class="priceSum">
+			<span style=";margin: 0 8px 0 8px;font-size: 18pt;float: left;">總額：</span>
+			<span style="margin: 0 8px 0 8px;font-size: 18pt;float: left;" id="sum-overrite"></span>
+			
 		</div>
-	</div>
+
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+        <div onclick="checkForm();" id="payBtn" class="btn ml-3">送出訂單</div>
+
+      </div>
+    </div>
+  </div>
 </div>
+
+
+
 
 @endsection
 
 @section('scripts')
+{{ Html::script('js/bootstrap/bootstrap.min.js') }}
 {{ Html::script('js/_kart.js') }}
+{{ Html::script('js/_groupBuy_kart.js') }}
 @endsection

@@ -1,0 +1,18 @@
+.shipping{
+	display: table;
+}
+#payBtn{
+	display: block;
+	background-color: #c80013;
+	color: #fff;
+	cursor: pointer;
+}
+.priceSum {
+    position: absolute;
+    display: block;
+    width: 100%;
+    left: 15px;
+}
+.alert-field{
+	z-index: 1051;
+}

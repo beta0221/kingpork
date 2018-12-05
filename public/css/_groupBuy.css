@@ -1,0 +1,54 @@
+.outter{
+/*	margin-top: 40px;
+	margin-bottom: 40px;*/
+}
+.product-cell{
+	padding-top: 25%;
+	width: 100%;
+	border-radius: 0.4rem;
+	overflow: hidden;
+}
+.product-cell-inBox{
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	padding: 24px 40px;
+}
+/* cell 圖片 */
+.product-cell-inBox img{
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+}
+/* cell 產品名稱 */
+.product-cell-inBox .product-cell-inBox-name{
+	font-size: 4rem;
+}
+/* cell 小標題 */
+.product-cell-inBox .product-cell-inBox-des{
+	font-size: 2rem;
+}
+/* cell 價格 */
+.product-cell-inBox .product-cell-inBox-price{
+	font-size: 2rem;
+}
+/* cell 紅利 */
+.product-cell-inBox .product-cell-inBox-bonus{
+	font-size: 2rem;
+	position: absolute;
+	top: 40%;
+	right: 0px;
+	transform: rotate(-25deg) translateY(-50%);
+}
+
+/* modal overrite */
+@media (min-width: 576px){
+	.modal-dialog-lg{
+		max-width:800px!important;
+	}	
+}
+

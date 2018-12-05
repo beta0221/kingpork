@@ -1,4 +1,9 @@
 $(document).ready(function(){
+		$.ajaxSetup({
+  			headers: {
+    			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  			}
+		});
 		
 		uploadSum();
 		
@@ -259,11 +264,7 @@ $(document).ready(function(){
 		
 	function deleteWithAjax(id){
 
-		$.ajaxSetup({
-  			headers: {
-    			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-  			}
-		});
+		
 		$.ajax({
 			type:'POST',
 			url:'kart/'+id,
