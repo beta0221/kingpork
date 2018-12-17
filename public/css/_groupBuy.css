@@ -2,11 +2,27 @@
 /*	margin-top: 40px;
 	margin-bottom: 40px;*/
 }
+
+/* modal overrite */
+@media (min-width: 576px){
+	.modal-dialog-lg{
+		max-width:800px!important;
+	}	
+}
+/* modal-content override */
+.modal-content{
+	background-color: rgba(255,255,255,0.9)!important;
+}
+/* kartForm override */
+.kartForm{
+	/*background-color: #FFF0C2!important;*/
+}
 .product-cell{
 	padding-top: 25%;
 	width: 100%;
 	border-radius: 0.4rem;
 	overflow: hidden;
+	margin:40px 0;
 }
 .product-cell-inBox{
 	position: absolute;
@@ -44,11 +60,25 @@
 	right: 0px;
 	transform: rotate(-25deg) translateY(-50%);
 }
-
-/* modal overrite */
-@media (min-width: 576px){
-	.modal-dialog-lg{
-		max-width:800px!important;
-	}	
+/* 下方 價格 */
+.priceSum span{
+	font-size: 18pt;
+	margin:0 8px;
+	float: left;
 }
+
+@media(max-width: 1200px){
+
+}
+
+@media(max-width: 992px){
+
+}
+@media(max-width: 450px){
+	.priceSum span{
+		margin: 0;
+		font-size: 16px;
+	}
+}
+
 

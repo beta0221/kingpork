@@ -1,0 +1,11 @@
+.send-listTable{
+	border-collapse: collapse;
+	border:1pt solid gray;
+	width:100%;
+}
+.send-listTable td{
+	border:1pt solid gray;
+}
+div{
+	border:1pt solid #000;
+}

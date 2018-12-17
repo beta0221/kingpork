@@ -23,7 +23,7 @@ class AddCustomerdataToBillsTable extends Migration
             $table->string('ship_arriveDate')->nullable()->after('SPToken');
             $table->string('ship_arrive')->nullable()->after('SPToken');
             $table->string('ship_email')->nullable()->after('SPToken');
-            $table->string('ship_address')->nullable()->after('SPToken');
+            $table->mediumtext('ship_address')->nullable()->after('SPToken');
             $table->string('ship_district')->nullable()->after('SPToken');
             $table->string('ship_county')->nullable()->after('SPToken');
             $table->string('ship_phone')->nullable()->after('SPToken');

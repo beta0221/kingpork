@@ -15,11 +15,12 @@
 <div class="contentPage">
 	<div class="container">
 		<div class="row">
-			<div class="col-lg-10 offset-lg-1 col-12 mt-4 mb-4">
+			<div class="col-lg-10 offset-lg-1 col-12 mt-3 mb-3">
 				<div class="alert-field"></div>
+				<h1 style="text-align: center;margin: 40px 0;">VIP 團購專區</h1>
 				@foreach($products as $product)
 					
-				<div class="product-cell mt-4 mb-4" data-toggle="modal" data-target="#orderModal" onclick="selectItem({{$product->slug}},{{$product->price}})">
+				<div class="product-cell" data-toggle="modal" data-target="#orderModal" onclick="selectItem({{$product->slug}},{{$product->price}})">
 					<div class="product-cell-inBox">
 						<img src="{{asset('/images/productsIMG').'/'. $product->image}}">
 						<h2 class="product-cell-inBox-name">{{$product->name}}</h2>
@@ -60,7 +61,7 @@
 						<tr>
 							<td class="shipping-top-TD">
 								<label for=""><span class="required">*</span>收件人：</label>
-								<input id="ship_name" name="ship_name" type="text" class="shipping-ship_name orm-control" placeholder="收件人" value="{{Auth::user()->name}}" style="">		
+								<input id="ship_name" name="ship_name" type="text" class="shipping-ship_name form-control" placeholder="收件人" value="{{Auth::user()->name}}" style="">		
 							
 								<input id="radio1" class="radio" type="radio" name="ship_gender" value="1" checked>
 								<span>先生</span>
@@ -209,13 +210,13 @@
       <div class="modal-footer">
 
 		<div class="priceSum">
-			<span style=";margin: 0 8px 0 8px;font-size: 18pt;float: left;">總額：</span>
-			<span style="margin: 0 8px 0 8px;font-size: 18pt;float: left;" id="sum-overrite"></span>
+			<span >總額：</span>
+			<span id="sum-overrite"></span>
 			
 		</div>
 
         <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-        <div onclick="checkForm();" id="payBtn" class="btn ml-3">送出訂單</div>
+        <div onclick="checkForm();" id="" class="btn btn-danger">送出訂單</div>
 
       </div>
     </div>

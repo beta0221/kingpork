@@ -94,3 +94,6 @@ Route::get('/group-buy','GroupBuyController@index');
 //private mail server
 // Route::get('/asdfzxcv','PageController@skyScanner');
 
+//send gift routes
+Route::get('/send-gift','SendGiftController@index');
+

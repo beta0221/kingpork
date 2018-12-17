@@ -1,12 +1,6 @@
 .shipping{
 	display: table;
 }
-#payBtn{
-	display: block;
-	background-color: #c80013;
-	color: #fff;
-	cursor: pointer;
-}
 .priceSum {
     position: absolute;
     display: block;
