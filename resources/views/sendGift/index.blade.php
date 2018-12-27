@@ -1,6 +1,6 @@
 @extends('main')
 
-@section('title','| VIP團購區')
+@section('title','| 送禮專區')
 
 @section('stylesheets')
 {{Html::style('css/_sendGift.css')}}
@@ -8,86 +8,151 @@
 
 @section('content')
 
-{{-- {{$giftProduct}} --}}
 
 
+<div class="product-display-image-outter">
+	<div class="product-display-image">
+		<img src="/images/send-gift.png" alt="">
+	</div>	
+</div>
 
-{{-- <form action="{{route('bill.store')}}" method="POST">
-	{{csrf_field()}}
-	<input type="text" name="item[]" value="30002">
-	<input id="quantity" type="number" name="quantity[]">
-	<input type="text" name="ship_name" value="*">
-	<input type="text" name="ship_phone" value="*">
-	<input type="text" name="ship_address" id="ship_address">
-	<input type="text" name="ship_email" value="{{Auth::user()->email}}">
 
-	<input type="radio" name="ship_arrive" value="no" checked>
-	<input name="ship_time" class="radio" type="radio" name="time" value="no" checked>
+<div class="intro-title-bar">
 
-	<select name="ship_receipt" class="form-control">
-		<option value="2">二聯</option>
-		<option value="3">三聯</option>
-	</select>
-
-	<div class="ifThree">
-		<input id="ship_three_id" name="ship_three_id" type="text" class="shipping-ship_three_id form-control ship_three" placeholder="統一編號">
-		<input id="ship_three_company" name="ship_three_company" type="text" class="shipping-ship_three_company form-control ship_three" placeholder="公司名稱">	
+	<div class="intro-title intro-title-line intro-title-line-left"></div>
+	<div class="intro-title intro-title-text">
+		<img src="{{asset('images/culture.png')}}" alt="各店簡介">
 	</div>
+	<div class="intro-title intro-title-line intro-title-line-right"></div>
+</div>
 
-	<textarea name="ship_memo" class="shipping-ship_memo form-control" placeholder="備註"></textarea> 
-
-	<input type="radio" name="ship_pay_by" value="CREDIT"><span>信用卡</span>
-	<input type="radio" name="ship_pay_by" value="ATM"><span>ATM</span>
-	<input type="submit" value="確定送出">
-</form> --}}
 
 <div class="container">
 	<div class="row">
-		<div class="col-lg-10 offset-lg-1 col-12 mt-3 mb-3">
+		<div class="col-12 mt-3 mb-3">
 
 			<div class="product-displayDiv">
-				<div class="product-display-image">
-				<img src="/images/productsIMG/{{$giftProduct->image}}" alt="">
-				</div>
+
+				<h3>＊<font color="#c80013">不限</font>單一地址配送，送禮好便利</h3>
+				<h3>＊金園真空包屬於冷凍食品，送禮時請留意收貨端</h3>
+
 				<div class="product-display-Info">
+
 					<div class="product-display-Info-name">
-						{{$giftProduct->name}}
+						<h2>{{$giftProduct->name}}</h2><span>{{$giftProduct->discription}}</span>
 					</div>
-					<div class="product-display-Info-dis">
-						{{$giftProduct->discription}}
-					</div>
+
 					<div class="product-display-Info-price">
-						{{$giftProduct->price}}
+						<h2>排骨 5 片＋雞腿 5 支</h2>
+						<h2 class="price-h2"><font color="#c80013">${{$giftProduct->price}}</font></h2>
 					</div>
 					
+					<div class="send-listTableDiv">
+						<table id="sendListTable" class="send-listTable">
+							<tr>
+								<td class="send-name">收件人</td>
+								<td class="send-ad">地址</td>
+								<td class="send-ph">聯絡電話</td>
+								<td class="send-time">時段</td>
+								<td class="send-qu">數量</td>
+								<td class="send-new">
+									<div id="addListBtn" class="btn btn-block btn-sm btn-success">新增</div>
+								</td>
+							</tr>
+							<tr class="trList">
+								<td><input class="form-control" type="text"></td>
+								<td><input class="form-control" type="text"></td>
+								<td><input class="form-control" type="text"></td>
+								<td>
+									<select class="form-control" name="" id="">
+										<option value="no">不指定</option>
+										<option value="13:00">13:00前</option>
+										<option value="14:00-18:00">14:00-18:00</option>
+									</select>
+								</td>
+								<td><input class="form-control" type="number" value="1"></td>
+								<td class="delBtnTd">-</td>
+							</tr>
+						</table>
+
+						
+
+						<div class="form-outterDiv mt-4 mb-4 col-lg-8 offset-lg-2 col-12" style="display: none;">
+							<hr>
+							<div class="price-sum btn btn-block mb-2">總額：＄<span id="price-sum"></span></div>
+							<form id="billing-form" action="{{route('bill.store')}}" method="POST">
+								{{csrf_field()}}
+								<input type="text" name="item[]" value="30002" style="display: none;">
+								<input id="quantity" type="number" name="quantity[]" style="display: none;">
+								<input type="text" name="ship_name" value="*" style="display: none;">
+								<input type="text" name="ship_phone" value="*" style="display: none;">
+								<input type="text" name="ship_address" id="ship_address" style="display: none;">
+								<input name="ship_time" class="radio" type="radio" name="time" value="*" checked style="display: none;">
+								
+								
+								<div id="lastBtn" class="btn btn-block btn-success mb-2">上一步</div>
+
+								<span>E-mail：</span>
+								<input type="text" class="form-control" name="ship_email" value="{{Auth::user()->email}}">	
+
+								<span>希望到貨日：</span>
+								<select id="ship_ifDate" class="form-control" name="ship_arrive">
+									<option value="no">不指定</option>
+									<option value="yes">指定</option>
+								</select>
+								<span style="display: none;" id="ship_date_notice"><font size="2">1.上班日(週一至週五)上午12點前之訂單並完成付款，可於隔日到貨。<br> 2.平日下午14:00之後的訂單，恕隔日無法到貨。<br> 3.星期五下午14:00之後至週日的訂單，於下週一開始出貨，週二到貨。<br></font></span>
+								<input id="ship_date" type="date" name="ship_arriveDate" class="form-control" style="display: none;">
+
+
+								<span>發票：</span>
+								<select id="ship_receipt" name="ship_receipt" class="form-control">
+									<option value="2">二聯</option>
+									<option value="3">三聯</option>
+								</select>
+
+								<div class="ifThree" style="display: none;">
+									<input id="ship_three_id" name="ship_three_id" type="text" class="shipping-ship_three_id form-control ship_three" placeholder="統一編號">
+									<input id="ship_three_company" name="ship_three_company" type="text" class="shipping-ship_three_company form-control ship_three" placeholder="公司名稱">	
+								</div>
+								<span>備註：</span>
+								<textarea name="ship_memo" class="shipping-ship_memo form-control"></textarea> 
+
+								<span>可用紅利（{{Auth::user()->bonus}}）：</span>
+								<span id="myBonus" style="display: none;">{{Auth::user()->bonus}}</span>
+								<input id="bonus-use" value="0" min="0" max="{{Auth::user()->bonus}}" type="number" class="form-control">	
+
+								<span>付款方式：</span>
+								<select name="ship_pay_by" class="form-control">
+									<option value="">-</option>
+									<option value="CREDIT">信用卡</option>
+									<option value="ATM">ATM轉帳</option>
+								</select>
+
+								
+								
+							</form>
+						</div>
+						
+						<div id="nextBtn" class="btn btn-block mt-2">下一步</div>	
+						<div id="submitBtn" class="btn btn-block mt-2" style="display: none;">確定送出</div>
+					</div>
+					
+
 				</div>
+
 			</div>
 
 
-			<table id="sendListTable" class="send-listTable">
-				<tr>
-					<td>收件人</td>
-					<td>地址</td>
-					<td>聯絡電話</td>
-					<td>數量</td>
-					<td>刪除</td>
-				</tr>
-				<tr class="trList">
-					<td><input class="form-control" type="text"></td>
-					<td><input class="form-control" type="text"></td>
-					<td><input class="form-control" type="text"></td>
-					<td><input class="form-control" type="number" value="1"></td>
-					<td></td>
-				</tr>
-			</table>
-			<div id="addListBtn" class="btn btn-block btn-sm btn-success mt-1">新增</div>
-			<div id="submitBtn" class="btn btn-block btn-primary">確定</div>
+			
 
 
 		</div>
 	</div>
 </div>
 
+<div class="alert-field" style="display: none;">
+	
+</div>
 
 @endsection
 

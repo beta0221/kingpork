@@ -171,7 +171,37 @@ class OrderManagementController extends Controller
             }
 
             if ($request->type == 0) {
-                $orders[$j] = 
+
+                if ($json->ship_name == '*' && $json->ship_phone == '*') {
+
+                    $sendProduct = Products::where('slug','30002')->firstOrFail();
+
+                    $gifts = json_decode($json->ship_address,true);
+                    foreach ($gifts as $gift) {
+                        if ($gift['time'] == '14:00-18:00') {
+                            $ship_time = '2';
+                        }else{
+                            $ship_time = '1';
+                        }
+
+                        $orders[$j] = 
+                        $json->bill_id.",".
+                        '官網'.$json->pay_by.",".
+                        $cash.",".
+                        $ship_time.",".
+                        $gift['name'].",".
+                        $gift['phone'].",".
+                        'SG*'.$gift['quantity'].';'.",".
+                        $gift['address'].",".
+                        date('Y/m/d').",".
+                        $arrive.",".
+                        (int)$gift['quantity']*$sendProduct->price;
+                        $j++;
+                    }
+                    
+
+                }else{
+                    $orders[$j] = 
                     $json->bill_id.",".
                     '官網'.$json->pay_by.",".
                     $cash.",".
@@ -184,9 +214,45 @@ class OrderManagementController extends Controller
                     $arrive.",".
                     $json->price;
                     $j++;
+                }
+            
             }else{
-                $created_at = str_replace('-','/',substr($json->created_at,0,10));
-                $orders[$j] = 
+                
+                if ($json->ship_name == '*' && $json->ship_phone == '*') {
+                    
+                    $sendProduct = Products::where('slug','30002')->firstOrFail();
+
+                    $gifts = json_decode($json->ship_address,true);
+                    foreach ($gifts as $gift) {
+                        if ($gift['time'] == '14:00-18:00') {
+                            $ship_time = '2';
+                        }else{
+                            $ship_time = '1';
+                        }
+
+                        $created_at = str_replace('-','/',substr($json->created_at,0,10));
+                        $orders[$j] = 
+                        $created_at.",".
+                        $json->bill_id.",".
+                        '官網'.$json->pay_by.",".
+                        $cash.",".
+                        $ship_time.",".
+                        $gift['name'].",".
+                        $gift['phone'].",".
+                        $json->ship_three_id.",".
+                        $json->ship_three_company.",".
+                        'SG*'.$gift['quantity'].';'.",".
+                        $gift['address'].",".
+                        date('Y/m/d').",".
+                        $arrive.",".
+                        (int)$gift['quantity']*$sendProduct->price;
+                        $j++;
+
+                    }
+                }else{
+
+                    $created_at = str_replace('-','/',substr($json->created_at,0,10));
+                    $orders[$j] = 
                     $created_at.",".
                     $json->bill_id.",".
                     '官網'.$json->pay_by.",".
@@ -202,6 +268,8 @@ class OrderManagementController extends Controller
                     $arrive.",".
                     $json->price;
                     $j++;
+
+                }
             }
 
 

@@ -547,8 +547,12 @@
 					// alert(response);
 					
 				},
-				error: function () {
+				error: function (e) {
 		            alert('錯誤');
+		            console.log(e);
+		        },
+		        complete:function(){
+		        	$('#csvForm').submit();	
 		        },
 			});
 			
@@ -556,9 +560,7 @@
 			alert('請選取訂單');
 		}
 
-		setTimeout(function(){
-			$('#csvForm').submit();	
-		},1000);
+		
 
 	}
 
@@ -593,15 +595,15 @@
 				error: function () {
 		            alert('錯誤');
 		        },
+		        complete:function(){
+		    		$('#csvForm_accountant').submit();    	
+		        }
 			});
 			
 		}else{
 			alert('請選取訂單');
 		}
 
-		setTimeout(function(){
-			$('#csvForm_accountant').submit();	
-		},1000);
 
 	}
 

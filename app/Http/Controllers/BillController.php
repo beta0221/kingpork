@@ -184,6 +184,9 @@ class BillController extends Controller
         if ($bonus / 50 > $total) {
             $bonus = $total * 50;
         }
+        if ($bonus < 0) {
+            $bonus = 0;
+        }
         $bonusCount = $bonus / 50;
         $total = $total - $bonusCount;          // }bonus
 
@@ -769,7 +772,10 @@ class BillController extends Controller
     public function findMemory()
     {
 
-        $bill = Bill::where('user_id',Auth::user()->id)->orderBy('id','desc')->first();
+        $bill = Bill::where('user_id',Auth::user()->id)
+            ->where('ship_name','!=','*')
+            ->orderBy('id','desc')
+            ->first();
         
         if($bill){
             return response()->json([

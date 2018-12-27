@@ -1,11 +1,144 @@
+
+div{
+	/*border:1pt solid #000;*/
+}
+/* image div */
+.product-display-image-outter{
+	padding: 20px;
+}
+.product-display-image{
+	width:100%;
+	padding-top: 44.44444%;
+}
+.product-display-image img{
+	position: absolute;
+	top:0;
+	left: 0;
+	width:100%;
+	height: 100%;
+}
+
+
+/* intro title bar */
+.intro-title-bar{
+	margin: 20px 0;
+	height: 20px;
+	width: 100%;
+}
+.intro-title{
+	float: left;
+	height: 20px;
+	margin: 0;
+}
+.intro-title-line{
+	background-color: #865519;
+}
+.intro-title-line-left{
+	width: 15%;
+}
+.intro-title-line-right{
+	width: 65%;
+}
+.intro-title-text{
+	padding: 0 16px ;
+	width: 20%;
+}
+.intro-title-text img{
+	width: 100%;
+	top: -20px;
+}
+
+/* product display info */
+.product-display-Info{
+	background-color: rgb(220,220,220);
+	margin: 20px 0;
+}
+.product-display-Info h2{
+	display: inline-block;
+	margin: 10px;
+}
+.product-display-Info-name{
+	background-color: #c80013;
+	color:#fff;
+}
+.product-display-Info-price{
+	background-color: rgba(255,255,255,8);
+}
+.price-h2{
+	float: right;
+}
+
+
+/* send list table */
+.send-listTableDiv{
+	padding: 10px;
+}
 .send-listTable{
 	border-collapse: collapse;
-	border:1pt solid gray;
+	text-align: center;
 	width:100%;
 }
+.send-name{
+	width:10%;
+}
+.send-ad{
+	width:35%;
+}
+.send-ph{
+	width:20%;
+}
+.sned-qu{
+	width: 10%;
+}
+.send-time{
+	width:15%;
+}
+.send-new{
+	width: 10%;
+}
 .send-listTable td{
-	border:1pt solid gray;
+	padding: 2px;
 }
-div{
-	border:1pt solid #000;
+#nextBtn,#submitBtn{
+	background-color: #c80013;
+	color:#fff;
+	cursor: pointer;
 }
+.lock-input{
+	background-color: transparent!important;
+	border: none;
+	cursor: default;
+	text-align: center;
+}
+.lock-input:focus{
+	pointer-events: none;
+	background-color: transparent;
+}
+
+
+/* submit form */
+.price-sum{
+	color: #c80013;
+	font-size: 24px;
+}
+
+
+/* alert field */
+.alert-field{
+	position: fixed;
+	top: 50%;
+	left:50%;
+	transform: translate(-50%,-50%);
+	width: 300px;
+	min-height: 40px;
+	background-color: rgba(255,255,255,0.9);
+	color: red;
+	border-radius: 5px;
+	line-height: 40px;
+	text-align: center;
+	font-size: 24px;
+
+
+}
+
+
