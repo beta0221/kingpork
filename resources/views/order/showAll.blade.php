@@ -11,6 +11,7 @@
 			.bill-table td{
 				/*border:1pt solid #000;*/
 				border: 1pt solid #000;
+				word-break: break-all;
 			}
 			.item-table{
 				/*border:none;*/
