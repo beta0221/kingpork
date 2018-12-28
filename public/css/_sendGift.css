@@ -160,6 +160,9 @@
 
 /* under 450 mobile device */
 @media(max-width: 450px){
+	.product-display-image-outter{
+		padding: 2px;
+	}
 	.intro-title-line-left{
 		width: 10%;
 	}
