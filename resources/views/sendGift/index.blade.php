@@ -17,19 +17,19 @@
 </div>
 
 
-<div class="intro-title-bar">
+<div class="intro-title-bar mb-4">
 
 	<div class="intro-title intro-title-line intro-title-line-left"></div>
 	<div class="intro-title intro-title-text">
-		<img src="{{asset('images/culture.png')}}" alt="各店簡介">
+		<img src="{{asset('images/remind.png')}}" alt="各店簡介">
 	</div>
 	<div class="intro-title intro-title-line intro-title-line-right"></div>
 </div>
 
-
+<div class="mt-3 ghost">　</div>
 <div class="container">
 	<div class="row">
-		<div class="col-12 mt-3 mb-3">
+		<div class="col-12 mt-4 mb-3">
 
 			<div class="product-displayDiv">
 
@@ -95,7 +95,7 @@
 								<span>E-mail：</span>
 								<input type="text" class="form-control" name="ship_email" value="{{Auth::user()->email}}">	
 
-								<span>希望到貨日：</span>
+								<span>希望發貨日：</span>
 								<select id="ship_ifDate" class="form-control" name="ship_arrive">
 									<option value="no">不指定</option>
 									<option value="yes">指定</option>
@@ -121,7 +121,7 @@
 								<span id="myBonus" style="display: none;">{{Auth::user()->bonus}}</span>
 								<input id="bonus-use" value="0" min="0" max="{{Auth::user()->bonus}}" type="number" class="form-control">	
 
-								<span>付款方式：</span>
+								<span><font color="c80013">＊付款方式：</font></span>
 								<select name="ship_pay_by" class="form-control">
 									<option value="">-</option>
 									<option value="CREDIT">信用卡</option>

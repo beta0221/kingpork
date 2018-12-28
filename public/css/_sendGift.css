@@ -1,7 +1,4 @@
 
-div{
-	/*border:1pt solid #000;*/
-}
 /* image div */
 .product-display-image-outter{
 	padding: 20px;
@@ -121,7 +118,10 @@ div{
 	color: #c80013;
 	font-size: 24px;
 }
-
+#billing-form span{
+	margin: 4px 0;
+	font-size: 20px;
+}
 
 /* alert field */
 .alert-field{
@@ -137,8 +137,71 @@ div{
 	line-height: 40px;
 	text-align: center;
 	font-size: 24px;
-
-
 }
+
+/* 1366 ~ 992 */
+@media (max-width: 1366px) {}
+
+
+/* under 992 */
+@media (max-width: 992px) {
+	.intro-title-line-left{
+		width: 10%;
+	}
+	.intro-title-line-right{
+		width: 60%;
+	}
+	.intro-title-text{
+		padding: 0 16px ;
+		width: 30%;
+	}
+}
+
+
+/* under 450 mobile device */
+@media(max-width: 450px){
+	.intro-title-line-left{
+		width: 10%;
+	}
+	.intro-title-line-right{
+		width: 45%;
+	}
+	.intro-title-text{
+		padding: 0 16px ;
+		width: 45%;
+	}
+	.product-displayDiv h3{
+		font-size: 18px;
+	}
+	.ghost{
+		display: none;
+	}
+	.product-display-Info-name h2{
+		font-size: 20px;
+	}
+	.product-display-Info-price h2{
+		font-size: 18px;
+	}
+	.container{
+		padding: 0 2px;
+	}
+	.send-listTableDiv{
+		padding: 2px;
+	}
+	.send-listTable td{
+		padding:0;
+		font-size: 12px;
+	}
+	.send-listTable .form-control{
+		padding:.5rem 1px;
+		font-size: 12px;
+	}
+	#billing-form span{
+		margin: 4px 0;
+		font-size: 16px;
+	}
+}
+
+
 
 

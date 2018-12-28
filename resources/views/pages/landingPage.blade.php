@@ -50,6 +50,19 @@
 			</div>
 		</div>
 	</div>
+
+	<div class="row second-row">
+		<div class="product col-12 send-gift">
+			<div class="P-">
+				<a href="/send-gift/">
+					<img src="{{asset('images/send-gift-banner.png')}}" alt="金園排骨">
+				</a>
+				<div onclick="location.href='/send-gift/';" class="P-buy">我要送禮</div>
+			</div>
+		</div>
+	</div>
+
+
 </div>
 {{-- products end --}}
 
