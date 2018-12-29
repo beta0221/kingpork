@@ -21,7 +21,7 @@
 
 	<div class="intro-title intro-title-line intro-title-line-left"></div>
 	<div class="intro-title intro-title-text">
-		<img src="{{asset('images/remind.png')}}" alt="各店簡介">
+		<img src="{{asset('images/remind.png')}}">
 	</div>
 	<div class="intro-title intro-title-line intro-title-line-right"></div>
 </div>

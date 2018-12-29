@@ -11,26 +11,49 @@
 @section('content')
 
 
+<div class="product-display-image-outter">
+	<div class="product-display-image">
+		<img src="/images/vip-banner.png" alt="">
+	</div>	
+</div>
+
+
+<div class="intro-title-bar mb-4">
+
+	<div class="intro-title intro-title-line intro-title-line-left"></div>
+	<div class="intro-title intro-title-text">
+		<img src="{{asset('images/group-buy-vip.png')}}">
+	</div>
+	<div class="intro-title intro-title-line intro-title-line-right"></div>
+</div>
+
 
 <div class="contentPage">
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-10 offset-lg-1 col-12 mt-3 mb-3">
 				<div class="alert-field"></div>
-				<h1 style="text-align: center;margin: 40px 0;">VIP 團購專區</h1>
-				@foreach($products as $product)
-					
-				<div class="product-cell" data-toggle="modal" data-target="#orderModal" onclick="selectItem({{$product->slug}},{{$product->price}})">
-					<div class="product-cell-inBox">
-						<img src="{{asset('/images/productsIMG').'/'. $product->image}}">
-						<h2 class="product-cell-inBox-name">{{$product->name}}</h2>
-						<h3 class="product-cell-inBox-des">{{$product->discription}}</h3>
-						<h3 class="product-cell-inBox-price">${{$product->price}}</h3>
-						<h3 class="product-cell-inBox-bonus">累積紅利<font size="22pt" color="#c80013">{{$product->bonus}}</font>點！</h3>
+				<div class="product-displayDiv">
+					<div class="product-display-title">
+						<h2>團購王VIP專區</h2>
 					</div>
-				</div>
 
-				@endforeach
+
+					@foreach($products as $product)
+					
+					<div class="product-cell" data-toggle="modal" data-target="#orderModal" onclick="selectItem({{$product->slug}},{{$product->price}})">
+
+						<span class="product-cell-name">{{$product->name}}</span>
+						<span class="product-cell-des">{{$product->discription}}</span>
+						
+						<span class="product-cell-select">選擇</span>
+						<span class="product-cell-price" data-toggle="modal" data-target="#orderModal" onclick="selectItem({{$product->slug}},{{$product->price}})">${{$product->price}}</span>
+					</div>
+
+					@endforeach
+
+				</div>
+				
 			</div>
 		</div>
 	</div>
