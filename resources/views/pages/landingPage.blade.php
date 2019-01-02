@@ -52,14 +52,24 @@
 	</div>
 
 	<div class="row second-row">
-		<div class="product col-12 send-gift">
+		<div class="product col-md-6 col-12 group-buy">
+			<div class="P-">
+				<a href="/group-buy/">
+					<img src="{{asset('images/vip-450*300.png')}}" alt="金園排骨">
+				</a>
+				<div onclick="location.href='/group-buy/';" class="P-buy">我要團購</div>
+			</div>
+		</div>
+
+		<div class="product col-md-6 col-12 send-gift">
 			<div class="P-">
 				<a href="/send-gift/">
-					<img src="{{asset('images/send-gift-banner.png')}}" alt="金園排骨">
+					<img src="{{asset('images/gift-450*300.png')}}" alt="金園排骨">
 				</a>
 				<div onclick="location.href='/send-gift/';" class="P-buy">我要送禮</div>
 			</div>
 		</div>
+
 	</div>
 
 

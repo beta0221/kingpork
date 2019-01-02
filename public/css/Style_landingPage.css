@@ -121,6 +121,9 @@
 .send-gift:before{
 	content: '我要送禮';
 }
+.group-buy:before{
+	content: '我要團購';
+}
 .test-pork:before,.test-both:before,.test-chicken:before{
 	font-family: cwTeXKai , serif;
 	background-color: transparent;
@@ -137,7 +140,7 @@
 	height: calc(100% + 80px);
 	width:100%;
 }
-.send-gift:before{
+.send-gift:before,.group-buy:before{
 	font-family: cwTeXKai , serif;
 	background-color: transparent;
 	color: transparent;
@@ -153,7 +156,7 @@
 	height: calc(100% + 80px);
 	width:100%;
 }
-.test-pork:hover:before,.test-both:hover:before,.test-chicken:hover:before,.send-gift:hover:before{
+.test-pork:hover:before,.test-both:hover:before,.test-chicken:hover:before,.send-gift:hover:before,.group-buy:hover:before{
 	background-color: rgba(192,18,24,1);
 	color: #fff;
 }
@@ -378,13 +381,14 @@
 		padding-top: 100%;
 		height: calc(100% + 40px);
 	}
-	.send-gift:before{
+	.send-gift:before,.group-buy:before{
 		font-weight: 900;
 		font-size: 24px;
 		letter-spacing: 2px;
 		/*padding-top: 100%;*/
 		height: calc(100% + 40px);
 	}
+
 	.second-row{
 		margin-top: 44px;
 	}
@@ -492,11 +496,14 @@
 		height: auto;
 		top: -10%;
 	}
-	.test-pork:hover:before,.test-both:hover:before,.test-chicken:hover:before,.send-gift:hover:before{
+	.test-pork:hover:before,.test-both:hover:before,.test-chicken:hover:before,.send-gift:hover:before,.group-buy:hover:before{
 		background-color: transparent;
 		color: transparent;
 	}
-	.send-gift img{
+	.group-buy,.send-gift{
+		padding-top: 66.66666%;
+	}
+	.send-gift img,.group-buy img{
 		height: 100%;
 		width: auto;
 		top:0;
