@@ -12,7 +12,7 @@
 
 <div class="product-display-image-outter">
 	<div class="product-display-image">
-		<img src="/images/send-gift.png" alt="">
+		<img src="/images/send-gift.jpg" alt="">
 	</div>	
 </div>
 
