@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Auth;
+use Session;
 
 class LoginController extends Controller
 {
@@ -40,6 +41,22 @@ class LoginController extends Controller
         // $this->middleware('guest')->except('logout');
         $this->middleware('guest',['except'=>['logout','userLogout']]);
     }
+
+
+    //override start
+    public function showLoginForm()
+    {
+        session(['link' => url()->previous()]);
+        return view('auth.login');
+    }
+    protected function authenticated()
+    {
+        return redirect(session('link'));
+    }
+    //override end
+
+
+
 
     public function userLogout()
     {
