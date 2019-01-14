@@ -35,7 +35,9 @@
 
 				<h3>＊<font color="#c80013">不限</font>單一地址配送，送禮好便利</h3>
 				<h3>＊金園真空包屬於冷凍食品，送禮時請留意收貨端</h3>
+				@if(!Auth::user())
 				<h3>＊若要累積<font color="#c80013">紅利點數</font>或使用<font color="#c80013">紅利折抵</font>請先<a href="/login">登入會員</a></h3>
+				@endif
 
 				<div class="product-display-Info">
 
