@@ -33,11 +33,9 @@
 
 			<div class="product-displayDiv">
 
-				<h3>＊<font color="#c80013">不限</font>單一地址配送，送禮好便利</h3>
+				<h3>＊<font color="#c80013">不限</font>單一地址配送，一筆訂單多筆地址，送禮好便利</h3>
 				<h3>＊金園真空包屬於冷凍食品，送禮時請留意收貨端</h3>
-				@if(!Auth::user())
-				<h3>＊若要累積<font color="#c80013">紅利點數</font>或使用<font color="#c80013">紅利折抵</font>請先<a href="/login">登入會員</a></h3>
-				@endif
+				
 
 				<div class="product-display-Info">
 
@@ -52,6 +50,9 @@
 					
 					<div class="send-listTableDiv">
 						<table id="sendListTable" class="send-listTable">
+							@if(!Auth::user())
+							<div id="before-start-mask"></div>
+							@endif
 							<tr>
 								<td class="send-name">收件人</td>
 								<td class="send-ad">地址</td>
@@ -143,8 +144,12 @@
 								
 							</form>
 						</div>
-						
+						@if(!Auth::user())
+						<div id="startBtn" class="btn btn-block mt-2 btn-success" style="z-index: 3;">開始填表</div>	
+						<div id="nextBtn" class="btn btn-block mt-2" style="display: none;">下一步</div>	
+						@else
 						<div id="nextBtn" class="btn btn-block mt-2">下一步</div>	
+						@endif
 						<div id="submitBtn" class="btn btn-block mt-2" style="display: none;">確定送出</div>
 					</div>
 					
@@ -160,6 +165,15 @@
 		</div>
 	</div>
 </div>
+@if(!Auth::user())
+<div class="beforeDiv" style="display: none;">
+	<h3>＊若要累積<font color="#c80013">紅利點數</font>或使用<font color="#c80013">紅利折抵</font>請先<font color="#c80013">登入會員</font></h3>
+	<div style="position:absolute;width:100%;bottom: 30px;left: 0;">
+		<div id="no-thanks-btn" class="btn btn-primary" style="width:40%;">不了，我要直接送禮</div>
+		<a class="btn btn-success" style="width:40%;color:#fff;" href="/login">好，立馬登入會員</a>
+	</div>
+</div>
+@endif
 
 <div class="alert-field" style="display: none;">
 	

@@ -15,6 +15,21 @@ $(document).ready(function(){
 	
 	var sendListArray = [];
 	var totalQuantity = 0;
+
+	$('#startBtn').on('click',function(){
+		$('.beforeDiv').css('display','block');
+		
+		
+	});
+
+	$('#no-thanks-btn').on('click',function(){
+		$('.beforeDiv').css('display','none');
+		$('#before-start-mask').css('display','none');
+		$('#startBtn').css('display','none');
+		$('#nextBtn').css('display','block');
+	});
+
+
 	//確定送出
 	$('#nextBtn').on('click',function(){
 		clearAlert();
