@@ -141,11 +141,25 @@
 	top: 30%;
 	left: 50%;
 	transform: translateX(-50%);
+	background-color: rgba(255,255,255,0.95);
+	text-align: center;
+	z-index: 4;
+	/* - */
 	width:60%;
 	height: 150px;
 	padding: 20px;
-	background-color: rgba(255,255,255,0.95);
-	text-align: center;
+}
+.beforeDiv .btn-row{
+	position:absolute;
+	width:100%;
+	left: 0;
+	/* -- */
+	bottom: 30px;
+}
+.beforeDiv .btn-row a,.beforeDiv .btn-row div{
+	color:#fff;
+	/* -- */
+	width:40%;
 }
 
 /* alert field */
@@ -179,6 +193,20 @@
 	.intro-title-text{
 		padding: 0 16px ;
 		width: 30%;
+	}
+	.beforeDiv{
+		/* - */
+		width:100%;
+		height: 200px;
+		padding:16px 8px;
+	}
+	.beforeDiv .btn-row{
+		/* -- */
+		bottom: 16px;
+	}
+	.beforeDiv .btn-row a,.beforeDiv .btn-row div{
+		/* -- */
+		width:45%;
 	}
 }
 
@@ -228,6 +256,7 @@
 		margin: 4px 0;
 		font-size: 16px;
 	}
+	
 }
 
 

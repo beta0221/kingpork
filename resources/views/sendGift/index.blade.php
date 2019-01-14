@@ -168,9 +168,9 @@
 @if(!Auth::user())
 <div class="beforeDiv" style="display: none;">
 	<h3>＊若要累積<font color="#c80013">紅利點數</font>或使用<font color="#c80013">紅利折抵</font>請先<font color="#c80013">登入會員</font></h3>
-	<div style="position:absolute;width:100%;bottom: 30px;left: 0;">
-		<div id="no-thanks-btn" class="btn btn-primary" style="width:40%;">不了，我要直接送禮</div>
-		<a class="btn btn-success" style="width:40%;color:#fff;" href="/login">好，立馬登入會員</a>
+	<div class="btn-row">
+		<div id="no-thanks-btn" class="btn btn-primary">不了，我要直接送禮</div>
+		<a class="btn btn-success" href="/login">好，立馬登入會員</a>
 	</div>
 </div>
 @endif
