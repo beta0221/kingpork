@@ -24,7 +24,7 @@ class BillController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth',['except'=>['billPaied','creditPaied','cancelBill']]);
+        $this->middleware('auth',['only'=>['index','findMemory']]);
     }
 
 
@@ -173,28 +173,38 @@ class BillController extends Controller
             ];
         }
 
-
-        $bonus = $request->bonus;               // bonus{
-        if ($bonus > Auth::user()->bonus) {
-            $bonus = Auth::user()->bonus;
+        if(Auth::user()){
+            $bonus = $request->bonus;               // bonus{
+            if ($bonus > Auth::user()->bonus) {
+                $bonus = Auth::user()->bonus;
+            }
+            if (fmod($bonus,50) != 0) {
+                $bonus = $bonus - fmod($bonus,50);
+            }
+            if ($bonus / 50 > $total) {
+                $bonus = $total * 50;
+            }
+            if ($bonus < 0) {
+                $bonus = 0;
+            }
+            $bonusCount = $bonus / 50;
+            $total = $total - $bonusCount;          // }bonus    
+        }else{
+            $bonusCount = 0;
         }
-        if (fmod($bonus,50) != 0) {
-            $bonus = $bonus - fmod($bonus,50);
-        }
-        if ($bonus / 50 > $total) {
-            $bonus = $total * 50;
-        }
-        if ($bonus < 0) {
-            $bonus = 0;
-        }
-        $bonusCount = $bonus / 50;
-        $total = $total - $bonusCount;          // }bonus
 
         date_default_timezone_set('Asia/Taipei');
 
         $MerchantTradeNo = time() . rand(10,99);//先給訂單編號
 
 //---------------------------------------------------------------------
+        if (Auth::user()) {
+            $user_id = Auth::user()->id;
+            $user_name = Auth::user()->name;
+        }else{
+            $user_id = null;
+            $user_name = $request->user_name;
+        }
 
         if ($request->ship_pay_by=='ATM'OR$request->ship_pay_by=='CREDIT') {
 
@@ -271,14 +281,16 @@ class BillController extends Controller
 
             $body = $response->getBody();
             $phpBody = json_decode($body);
-           
+
+            
+
             // return($body);
             if ($phpBody->{'RtnCode'} == 1) {
                 $SPToken = $phpBody->{'SPToken'};
                 $bill = new Bill;
-                $bill->user_id = Auth::user()->id;
+                $bill->user_id = $user_id;
                 $bill->bill_id = $MerchantTradeNo;
-                $bill->user_name = Auth::user()->name;
+                $bill->user_name = $user_name;
                 $bill->item = json_encode($kart);
                 $bill->bonus_use = $bonusCount;
                 $bill->price = $total;
@@ -309,9 +321,9 @@ class BillController extends Controller
             
 
             $bill = new Bill;
-            $bill->user_id = Auth::user()->id;
+            $bill->user_id = $user_id;
             $bill->bill_id = $MerchantTradeNo;
-            $bill->user_name = Auth::user()->name;
+            $bill->user_name = $user_name;
             $bill->item = json_encode($kart);
             $bill->bonus_use = $bonusCount;
             $bill->price = $total;
@@ -347,7 +359,7 @@ class BillController extends Controller
                 $i++;
             }
             $data = array(
-                'user_name'=>Auth::user()->name,
+                'user_name'=>$user_name,
                 'ship_gender'=>$request->ship_gender,
                 'ship_name'=>$request->ship_name,
                 'ship_phone'=>$request->ship_phone,
@@ -396,12 +408,12 @@ class BillController extends Controller
                 // break;
 
 //-----------------------------------------------------------------------
-
-        Kart::where('user_id',Auth::user()->id)->delete();
-
-        $user = User::find(Auth::user()->id);
-        $user->bonus = $user->bonus - $bonus;
-        $user->save();
+        if (Auth::user()) {
+            Kart::where('user_id',Auth::user()->id)->delete();
+            $user = User::find(Auth::user()->id);
+            $user->bonus = $user->bonus - $bonus;
+            $user->save();
+        }
 
         Session::flash('success','訂單已成功送出');
         return redirect()->route('bill.show', $MerchantTradeNo);
@@ -621,7 +633,7 @@ class BillController extends Controller
 
         if ($request->pay_by == 'ATM') {
             $data = array(
-                'user_name'=>Auth::user()->name,
+                'user_name'=>$bill->ship_name,
                 'ship_gender'=>$bill->ship_gender,
                 'ship_name'=>$bill->ship_name,
                 'ship_phone'=>$bill->ship_phone,
@@ -649,7 +661,7 @@ class BillController extends Controller
 
         }elseif ($request->pay_by == 'CREDIT') {
             $data = array(
-                'user_name'=>Auth::user()->name,
+                'user_name'=>$bill->ship_name,
                 'ship_gender'=>$bill->ship_gender,
                 'ship_name'=>$bill->ship_name,
                 'ship_phone'=>$bill->ship_phone,

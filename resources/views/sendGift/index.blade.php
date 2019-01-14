@@ -91,9 +91,12 @@
 								
 								
 								<div id="lastBtn" class="btn btn-block btn-success mb-2">上一步</div>
+								
+								<span>訂購人：</span>
+								<input type="text" class="form-control" name="user_name" value="{{Auth::user()?Auth::user()->name:''}}">	
 
 								<span>E-mail：</span>
-								<input type="text" class="form-control" name="ship_email" value="{{Auth::user()->email}}">	
+								<input type="text" class="form-control" name="ship_email" value="{{Auth::user()?Auth::user()->email:''}}">	
 
 								<span>希望發貨日：</span>
 								<select id="ship_ifDate" class="form-control" name="ship_arrive">
@@ -116,10 +119,15 @@
 								</div>
 								<span>備註：</span>
 								<textarea name="ship_memo" class="shipping-ship_memo form-control"></textarea> 
-
+								
+								@if(Auth::user())
 								<span>可用紅利（{{Auth::user()->bonus}}）：</span>
 								<span id="myBonus" style="display: none;">{{Auth::user()->bonus}}</span>
-								<input id="bonus-use" value="0" min="0" max="{{Auth::user()->bonus}}" type="number" class="form-control">	
+								<input id="bonus-use" value="0" min="0" max="{{Auth::user()->bonus}}" type="number" class="form-control">
+								@else
+								<span>可用紅利（無）：</span><br>
+								<span>使用紅利或累積紅利請登入會員</span><br>
+								@endif
 
 								<span><font color="c80013">＊付款方式：</font></span>
 								<select name="ship_pay_by" class="form-control">
