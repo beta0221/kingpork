@@ -107,7 +107,9 @@
 
 				<span>
 				<font style="font-size: 18px;color:red;font-weight: 800">NT${{$min}} </font>
+				@if($productCategory->id == 4)
 				<font style="font-size: 12px;text-decoration: line-through;">(NT${{$min/0.8}})</font>
+				@endif
 				</span>
 
 				<span class="flag">免運費</span>
