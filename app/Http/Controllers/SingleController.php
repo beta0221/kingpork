@@ -21,7 +21,7 @@ class SingleController extends Controller
      */
     public function index()
     {
-        //
+        return redirect('buynow/4');
     }
 
     /**

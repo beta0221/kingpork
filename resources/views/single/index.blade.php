@@ -40,7 +40,7 @@
 					<span style="color: #000">訂單查詢</span>
 				</span>
 			</a>	
-			<a style="text-decoration: none;color: #fff;" href="/buynow/form/4">
+			<a style="text-decoration: none;color: #fff;" href="/buynow/form/{{$productCategory->id}}">
 				<span class="purchase">
 					<span>
 						立即下單
@@ -97,7 +97,11 @@
 				<h2 style="font-size: 18px;margin-left: -10px">【金園排骨】西門町傳承一甲子的古早味</h2>
 			</div>
 			<div class="introduce-stack">
+				@if($productCategory->id == 4)
 				<h1 style="font-size: 24px;">粉絲專屬組合(3P+3G)</h1>
+				@else
+				<h1 style="font-size: 24px;">銀髮族專屬</h1>
+				@endif
 			</div>
 			<div class="introduce-stack">
 
@@ -110,13 +114,19 @@
 				<span class="flag">貨到付款</span>
 
 			</div>
+
+
+			@if($productCategory->id == 4)
 			<div class="introduce-stack">
 				<span style="font-size: 16px;font-weight: 600">加購第二組只要</span><font style="font-size: 18px;color:red;font-weight: 800">NT$339</font><font style="font-size: 16px;font-weight: 600"> ～！</font>
 			</div>
+			@endif
+
 			<div class="introduce-stack">
 				<img src="{{asset('images/black_cat.png')}}"><span>黑貓冷凍配送</span>
 			</div>
 			
+			@if($productCategory->id == 4)
 			<div class="introduce-stack">
 				<span>已搶購</span><span>{{$count}}</span><span>件</span>
 
@@ -135,7 +145,14 @@
 				<span id="timer_s" class="timmer">{{$countDown['from_s']}}</span>
 				<span>秒</span>
 			</div>
+			@endif
+
+
+
 		</div>
+		
+
+
 		<div class="clear"></div>
 
 		<div class="categoryContent">

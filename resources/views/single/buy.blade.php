@@ -45,7 +45,7 @@
 			<div class="product-content">
 				@foreach($productCategory->products as $product)
 				@if($product->public == 1)
-				<div class="product-row {{($product->slug=='40001')?'product-select':''}}" price="{{$product->price}}" onclick="product_select({{$product->slug}},{{$product->price}});">
+				<div class="product-row {{($product->slug=='40001')?'product-select':''}} {{($product->slug=='70001')?'product-select':''}}" price="{{$product->price}}" onclick="product_select({{$product->slug}},{{$product->price}});">
 
 					<div class="left-name-box">
 
@@ -189,5 +189,10 @@
 
 </body>
 <script src="{{asset('js/jquery/jquery-3.2.1.min.js')}}"></script>
+<script>
+$(document).ready(function(){
+	product_select({{$productCategory->products[0]->slug}},{{$productCategory->products[0]->price}});
+});
+</script>
 <script src="{{asset('js/_singleBuy.js')}}"></script>
 </html>
