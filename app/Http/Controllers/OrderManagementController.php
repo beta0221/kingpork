@@ -191,8 +191,8 @@ class OrderManagementController extends Controller
                         $ship_time.",".
                         $gift['name'].",".
                         $gift['phone'].",".
-                        'SG*'.$gift['quantity'].';'.",".
-                        $gift['address'].",".
+                        '5P+5G*'.$gift['quantity'].';'.",".
+                        str_replace(' ','',$gift['address']).",".
                         date('Y/m/d').",".
                         $arrive.",".
                         (int)$gift['quantity']*$sendProduct->price;
@@ -241,7 +241,7 @@ class OrderManagementController extends Controller
                         $gift['phone'].",".
                         $json->ship_three_id.",".
                         $json->ship_three_company.",".
-                        'SG*'.$gift['quantity'].';'.",".
+                        '5P+5G*'.$gift['quantity'].';'.",".
                         $gift['address'].",".
                         date('Y/m/d').",".
                         $arrive.",".
