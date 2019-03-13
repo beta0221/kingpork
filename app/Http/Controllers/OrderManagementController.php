@@ -192,7 +192,7 @@ class OrderManagementController extends Controller
                         $gift['name'].",".
                         $gift['phone'].",".
                         '5P+5G*'.$gift['quantity'].';'.",".
-                        str_replace(' ','',$gift['address']).",".
+                        str_replace([' ','?'],'',$gift['address']).",".
                         date('Y/m/d').",".
                         $arrive.",".
                         (int)$gift['quantity']*$sendProduct->price;
@@ -242,7 +242,7 @@ class OrderManagementController extends Controller
                         $json->ship_three_id.",".
                         $json->ship_three_company.",".
                         '5P+5G*'.$gift['quantity'].';'.",".
-                        $gift['address'].",".
+                        str_replace([' ','?'],'',$gift['address']).",".
                         date('Y/m/d').",".
                         $arrive.",".
                         (int)$gift['quantity']*$sendProduct->price;
