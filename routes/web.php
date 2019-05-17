@@ -97,3 +97,12 @@ Route::get('/group-buy','GroupBuyController@index');
 //send gift routes
 Route::get('/send-gift','SendGiftController@index');
 
+Route::get('/dealer',function(){
+	return view('dealer.dealer_index');
+});
+Route::get('/dealer/create',function(){
+	return view('dealer.dealer_create');
+});
+Route::get('/dealer/join',function(){
+	return view('dealer.dealer_join');
+});
