@@ -18,24 +18,36 @@
 					    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="揪團主題名稱">
 					    {{-- <small id="emailHelp" class="form-text text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo, fugit maiores sapiente aliquam voluptatibus dicta nihil est voluptate optio repellat cupiditate</small> --}}
 					  </div>
-					</div>	
+					  	
+					</div>
 					
 					<div class="form-row">
-						<div class="form-group col-md-8">
-						    <label for="exampleFormControlSelect2">選擇商品：</label>
-						    <select class="form-control" id="exampleFormControlSelect2">
-						      <option>1</option>
-						      <option>2</option>
-						      <option>3</option>
-						      <option>4</option>
-						      <option>5</option>
-						    </select>
-						  </div>
-						<div class="form-group col-md-4">
-						    <label for="amount">成團數量：</label>
-						    <input type="number" class="form-control" id="amount" min="1">
-						   
+						<div class="form-group col-md-12">
+							<label for="exampleFormControlFile1">封面圖片：</label>
+							<input type="file" class="form-control-file" id="exampleFormControlFile1">
 						</div>
+					</div>
+					
+					
+					<div class="form-row">
+
+						  <div class="form-group col-md-12">
+						  	<label for="">選擇產品：</label>
+							<div class="form-check">
+							  <input class="" type="checkbox" value="" id="defaultCheck1">
+							  <label class="form-check-label" for="defaultCheck1">
+							    商品：ＸＸＸ 價格：ＸＸＸ 最低數量：ＸＸ
+							  </label>
+							</div>
+							<div class="form-check">
+							  <input class="" type="checkbox" value="" id="defaultCheck1">
+							  <label class="form-check-label" for="defaultCheck1">
+							    商品：ＸＸＸ 價格：ＸＸＸ 最低數量：ＸＸ
+							  </label>
+							</div>
+						  </div>
+						
+						
 					</div>
 					
 				  	<div class="form-row">
@@ -47,7 +59,7 @@
 					
 					<div class="form-row">
 						<div class="form-group col-md-12">
-						    <label for="">送貨地址：</label>
+						    <label for="">取貨地址：</label>
 						    <input type="text" class="form-control" id="" placeholder="送貨地址">
 						    
 						</div>	
@@ -56,7 +68,7 @@
 
 					<div class="form-row">
 						<div class="form-group col-md-12">
-							<label for="">內容：</label>
+							<label for="">備註說明：</label>
 							<textarea rows="5" class="form-control">
 								
 							</textarea>

@@ -16,6 +16,7 @@
 				  <div class="card-body p-4">
 				    <h5 class="card-title">團購名稱：團購名稱</h5>
 				    <p class="cart-text">商品：商品</p>
+				    <p class="cart-text">團購價：xxx</p>
 				    <p class="cart-text">成團數量：20</p>
 				    <p class="cart-text">目前數量：10</p>
 				    <p class="card-text">截止日期：2019/06/22 (四)</p>
@@ -33,22 +34,40 @@
 						<div class="form-group">
 						    <label for="">姓名：</label>
 						    <input type="text" class="form-control" id="" placeholder="送貨地址">
-						    
-						</div>	
+						</div>
 						<div class="form-group">
 						    <label for="">聯絡電話：</label>
 						    <input type="text" class="form-control" id="" placeholder="聯絡電話">
-						    
-						</div>	
-						<div class="form-group">
-						    <label for="">數量：</label>
-						    <input type="number" class="form-control" id="" min="1">
-						    
-						</div>	
+						</div>
+						
+							<div class="form-group">
+								<label for="">產品：</label>
+								<div class="form-check">
+								  <input class="" type="checkbox" value="" id="defaultCheck1">
+								  <label class="form-check-label" for="defaultCheck1">
+								    商品：ＸＸＸ 價格：ＸＸＸ 成團數量：ＸＸ
+								  </label>
+								  <label class="form-check-label" for="defaultCheck1">
+								    數量：
+								  </label>
+								  <input style="display: inline-block;width:56px;" class="ml-2 form-control">
+								</div>
+								<div class="form-check">
+								  <input class="" type="checkbox" value="" id="defaultCheck1">
+								  <label class="form-check-label" for="defaultCheck1">
+								    商品：ＸＸＸ 價格：ＸＸＸ 成團數量：ＸＸ
+								  </label>
+								  <label class="form-check-label" for="defaultCheck1">
+								    數量：
+								  </label>
+								  <input style="display: inline-block;width:56px;" class="ml-2 form-control">
+								</div>
+							
+						</div>
+						
 						<div class="form-group">
 						    <label for="">送貨地址：</label>
 						    <input type="text" class="form-control" id="" placeholder="送貨地址">
-						    
 						</div>	
 						
 						<button class="mt-4 btn btn-primary btn-block">確定送出</button>
