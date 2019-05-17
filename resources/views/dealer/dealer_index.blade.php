@@ -8,7 +8,7 @@
 
 
 @section('content')
-<div style="margin-top: 40px;margin-bottom: 40px;" class="container">
+<div style="margin-top: 40px;margin-bottom: 40px;min-height: 500px;" class="container">
 	<div class="mb-2">
 		<button style="background-color: #d9534f;" class="btn text-white">開設新團購</button>	
 	</div>
