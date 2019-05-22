@@ -24,13 +24,9 @@
 <form id="catForm" style="display: inline-block;" action="{{URL::current()}}" method="GET">
 	<select name="category" id="categorySelecter">
 		<option value="">全部分類</option>
-		<option value="1">排骨</option>
-		<option value="2">雞腿</option>
-		<option value="3">雙饗</option>
-		<option value="5">肉乾</option>
-		<option value="4">FB專屬</option>
-		<option value="6">團購VIP</option>
-		<option value="7">銀髮族</option>
+		@foreach($cats as $cat)
+		<option value="{{$cat->id}}">{{$cat->name}}</option>
+		@endforeach
 		<option value="0">已下架</option>
 	</select>
 </form>

@@ -43,7 +43,9 @@ class ProductController extends Controller
             $products = Products::orderBy('price','asc')->where('public',1)->get();    
         }
 
-        return view('products.index', ['products' => $products]);
+        $cats = ProductCategory::all();
+
+        return view('products.index', ['products' => $products,'cats'=>$cats]);
     }
 
     /**
