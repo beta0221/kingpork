@@ -11,6 +11,7 @@ use App\GroupMemberBill;
 use Illuminate\Support\Facades\Auth;
 use Image;
 use Storage;
+use Session;
 
 class GroupController extends Controller
 {
@@ -112,6 +113,8 @@ class GroupController extends Controller
     public function join(Request $req)
     {
         $this->validate($req,[
+            'group_id'=>'required',
+            'group_code'=>'required',
             'name'=>'required',
             'phone'=>'required',
             'product'=>'required',
@@ -119,7 +122,7 @@ class GroupController extends Controller
             'address'=>'required',
         ]);
 
-        $member = GroupMember::create($req->except(['product','amount']));
+        $member = GroupMember::create($req->except(['group_code','product','amount']));
 
         $i = 0;
         foreach ($req->product as $product) {
@@ -130,8 +133,9 @@ class GroupController extends Controller
             $i++;
         }
         
-
-        return response()->json($req);
+        Session::flash('success','成功發送');
+        $group = Group::where('group_code',$req->group_code)->firstOrFail();
+        return view('dealer.dealer_join',['group'=>$group]);
     }
 
     /**

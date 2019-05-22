@@ -42,7 +42,7 @@
 			  		<td rowspan="{{count($group->products)}}">{{$i}}</td>
 			  		<td rowspan="{{count($group->products)}}">{{$group->title}}</td>
 			  		<td rowspan="{{count($group->products)}}">
-			  			<input id="group_url_{{$i}}" style="" type="text" value="{{'www.kingpork.com.tw'.'/dealer/'.$group->group_code}}">
+			  			<input id="group_url_{{$i}}" style="" type="text" value="{{'https://www.kingpork.com.tw'.'/dealer/'.$group->group_code}}">
 			  			<button class="btn btn-sm btn-primary" onclick="copy('group_url_{{$i}}')">複製</button>
 			  			<a class="btn btn-sm btn-success" href="{{'/dealer/'.$group->group_code}}" target="_blank">瀏覽</a>
 			  		</td>

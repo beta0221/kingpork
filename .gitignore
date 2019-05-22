@@ -4,6 +4,7 @@
 /public/images/banner
 /public/images/productsIMG
 /public/images/articleIMG
+/public/images/groupIMG
 /storage/*.key
 /vendor
 /.idea

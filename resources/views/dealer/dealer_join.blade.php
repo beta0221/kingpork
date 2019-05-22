@@ -53,6 +53,13 @@
 					<form class="mt-4 mb-4 pl-4 pr-4" action="/join-group" method="POST">
 						{{csrf_field()}}
 						<input style="display: none;" type="text" name="group_id" value="{{$group->id}}">
+						<input style="display: none;" type="text" name="group_code" value="{{$group->group_code}}">
+						@if(Session::has('success'))
+						<div class="mb-4 btn btn-success btn-block">
+							{{Session('success')}}
+						</div>
+						@endif
+
 						<div class="form-group">
 						    <label for="">姓名：</label>
 						    <input type="text" class="form-control" id="" placeholder="姓名" name="name">
@@ -84,9 +91,9 @@
 						    <label for="">送貨地址：</label>
 						    <input type="text" class="form-control" id="" placeholder="送貨地址" name="address">
 						</div>	
-						
-						<button class="mt-4 btn btn-primary btn-block">確定送出</button>
-						
+						@if(!Session::has('success'))
+							<button class="mt-4 btn btn-primary btn-block">確定送出</button>
+						@endif
 					</form>
 				</div>
 
