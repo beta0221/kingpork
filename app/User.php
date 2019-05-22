@@ -37,6 +37,11 @@ class User extends Authenticatable
         return $this->hasMany('App\Kart','user_id');
     }
 
+    public function groups()
+    {
+        return $this->hasMany('App\Group','dealer_id','id');
+    }
+
 }
 
 
