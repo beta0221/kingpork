@@ -119,7 +119,6 @@ class GroupController extends Controller
             'phone'=>'required',
             'product'=>'required',
             'amount'=>'required',
-            'address'=>'required',
         ]);
 
         $member = GroupMember::create($req->except(['group_code','product','amount']));

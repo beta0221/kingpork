@@ -39,7 +39,8 @@
 				    </table>
 				    
 				    <p class="card-text">截止日期：{{$group->deadline}}</p>
-				    <p class="card-text">內容：{{$group->comment}}</p>
+				    <p class="card-text">取貨地點：{{$group->address}}</p>
+				    <p class="card-text">備註說明：{{$group->comment}}</p>
 				    <p class="card-text"><small class="text-muted">開團日期：{{$group->created_at}}</small></p>
 				  </div>
 				  
@@ -88,8 +89,9 @@
 						</div>
 						
 						<div class="form-group">
-						    <label for="">送貨地址：</label>
-						    <input type="text" class="form-control" id="" placeholder="送貨地址" name="address">
+						    <label for="">訂貨備註：</label>
+						    <textarea class="form-control" name="comment"></textarea>
+						    
 						</div>	
 						@if(!Session::has('success'))
 							<button class="mt-4 btn btn-primary btn-block">確定送出</button>
