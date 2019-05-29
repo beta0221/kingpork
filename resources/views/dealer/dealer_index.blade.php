@@ -66,7 +66,7 @@
 						
 			  		@if($isSuccess == false && $success == true)
 					<td rowspan="{{count($group->products)}}">
-						<button class="btn btn-sm btn-warning">名單</button>
+						<a class="btn btn-sm btn-warning" target="_blank" href="/group-excel/{{$group->group_code}}">名單</a>
 						@if($group->deadline<date("Y-m-d"))
 						<a href="" class="btn btn-sm btn-success">送單</a>
 						@endif

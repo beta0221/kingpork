@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Auth;
 use Image;
 use Storage;
 use Session;
+use Excel;
+use Illuminate\Support\Facades\DB;
 
 class GroupController extends Controller
 {
@@ -185,4 +187,38 @@ class GroupController extends Controller
     {
         //
     }
+
+    public function export($group_code)
+    {
+
+        $cellData = [
+            ['姓名','電話','備註','訂購產品','數量','訂購時間'],
+        ];
+
+        $dataSet = DB::select('SELECT member.`name` as member_name,member.`phone`,member.`comment`,products.`name` as product_name,bill.`amount`,member.`created_at` FROM `groups` as groups ,`group_members` as member, `group_members_bills` as bill, `products` as products WHERE groups.`group_code` = :group_code and groups.`id` = member.`group_id` and member.`id` = bill.`member_id` and bill.`product_id` = products.`id`;',['group_code'=>$group_code]);
+
+        foreach ($dataSet as $key => $row) {
+            $newArray = [];
+            array_push($newArray,$row->member_name,$row->phone,$row->comment,$row->product_name,$row->amount,$row->created_at);
+            array_push($cellData,$newArray);
+        }
+
+        $title = Group::where('group_code',$group_code)->firstOrFail()->title;
+
+        Excel::create($title, function($excel)use($cellData) {
+
+            $excel->sheet('Sheetname', function($sheet)use($cellData) {
+
+                $sheet->rows($cellData);
+
+            });
+
+        })->download('xls');
+
+        // return response()->json($cellData);
+
+    }
+
+
+
 }

@@ -98,5 +98,5 @@ Route::get('/group-buy','GroupBuyController@index');
 Route::get('/send-gift','SendGiftController@index');
 
 Route::resource('/dealer','GroupController');
-// Route::get('/dealer/mygroup','GroupController@myGroup');
 Route::post('/join-group','GroupController@join');
+Route::get('/group-excel/{group_code}','GroupController@export');
