@@ -43,7 +43,7 @@
 			  		<td rowspan="{{count($group->products)}}">{{$group->title}}</td>
 			  		<td rowspan="{{count($group->products)}}">
 			  			<input id="group_url_{{$i}}" style="" type="text" value="{{'https://www.kingpork.com.tw'.'/dealer/'.$group->group_code}}">
-			  			<button class="btn btn-sm btn-primary" onclick="copy('group_url_{{$i}}')">複製</button>
+			  			<button class="btn btn-sm btn-primary copy-btn" data-clipboard-target="#group_url_{{$i}}">複製</button>
 			  			<a class="btn btn-sm btn-success" href="{{'/dealer/'.$group->group_code}}" target="_blank">瀏覽</a>
 			  		</td>
 			  		<td rowspan="{{count($group->products)}}">{{$group->deadline}}</td>
@@ -66,6 +66,7 @@
 						
 			  		@if($isSuccess == false && $success == true)
 					<td rowspan="{{count($group->products)}}">
+						<button class="btn btn-sm btn-warning">名單</button>
 						@if($group->deadline<date("Y-m-d"))
 						<a href="" class="btn btn-sm btn-success">送單</a>
 						@endif
@@ -94,5 +95,6 @@
 
 
 @section('scripts')
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
 <script src="/js/_dealer_index.js"></script>
 @endsection

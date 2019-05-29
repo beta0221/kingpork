@@ -32,7 +32,7 @@
 						    <tr>
 						      <td>{{$product->name}}</th>
 						      <td>{{$product->price}}</td>
-						      <td>{{$group->productSum($product->id)}}/{{$product->min_for_dealer}}</td>
+						      <td><span id="current_{{$product->id}}">{{$group->productSum($product->id)}}</span>/{{$product->min_for_dealer}}</td>
 						    </tr>
 							@endforeach
 						</tbody>
@@ -50,39 +50,36 @@
 				<hr>	
 
 				<div class="card">
-
-					<form class="mt-4 mb-4 pl-4 pr-4" action="/join-group" method="POST">
-						{{csrf_field()}}
-						<input style="display: none;" type="text" name="group_id" value="{{$group->id}}">
-						<input style="display: none;" type="text" name="group_code" value="{{$group->group_code}}">
-						@if(Session::has('success'))
-						<div class="mb-4 btn btn-success btn-block">
-							{{Session('success')}}
-						</div>
-						@endif
+					{{-- @if($group->deadline>=date("Y-m-d")) --}}
+					<form class="mt-4 mb-4 pl-4 pr-4" id="join-group-form">
+						
+						<input style="display: none;" type="text" id="group_id" value="{{$group->id}}">
+						<input style="display: none;" type="text" id="group_code" value="{{$group->group_code}}">
+						
 
 						<div class="form-group">
 						    <label for="">姓名：</label>
-						    <input type="text" class="form-control" id="" placeholder="姓名" name="name">
+						    <input type="text" class="form-control" placeholder="姓名" id="name">
 						</div>
 						<div class="form-group">
 						    <label for="">聯絡電話：</label>
-						    <input type="text" class="form-control" id="" placeholder="聯絡電話" name="phone">
+						    <input type="text" class="form-control" placeholder="聯絡電話" id="phone">
 						</div>
 						
 							<div class="form-group">
 								<label for="">產品：</label>
 
 								@foreach($group->products as $product)
-								<div class="form-check">
-								  <input class="" type="checkbox" value="{{$product->id}}" id="defaultCheck1" name="product[]">
+								<div class="form-check product-array">
+								  <input class="product" type="checkbox" value="{{$product->id}}">
 								  <label class="form-check-label" for="defaultCheck1">
-								    商品：{{$product->name}} 價格：{{$product->price}} 成團數量：{{$product->min_for_dealer}}
+								    商品：{{$product->name}} 價格：{{$product->price}} 成團數量：<span id="max_{{$product->id}}">{{$product->min_for_dealer}}</span>
 								  </label>
 								  <label class="form-check-label" for="defaultCheck1">
 								    數量：
 								  </label>
-								  <input style="display: inline-block;width:56px;" class="ml-2 form-control" name="amount[]">
+								  <input style="display: inline-block;width:56px;" type="number" min="1" value="1" class="ml-2 form-control amount">
+								  <span>（剩餘：</span><span id="left_{{$product->id}}">{{$product->min_for_dealer - $group->productSum($product->id)}}</span><span>）</span>
 								</div>
 								@endforeach
 							
@@ -90,13 +87,17 @@
 						
 						<div class="form-group">
 						    <label for="">訂貨備註：</label>
-						    <textarea class="form-control" name="comment"></textarea>
+						    <textarea class="form-control" id="comment"></textarea>
 						    
 						</div>	
 						@if(!Session::has('success'))
-							<button class="mt-4 btn btn-primary btn-block">確定送出</button>
+							<div onclick="sendRequest();" class="mt-4 btn btn-primary btn-block">確定送出</div>
 						@endif
 					</form>
+					<h2 id="success-alert" class="mt-4 mb-4" style="text-align: center;display: none;color: green;">訂單成功送出。</h2>
+					{{-- @else
+					<h2 class="mt-4 mb-4" style="text-align: center;">本團購已截止</h2>
+					@endif --}}
 				</div>
 
 			</div>
@@ -106,5 +107,5 @@
 @endsection
 
 @section('scripts')
-
+<script src="/js/_dealer_join.js"></script>
 @endsection

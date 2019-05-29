@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Group;
 use App\ProductCategory;
+use App\Products;
 use Illuminate\Http\Request;
 use App\User;
 use App\GroupMember;
@@ -83,7 +84,8 @@ class GroupController extends Controller
             }else{
                 \File::cleanDirectory($path);
             }
-            Image::make($image)->resize(800,400)->save($location);//把圖面resize之後存進路徑
+            //resize(800,400)
+            Image::make($image)->save($location);//把圖面resize之後存進路徑
             $group->image = $filename;//存進資料庫語法跟其他欄位一樣只是放進來是$filename變數
         }
             
@@ -121,20 +123,33 @@ class GroupController extends Controller
             'amount'=>'required',
         ]);
 
-        $member = GroupMember::create($req->except(['group_code','product','amount']));
-
-        $i = 0;
-        foreach ($req->product as $product) {
-            $member->membersBill()->create([
-                'product_id'=>$product,
-                'amount'=>$req->amount[$i],
-            ]);
-            $i++;
-        }
-        
-        Session::flash('success','成功發送');
+        $isChecked = true;
         $group = Group::where('group_code',$req->group_code)->firstOrFail();
-        return view('dealer.dealer_join',['group'=>$group]);
+        
+        
+        $productAmount = [];
+        foreach ($req->product as $key=>$product) {
+            $max = Products::find($product)->min_for_dealer;
+            $total = $group->productSum($product);
+            $productAmount[$product] = $total;
+            if ($total + $req->amount[$key] > $max) {
+                $isChecked = false;
+            }
+        }
+
+        if (!$isChecked) {
+            return response()->json($productAmount);
+        }else{
+            $member = GroupMember::create($req->except(['group_code','product','amount']));
+            foreach ($req->product as $i=>$product) {
+                $member->membersBill()->create([
+                    'product_id'=>$product,
+                    'amount'=>$req->amount[$i],
+                ]);
+            }
+            return response()->json('success');
+        }
+
     }
 
     /**
