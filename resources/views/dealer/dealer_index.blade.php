@@ -44,6 +44,7 @@
 			  		<td rowspan="{{count($group->products)}}">
 			  			<input id="group_url_{{$i}}" style="" type="text" value="{{'https://www.kingpork.com.tw'.'/dealer/'.$group->group_code}}">
 			  			<button class="btn btn-sm btn-primary copy-btn" data-clipboard-target="#group_url_{{$i}}">複製</button>
+			  			<a class="btn btn-sm btn-warning" target="_blank" href="/group-excel/{{$group->group_code}}">名單</a>
 			  			<a class="btn btn-sm btn-success" href="{{'/dealer/'.$group->group_code}}" target="_blank">瀏覽</a>
 			  		</td>
 			  		<td rowspan="{{count($group->products)}}">{{$group->deadline}}</td>
@@ -66,10 +67,11 @@
 						
 			  		@if($isSuccess == false && $success == true)
 					<td rowspan="{{count($group->products)}}">
-						<a class="btn btn-sm btn-warning" target="_blank" href="/group-excel/{{$group->group_code}}">名單</a>
+
 						@if($group->deadline<date("Y-m-d"))
 						<a href="" class="btn btn-sm btn-success">送單</a>
 						@endif
+
 					</td>
 
 					<?php $isSuccess = true; ?>
