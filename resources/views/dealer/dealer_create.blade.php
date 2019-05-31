@@ -24,8 +24,8 @@
 					
 					<div class="form-row">
 						<div class="form-group col-md-12">
-							<label for="exampleFormControlFile1">封面圖片：</label>
-							<input type="file" class="form-control-file" id="exampleFormControlFile1" name="image">
+							<label for="exampleFormControlFile1">封面圖片：(圖片格式：gif,jpg,png)</label>
+							<input type="file" class="form-control-file" id="exampleFormControlFile1" name="image" accept="image/*">
 						</div>
 					</div>
 					

@@ -381,32 +381,6 @@ class BillController extends Controller
 
         }
 
-            //case 'credit':            //  Pay By hwa-nan Credit !!!
-                // $bill = new Bill;
-                // $bill->user_id = Auth::user()->id;
-                // $bill->bill_id = $MerchantTradeNo;
-                // $bill->user_name = Auth::user()->name;
-                // $bill->item = json_encode($kart);
-                // $bill->bonus_use = $bonusCount;
-                // $bill->price = $total;
-                // $bill->ship_name = $request->ship_name;
-                // $bill->ship_gender = $request->ship_gender;
-                // $bill->ship_phone = $request->ship_phone;
-                // $bill->ship_county = $request->ship_county;
-                // $bill->ship_district = $request->ship_district;
-                // $bill->ship_address = $request->ship_address;
-                // $bill->ship_email = $request->ship_email;
-                // $bill->ship_arrive = $request->ship_arrive;
-                // $bill->ship_arriveDate = $request->ship_arriveDate;
-                // $bill->ship_time = $request->ship_time;
-                // $bill->ship_receipt = $request->ship_receipt;
-                // $bill->ship_three_id = $request->ship_three_id;
-                // $bill->ship_three_company = $request->ship_three_company;
-                // $bill->ship_memo = $request->ship_memo;
-                // $bill->pay_by = 'CREDIT';
-                // $bill->save();
-                // break;
-
 //-----------------------------------------------------------------------
         if (Auth::user()) {
             Kart::where('user_id',Auth::user()->id)->delete();

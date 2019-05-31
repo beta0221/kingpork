@@ -98,5 +98,6 @@ Route::get('/group-buy','GroupBuyController@index');
 Route::get('/send-gift','SendGiftController@index');
 
 Route::resource('/dealer','GroupController');
+Route::patch('/group-detail/{group_code}','GroupController@get_group');
 Route::post('/join-group','GroupController@join');
 Route::get('/group-excel/{group_code}','GroupController@export');

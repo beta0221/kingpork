@@ -68,8 +68,10 @@
 			  		@if($isSuccess == false && $success == true)
 					<td rowspan="{{count($group->products)}}">
 
-						@if($group->deadline<date("Y-m-d"))
-						<a href="" class="btn btn-sm btn-success">送單</a>
+						@if($group->deadline<date("Y-m-d") && $group->is_done == false)
+						<div class="btn btn-sm btn-success" onclick="submit_group('{{$group->group_code}}');">送單</div>
+						@elseif($group->is_done)
+						已送出
 						@endif
 
 					</td>
@@ -91,6 +93,24 @@
 			
 		</div>
 	</div>
+
+
+	<div style="display: none;">
+		<form id="submit_form" action="{{route('bill.store')}}" method="POST">
+			{{csrf_field()}}
+			<input type="text" name="ship_name" value="{{Auth::user()->name}}">
+			<input type="text" name="ship_phone" value="{{Auth::user()->phone}}">
+			<input type="text" name="ship_email" value="{{Auth::user()->email}}">
+			<input type="text" name="bonus" value="0">
+			<input type="text" name="ship_receipt" value="2">
+			<input type="text" name="ship_arrive" value="no">
+			<input type="text" name="time" value="no">
+			<input id="submit_address" type="text" name="ship_address" value="">
+			<input type="text" name="ship_pay_by" value="ATM">
+		</form>
+	</div>
+	
+
 </div>
 		
 @endsection

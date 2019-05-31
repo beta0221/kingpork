@@ -100,6 +100,37 @@ class GroupController extends Controller
 
     }
 
+
+    public function get_group($group_code)
+    {
+        $group = Group::where('group_code',$group_code)->firstOrFail();
+        
+        $itemArray = [];
+        
+        
+        foreach ($group->products as $key => $product) {
+            $max = Products::find($product->id)->min_for_dealer;
+            $total = $group->productSum($product->id);
+
+            if ($max == $total) {
+                $itemArray[$product->slug] = $total; 
+                
+            }
+
+        }
+
+        $result = [
+            'address'=>$group->address,
+            'itemArray'=>$itemArray,
+        ];
+
+
+        $group->is_done = true;
+        $group->save();
+
+        return response()->json($result);
+    }
+
     /**
      * Display the specified resource.
      *
@@ -192,14 +223,14 @@ class GroupController extends Controller
     {
 
         $cellData = [
-            ['姓名','電話','備註','訂購產品','數量','訂購時間'],
+            ['姓名','電話','訂購產品','數量','訂購時間','備註'],
         ];
 
         $dataSet = DB::select('SELECT member.`name` as member_name,member.`phone`,member.`comment`,products.`name` as product_name,bill.`amount`,member.`created_at` FROM `groups` as groups ,`group_members` as member, `group_members_bills` as bill, `products` as products WHERE groups.`group_code` = :group_code and groups.`id` = member.`group_id` and member.`id` = bill.`member_id` and bill.`product_id` = products.`id`;',['group_code'=>$group_code]);
 
         foreach ($dataSet as $key => $row) {
             $newArray = [];
-            array_push($newArray,$row->member_name,$row->phone,$row->comment,$row->product_name,$row->amount,$row->created_at);
+            array_push($newArray,$row->member_name,$row->phone,$row->product_name,$row->amount,$row->created_at,$row->comment);
             array_push($cellData,$newArray);
         }
 
