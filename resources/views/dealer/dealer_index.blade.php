@@ -54,23 +54,22 @@
 			  		<td>{{$group->productSum($product->id)}}/{{$product->min_for_dealer}}</td>
 			  		<td>
 			  			@if($group->deadline>=date("Y-m-d"))
-			  			<font color="gray">揪團中</font>
+			  				<font color="gray">揪團中</font>
 			  			@else
-			  			已截止
-			  			@if($group->productSum($product->id)>=$product->min_for_dealer)
-						(<font color="green">成團</font>)
-						@else
-						(<font color="red">未成團</font>)
-						@endif
-			  			</td>
+			  				已截止
 			  			@endif
-						
+			  			@if($group->productSum($product->id)>=$product->min_for_dealer)
+							(<font color="green">成團</font>)
+						@else
+							(<font color="red">未成團</font>)
+						@endif
+					</td>
 			  		@if($isSuccess == false && $success == true)
 					<td rowspan="{{count($group->products)}}">
 
-						@if($group->deadline<date("Y-m-d") && $group->is_done == false)
+						@if(!$group->is_done)
 						<div class="btn btn-sm btn-success" onclick="submit_group('{{$group->group_code}}');">送單</div>
-						@elseif($group->is_done)
+						@else
 						已送出
 						@endif
 
