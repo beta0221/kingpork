@@ -12,4 +12,9 @@ class ProductCategory extends Model
     {
     	return $this->hasMany('App\Products','category_id')->orderBy('price','asc');
     }
+
+    public function productsById()
+    {
+    	return $this->hasMany('App\Products','category_id')->orderBy('id');	
+    }
 }

@@ -47,7 +47,8 @@ class GroupController extends Controller
      */
     public function create()
     {
-        $products = ProductCategory::find(8)->products()->get();
+        $products = ProductCategory::find(8)->productsById()->get();
+
         return view('dealer.dealer_create',['products'=>$products]);
     }
 
