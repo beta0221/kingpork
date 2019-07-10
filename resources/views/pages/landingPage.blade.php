@@ -22,9 +22,65 @@
 {{-- banner end --}}
 
 {{-- products start --}}
+
+<div class="new-product-bar">
+		<div class="product-cell test-pork">
+			<div>
+				<div>
+					<div class="catImg P-pork" id="{{Request::is('productCategory/1') ? 'currentCat' : ''}}">
+						<a href="{{route('productCategory.show',1)}}">		
+							<img src="{{asset('images/pork-test.png')}}" alt="金園排骨">
+						</a>
+						<div onclick="location.href='{{route('productCategory.show',1)}}';" class="P-buy">我要買</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="product-cell test-both">
+			<div>
+				<div>
+					<div class="catImg P-both" id="{{Request::is('productCategory/3') ? 'currentCat' : ''}}">
+						<a href="{{route('productCategory.show',3)}}">
+							<img src="{{asset('images/productsIMG/both-test.png')}}" alt="幸福雙響組合">
+						</a>
+						<div onclick="location.href='{{route('productCategory.show',3)}}';" class="P-buy">我要買</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="product-cell test-chicken">
+			<div>
+				<div>
+					<div class="catImg P-chicken" id="{{Request::is('productCategory/2') ? 'currentCat' : ''}}">
+						<a href="{{route('productCategory.show',2)}}">
+							<img src="{{asset('images/chicken-test.png')}}" alt="金園排骨厚切雞腿排">
+						</a>
+						<div onclick="location.href='{{route('productCategory.show',2)}}';" class="P-buy">我要買</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="product-cell test-fish">
+			<div>
+				<div>
+					<div class="catImg P-fish" id="{{Request::is('productCategory/9') ? 'currentCat' : ''}}">
+						<a href="{{route('productCategory.show',9)}}">
+							<img src="{{asset('images/productsIMG/fish-test.png')}}" alt="鯖魚">	
+						</a>
+						<div onclick="location.href='{{route('productCategory.show',9)}}';" class="P-buy">我要買</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+
 <div class="productArea container">
 	{{-- <h2 style="text-align: center;margin-bottom: 20px;letter-spacing: 4px;">我要購買<span style="margin: 0 12px 0 12px;">/</span>GO SHOPPING</h2> --}}
-	<div class="row">
+	{{-- <div class="row">
 		<div class="product col-md-4 col-12 test-pork">
 			<div class="P-">
 				<a href="{{route('productCategory.show',1)}}">
@@ -49,7 +105,7 @@
 				<div onclick="location.href='{{route('productCategory.show',2)}}';" class="P-buy">我要買</div>
 			</div>
 		</div>
-	</div>
+	</div> --}}
 
 	<div class="row second-row">
 		<div class="product col-md-6 col-12 group-buy">

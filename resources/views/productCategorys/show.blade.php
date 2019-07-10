@@ -9,10 +9,59 @@
 @section('content')
 
 <div class="content">
-	<div class="container">
-		<div class="row productsBar">
 
-			<div class="col-md-4 col-4">
+	<div style="width:100%;padding: 0 12px;margin:20px 0;">
+		<div class="product-cell">
+			<div>
+				<div>
+					<div class="catImg P-pork" id="{{Request::is('productCategory/1') ? 'currentCat' : ''}}">
+						<a href="{{route('productCategory.show',1)}}">		
+							<img src="{{asset('images/productsIMG/pork2.png')}}" alt="厚切手打豬排">	
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="product-cell">
+			<div>
+				<div>
+					<div class="catImg P-both" id="{{Request::is('productCategory/3') ? 'currentCat' : ''}}">
+						<a href="{{route('productCategory.show',3)}}">
+							<img src="{{asset('images/productsIMG/both2.png')}}" alt="幸福雙響組合">
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="product-cell">
+			<div>
+				<div>
+					<div class="catImg P-chicken" id="{{Request::is('productCategory/2') ? 'currentCat' : ''}}">
+						<a href="{{route('productCategory.show',2)}}">
+							<img src="{{asset('images/productsIMG/chicken2.png')}}" alt="無骨嫩雞腿排">	
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="product-cell">
+			<div>
+				<div>
+					<div class="catImg P-fish" id="{{Request::is('productCategory/9') ? 'currentCat' : ''}}">
+						<a href="{{route('productCategory.show',9)}}">
+							<img src="{{asset('images/productsIMG/fish2.png')}}" alt="鯖魚">	
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container">
+
+		{{-- <div class="row productsBar">
+
+			<div class="col-md-3 col-3">
 				<div id="{{Request::is('productCategory/1') ? 'currentCat' : ''}}" class="catImg P-pork">
 					<a href="{{route('productCategory.show',1)}}">
 						<img src="{{asset('images/productsIMG/pork2.png')}}" alt="厚切手打豬排">	
@@ -20,7 +69,7 @@
 				</div>
 				
 			</div>
-			<div class="col-md-4 col-4">
+			<div class="col-md-3 col-3">
 				<div id="{{Request::is('productCategory/3') ? 'currentCat' : ''}}" class="catImg P-both">
 					<a href="{{route('productCategory.show',3)}}">
 						<img src="{{asset('images/productsIMG/both2.png')}}" alt="幸福雙響組合">
@@ -28,19 +77,32 @@
 				</div>
 				
 			</div>
-			<div class="col-md-4 col-4">
+			<div class="col-md-3 col-3">
 				<div id="{{Request::is('productCategory/2') ? 'currentCat' : ''}}" class="catImg P-chicken">
 					<a href="{{route('productCategory.show',2)}}">
 						<img src="{{asset('images/productsIMG/chicken2.png')}}" alt="無骨嫩雞腿排">
 					</a>
 				</div>
 			</div>
+
+			<div class="col-md-3 col-3">
+				<div id="{{Request::is('productCategory/9') ? 'currentCat' : ''}}" class="catImg P-fish">
+					<a href="{{route('productCategory.show',9)}}">
+						<img src="{{asset('images/productsIMG/pork2.png')}}" alt="鯖魚">	
+					</a>
+				</div>
+				
+			</div>
 			
-		</div>
+		</div> --}}
+
+
+
+
 		<div class="row">
 			<div class="col-md-6 col-12">
 				<div class="productIMG">
-					<img id="productIMG" src="{{asset('images/productsIMG') . '/'}}{{Request::is('productCategory/1') ? 'pork.png' : ''}}{{Request::is('productCategory/3') ? 'both.png' : ''}}{{Request::is('productCategory/2') ? 'chicken.png' : ''}}">
+					<img id="productIMG" src="{{asset('images/productsIMG') . '/'}}{{Request::is('productCategory/1') ? 'pork.png' : ''}}{{Request::is('productCategory/3') ? 'both.png' : ''}}{{Request::is('productCategory/2') ? 'chicken.png' : ''}}{{Request::is('productCategory/9') ? 'fish.png' : ''}}">
 				</div>
 			</div>
 			<div class="col-md-6 col-12">
@@ -50,7 +112,8 @@
 							<h1>
 								{{Request::is('productCategory/1') ? '厚切手打豬排' : ''}}
 								{{Request::is('productCategory/3') ? '幸福雙饗組合' : ''}}
-								{{Request::is('productCategory/2') ? '無骨嫩雞腿排' : ''}}		
+								{{Request::is('productCategory/2') ? '無骨嫩雞腿排' : ''}}
+								{{Request::is('productCategory/9') ? '鯖魚' : ''}}		
 							</h1>
 						</div>
 

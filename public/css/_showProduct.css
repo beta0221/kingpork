@@ -1,6 +1,6 @@
 @import url(https://fonts.googleapis.com/earlyaccess/cwtexkai.css);
 .content{
-	margin:60px 0 80px 0;
+	margin:0 0 80px 0;
 }
 /*-----------------------------------------------*/
 .productIMG{
@@ -170,11 +170,6 @@
 }
 
 
-
-
-
-
-
 .titleRow{
 	text-align: center;
 	height: 100px;
@@ -187,6 +182,45 @@
 	color: white;
 }
 /*---------------------------------------------------*/
+
+.product-cell{
+	width:calc(100% / 4 - 3.5px);
+	display: inline-block;
+}
+
+.product-cell > div:nth-child(1){
+	width:100%;
+	padding: 0 8px;
+}
+
+.product-cell > div:nth-child(1) > div{
+	width:100%;
+	padding-top:43%
+}
+.product-cell > div:nth-child(1) > div > div{
+	position: absolute;
+	top:0;
+	left:0;
+	width: 100%;
+	height: 100%;
+}
+.product-cell a{
+	position: relative;
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+.product-cell img{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	min-height: 100%;
+	min-width: 100%;
+	height: auto;
+	width: auto;
+}
+
 .productsBar{
 	height: 160px;
 	/*border:1pt solid #000;*/
@@ -197,54 +231,39 @@
 	height: 100%;
 	border-radius: 0.3em;
 	box-shadow: 2px 2px 16px 2px rgba(0, 0, 0, 0.3);
-	filter: opacity(50%);
+	filter: opacity(60%);
 }
 .catImg:hover{
 	filter:opacity(100%);
 }
-.catImg img{
-	/*height: 100%;*/
+/*.catImg img{
 	min-height: 100%;
 	width: 100%;
 	min-width: 100%;
 	top: 0%;
-}
+}*/
 #currentCat{
 	filter:opacity(100%);
 	border:4pt solid rgba(195,28,34,1);;
 }
+
 .P-pork:before{
 	content: '厚切排骨';
-	font-family: cwTeXKai , serif;
-	font-weight: 900;
-	font-size: 32px;
-	letter-spacing: 4px;
-	color: #fff;
-	position: absolute;
-	top: 5%;
-	left: 2.5%;
-	padding: 8px 28px;
-	z-index: 1;
-	background: linear-gradient(to right, rgba(192,18,24,0) 0%,rgba(192,18,24,1) 20%,rgba(192,18,24,1) 80%,rgba(192,18,24,0) 100%); 
-	/*background: linear-gradient(to right, rgba(109,8,115,0) 0%,rgba(109,8,115,1) 20%,rgba(109,8,115,1) 80%,rgba(109,8,115,0) 100%); */
-	/*background: linear-gradient(to right, rgba(126,6,8,0) 0%,rgba(126,6,8,1) 20%,rgba(126,6,8,1) 80%,rgba(126,6,8,0) 100%);*/
+	background: linear-gradient(to right, rgba(0,0,0,0) 0%,rgba(0,0,0,.3) 20%,rgba(0,0,0,.3) 80%,rgba(0,0,0,0) 100%);
 }
 .P-both:before{
 	content: '雙饗組合';
-	font-family: cwTeXKai , serif;
-	font-weight: 900;
-	font-size: 32px;
-	letter-spacing: 4px;
-	color: #fff;
-	position: absolute;
-	top: 5%;
-	left: 2.5%;
-	padding: 8px 28px;
-	z-index: 1;
-	background: linear-gradient(to right, rgba(192,18,24,0) 0%,rgba(192,18,24,1) 20%,rgba(109,8,115,1) 80%,rgba(109,8,115,0) 100%);
+	background: linear-gradient(to right, rgba(0,0,0,0) 0%,rgba(0,0,0,.3) 20%,rgba(0,0,0,.3) 80%,rgba(0,0,0,0) 100%);
 }
 .P-chicken:before{
 	content: '鮮嫩雞腿';
+	background: linear-gradient(to right, rgba(0,0,0,0) 0%,rgba(0,0,0,.3) 20%,rgba(0,0,0,.3) 80%,rgba(0,0,0,0) 100%);
+}
+.P-fish:before{
+	content: '鯖魚';
+	background: linear-gradient(to right, rgba(0,0,0,0) 0%,rgba(0,0,0,.3) 20%,rgba(0,0,0,.3) 80%,rgba(0,0,0,0) 100%);
+}
+.P-pork:before,.P-both:before,.P-chicken:before,.P-fish:before{
 	font-family: cwTeXKai , serif;
 	font-weight: 900;
 	font-size: 32px;
@@ -255,7 +274,6 @@
 	left: 2.5%;
 	padding: 8px 28px;
 	z-index: 1;
-	background: linear-gradient(to right, rgba(109,8,115,0) 0%,rgba(109,8,115,1) 20%,rgba(109,8,115,1) 80%,rgba(109,8,115,0) 100%); 
 }
 /* 1366 ~ 992 */
 
@@ -392,7 +410,7 @@
 		line-height: 60px;
 	}
 	
-	.P-pork:before,.P-both:before,.P-chicken:before{
+	.P-pork:before,.P-both:before,.P-chicken:before,.P-fish:before{
 		font-size: 24px;
 		letter-spacing: 2px;
 		top: 5%;
@@ -525,6 +543,11 @@
 	.content{
 		margin: 10px 0 30px 0;
 	}
+
+	.product-cell{
+		width:calc(100% / 2 - 3px);
+	}
+
 	.productsBar{
 		margin-bottom: 10px;
 		height: 96px;
@@ -548,7 +571,7 @@
 	.hr{
 		margin: 30px 0 30px 0;
 	}
-	.P-pork:before,.P-both:before,.P-chicken:before{
+	.P-pork:before,.P-both:before,.P-chicken:before,.P-fish:before{
 		font-size: 18px;
 		letter-spacing: 0px;
 		top: 5%;
@@ -672,7 +695,7 @@
 	
 }
 @media(max-width: 330px){
-	.P-pork:before,.P-both:before,.P-chicken:before{
+	.P-pork:before,.P-both:before,.P-chicken:before,.P-fish:before{
 		font-size: 14px;
 		letter-spacing: 0px;
 		top: 5%;

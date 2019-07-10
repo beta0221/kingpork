@@ -58,6 +58,49 @@
 	background-color: rgba(0,0,0,0.5);
 }
 /*banner up */
+.new-product-bar{
+	width:100%;
+	padding: 0 12px;margin:20px 0;
+}
+.product-cell{
+	width:calc(100% / 4 - 3.5px);
+	display: inline-block;
+}
+
+.product-cell > div:nth-child(1){
+	width:100%;
+	padding: 0 8px;
+}
+
+.product-cell > div:nth-child(1) > div{
+	width:100%;
+	padding-top:100%
+}
+.product-cell > div:nth-child(1) > div > div{
+	position: absolute;
+	top:0;
+	left:0;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	border-radius: 0.3em;
+	box-shadow: 2px 2px 16px 2px rgba(0, 0, 0, 0.3);
+}
+.product-cell a{
+	position: relative;
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+.product-cell img{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	height: 100%;
+	width: 100%;
+}
+
 .productArea{
 	margin-top: 40px;
 	margin-bottom: 80px;
@@ -118,13 +161,16 @@
 .test-chicken:before{
 	content: '我要買　鮮嫩雞腿';
 }
+.test-fish:before{
+	content: '我要買　嚴選鯖魚';
+}
 .send-gift:before{
 	content: '我要送禮';
 }
 .group-buy:before{
 	content: '我要團購';
 }
-.test-pork:before,.test-both:before,.test-chicken:before{
+.test-pork:before,.test-both:before,.test-chicken:before,.test-fish:before{
 	font-family: cwTeXKai , serif;
 	background-color: transparent;
 	color: transparent;
@@ -132,7 +178,7 @@
 	font-size: 32px;
 	letter-spacing: 4px;
 	position: absolute;
-	top: 0%;
+	top: -8px;
 	right: 0%;
 	padding-top: 100%;
 	text-align: center;
@@ -156,7 +202,7 @@
 	height: calc(100% + 80px);
 	width:100%;
 }
-.test-pork:hover:before,.test-both:hover:before,.test-chicken:hover:before,.send-gift:hover:before,.group-buy:hover:before{
+.test-pork:hover:before,.test-both:hover:before,.test-chicken:hover:before,.send-gift:hover:before,.group-buy:hover:before,.test-fish:hover:before{
 	background-color: rgba(192,18,24,1);
 	color: #fff;
 }
@@ -452,6 +498,15 @@
 		width: 8px;
 		height: 8px;
 	}
+
+	.new-product-bar{
+		padding: 0;
+	}
+
+	.product-cell{
+		width:100%;
+	}
+
 	.P-{
 		width: calc(100% - 4px);
 		height: calc(100% - 4px);
