@@ -27,7 +27,7 @@
 		<div class="product-cell test-pork">
 			<div>
 				<div>
-					<div class="catImg P-pork" id="{{Request::is('productCategory/1') ? 'currentCat' : ''}}">
+					<div class="catImg P-pork">
 						<a href="{{route('productCategory.show',1)}}">		
 							<img src="{{asset('images/pork-test.png')}}" alt="金園排骨">
 						</a>
@@ -39,7 +39,7 @@
 		<div class="product-cell test-both">
 			<div>
 				<div>
-					<div class="catImg P-both" id="{{Request::is('productCategory/3') ? 'currentCat' : ''}}">
+					<div class="catImg P-both">
 						<a href="{{route('productCategory.show',3)}}">
 							<img src="{{asset('images/productsIMG/both-test.png')}}" alt="幸福雙響組合">
 						</a>
@@ -51,7 +51,7 @@
 		<div class="product-cell test-chicken">
 			<div>
 				<div>
-					<div class="catImg P-chicken" id="{{Request::is('productCategory/2') ? 'currentCat' : ''}}">
+					<div class="catImg P-chicken">
 						<a href="{{route('productCategory.show',2)}}">
 							<img src="{{asset('images/chicken-test.png')}}" alt="金園排骨厚切雞腿排">
 						</a>
@@ -63,7 +63,7 @@
 		<div class="product-cell test-fish">
 			<div>
 				<div>
-					<div class="catImg P-fish" id="{{Request::is('productCategory/9') ? 'currentCat' : ''}}">
+					<div class="catImg P-fish">
 						<a href="{{route('productCategory.show',9)}}">
 							<img src="{{asset('images/productsIMG/fish-test.png')}}" alt="鯖魚">	
 						</a>
@@ -72,6 +72,19 @@
 				</div>
 			</div>
 		</div>
+		<div class="product-cell test-soup">
+			<div>
+				<div>
+					<div class="catImg P-fish">
+						<a href="{{route('productCategory.show',11)}}">
+							<img src="{{asset('images/productsIMG/soup-test.png')}}" alt="酸白菜鍋">	
+						</a>
+						<div onclick="location.href='{{route('productCategory.show',11)}}';" class="P-buy">我要買</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
 	</div>
 
 

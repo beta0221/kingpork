@@ -63,7 +63,7 @@
 	padding: 0 12px;margin:20px 0;
 }
 .product-cell{
-	width:calc(100% / 4 - 3.5px);
+	width:calc(100% / 5 - 3.5px);
 	display: inline-block;
 }
 
@@ -164,13 +164,16 @@
 .test-fish:before{
 	content: '我要買　嚴選鯖魚';
 }
+.test-soup:before{
+	content: '我要買酸白菜鍋底';
+}
 .send-gift:before{
 	content: '我要送禮';
 }
 .group-buy:before{
 	content: '我要團購';
 }
-.test-pork:before,.test-both:before,.test-chicken:before,.test-fish:before{
+.test-pork:before,.test-both:before,.test-chicken:before,.test-fish:before,.test-soup:before{
 	font-family: cwTeXKai , serif;
 	background-color: transparent;
 	color: transparent;
@@ -202,7 +205,7 @@
 	height: calc(100% + 80px);
 	width:100%;
 }
-.test-pork:hover:before,.test-both:hover:before,.test-chicken:hover:before,.send-gift:hover:before,.group-buy:hover:before,.test-fish:hover:before{
+.test-pork:hover:before,.test-both:hover:before,.test-chicken:hover:before,.send-gift:hover:before,.group-buy:hover:before,.test-fish:hover:before,.test-soup:hover:before{
 	background-color: rgba(192,18,24,1);
 	color: #fff;
 }
@@ -374,13 +377,17 @@
 	border: 0;
 }
 @media(max-width: 1200px){
-	.test-pork:before,.test-both:before,.test-chicken:before{
+	.test-pork:before,.test-both:before,.test-chicken:before,.test-fish:before,.test-soup:before{
 		font-weight: 900;
-		font-size: 32px;
+		font-size: 20px;
 		letter-spacing: 4px;
 		padding-top: 100%;
-		
-		height: calc(100% + 80px);
+		height: calc(100% + 60px);
+	}
+	.send-gift:before,.group-buy:before{
+		font-size: 32px;
+		letter-spacing: 2px;
+		height: calc(100% + 60px);
 	}
 	.shop-intro-story{
 		padding:0 15% 0 15%;
@@ -420,12 +427,12 @@
 }
 
 @media(max-width: 992px){
-	.test-pork:before,.test-both:before,.test-chicken:before{
+	.test-pork:before,.test-both:before,.test-chicken:before,.test-fish:before,.test-soup:before{
 		font-weight: 900;
 		font-size: 18px;
 		letter-spacing: 2px;
 		padding-top: 100%;
-		height: calc(100% + 40px);
+		height: calc(100% + 48px);
 	}
 	.send-gift:before,.group-buy:before{
 		font-weight: 900;
@@ -551,7 +558,7 @@
 		height: auto;
 		top: -10%;
 	}
-	.test-pork:hover:before,.test-both:hover:before,.test-chicken:hover:before,.send-gift:hover:before,.group-buy:hover:before{
+	.test-pork:hover:before,.test-both:hover:before,.test-chicken:hover:before,.send-gift:hover:before,.group-buy:hover:before,.test-fish:hover:before,.test-soup:hover:before{
 		background-color: transparent;
 		color: transparent;
 	}
