@@ -41,13 +41,13 @@
 
 					@foreach($products as $product)
 					
-					<div class="product-cell" data-toggle="modal" data-target="#orderModal" onclick="selectItem({{$product->slug}},{{$product->price}})">
+					<div class="product-cell" data-toggle="modal" data-target="#orderModal" onclick="selectItem('{{$product->slug}}',{{$product->price}})">
 
 						<span class="product-cell-name">{{$product->name}}</span>
 						<span class="product-cell-des">{{$product->discription}}</span>
 						
 						<span class="product-cell-select">選擇</span>
-						<span class="product-cell-price" data-toggle="modal" data-target="#orderModal" onclick="selectItem({{$product->slug}},{{$product->price}})">${{$product->price}}</span>
+						<span class="product-cell-price" data-toggle="modal" data-target="#orderModal" onclick="selectItem('{{$product->slug}}',{{$product->price}})">${{$product->price}}</span>
 					</div>
 
 					@endforeach
