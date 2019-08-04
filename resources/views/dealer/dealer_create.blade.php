@@ -36,12 +36,16 @@
 						  	<label for="">選擇產品：</label>
 
 						  	@foreach($products as $product)
-							<div class="form-check">
-							  <input name="products[]"	 type="checkbox" value="{{$product->id}}" id="">
-							  <label class="form-check-label" for="">
-							    商品：{{$product->name}} 價格：{{$product->price}} 最低數量：{{$product->min_for_dealer}}
-							  </label>
-							</div>
+
+						  	@if($product->public == 1)
+								<div class="form-check">
+								  <input name="products[]"	 type="checkbox" value="{{$product->id}}" id="">
+								  <label class="form-check-label" for="">
+								    商品：{{$product->name}} 價格：{{$product->price}} 最低數量：{{$product->min_for_dealer}}
+								  </label>
+								</div>
+						  	@endif
+							
 							@endforeach
 							
 						  </div>
