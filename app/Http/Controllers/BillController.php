@@ -395,6 +395,49 @@ class BillController extends Controller
 
 
 
+    public function getDataLayerForGA($bill_id){
+
+        $bill = Bill::where('bill_id',$bill_id)->firstOrFail();
+
+        $items = json_decode($bill->item,true);
+
+        
+
+        $products=[];
+        foreach ($items as $item) {
+            // return response()->json($item);
+            $product = Products::where('slug',$item['slug'])->first();    
+            $obj = [
+                'name'=>$product->name,
+                'sku'=>$item['slug'],
+                'price'=>$product->price,
+                'quantity'=>$item['quantity'],
+            ];
+            $products[] = $obj;
+        }
+
+        
+
+        $actionField = [];
+        $actionField['id'] = $bill_id;
+        $actionField['revenue'] = $bill->price;
+
+        $purchase = [];
+        $ecommerce = [];
+
+        $dataLayer = [];
+        $dataLayer['ecommerce'] = [];
+        $dataLayer['ecommerce']['purchase'] = [];
+        $dataLayer['ecommerce']['purchase']['actionField'] = $actionField;
+        $dataLayer['ecommerce']['purchase']['products'] = $products;
+        $dataLayer['event'] = 'purchaseComplete';
+
+
+        return response()->json($dataLayer);
+
+    }
+
+
 
     public function billPaied(Request $request)     // !!! API !!!{
     {

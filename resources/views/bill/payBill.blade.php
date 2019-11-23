@@ -178,6 +178,11 @@
 
 
 @section('scripts')
+<script>
+	var bill_id = '{{$finalBill['bill_id']}}';
+</script>
+<script src="/js/_payBill.js"></script>
+
 
 @if(($finalBill['pay_by']=='ATM'AND$finalBill['SPToken']!=null AND$finalBill['status']!=1)OR($finalBill['pay_by']=='CREDIT'AND$finalBill['SPToken']!=null AND$finalBill['status']!=1))
 
