@@ -390,7 +390,8 @@ class BillController extends Controller
         }
 
         Session::flash('success','訂單已成功送出');
-        return redirect()->route('bill.show', $MerchantTradeNo);
+        // return redirect()->route('bill.show', $MerchantTradeNo);
+        return redirect()->route('bill.purchaseComplete', $MerchantTradeNo);
     }
 
 
@@ -795,8 +796,47 @@ class BillController extends Controller
         
         return view('bill.payBill', ['finalBill'=>$finalBill]);  
         
-        
     }
+
+
+    public function purchaseComplete($id){
+        $bill = Bill::where('bill_id',$id)->firstOrFail();
+        $items = json_decode($bill->item,true);
+
+        $i = 0;
+        $itemArray = [];
+        foreach($items as $item)
+        {
+            $product = Products::where('slug', $item['slug'])->firstOrFail();   
+            $itemArray[$i] = [
+                'name' => $product->name,
+                'price' => $product->price,
+                'quantity' => $item['quantity'],
+            ];
+            $i++;
+        }
+
+        $finalBill = [
+            'bill_id' => $bill->bill_id,
+            'bonus_use'=>$bill->bonus_use,
+            'price' => $bill->price,
+            'itemArray' => $itemArray,
+            'SPToken'=> $bill->SPToken,
+            'pay_by'=>$bill->pay_by,
+            'status'=>$bill->status,
+        ];
+
+        // if ($bill->pay_by == 'CREDIT') {
+            // $HV1 = md5('rhRwy1KRNsQbjgXR'.'|'.$bill->bill_id);
+            // $V2 = md5($HV1 . "|" . "008786350353296" . "|" . "77543256" . "|" . $bill->price);
+            // $checkValue = substr($V2,16,32);
+            // return view('bill.payBill', ['finalBill'=>$finalBill,'checkValue'=>$checkValue]);
+        // }
+        
+        return view('bill.payBill', ['finalBill'=>$finalBill]);  
+    }
+
+
 
     public function findMemory()
     {
