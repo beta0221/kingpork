@@ -2,13 +2,13 @@
 <html lang="zh-TW">
 <head>
 	<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-121883818-1"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id={{config('app.ga_id')}}"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  gtag('config', 'UA-121883818-1');
+  gtag('config', '{{config('app.ga_id')}}');
 </script>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
