@@ -412,7 +412,7 @@ class BillController extends Controller
                 'name'=>$product->name,
                 'sku'=>$item['slug'],
                 'price'=>$product->price,
-                'quantity'=>$item['quantity'],
+                'quantity'=>(int)$item['quantity'],
             ];
             $products[] = $obj;
         }
