@@ -6,7 +6,9 @@ $(document).ready(function(){
         dataType:'json',
         success: function (res) {
             console.log(res);
-            dataLayer.push(res);
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push(res);
+            // dataLayer.push(res);
 
         },
         error: function (error) {
