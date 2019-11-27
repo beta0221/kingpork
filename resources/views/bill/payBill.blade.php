@@ -4,9 +4,11 @@
 
 @section('dataLayer')
 	<script>
-		var bill_id = '{{$finalBill['bill_id']}}';
+		var d = {!!$dataLayer!!};
+		window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push(dataLayer);
 	</script>
-	<script src="/js/_payBill.js"></script>
+	
 @endsection
 
 @section('stylesheets')
