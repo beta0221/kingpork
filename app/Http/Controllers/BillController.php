@@ -434,7 +434,8 @@ class BillController extends Controller
         $dataLayer['event'] = 'purchaseComplete';
 
 
-        return response()->json($dataLayer);
+        // return response()->json($dataLayer);
+        return $dataLayer;
 
     }
 
@@ -832,8 +833,12 @@ class BillController extends Controller
             // $checkValue = substr($V2,16,32);
             // return view('bill.payBill', ['finalBill'=>$finalBill,'checkValue'=>$checkValue]);
         // }
-        
-        return view('bill.payBill', ['finalBill'=>$finalBill]);  
+        $dataLayer = $this->getDataLayerForGA($id);
+        return view('bill.payBill', [
+                'finalBill'=>$finalBill,
+                'dataLayer'=>json_encode($dataLayer)
+            ]
+        );  
     }
 
 
