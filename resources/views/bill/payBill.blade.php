@@ -6,7 +6,7 @@
 	<script>
 		var d = {!!$dataLayer!!};
 		window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push(dataLayer);
+        window.dataLayer.push(d);
 	</script>
 	
 @endsection
