@@ -432,6 +432,7 @@ class BillController extends Controller
         $dataLayer['ecommerce']['purchase']['actionField'] = $actionField;
         $dataLayer['ecommerce']['purchase']['products'] = $products;
         $dataLayer['event'] = 'purchaseComplete';
+        $dataLayer['currencyCode'] = 'TWD';
 
 
         // return response()->json($dataLayer);
