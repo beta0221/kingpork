@@ -180,19 +180,21 @@ class PageController extends Controller
             $joinDate = $user->created_at;
             $buySum = DB::table('bills')->where('user_id',$user->id)->count();
             $priceSum = DB::table('bills')->where('user_id',$user->id)->sum('price');
-            $lastPurchase = DB::table('bills')->select('created_at')->orderBy('id','desc')->first()->created_at;//take(1)->pluck('created_at');
-            $lastPurchasePrice = DB::table('bills')->select('price')->orderBy('id','desc')->first()->price;
+            $lastPurchase = "";
+            if($row = DB::table('bills')->select('created_at')->where('user_id',$user->id)->orderBy('id','desc')->first()){
+                $lastPurchase = $row->created_at;
+            }
+            $lastPurchasePrice = "";
+            if($row = DB::table('bills')->select('price')->where('user_id',$user->id)->orderBy('id','desc')->first()){
+                $lastPurchasePrice = $row->price;
+            };
             $row = [$name,$email,$phone,$joinDate,$buySum,$priceSum,$lastPurchase,$lastPurchasePrice];
             array_push($data,$row);
         }
         Excel::create("會員$request->from - $request->to", function($excel)use($data) {
-
             $excel->sheet('Sheetname', function($sheet)use($data) {
-
                 $sheet->rows($data);
-
             });
-
         })->download('csv');
 
 
