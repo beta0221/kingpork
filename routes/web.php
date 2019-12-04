@@ -108,3 +108,5 @@ Route::get('/group-excel/{group_code}','GroupController@export');
 
 
 Route::get('/facebook/product/csv','PageController@productFeed');
+//Member Excel use
+Route::get('/getUserExcel','PageController@getUserExcel');

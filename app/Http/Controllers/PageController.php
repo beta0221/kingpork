@@ -11,6 +11,7 @@ use Session;
 use Mail;
 use Excel;
 use App\Products;
+use Illuminate\Support\Facades\DB;
 
 class PageController extends Controller
 {
@@ -141,12 +142,63 @@ class PageController extends Controller
             $excel->sheet('Sheetname', function($sheet)use($cellData) {
 
                 $sheet->rows($cellData);
+            });
+
+        })->download('csv');
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public function getUserExcel(Request $request){
+
+        $this->validate($request,[
+            'from'=>'required|integer',
+            'to'=>'required|integer',
+        ]);
+
+        $data = [
+            ['姓名','電郵','手機','加入會員日','購買次數','總購買金額','最後一次購買日期','最後一次購買金額'],
+        ];
+
+        $users = DB::table('users')->where('id','>=',$request->from)->where('id','<=',$request->to)->get();
+
+        foreach ($users as $user) {
+            
+            $name = $user->name;
+            $email = $user->email;
+            $phone = $user->phone;
+            $joinDate = $user->created_at;
+            $buySum = DB::table('bills')->where('user_id',$user->id)->count();
+            $priceSum = DB::table('bills')->where('user_id',$user->id)->sum('price');
+            $lastPurchase = DB::table('bills')->select('created_at')->orderBy('id','desc')->first()->created_at;//take(1)->pluck('created_at');
+            $lastPurchasePrice = DB::table('bills')->select('price')->orderBy('id','desc')->first()->price;
+            $row = [$name,$email,$phone,$joinDate,$buySum,$priceSum,$lastPurchase,$lastPurchasePrice];
+            array_push($data,$row);
+        }
+        Excel::create("會員$request->from - $request->to", function($excel)use($data) {
+
+            $excel->sheet('Sheetname', function($sheet)use($data) {
+
+                $sheet->rows($data);
 
             });
 
         })->download('csv');
 
 
+        // return response(json_encode($data,true));
+
+        
     }
 
 
