@@ -6,8 +6,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Banner;
 use App\Contact;
+use App\Product;
 use Session;
 use Mail;
+use Excel;
+use App\Products;
 
 class PageController extends Controller
 {
@@ -105,15 +108,50 @@ class PageController extends Controller
         // return('hello');
     }
 
-    public function skyScanner(Request $request){
-        $data=[];
-        Mail::send('emails.sky',$data,function($message){
-            $message->from('kingpork80390254@gmail.com','便宜機票通知');
-            $message->to('beta0221@gmail.com');
-            $message->subject('便宜機票通知');
-        });
-        return('1');
+    // public function skyScanner(Request $request){
+    //     $data=[];
+    //     Mail::send('emails.sky',$data,function($message){
+    //         $message->from('kingpork80390254@gmail.com','便宜機票通知');
+    //         $message->to('beta0221@gmail.com');
+    //         $message->subject('便宜機票通知');
+    //     });
+    //     return('1');
+    // }
+
+
+
+    public function productFeed(){
+        
+
+        $cellData = [
+            ['id','title','description','availability','price'],
+        ];
+
+        
+        $products = Products::all();
+        foreach ($products as $row) {
+            $newArray = [$row->id,$row->name,$row->short,$row->public,$row->price];
+            array_push($cellData,$newArray);
+        }
+
+        $title = "product_catalog";
+
+        Excel::create($title, function($excel)use($cellData) {
+
+            $excel->sheet('Sheetname', function($sheet)use($cellData) {
+
+                $sheet->rows($cellData);
+
+            });
+
+        })->download('csv');
+
+
     }
+
+
+
+
 
 }
 
