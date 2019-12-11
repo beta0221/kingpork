@@ -407,11 +407,13 @@ class BillController extends Controller
         $products=[];
         foreach ($items as $item) {
             // return response()->json($item);
-            $product = Products::where('slug',$item['slug'])->first();    
+            $product = Products::where('slug',$item['slug'])->first();
+            
             $obj = [
                 'name'=>$product->name,
                 'id'=>(string)$product->id,
                 'price'=>$product->price,
+                'category'=>$product->productCategory()->first()->name,
                 'quantity'=>(int)$item['quantity'],
             ];
             $products[] = $obj;
