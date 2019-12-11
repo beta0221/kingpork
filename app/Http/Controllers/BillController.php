@@ -410,7 +410,7 @@ class BillController extends Controller
             $product = Products::where('slug',$item['slug'])->first();    
             $obj = [
                 'name'=>$product->name,
-                'sku'=>$item['slug'],
+                'id'=>(string)$product->id,
                 'price'=>$product->price,
                 'quantity'=>(int)$item['quantity'],
             ];
