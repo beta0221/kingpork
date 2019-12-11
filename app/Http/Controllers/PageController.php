@@ -6,11 +6,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Banner;
 use App\Contact;
-use App\Product;
 use Session;
 use Mail;
 use Excel;
 use App\Products;
+use App\ProductCategory;
 use Illuminate\Support\Facades\DB;
 
 class PageController extends Controller
@@ -125,13 +125,23 @@ class PageController extends Controller
         
 
         $cellData = [
-            ['id','title','description','availability','price'],
+            ['id','title','condition','image_link','link','brand','description','google_product_category','availability','price'],
         ];
 
+        $cat = new ProductCategory();
+        $catDic = $cat->getCatDic();
         
-        $products = Products::all();
+        $products = Products::where('public',1)->get();
         foreach ($products as $row) {
-            $newArray = [$row->id,$row->name,$row->short,$row->public,$row->price];
+            $condition = 'new';
+            $image_link = config('app.url') . '/images/productsIMG/' . $row->image;
+            $link = config('app.url') . '/productCategory/' . $row->category_id;
+            $brand = '金園排骨';
+
+            $availability = 'in stock';
+            $google_product_category = $catDic[$row->category_id];
+            
+            $newArray = [$row->id,$row->name,$condition,$image_link,$link,$brand,$row->name,$google_product_category,$availability,$row->price];
             array_push($cellData,$newArray);
         }
 

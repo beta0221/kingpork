@@ -17,4 +17,13 @@ class ProductCategory extends Model
     {
     	return $this->hasMany('App\Products','category_id')->orderBy('id');	
     }
+
+    public function getCatDic(){
+        $cats = $this->all();
+        $Dic=[];
+        foreach ($cats as $cat) {
+            $Dic[$cat->id] = $cat->name;
+        }
+        return $Dic;
+    }
 }
