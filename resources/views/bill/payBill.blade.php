@@ -485,7 +485,7 @@ window.onload = ECPay.init();		//!* production *!
 
 @section('fbq')
 	<script>
-		if(typeof window.fbq !== 'undefined'){
+		// if(typeof window.fbq !== 'undefined'){
 	
 			var content_ids = [];
 			var content_name = '';
@@ -493,11 +493,12 @@ window.onload = ECPay.init();		//!* production *!
 			var contents = [];
 			
 			d.ecommerce.purchase.products.forEach(item => {
-				content_ids.append(item.id);
+				console.log('fuck you');
+				content_ids.push(item.id);
 				let c = {};
 				c['id'] = item.id;
 				c['quantity'] = item.quantity;
-				contents.append(c);
+				contents.push(c);
 				if(content_name){
 					content_name = content_name + ',' + item.name;
 				}else{
@@ -521,6 +522,6 @@ window.onload = ECPay.init();		//!* production *!
 			};
 
 			fbq('track','Purchase',fbqObject);
-		}
+		// }
 	</script>
 @endsection
