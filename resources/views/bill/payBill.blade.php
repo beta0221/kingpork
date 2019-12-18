@@ -487,10 +487,10 @@ window.onload = ECPay.init();		//!* production *!
 	<script>
 		if(typeof window.fbq !== 'undefined'){
 	
-			let content_ids = [];
-			let content_name = '';
-			let category_name = '';
-			let contents = [];
+			var content_ids = [];
+			var content_name = '';
+			var category_name = '';
+			var contents = [];
 			
 			d.ecommerce.purchase.products.forEach(item => {
 				content_ids.append(item.id);
