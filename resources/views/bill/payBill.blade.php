@@ -509,18 +509,18 @@ window.onload = ECPay.init();		//!* production *!
 					category_name = item.category;
 				}
 			});
-	
-			fbq('track','Purchase',
-				{
-					content_ids:content_ids,
-					content_name:content_name,
-					category_name:category_name,
-					value:d.ecommerce.purchase.actionField.revenue,
-					currency:'TWD',
-					contents:contents,
-					content_type:'product',
-				}
-			);
+			
+			var fbqObject = {
+				content_ids:content_ids,
+				content_name:content_name,
+				category_name:category_name,
+				value:d.ecommerce.purchase.actionField.revenue,
+				currency:'TWD',
+				contents:contents,
+				content_type:'product',
+			};
+
+			fbq('track','Purchase',fbqObject);
 		}
 	</script>
 @endsection
