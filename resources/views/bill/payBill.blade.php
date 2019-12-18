@@ -187,45 +187,6 @@
 
 
 @section('scripts')
-<script>
-	if(typeof window.fbq !== 'undefined'){
-
-		let content_ids = [];
-		let content_name = '';
-		let category_name = '';
-		let contents = [];
-		
-		d.ecommerce.purchase.products.forEach(item => {
-			content_ids.append(item.id);
-			let c = {};
-			c['id'] = item.id;
-			c['quantity'] = item.quantity;
-			contents.append(c);
-			if(content_name){
-				content_name = content_name + ',' + item.name;
-			}else{
-				content_name = item.name;
-			}
-			if(category_name){
-				category_name = category_name + ',' + item.category;
-			}else{
-				category_name = item.category;
-			}
-		});
-
-		fbq('track','Purchase',
-			{
-				content_ids:content_ids,
-				content_name:content_name,
-				category_name:category_name,
-				value:d.ecommerce.purchase.actionField.revenue,
-				currency:'TWD',
-				contents:contents,
-				content_type:'product',
-			}
-		)
-	}
-</script>
 
 
 @if(($finalBill['pay_by']=='ATM'AND$finalBill['SPToken']!=null AND$finalBill['status']!=1)OR($finalBill['pay_by']=='CREDIT'AND$finalBill['SPToken']!=null AND$finalBill['status']!=1))
@@ -520,4 +481,46 @@ window.onload = ECPay.init();		//!* production *!
 </script>
 @endif --}}
 
+@endsection
+
+@section('fbq')
+	<script>
+		if(typeof window.fbq !== 'undefined'){
+	
+			let content_ids = [];
+			let content_name = '';
+			let category_name = '';
+			let contents = [];
+			
+			d.ecommerce.purchase.products.forEach(item => {
+				content_ids.append(item.id);
+				let c = {};
+				c['id'] = item.id;
+				c['quantity'] = item.quantity;
+				contents.append(c);
+				if(content_name){
+					content_name = content_name + ',' + item.name;
+				}else{
+					content_name = item.name;
+				}
+				if(category_name){
+					category_name = category_name + ',' + item.category;
+				}else{
+					category_name = item.category;
+				}
+			});
+	
+			fbq('track','Purchase',
+				{
+					content_ids:content_ids,
+					content_name:content_name,
+					category_name:category_name,
+					value:d.ecommerce.purchase.actionField.revenue,
+					currency:'TWD',
+					contents:contents,
+					content_type:'product',
+				}
+			);
+		}
+	</script>
 @endsection

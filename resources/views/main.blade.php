@@ -53,7 +53,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 @include('partials._footer')
 	</div>
   </body>
-
+  @yield('fbq')
 
 {{ Html::script('js/jquery/jquery-3.2.1.min.js') }}
 {{ Html::script('js/bootstrap/bootstrap.min.js') }}
