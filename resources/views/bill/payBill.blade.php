@@ -485,15 +485,12 @@ window.onload = ECPay.init();		//!* production *!
 
 @section('fbq')
 	<script>
-		// if(typeof window.fbq !== 'undefined'){
-	
 			var content_ids = [];
 			var content_name = '';
 			var category_name = '';
 			var contents = [];
 			
 			d.ecommerce.purchase.products.forEach(item => {
-				console.log('fuck you');
 				content_ids.push(item.id);
 				let c = {};
 				c['id'] = item.id;
@@ -520,8 +517,18 @@ window.onload = ECPay.init();		//!* production *!
 				contents:contents,
 				content_type:'product',
 			};
-
+		function waitForFbq(callback){
+			if(typeof fbq !== 'undefined'){
+				callback()
+			} else {
+				setTimeout(function () {
+					waitForFbq(callback)
+				}, 500)
+			}
+		}
+		waitForFbq(function () {
 			fbq('track','Purchase',fbqObject);
-		// }
+		})
+		
 	</script>
 @endsection
