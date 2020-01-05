@@ -60,7 +60,8 @@
 /*banner up */
 .new-product-bar{
 	width:100%;
-	padding: 0 12px;margin:20px 0;
+	padding: 0 12px;
+	margin: 0 0 64px 0;
 }
 .product-cell{
 	width:calc(100% / 5 - 3.5px);
@@ -148,32 +149,11 @@
 }
 .P- img{
 	min-width: 100%;
-	/*height: 100%;*/
 	width: 100%;
 	height: auto;
 }
-.test-pork:before{
-	content: '我要買　厚切排骨';
-}
-.test-both:before{
-	content: '我要買　雙響組合';
-}
-.test-chicken:before{
-	content: '我要買　鮮嫩雞腿';
-}
-.test-fish:before{
-	content: '我要買　嚴選鯖魚';
-}
-.test-soup:before{
-	content: '我要買酸白菜鍋底';
-}
-.send-gift:before{
-	content: '我要送禮';
-}
-.group-buy:before{
-	content: '我要團購';
-}
-.test-pork:before,.test-both:before,.test-chicken:before,.test-fish:before,.test-soup:before{
+.product-cell:before{
+	content:'前往購買';
 	font-family: cwTeXKai , serif;
 	background-color: transparent;
 	color: transparent;
@@ -186,8 +166,15 @@
 	padding-top: 100%;
 	text-align: center;
 	z-index: 0;
-	height: calc(100% + 80px);
+	height: calc(100% + 72px);
 	width:100%;
+}
+
+.send-gift:before{
+	content: '我要送禮';
+}
+.group-buy:before{
+	content: '我要團購';
 }
 .send-gift:before,.group-buy:before{
 	font-family: cwTeXKai , serif;
@@ -202,40 +189,13 @@
 	padding-top: 10px;
 	text-align: center;
 	z-index: 0;
-	height: calc(100% + 80px);
+	height: calc(100% + 72px);
 	width:100%;
 }
-.test-pork:hover:before,.test-both:hover:before,.test-chicken:hover:before,.send-gift:hover:before,.group-buy:hover:before,.test-fish:hover:before,.test-soup:hover:before{
+.send-gift:hover:before,.group-buy:hover:before,.product-cell:hover:before{
 	background-color: rgba(192,18,24,1);
 	color: #fff;
 }
-
-
-/* brandStory start */
-
-/*.brandStory{
-	width:100%;
-	height:400px;
-	margin-top: 80px;
-	background-color: rgba(0,0,0,0.5);
-	background-image: url(../images/brandStory.png);
-	background-size: cover;
-	background-position: 0 50%;
-	padding-top: 200px;
-	background-repeat: no-repeat;
-	background-attachment: fixed;
-}
-.story{
-	text-align: center;
-	color: #fff;
-}
-.story>p{
-	top: -50%;
-	font-size: 24px;
-}*/
-
-/* brandStory end */
-
 
 /* shop-intro start*/
 
@@ -312,25 +272,6 @@
 .shop-intro-box .shop-now-img{
 	filter: opacity(1);
 }
-/*#story-1-box:before{
-	content: '金園排骨總公司';
-}
-#story-2-box:before{
-	content: '春日店';
-}
-#story-3-box:before{
-	content: '長庚店';
-}
-#story-1-box:before,#story-2-box:before,#story-3-box:before{
-	position: absolute;
-	font-size: 24px;
-	top: 32px;
-	color: #fff;
-	width: 60%;
-	padding: 4px 32px;
-	background: linear-gradient(to right, rgba(146,15,39,1) 0%,rgba(146,15,39,1) 80%,rgba(146,15,39,0) 100%);
-	z-index: 2;
-}*/
 .shop-intro-story{
 	padding:0 15% 0 15%;
 	font-size: 24px;
@@ -377,7 +318,7 @@
 	border: 0;
 }
 @media(max-width: 1200px){
-	.test-pork:before,.test-both:before,.test-chicken:before,.test-fish:before,.test-soup:before{
+	.product-cell:before{
 		font-weight: 900;
 		font-size: 20px;
 		letter-spacing: 4px;
@@ -413,21 +354,10 @@
 	#story-1,#story-2,#story-3,#story-4{
 		padding: 40px 80px;
 	}
-
-	/*#story-1-box:before,#story-2-box:before,#story-3-box:before{
-		position: absolute;
-		font-size: 24px;
-		top: 32px;
-		color: #fff;
-		width: 60%;
-		padding: 4px 32px;
-		background: linear-gradient(to right, rgba(146,15,39,1) 0%,rgba(146,15,39,1) 80%,rgba(146,15,39,0) 100%);
-		z-index: 2;
-	}*/
 }
 
 @media(max-width: 992px){
-	.test-pork:before,.test-both:before,.test-chicken:before,.test-fish:before,.test-soup:before{
+	.product-cell:before{
 		font-weight: 900;
 		font-size: 18px;
 		letter-spacing: 2px;
@@ -485,16 +415,6 @@
 	.google-map{
 		width:40%;
 	}
-	/*#story-1-box:before,#story-2-box:before,#story-3-box:before{
-		position: absolute;
-		font-size: 24px;
-		top: 32px;
-		color: #fff;
-		width: 60%;
-		padding: 4px 32px;
-		background: linear-gradient(to right, rgba(146,15,39,1) 0%,rgba(146,15,39,1) 80%,rgba(146,15,39,0) 100%);
-		z-index: 2;
-	}*/
 }
 
 @media(max-width: 450px){
@@ -508,6 +428,7 @@
 
 	.new-product-bar{
 		padding: 0;
+		margin: 0;
 	}
 
 	.product-cell{
@@ -558,7 +479,7 @@
 		height: auto;
 		top: -10%;
 	}
-	.test-pork:hover:before,.test-both:hover:before,.test-chicken:hover:before,.send-gift:hover:before,.group-buy:hover:before,.test-fish:hover:before,.test-soup:hover:before{
+	.send-gift:hover:before,.group-buy:hover:before,.product-cell:hover:before{
 		background-color: transparent;
 		color: transparent;
 	}
@@ -623,19 +544,8 @@
 		left: 0;
 		right: 0;
 		width: 100%;
-		/*height: calc(100% - 40px);*/
 		transform: translateY(0%);
 	}
-	/*#story-1-box:before,#story-2-box:before,#story-3-box:before{
-		position: absolute;
-		font-size: 24px;
-		top: 32px;
-		color: #fff;
-		width: 60%;
-		padding: 4px 32px;
-		background: linear-gradient(to right, rgba(146,15,39,1) 0%,rgba(146,15,39,1) 80%,rgba(146,15,39,0) 100%);
-		z-index: 2;
-	}*/
 	.arrow-up {
 		border-left: 16px solid transparent;
 		border-right: 16px solid transparent;

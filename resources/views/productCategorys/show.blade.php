@@ -10,7 +10,7 @@
 
 <div class="content">
 
-	<div style="width:100%;padding: 0 12px;margin:20px 0;">
+	<div class="product-bar">
 		<div class="product-cell">
 			<div>
 				<div>
@@ -55,6 +55,7 @@
 				</div>
 			</div>
 		</div>
+		{{-- <div class="product-cell float-cell"> --}}
 		<div class="product-cell">
 			<div>
 				<div>
@@ -66,50 +67,67 @@
 				</div>
 			</div>
 		</div>
-
 	</div>
 
+	{{-- <div class="product-bar">
+		<div class="product-cell">
+			<div>
+				<div>
+					<div class="catImg P-soup" id="{{Request::is('productCategory/11') ? 'currentCat' : ''}}" onclick="location.href='/productCategory/11'">
+						<a href="{{route('productCategory.show',11)}}">
+							<img src="{{asset('images/productsIMG/pot2.png')}}" alt="酸白菜鍋底">	
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="product-cell">
+			<div>
+				<div>
+					<div class="catImg P-soup" id="{{Request::is('productCategory/11') ? 'currentCat' : ''}}" onclick="location.href='/productCategory/11'">
+						<a href="{{route('productCategory.show',11)}}">
+							<img src="{{asset('images/productsIMG/pot2.png')}}" alt="酸白菜鍋底">	
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="product-cell">
+			<div>
+				<div>
+					<div class="catImg P-soup" id="{{Request::is('productCategory/11') ? 'currentCat' : ''}}" onclick="location.href='/productCategory/11'">
+						<a href="{{route('productCategory.show',11)}}">
+							<img src="{{asset('images/productsIMG/pot2.png')}}" alt="酸白菜鍋底">	
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="product-cell">
+			<div>
+				<div>
+					<div class="catImg P-soup" id="{{Request::is('productCategory/11') ? 'currentCat' : ''}}" onclick="location.href='/productCategory/11'">
+						<a href="{{route('productCategory.show',11)}}">
+							<img src="{{asset('images/productsIMG/pot2.png')}}" alt="酸白菜鍋底">	
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="product-cell">
+			<div>
+				<div>
+					<div class="catImg P-soup" id="{{Request::is('productCategory/11') ? 'currentCat' : ''}}" onclick="location.href='/productCategory/11'">
+						<a href="{{route('productCategory.show',11)}}">
+							<img src="{{asset('images/productsIMG/pot2.png')}}" alt="酸白菜鍋底">	
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div> --}}
+
 	<div class="container">
-
-		{{-- <div class="row productsBar">
-
-			<div class="col-md-3 col-3">
-				<div id="{{Request::is('productCategory/1') ? 'currentCat' : ''}}" class="catImg P-pork">
-					<a href="{{route('productCategory.show',1)}}">
-						<img src="{{asset('images/productsIMG/pork2.png')}}" alt="厚切手打豬排">	
-					</a>
-				</div>
-				
-			</div>
-			<div class="col-md-3 col-3">
-				<div id="{{Request::is('productCategory/3') ? 'currentCat' : ''}}" class="catImg P-both">
-					<a href="{{route('productCategory.show',3)}}">
-						<img src="{{asset('images/productsIMG/both2.png')}}" alt="幸福雙響組合">
-					</a>
-				</div>
-				
-			</div>
-			<div class="col-md-3 col-3">
-				<div id="{{Request::is('productCategory/2') ? 'currentCat' : ''}}" class="catImg P-chicken">
-					<a href="{{route('productCategory.show',2)}}">
-						<img src="{{asset('images/productsIMG/chicken2.png')}}" alt="無骨嫩雞腿排">
-					</a>
-				</div>
-			</div>
-
-			<div class="col-md-3 col-3">
-				<div id="{{Request::is('productCategory/9') ? 'currentCat' : ''}}" class="catImg P-fish">
-					<a href="{{route('productCategory.show',9)}}">
-						<img src="{{asset('images/productsIMG/pork2.png')}}" alt="鯖魚">	
-					</a>
-				</div>
-				
-			</div>
-			
-		</div> --}}
-
-
-
 
 		<div class="row">
 			<div class="col-md-6 col-12">
@@ -310,5 +328,33 @@
 		});
 	}
 
+</script>
+@endsection
+
+@section('fbq')
+<script>
+	var content_ids = [];
+	var products = {!!$productCategory->products!!};
+
+	products.forEach(element => {
+		content_ids.push(element.id.toString());
+	});
+
+	var fbqObject = {
+		content_ids:content_ids,
+		content_type:'product',
+	};
+	function waitForFbq(callback){
+			if(typeof fbq !== 'undefined'){
+				callback()
+			} else {
+				setTimeout(function () {
+					waitForFbq(callback)
+				}, 500)
+			}
+		}
+	waitForFbq(function () {
+		fbq('track','ViewContent',fbqObject);
+	})
 </script>
 @endsection

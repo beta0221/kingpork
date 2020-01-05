@@ -22,9 +22,9 @@
 {{-- banner end --}}
 
 {{-- products start --}}
-
+<div style="height:20px"></div>
 <div class="new-product-bar">
-		<div class="product-cell test-pork">
+		<div class="product-cell">
 			<div>
 				<div>
 					<div class="catImg P-pork">
@@ -36,7 +36,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="product-cell test-both">
+		<div class="product-cell">
 			<div>
 				<div>
 					<div class="catImg P-both">
@@ -48,7 +48,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="product-cell test-chicken">
+		<div class="product-cell">
 			<div>
 				<div>
 					<div class="catImg P-chicken">
@@ -60,7 +60,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="product-cell test-fish">
+		<div class="product-cell">
 			<div>
 				<div>
 					<div class="catImg P-fish">
@@ -72,7 +72,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="product-cell test-soup">
+		<div class="product-cell">
 			<div>
 				<div>
 					<div class="catImg P-fish">
@@ -87,38 +87,22 @@
 
 	</div>
 
-
-
-
-
-<div class="productArea container">
-	{{-- <h2 style="text-align: center;margin-bottom: 20px;letter-spacing: 4px;">我要購買<span style="margin: 0 12px 0 12px;">/</span>GO SHOPPING</h2> --}}
-	{{-- <div class="row">
-		<div class="product col-md-4 col-12 test-pork">
-			<div class="P-">
-				<a href="{{route('productCategory.show',1)}}">
-					<img src="{{asset('images/pork-test.png')}}" alt="金園排骨">
-				</a>
-				<div onclick="location.href='{{route('productCategory.show',1)}}';" class="P-buy">我要買</div>
-			</div>
-		</div>
-		<div class="product col-md-4 col-12 test-both">
-			<div class="P-">
-				<a href="{{route('productCategory.show',3)}}">
-					<img src="{{asset('images/both-test.png')}}" alt="金園幸福雙響">
-				</a>
-				<div onclick="location.href='{{route('productCategory.show',3)}}';" class="P-buy">我要買</div>
-			</div>
-		</div>
-		<div class="product col-md-4 col-12 test-chicken">
-			<div class="P-">
-				<a href="{{route('productCategory.show',2)}}">
-					<img src="{{asset('images/chicken-test.png')}}" alt="金園排骨厚切雞腿排">
-				</a>
-				<div onclick="location.href='{{route('productCategory.show',2)}}';" class="P-buy">我要買</div>
+	{{-- <div class="new-product-bar">
+		<div class="product-cell">
+			<div>
+				<div>
+					<div class="catImg P-fish">
+						<a href="{{route('productCategory.show',11)}}">
+							<img src="{{asset('images/productsIMG/soup-test.png')}}" alt="酸白菜鍋">	
+						</a>
+						<div onclick="location.href='{{route('productCategory.show',11)}}';" class="P-buy">我要買</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div> --}}
+
+<div class="productArea container">
 
 	<div class="row second-row">
 		<div class="product col-md-6 col-12 group-buy">
@@ -144,19 +128,6 @@
 
 </div>
 {{-- products end --}}
-
-{{-- brand story start --}}
-{{-- <div class="brandStory" id="brandStory">
-	<div class="container">
-		<div class="row">
-			<div class="story col-md-12">
-				<p>【金園排骨】是老字號的經典台灣品牌，我們遵循傳統手工製法，每片肉品堅持不添加任何防腐劑與化學製劑，就是要將最古早的原汁原味用心呈現給您！老字號的金園排骨，從阿公阿嬤，從爸爸媽媽，從我們小時候開始，一代一代口味的承傳，這正印證台灣念真情，也證明台灣懷念的古早味－金園排骨。</p>
-				<p>俗語說【人說情歌總是老的好，走遍天涯海角忘不了，人說情人卻是老的好，曾經滄海桑田分不了】金園排骨源自西門町傳承一甲子的古早味，陪伴著台灣人的成長，多少成功的企業家難以忘記的老口味，金園排骨像一首老歌，常常值得懷念，金園排骨更像老情人一樣，更值得細心回味。</p>
-			</div>
-		</div>
-	</div>
-</div> --}}
-{{-- brand story end --}}
 
 {{-- shop intro start --}}
 <div class="shop-intro">
