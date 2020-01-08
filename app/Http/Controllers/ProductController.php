@@ -94,7 +94,7 @@ class ProductController extends Controller
         $image = $request->file('image'); //先把檔案存到 $image 變數
         $filename = time() . '.' . $image->getClientOriginalExtension(); //取得檔案完整原檔名再加上 時間在前面
         $location = public_path('images/productsIMG/' . $filename);//把圖片url存到$location變數裡面
-        Image::make($image)->resize(800,400)->save($location);//把圖面resize之後存進路徑
+        Image::make($image)->resize(600,600)->save($location);//把圖面resize之後存進路徑
 
         $product->image = $filename;//存進資料庫語法跟其他欄位一樣只是放進來是$filename變數
 
@@ -238,7 +238,7 @@ class ProductController extends Controller
             $image = $request->file('image'); //先把檔案存到 $image 變數
             $filename = time() . '.' . $image->getClientOriginalExtension(); //取得檔案完整原檔名再加上 時間在前面
             $location = public_path('images/productsIMG/' . $filename);//把圖片url存到$location變數裡面
-            Image::make($image)->resize(800,400)->save($location);//把圖面resize之後存進路徑
+            Image::make($image)->resize(600,600)->save($location);//把圖面resize之後存進路徑
 
             $oldFilename = $product->image;//原來的圖片存進oldFilename變數
 

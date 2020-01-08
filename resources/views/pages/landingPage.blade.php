@@ -27,9 +27,9 @@
 		<div class="product-cell">
 			<div>
 				<div>
-					<div class="catImg P-pork">
+					<div class="catImg">
 						<a href="{{route('productCategory.show',1)}}">		
-							<img src="{{asset('images/pork-test.png')}}" alt="金園排骨">
+							<img src="{{asset('images/cat/landing/1.png')}}" alt="金園排骨">
 						</a>
 						<div onclick="location.href='{{route('productCategory.show',1)}}';" class="P-buy">我要買</div>
 					</div>
@@ -39,9 +39,9 @@
 		<div class="product-cell">
 			<div>
 				<div>
-					<div class="catImg P-both">
+					<div class="catImg">
 						<a href="{{route('productCategory.show',3)}}">
-							<img src="{{asset('images/productsIMG/both-test.png')}}" alt="幸福雙響組合">
+							<img src="{{asset('images/cat/landing/3.png')}}" alt="幸福雙響組合">
 						</a>
 						<div onclick="location.href='{{route('productCategory.show',3)}}';" class="P-buy">我要買</div>
 					</div>
@@ -51,9 +51,9 @@
 		<div class="product-cell">
 			<div>
 				<div>
-					<div class="catImg P-chicken">
+					<div class="catImg">
 						<a href="{{route('productCategory.show',2)}}">
-							<img src="{{asset('images/chicken-test.png')}}" alt="金園排骨厚切雞腿排">
+							<img src="{{asset('images/cat/landing/2.png')}}" alt="金園排骨厚切雞腿排">
 						</a>
 						<div onclick="location.href='{{route('productCategory.show',2)}}';" class="P-buy">我要買</div>
 					</div>
@@ -63,9 +63,9 @@
 		<div class="product-cell">
 			<div>
 				<div>
-					<div class="catImg P-fish">
+					<div class="catImg">
 						<a href="{{route('productCategory.show',9)}}">
-							<img src="{{asset('images/productsIMG/fish-test.png')}}" alt="鯖魚">	
+							<img src="{{asset('images/cat/landing/9.png')}}" alt="鯖魚">	
 						</a>
 						<div onclick="location.href='{{route('productCategory.show',9)}}';" class="P-buy">我要買</div>
 					</div>
@@ -75,9 +75,9 @@
 		<div class="product-cell">
 			<div>
 				<div>
-					<div class="catImg P-fish">
+					<div class="catImg">
 						<a href="{{route('productCategory.show',11)}}">
-							<img src="{{asset('images/productsIMG/soup-test.png')}}" alt="酸白菜鍋">	
+							<img src="{{asset('images/cat/landing/11.png')}}" alt="酸白菜鍋">	
 						</a>
 						<div onclick="location.href='{{route('productCategory.show',11)}}';" class="P-buy">我要買</div>
 					</div>
@@ -87,20 +87,56 @@
 
 	</div>
 
-	{{-- <div class="new-product-bar">
+	<div class="new-product-bar">
 		<div class="product-cell">
 			<div>
 				<div>
 					<div class="catImg P-fish">
-						<a href="{{route('productCategory.show',11)}}">
-							<img src="{{asset('images/productsIMG/soup-test.png')}}" alt="酸白菜鍋">	
+						<a href="{{route('productCategory.show',13)}}">
+							<img src="{{asset('images/cat/landing/13.png')}}" alt="義式蕃茄鍋底">	
 						</a>
-						<div onclick="location.href='{{route('productCategory.show',11)}}';" class="P-buy">我要買</div>
+						<div onclick="location.href='{{route('productCategory.show',13)}}';" class="P-buy">我要買</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div> --}}
+		<div class="product-cell">
+			<div>
+				<div>
+					<div class="catImg P-fish">
+						<a href="{{route('productCategory.show',14)}}">
+							<img src="{{asset('images/cat/landing/14.png')}}" alt="泰式酸辣湯底">	
+						</a>
+						<div onclick="location.href='{{route('productCategory.show',14)}}';" class="P-buy">我要買</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="product-cell">
+			<div>
+				<div>
+					<div class="catImg P-fish">
+						<a href="{{route('productCategory.show',15)}}">
+							<img src="{{asset('images/cat/landing/15.png')}}" alt="養生麻油酒香鍋底">	
+						</a>
+						<div onclick="location.href='{{route('productCategory.show',15)}}';" class="P-buy">我要買</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{{-- <div class="product-cell">
+			<div>
+				<div>
+					<div class="catImg P-fish">
+						<a href="{{route('productCategory.show',16)}}">
+							<img src="{{asset('images/productsIMG/soup-test.png')}}" alt="特級麻辣養生鍋底">	
+						</a>
+						<div onclick="location.href='{{route('productCategory.show',16)}}';" class="P-buy">我要買</div>
+					</div>
+				</div>
+			</div>
+		</div> --}}
+	</div>
 
 <div class="productArea container">
 

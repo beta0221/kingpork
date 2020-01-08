@@ -243,25 +243,33 @@
 
 .P-pork:before{
 	content: '厚切排骨';
-	background: linear-gradient(to right, rgba(0,0,0,0) 0%,rgba(0,0,0,.3) 20%,rgba(0,0,0,.3) 80%,rgba(0,0,0,0) 100%);
 }
 .P-both:before{
 	content: '雙饗組合';
-	background: linear-gradient(to right, rgba(0,0,0,0) 0%,rgba(0,0,0,.3) 20%,rgba(0,0,0,.3) 80%,rgba(0,0,0,0) 100%);
 }
 .P-chicken:before{
 	content: '鮮嫩雞腿';
-	background: linear-gradient(to right, rgba(0,0,0,0) 0%,rgba(0,0,0,.3) 20%,rgba(0,0,0,.3) 80%,rgba(0,0,0,0) 100%);
 }
 .P-fish:before{
 	content: '鯖魚';
-	background: linear-gradient(to right, rgba(0,0,0,0) 0%,rgba(0,0,0,.3) 20%,rgba(0,0,0,.3) 80%,rgba(0,0,0,0) 100%);
 }
 .P-soup:before{
 	content: '酸白菜鍋底';
-	background: linear-gradient(to right, rgba(0,0,0,0) 0%,rgba(0,0,0,.3) 20%,rgba(0,0,0,.3) 80%,rgba(0,0,0,0) 100%);
 }
-.P-pork:before,.P-both:before,.P-chicken:before,.P-fish:before,.P-soup:before{
+.P-soup-2:before{
+	content:'義式蕃茄';
+}
+.P-soup-3:before{
+	content: '泰式酸辣';
+}
+.P-soup-4:before{
+	content: '麻油酒香';
+}
+.P-soup-5:before{
+	content: '特級麻辣';
+}
+.P-pork:before,.P-both:before,.P-chicken:before,.P-fish:before,.P-soup:before,.P-soup-2:before,.P-soup-3:before,.P-soup-4:before,.P-soup-5:before{
+	background: linear-gradient(to right, rgba(0,0,0,0) 0%,rgba(0,0,0,.3) 20%,rgba(0,0,0,.3) 80%,rgba(0,0,0,0) 100%);
 	font-family: cwTeXKai , serif;
 	font-weight: 900;
 	font-size: 32px;
@@ -408,7 +416,7 @@
 		line-height: 60px;
 	}
 	
-	.P-pork:before,.P-both:before,.P-chicken:before,.P-fish:before,.P-soup:before{
+	.P-pork:before,.P-both:before,.P-chicken:before,.P-fish:before,.P-soup:before,.P-soup-2:before,.P-soup-3:before,.P-soup-4:before,.P-soup-5:before{
 		font-size: 20px;
 		letter-spacing: 2px;
 		top: 5%;
@@ -572,7 +580,7 @@
 	.hr{
 		margin: 30px 0 30px 0;
 	}
-	.P-pork:before,.P-both:before,.P-chicken:before,.P-fish:before,.P-soup:before{
+	.P-pork:before,.P-both:before,.P-chicken:before,.P-fish:before,.P-soup:before,.P-soup-2:before,.P-soup-3:before,.P-soup-4:before,.P-soup-5:before{
 		font-size: 22px;
 		letter-spacing: 0px;
 		top: 5%;
@@ -696,7 +704,7 @@
 	
 }
 @media(max-width: 330px){
-	.P-pork:before,.P-both:before,.P-chicken:before,.P-fish:before,.P-soup:before{
+	.P-pork:before,.P-both:before,.P-chicken:before,.P-fish:before,.P-soup:before,.P-soup-2:before,.P-soup-3:before,.P-soup-4:before,.P-soup-5:before{
 		font-size: 14px;
 		letter-spacing: 0px;
 		top: 5%;

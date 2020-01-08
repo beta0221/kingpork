@@ -17,6 +17,9 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-8 offset-md-2">
+
+				
+
 				{!! Form::model($product,['route'=>['products.update',$product->id],'method'=>'PUT','files'=>'true']) !!}
 				
 				
@@ -47,7 +50,12 @@
 				{{Form::label('image','圖片：(必填｜圖片)')}}
 				{{Form::file('image',['class'=>'form-control'])}}
 				<br>
-				
+				<div class="mb-2">
+					<h5 id="image-size"></h5>
+				</div>
+				<div class="mb-2">
+					<img style="max-width:100%" src="/images/productsIMG/{{$product->image}}" alt="">
+				</div>
 				
 				{{-- {{Form::label('content','內容：')}}
 				{{Form::textarea('content',null,['class'=>'form-control'])}} --}}
@@ -64,6 +72,15 @@
 @endsection
 
 @section('scripts')
+<script>
+	var img = new Image();
+	img.onload = function() {
+		$('#image-size').html(this.width + '*' + this.height);
+	}
+	img.src = '/images/productsIMG/{{$product->image}}';
+</script>
+
+
 {{-- {{ Html::script('js/tinymce/tinymce.min.js') }}
 <script>
 	tinymce.init({ 
