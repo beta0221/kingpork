@@ -10,7 +10,7 @@
 
 <div class="content">
 
-	<div class="product-bar">
+	<div class="product-bar" style="z-index:2">
 		<div class="product-cell">
 			<div>
 				<div>
@@ -193,12 +193,14 @@
 						@endforeach
 						</div>
 							
-						<button id="goToKartBtn" class="goToKartBtn" onclick="location.href='{{route('kart.index')}}'">前往結帳<img src="{{asset('images/point.png')}}" alt="前往結帳"></button>
 							
 						</div>
 					</div>
 				</div>
 			</div>
+
+			<button id="goToKartBtn" class="goToKartBtn" onclick="location.href='{{route('kart.index')}}'">前往結帳<img src="{{asset('images/point.png')}}" alt="前往結帳"></button>
+
 		<hr class="hr">
 		<div class="row">
 			<div class="col-md-10 offset-md-1 aboutContent">

@@ -59,12 +59,12 @@
 }
 .left-name-box{
 	height: 100%;
-	width: 50%;
+	width: 55%;
 	float: left;
 }
 .right-price-box{
 	height: 100%;
-	width: 30%;
+	width: 25%;
 	float: left;
 }
 .right-button-box{
@@ -137,9 +137,9 @@
 	background:rgba(0,0,0,0.3);
 }
 .goToKartBtn{
-	position: absolute;
-	bottom: 12px;
-	right: 12px;
+	position: fixed;
+	right: 24px;
+	bottom: 24px;
 	padding: 0 32px;
 	height: 80px;
     font-size: 40px;
@@ -152,7 +152,8 @@
     text-align: center;
     border:none;
     cursor: pointer;
-    transition: all .1s ease-in-out;
+	transition: all .1s ease-in-out;
+	z-index: 10;
 }
 .goToKartBtn img{
 	height: 40px;
@@ -379,9 +380,9 @@
 		background:rgba(0,0,0,0.3);
 	}
 	.goToKartBtn{
-		position: absolute;
-		bottom: 12px;
-		right: 12px;
+		position: fixed;
+		right: 24px;
+		bottom: 24px;
 		padding: 0 32px;
 		height: 80px;
 	    font-size: 40px;
@@ -512,9 +513,8 @@
 		background:rgba(0,0,0,0.3);
 	}
 	.goToKartBtn{
-		position: absolute;
-		bottom: 4px;
-		right: 4px;
+		right: 12px;
+		bottom: 12px;
 		padding: 0 24px;
 		height: 48px;
 	    font-size: 22px;
@@ -676,9 +676,6 @@
 		background:rgba(0,0,0,0.3);
 	}
 	.goToKartBtn{
-		position: absolute;
-		bottom: 8px;
-		right: 8px;
 		padding: 0 24px;
 		height: 64px;
 	    font-size: 24px;
@@ -800,9 +797,6 @@
 		background:rgba(0,0,0,0.3);
 	}
 	.goToKartBtn{
-		position: absolute;
-		bottom: 8px;
-		right: 8px;
 		padding: 0 24px;
 		height: 48px;
 	    font-size: 18px;
