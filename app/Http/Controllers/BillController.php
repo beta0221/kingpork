@@ -39,7 +39,7 @@ class BillController extends Controller
         $records = Bill::where('user_id',Auth::user()->id)->orderBy('id','desc')->get();
         
         if (count($records) == 0) {
-            return('沒有訂單');
+            return view('bill.index',['finalBills'=>null,'rows_amount'=>0,'page'=>1]);
         }
         $i = 0;
         $bill=[];

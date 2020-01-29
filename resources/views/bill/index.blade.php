@@ -41,80 +41,90 @@
 						<th>-</th>
 					</tr>
 
-					{{-- @foreach(array_reverse($finalBills) as $billX) --}}
-					@foreach($finalBills as $billX)
+					@if($finalBills)
 
-						<tr class="bill-tr">
+						@foreach($finalBills as $billX)
 
-							<td class="TDdate">{{$billX[0]['created_at']}}</td>
-							<td class="TDbill_id">{{$billX[0]['bill_id']}}</td>
-							<td class="TDproduct">
-								<table style="width: 100%;">
-									@foreach($billX as $billY)
-										
-										<tr class="item-tr">
-											<td class="TNT1">{{$billY['name']}}</td>
-											<td class="TNT2">{{$billY['price']}}</td>
-											<td class="TNT3">{{$billY['quantity']}}</td>
-										</tr>
+							<tr class="bill-tr">
 
-									@endforeach
-								</table>
-							</td>
-							<td><font color="red">{{$billX[0]['bonus_use']}}</font></td>
-							<td class="TDtotal"><font color="#0275d8">{{$billX[0]['total']}}</font></td>
-							<td>
-								
-								@if($billX[0]['pay_by'] == 'CREDIT')
-									信用卡
-								@elseif($billX[0]['pay_by'] == 'ATM')
-									ATM轉帳
-								@else
-									{{$billX[0]['pay_by']}}
-								@endif
+								<td class="TDdate">{{$billX[0]['created_at']}}</td>
+								<td class="TDbill_id">{{$billX[0]['bill_id']}}</td>
+								<td class="TDproduct">
+									<table style="width: 100%;">
+										@foreach($billX as $billY)
+											
+											<tr class="item-tr">
+												<td class="TNT1">{{$billY['name']}}</td>
+												<td class="TNT2">{{$billY['price']}}</td>
+												<td class="TNT3">{{$billY['quantity']}}</td>
+											</tr>
 
-								
-							</td>
-							<td>
-								@if($billX[0]['status'] == 1)
-									<font color="#5cb85c">已付款</font>
-								@elseif($billX[0]['pay_by'] == '貨到付款')
-									<font color="gray">-</font>
-								@else
-									<font color="gray">未付款</font>
-								@endif
-							</td>
-							<td>
-								@if($billX[0]['shipment']==0)
-									<font color="gray">-</font>
-								@elseif($billX[0]['shipment']==1)
-									<font color="#eb9316">準備中</font>
-								@elseif($billX[0]['shipment']==2)
-									<font color="#5cb85c">已出貨</font>
-								@elseif($billX[0]['shipment']==3)
-									<font color="green">已收貨</font>
-								@endif
-								
-							</td>
-							<td>
-								@if($billX[0]['status'] == 1 OR $billX[0]['status'] == 's' OR $billX[0]['pay_by'] == '貨到付款')
-									<font color="gray">-</font>
-								@else
-									<a href="{{route('bill.show', $billX[0]['bill_id'])}}">付款</a>
-								@endif
-								
-							</td>
-							<td>
-								@if($billX[0]['status'] != 1 AND $billX[0]['shipment']==0)
-									<font style="cursor: pointer;" color="gray" onclick="cancelBill({{$billX[0]['bill_id']}})">取消訂單</font>
-								@else
-									<font color="gray">-</font>
-								@endif
-							</td>
-						</tr>
+										@endforeach
+									</table>
+								</td>
+								<td><font color="red">{{$billX[0]['bonus_use']}}</font></td>
+								<td class="TDtotal"><font color="#0275d8">{{$billX[0]['total']}}</font></td>
+								<td>
+									
+									@if($billX[0]['pay_by'] == 'CREDIT')
+										信用卡
+									@elseif($billX[0]['pay_by'] == 'ATM')
+										ATM轉帳
+									@else
+										{{$billX[0]['pay_by']}}
+									@endif
+
+									
+								</td>
+								<td>
+									@if($billX[0]['status'] == 1)
+										<font color="#5cb85c">已付款</font>
+									@elseif($billX[0]['pay_by'] == '貨到付款')
+										<font color="gray">-</font>
+									@else
+										<font color="gray">未付款</font>
+									@endif
+								</td>
+								<td>
+									@if($billX[0]['shipment']==0)
+										<font color="gray">-</font>
+									@elseif($billX[0]['shipment']==1)
+										<font color="#eb9316">準備中</font>
+									@elseif($billX[0]['shipment']==2)
+										<font color="#5cb85c">已出貨</font>
+									@elseif($billX[0]['shipment']==3)
+										<font color="green">已收貨</font>
+									@endif
+									
+								</td>
+								<td>
+									@if($billX[0]['status'] == 1 OR $billX[0]['status'] == 's' OR $billX[0]['pay_by'] == '貨到付款')
+										<font color="gray">-</font>
+									@else
+										<a href="{{route('bill.show', $billX[0]['bill_id'])}}">付款</a>
+									@endif
+									
+								</td>
+								<td>
+									@if($billX[0]['status'] != 1 AND $billX[0]['shipment']==0)
+										<font style="cursor: pointer;" color="gray" onclick="cancelBill({{$billX[0]['bill_id']}})">取消訂單</font>
+									@else
+										<font color="gray">-</font>
+									@endif
+								</td>
+							</tr>
+							
+
+						@endforeach
+					@else
+					<tr>
+						<td colspan="11">
+							<h3 class="mt-4 mb-4">無訂單</h3>
+						</td>
+					</tr>
 						
+					@endif
 
-					@endforeach
 				
 				</table>
 				@if($page!=ceil($rows_amount/6))
