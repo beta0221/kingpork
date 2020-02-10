@@ -31,6 +31,9 @@
 							<label for="short">物流用縮寫：(必填)</label>
 							<input class="form-control" type="text" name="short">
 
+							<label for="erp_id">ERP代號：(可忽略)</label>
+							<input class="form-control" type="text" name="erp_id">
+
 							<label for="discription">小標題：（可忽略）</label>
 							<input class="form-control" type="text" name="discription">
 

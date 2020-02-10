@@ -29,11 +29,12 @@
 				{{Form::label('short','物流用縮寫：(必填)')}}
 				{{ Form::text('short',null,['class'=>'form-control']) }}<br>
 
+				{{Form::label('erp_id','ERP代號：(可忽略)')}}
+				{{ Form::text('erp_id',null,['class'=>'form-control']) }}<br>
+
 				{{Form::label('discription','小標題：(可忽略)')}}
 				{{ Form::text('discription',null,['class'=>'form-control']) }}<br>
 				
-				{{Form::label('slug','代號：(必填｜大於5字元｜不可重複)')}}
-				{{ Form::text('slug',null,['class'=>'form-control'])}}<br>
 				
 				{{Form::label('category_id','類別：(必填)')}}
 				{{Form::select('category_id',$productCategorys,null,['class'=>'form-control'])}}<br>

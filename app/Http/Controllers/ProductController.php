@@ -82,6 +82,7 @@ class ProductController extends Controller
         $product = new Products;
         $product->name = $request->name;
         $product->short = $request->short;
+        $product->erp_id = $request->erp_id;
         $product->discription = $request->discription;
         $product->slug = $request->slug;
         $product->category_id=$request->category_id;
@@ -213,7 +214,7 @@ class ProductController extends Controller
 
         $this->validate($request,[
             'name'=>'required|max:255',
-            'slug'=>"required|alpha_dash|min:5|max:255|unique:products,slug,$id",//unique（table,column,except除了自己以外）!!!外圍一定要用雙引號才有辦法把變數$id放進來!!!
+            //'slug'=>"required|alpha_dash|min:5|max:255|unique:products,slug,$id",//unique（table,column,except除了自己以外）!!!外圍一定要用雙引號才有辦法把變數$id放進來!!!
             'short'=>'required',
             'category_id'=>'required|integer',
             // 'format'=>'required|max:255',
@@ -226,7 +227,7 @@ class ProductController extends Controller
         $product->name=$request->input('name');
         $product->discription=$request->input('discription');
         $product->short = $request->input('short');
-        $product->slug=$request->input('slug');
+        $product->erp_id = $request->input('erp_id');
         $product->category_id=$request->input('category_id');
         $product->format=$request->input('format');
         $product->price=$request->input('price');
