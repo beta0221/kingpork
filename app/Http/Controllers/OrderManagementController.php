@@ -319,11 +319,15 @@ class OrderManagementController extends Controller
                         $address = $bill->ship_county . $bill->ship_district . $bill->ship_address;
                         $phone = $bill->ship_phone;
                         //$phone
-                        //$totalPrice
+                        if($bill->pay_by == '貨到付款' && $index == 0){
+                            $onDeliveryPrice = $bill->price;
+                        }else{
+                            $onDeliveryPrice = null;
+                        }
                         //$receiver
                         $invoiceType = $bill->ship_receipt;
 
-                        $newRow = [$bill_id,$now,$buyer,$erp_id,$productName,$quantity,$price,$bonus,$totalPrice,$totalPrice,$receiver,'',$address,$phone,$phone,$totalPrice,$receiver,$invoiceType];
+                        $newRow = [$bill_id,$now,$buyer,$erp_id,$productName,$quantity,$price,$bonus,$totalPrice,$totalPrice,$receiver,'',$address,$phone,$phone,$onDeliveryPrice,$receiver,$invoiceType];
                         array_push($cellData,$newRow);
                     }
                 }
