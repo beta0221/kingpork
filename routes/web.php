@@ -70,6 +70,7 @@ Route::resource('order','OrderManagementController',['except'=>['create','store'
 Route::get('order/showAll/{bill}','OrderManagementController@showAll');
 Route::post('order/get_csv','OrderManagementController@csv_download');
 Route::patch('order/marking/{id}','OrderManagementController@marking');
+Route::post('order/ExportExcelForAccountant','OrderManagementController@ExportExcelForAccountant');
 
 //php artisan make:auth
 Auth::routes();

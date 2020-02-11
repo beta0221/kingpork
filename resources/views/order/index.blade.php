@@ -209,8 +209,9 @@
 				<input id="selectArray" type="text" name="orders" value="">
 				{{-- <button id="csvGo" type="submit">go</button> --}}
 			</form>
-			<form id="csvForm_accountant" action="csv_accountant.php" target="_blank" method="POST" style="display:none ;">
-				<input id="selectArray_accountant" type="text" name="orders" value="">
+			<form id="csvForm_accountant" action="/order/ExportExcelForAccountant" target="_blank" method="POST" style="display:none ;">
+				{{ csrf_field() }}
+				<input id="selectArray_accountant" type="text" name="bill_id">
 			</form>
 
 		</div>
@@ -576,29 +577,30 @@
 
 		
 		if (selected.length > 0) {
-			
-		
-			$.ajax({
-				type:'POST',
-				url:'/order/get_csv',
-				dataType:'json',
-				data: {
-					type:1,
-					selectArray:selected,
-				},
-				success: function (response) {
+			$('#selectArray_accountant').val(JSON.stringify(selected));
+			$('#csvForm_accountant').submit();
+
+			// $.ajax({
+			// 	type:'POST',
+			// 	url:'/order/get_csv',
+			// 	dataType:'json',
+			// 	data: {
+			// 		type:1,
+			// 		selectArray:selected,
+			// 	},
+			// 	success: function (response) {
 					
-					$('#selectArray_accountant').val(response);
-					// alert(response);
+			// 		$('#selectArray_accountant').val(response);
+			// 		// alert(response);
 					
-				},
-				error: function () {
-		            alert('錯誤');
-		        },
-		        complete:function(){
-		    		$('#csvForm_accountant').submit();    	
-		        }
-			});
+			// 	},
+			// 	error: function () {
+		    //         alert('錯誤');
+		    //     },
+		    //     complete:function(){
+		    // 		$('#csvForm_accountant').submit();    	
+		    //     }
+			// });
 			
 		}else{
 			alert('請選取訂單');

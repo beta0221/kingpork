@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Bill;
 use App\User;
 use App\Products;
+use Excel;
 use Session;
 
 class OrderManagementController extends Controller
@@ -279,6 +280,63 @@ class OrderManagementController extends Controller
 
     }
 
+
+    public function ExportExcelForAccountant(Request $request){
+
+        
+        date_default_timezone_set('Asia/Taipei');
+        $cellData = [
+            ['訂單編號','交易日期','購買人','商品貨號','商品名稱','數量','單價','抵扣紅利','出貨單金額小計','含稅金額','收件人','郵遞區號','送貨地址','聯絡電話','行動電話','貨到應付金額','發票收件人','發票種類'],
+        ];
+        $billArray = json_decode($request->bill_id);
+        $now = date("Y-m-d H:i:s");
+
+        foreach ($billArray as $bill_id) {
+            if($bill = Bill::where('bill_id',$bill_id)->first()){
+                $items = json_decode($bill->item,true);
+                foreach ($items as $index => $item) {
+                    if($product = Products::where('slug',$item['slug'])->first()){
+                        
+                        //$bill_id
+                        //$now
+                        $buyer = $bill->user_name;
+                        $erp_id = $product->erp_id;
+                        $productName = $product->name;
+                        $quantity = $item['quantity'];
+                        $price = $product->price;
+                        
+                        if($index == 0){
+                            $bonus = $product->bonus;
+                            $totalPrice = $bill->price;
+                        }else{
+                            $bonus = null;
+                            $totalPrice = null;
+                        }
+                        
+                        //totalPrice
+                        $receiver = $bill->ship_name;
+                        //
+                        $address = $bill->ship_county . $bill->ship_district . $bill->ship_address;
+                        $phone = $bill->ship_phone;
+                        //$phone
+                        //$totalPrice
+                        //$receiver
+                        $invoiceType = $bill->ship_receipt;
+
+                        $newRow = [$bill_id,$now,$buyer,$erp_id,$productName,$quantity,$price,$bonus,$totalPrice,$totalPrice,$receiver,'',$address,$phone,$phone,$totalPrice,$receiver,$invoiceType];
+                        array_push($cellData,$newRow);
+                    }
+                }
+            }
+        }
+
+        Excel::create('會計訂單輸出-' . $now, function($excel)use($cellData) {
+            $excel->sheet('Sheet1', function($sheet)use($cellData) {
+                $sheet->rows($cellData);
+            });
+        })->download('xls');
+
+    }
 
     /**
      * Show the form for creating a new resource.
