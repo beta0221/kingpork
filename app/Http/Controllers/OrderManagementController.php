@@ -286,10 +286,10 @@ class OrderManagementController extends Controller
         
         date_default_timezone_set('Asia/Taipei');
         $cellData = [
-            ['訂單編號','交易日期','購買人','商品貨號','商品名稱','數量','單價','抵扣紅利','出貨單金額小計','含稅金額','收件人','郵遞區號','送貨地址','聯絡電話','行動電話','貨到應付金額','發票收件人','發票種類'],
+            ['訂單編號','','交易日期','客戶','購買人','商品貨號','','商品名稱','數量','單位','單價','抵扣紅利','含稅金額','','含稅金額','收件人','郵遞區號','送貨地址','聯絡電話','行動電話','','貨到應付金額','','','','','','發票收件人','發票種類','發票統編','買受人名稱','','','','','','信用卡後4碼','','部門'],
         ];
         $billArray = json_decode($request->bill_id);
-        $now = date("Y-m-d H:i:s");
+        $now = date("Y-m-d");
 
         foreach ($billArray as $bill_id) {
             if($bill = Bill::where('bill_id',$bill_id)->first()){
@@ -298,11 +298,15 @@ class OrderManagementController extends Controller
                     if($product = Products::where('slug',$item['slug'])->first()){
                         
                         //$bill_id
+                        //
                         //$now
+                        //
                         $buyer = $bill->user_name;
                         $erp_id = $product->erp_id;
+                        //
                         $productName = $product->name;
                         $quantity = $item['quantity'];
+                        //組
                         $price = $product->price;
                         
                         if($index == 0){
@@ -322,12 +326,14 @@ class OrderManagementController extends Controller
                         if($bill->pay_by == '貨到付款' && $index == 0){
                             $onDeliveryPrice = $bill->price;
                         }else{
-                            $onDeliveryPrice = null;
+                            $onDeliveryPrice = 0;
                         }
                         //$receiver
                         $invoiceType = $bill->ship_receipt;
+                        $invoice_id = $bill->ship_three_id;
+                        $invoice_company = $bill->ship_three_company;
 
-                        $newRow = [$bill_id,$now,$buyer,$erp_id,$productName,$quantity,$price,$bonus,$totalPrice,$totalPrice,$receiver,'',$address,$phone,$phone,$onDeliveryPrice,$receiver,$invoiceType];
+                        $newRow = [$bill_id,null,$now,null,$buyer,$erp_id,null,$productName,$quantity,'組',$price,$bonus,$totalPrice,null,$totalPrice,$receiver,null,$address,$phone,$phone,null,$onDeliveryPrice,null,null,null,null,null,$receiver,$invoiceType,$invoice_id,$invoice_company,null,null,null,null,null,null,null,'官網'];
                         array_push($cellData,$newRow);
                     }
                 }
