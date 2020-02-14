@@ -7,6 +7,7 @@ use App\Bill;
 use App\User;
 use App\Products;
 use Excel;
+use Illuminate\Support\Facades\DB;
 use Session;
 
 class OrderManagementController extends Controller
@@ -286,7 +287,7 @@ class OrderManagementController extends Controller
         
         date_default_timezone_set('Asia/Taipei');
         $cellData = [
-            ['訂單編號','','交易日期','客戶','購買人','商品貨號','','商品名稱','數量','單位','單價','抵扣紅利','含稅金額','','含稅金額','收件人','郵遞區號','送貨地址','聯絡電話','行動電話','','貨到應付金額','','','','','','發票收件人','發票種類','發票統編','買受人名稱','','','','','','信用卡後4碼','','部門'],
+            ['訂單編號','','交易日期','客戶','購買人','商品貨號','','商品名稱','數量','單位','單價','抵扣紅利','含稅金額','','含稅金額','收件人','郵遞區號','送貨地址','聯絡電話','行動電話','代收宅配單號','代收貨款','付款方式','','','','','發票收件人','發票種類','發票統編','買受人名稱','','','','','','信用卡後4碼','','部門'],
         ];
         $billArray = json_decode($request->bill_id);
         $now = date("Y-m-d");
@@ -310,7 +311,7 @@ class OrderManagementController extends Controller
                         $price = $product->price;
                         
                         if($index == 0){
-                            $bonus = $product->bonus;
+                            $bonus = $bill->bonus_use;
                             $totalPrice = $bill->price;
                         }else{
                             $bonus = null;
@@ -319,7 +320,7 @@ class OrderManagementController extends Controller
                         
                         //totalPrice
                         $receiver = $bill->ship_name;
-                        //
+                        $payType = '官網' . $bill->pay_by;
                         $address = $bill->ship_county . $bill->ship_district . $bill->ship_address;
                         $phone = $bill->ship_phone;
                         //$phone
@@ -333,7 +334,7 @@ class OrderManagementController extends Controller
                         $invoice_id = $bill->ship_three_id;
                         $invoice_company = $bill->ship_three_company;
 
-                        $newRow = [$bill_id,null,$now,null,$buyer,$erp_id,null,$productName,$quantity,'組',$price,$bonus,$totalPrice,null,$totalPrice,$receiver,null,$address,$phone,$phone,null,$onDeliveryPrice,null,null,null,null,null,$receiver,$invoiceType,$invoice_id,$invoice_company,null,null,null,null,null,null,null,'官網'];
+                        $newRow = [$bill_id,null,$now,null,$buyer,$erp_id,null,$productName,$quantity,'組',$price,$bonus,$totalPrice,null,$totalPrice,$receiver,null,$address,$phone,$phone,null,$onDeliveryPrice,$payType,null,null,null,null,$receiver,$invoiceType,$invoice_id,$invoice_company,null,null,null,null,null,null,null,'官網'];
                         array_push($cellData,$newRow);
                     }
                 }
@@ -346,6 +347,104 @@ class OrderManagementController extends Controller
             });
         })->download('xls');
 
+    }
+
+
+    public function MonthlyReport($date){
+        
+        $cellData = [
+            ['訂單日期','訂單筆數','單日業績','平均客單價'],
+        ];
+
+        //$date = date("Y-m-d H:i:s");
+        $time = strtotime($date);
+        $upper = date("Y-m-d", strtotime("+1 month", $time));
+        $lower = date("Y-m-d", strtotime("-1 month", $time));
+
+
+        // $bills = DB::select("SELECT * FROM bills WHERE MONTH(created_at) = MONTH('".$now."')");
+        $bills = DB::select("SELECT * FROM bills WHERE created_at >= '".$lower."' AND created_at <= '".$upper."'");
+
+        $billsDic = [];
+
+        foreach ($bills as $bill) {
+            $date = substr($bill->created_at,0,10);
+            $items = json_decode($bill->item,true);
+
+            if(isset($billsDic[$date]['amount'])){
+                $billsDic[$date]['amount'] += 1; 
+            }else{
+                $billsDic[$date]['amount'] = 1;
+            }
+
+            if(isset($billsDic[$date]['total'])){
+                $billsDic[$date]['total'] += (int)$bill->price;
+            }else{
+                $billsDic[$date]['total'] = (int)$bill->price;
+            }
+        }
+
+        foreach ($billsDic as $date => $bill) {
+            $avg = (int)$bill['total'] / (int)$bill['amount'];
+            $newRow = [$date,$bill['amount'],$bill['total'],$avg];
+            array_push($cellData,$newRow);
+        }
+
+
+        //return response()->json($billsDic);
+
+        Excel::create('月報表-' . $date, function($excel)use($cellData) {
+            $excel->sheet('Sheet1', function($sheet)use($cellData) {
+                $sheet->rows($cellData);
+            });
+        })->download('xls');
+    }
+
+
+
+
+
+
+
+
+
+    public function DailyReport($date){
+
+        $cellData = [
+            ['訂單日期','訂購人','訂購品項','數量','金額','前次訂購日期','入會日期'],
+        ];
+
+        
+        //$date = date('Y-m-d H:i:s');
+        $timestamp = strtotime($date);
+        
+        $lower = date('Y-m-d H:i:s', $timestamp - 60*60*24*1);
+        $upper = date('Y-m-d H:i:s', $timestamp + 60*60*24*1);
+        
+        $bills = DB::select("SELECT * FROM bills WHERE created_at >= '".$lower."' AND created_at <= '".$upper."'");
+        
+        foreach ($bills as $bill) {
+            if($user = User::find($bill->user_id)){
+                $prevOrderDate = null;
+                if($result = Bill::where('user_id',$bill->user_id)->orderBy('id','desc')->where('created_at','<',$bill->created_at)->skip(1)->first()){
+                    $prevOrderDate = $result->created_at;
+                }
+                $items = json_decode($bill->item,true);
+                foreach ($items as $index => $item) {
+                    if($product = Products::where('slug',$item['slug'])->first()){
+                        $newRow = [$bill->created_at,$user->name,$product->name,$item['quantity'],$product->price,$prevOrderDate];
+                        array_push($cellData,$newRow);
+                    }
+                }
+            }
+            
+        }
+
+        Excel::create('日報表-' . $date, function($excel)use($cellData) {
+            $excel->sheet('Sheet1', function($sheet)use($cellData) {
+                $sheet->rows($cellData);
+            });
+        })->download('xls');
     }
 
     /**

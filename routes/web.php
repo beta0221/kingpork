@@ -71,6 +71,8 @@ Route::get('order/showAll/{bill}','OrderManagementController@showAll');
 Route::post('order/get_csv','OrderManagementController@csv_download');
 Route::patch('order/marking/{id}','OrderManagementController@marking');
 Route::post('order/ExportExcelForAccountant','OrderManagementController@ExportExcelForAccountant');
+Route::get('order/export/MonthlyReport/{date}','OrderManagementController@MonthlyReport');
+Route::get('order/export/DailyReport/{date}','OrderManagementController@DailyReport');
 
 //php artisan make:auth
 Auth::routes();
