@@ -378,7 +378,7 @@ class OrderManagementController extends Controller
         }
 
         foreach ($billsDic as $date => $bill) {
-            $avg = (int)$bill['total'] / (int)$bill['amount'];
+            $avg = intval((int)$bill['total'] / (int)$bill['amount']);
             $newRow = [$date,$bill['amount'],$bill['total'],$avg];
             array_push($cellData,$newRow);
         }
@@ -422,7 +422,7 @@ class OrderManagementController extends Controller
                 $items = json_decode($bill->item,true);
                 foreach ($items as $index => $item) {
                     if($product = Products::where('slug',$item['slug'])->first()){
-                        $newRow = [$bill->created_at,$user->name,$product->name,$item['quantity'],$product->price,$prevOrderDate];
+                        $newRow = [$bill->created_at,$user->name,$product->name,$item['quantity'],$product->price,$prevOrderDate,$user->created_at];
                         array_push($cellData,$newRow);
                     }
                 }
