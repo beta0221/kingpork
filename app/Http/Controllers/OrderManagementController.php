@@ -287,7 +287,7 @@ class OrderManagementController extends Controller
         
         date_default_timezone_set('Asia/Taipei');
         $cellData = [
-            ['訂單編號','','交易日期','客戶','購買人','商品貨號','','商品名稱','數量','單位','單價','抵扣紅利','含稅金額','','含稅金額','收件人','郵遞區號','送貨地址','聯絡電話','行動電話','代收宅配單號','代收貨款','付款方式','','','','','發票收件人','發票種類','發票統編','買受人名稱','','','','','','信用卡後4碼','','部門'],
+            ['訂單編號','訂單日期','交易日期','客戶','購買人','商品貨號','','商品名稱','數量','單位','單價','抵扣紅利','含稅金額','','含稅金額','收件人','郵遞區號','送貨地址','聯絡電話','行動電話','代收宅配單號','代收貨款','付款方式','','','','發票號碼','發票收件人','發票種類','發票統編','買受人名稱','','','','','','信用卡後4碼','','部門'],
         ];
         $billArray = json_decode($request->bill_id);
         $now = date("Y-m-d");
@@ -299,7 +299,7 @@ class OrderManagementController extends Controller
                     if($product = Products::where('slug',$item['slug'])->first()){
                         
                         //$bill_id
-                        //
+                        $billDate = $bill->created_at;
                         //$now
                         //
                         $buyer = $bill->user_name;
@@ -334,7 +334,7 @@ class OrderManagementController extends Controller
                         $invoice_id = $bill->ship_three_id;
                         $invoice_company = $bill->ship_three_company;
 
-                        $newRow = [$bill_id,null,$now,null,$buyer,$erp_id,null,$productName,$quantity,'組',$price,$bonus,$totalPrice,null,$totalPrice,$receiver,null,$address,$phone,$phone,null,$onDeliveryPrice,$payType,null,null,null,null,$receiver,$invoiceType,$invoice_id,$invoice_company,null,null,null,null,null,null,null,'官網'];
+                        $newRow = [$bill_id,$billDate,$now,null,$buyer,$erp_id,null,$productName,$quantity,'組',$price,$bonus,$totalPrice,null,$totalPrice,$receiver,null,$address,$phone,$phone,null,$onDeliveryPrice,$payType,null,null,null,null,$receiver,$invoiceType,$invoice_id,$invoice_company,null,null,null,null,null,null,null,'官網'];
                         array_push($cellData,$newRow);
                     }
                 }
@@ -356,14 +356,7 @@ class OrderManagementController extends Controller
             ['訂單日期','訂單筆數','單日業績','平均客單價'],
         ];
 
-        //$date = date("Y-m-d H:i:s");
-        $time = strtotime($date);
-        $upper = date("Y-m-d", strtotime("+1 month", $time));
-        $lower = date("Y-m-d", strtotime("-1 month", $time));
-
-
-        // $bills = DB::select("SELECT * FROM bills WHERE MONTH(created_at) = MONTH('".$now."')");
-        $bills = DB::select("SELECT * FROM bills WHERE created_at >= '".$lower."' AND created_at <= '".$upper."'");
+        $bills = DB::select("SELECT * FROM bills WHERE MONTH(created_at) = MONTH('".$date."') AND YEAR(created_at) = YEAR('".$date."')");
 
         $billsDic = [];
 
@@ -390,10 +383,9 @@ class OrderManagementController extends Controller
             array_push($cellData,$newRow);
         }
 
-
-        //return response()->json($billsDic);
-
-        Excel::create('月報表-' . $date, function($excel)use($cellData) {
+        $time = strtotime($date);
+        $year_month = date("Y-m",$time);
+        Excel::create('月報表-' . $year_month, function($excel)use($cellData) {
             $excel->sheet('Sheet1', function($sheet)use($cellData) {
                 $sheet->rows($cellData);
             });
@@ -414,8 +406,6 @@ class OrderManagementController extends Controller
             ['訂單日期','訂購人','訂購品項','數量','金額','前次訂購日期','入會日期'],
         ];
 
-        
-        //$date = date('Y-m-d H:i:s');
         $timestamp = strtotime($date);
         
         $lower = date('Y-m-d H:i:s', $timestamp - 60*60*24*1);
@@ -437,7 +427,6 @@ class OrderManagementController extends Controller
                     }
                 }
             }
-            
         }
 
         Excel::create('日報表-' . $date, function($excel)use($cellData) {

@@ -33,11 +33,15 @@
 <script>
     function monthlyReport(){
         var date = $('#monthlyReportDate').val();
-        window.open('/order/export/MonthlyReport/'+date);
+        if(date){
+            window.open('/order/export/MonthlyReport/'+date);
+        }
     }
     function dailyReport(){
         var date = $('#dailyReportDate').val();
-        window.open('/order/export/DailyReport/'+date);
+        if(date){
+            window.open('/order/export/DailyReport/'+date);
+        }
     }
 </script>
 @endsection
