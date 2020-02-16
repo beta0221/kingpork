@@ -356,7 +356,7 @@ class OrderManagementController extends Controller
             ['訂單日期','訂單筆數','單日業績','平均客單價'],
         ];
 
-        $bills = DB::select("SELECT * FROM bills WHERE MONTH(created_at) = MONTH('".$date."') AND YEAR(created_at) = YEAR('".$date."')");
+        $bills = DB::select("SELECT * FROM bills WHERE MONTH(created_at) = MONTH('".$date."') AND YEAR(created_at) = YEAR('".$date."') AND shipment = 2");
 
         $billsDic = [];
 
@@ -406,7 +406,7 @@ class OrderManagementController extends Controller
             ['訂單日期','訂購人','訂購品項','數量','金額','前次訂購日期','入會日期'],
         ];
 
-        $bills = DB::select("SELECT * FROM bills WHERE MONTH(created_at) = MONTH('".$date."') AND YEAR(created_at) = YEAR('".$date."') AND DAY(created_at) = DAY('".$date."')");
+        $bills = DB::select("SELECT * FROM bills WHERE MONTH(created_at) = MONTH('".$date."') AND YEAR(created_at) = YEAR('".$date."') AND DAY(created_at) = DAY('".$date."') AND shipment = 2");
         
         foreach ($bills as $bill) {
             if($user = User::find($bill->user_id)){
