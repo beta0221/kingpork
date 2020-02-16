@@ -406,12 +406,7 @@ class OrderManagementController extends Controller
             ['訂單日期','訂購人','訂購品項','數量','金額','前次訂購日期','入會日期'],
         ];
 
-        $timestamp = strtotime($date);
-        
-        $lower = date('Y-m-d H:i:s', $timestamp - 60*60*24*1);
-        $upper = date('Y-m-d H:i:s', $timestamp + 60*60*24*1);
-        
-        $bills = DB::select("SELECT * FROM bills WHERE created_at >= '".$lower."' AND created_at <= '".$upper."'");
+        $bills = DB::select("SELECT * FROM bills WHERE MONTH(created_at) = MONTH('".$date."') AND YEAR(created_at) = YEAR('".$date."') AND DAY(created_at) = DAY('".$date."')");
         
         foreach ($bills as $bill) {
             if($user = User::find($bill->user_id)){
