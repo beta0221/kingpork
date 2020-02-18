@@ -534,7 +534,7 @@ class OrderManagementController extends Controller
 
                     if ($bill->pay_by == '貨到付款' AND $bill->user_id !=null) {//如果是貨到付款->累計紅利
                         $user = User::find($bill->user_id);
-                        $bonus = (int)$bill->price * 2;
+                        $bonus = (int)$bill->price;
                         $user->bonus = $user->bonus + $bonus;
                         $user->save();
                     }
@@ -547,7 +547,7 @@ class OrderManagementController extends Controller
 
                     if ($bill->pay_by == '貨到付款' AND $bill->user_id !=null) {//如果是貨到付款->扣除紅利
                         $user = User::find($bill->user_id);
-                        $bonus = (int)$bill->price * 2;
+                        $bonus = (int)$bill->price;
                         $user->bonus = $user->bonus - $bonus;
                         $user->save();
                     }
@@ -574,7 +574,7 @@ class OrderManagementController extends Controller
 
                 if ($bill->pay_by == '貨到付款' AND $bill->user_id !=null) {//如果是貨到付款->累計紅利
                     $user = User::find($bill->user_id);
-                    $bonus = (int)$bill->price * 2;
+                    $bonus = (int)$bill->price;
                     $user->bonus = $user->bonus + $bonus;
                     $user->save();
                 }
@@ -588,7 +588,7 @@ class OrderManagementController extends Controller
 
                 if ($bill->pay_by == '貨到付款' AND $bill->user_id !=null) {//如果是貨到付款->扣除紅利
                     $user = User::find($bill->user_id);
-                    $bonus = (int)$bill->price * 2;
+                    $bonus = (int)$bill->price;
                     $user->bonus = $user->bonus - $bonus;
                     $user->save();
                 }

@@ -524,7 +524,7 @@ class BillController extends Controller
 
             //$user = User::where('name',$the->user_name)->firstOrFail();//紅利回算機制{
             $user = User::find($the->user_id);
-            $TradeAmt = (int)$TradeAmt * 2;
+            $TradeAmt = (int)$TradeAmt;
             $user->bonus = $user->bonus+$TradeAmt;
             $user->save();                                          //}紅利回算機制
 
