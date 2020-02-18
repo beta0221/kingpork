@@ -124,18 +124,18 @@
 				</div>
 			</div>
 		</div>
-		{{-- <div class="product-cell">
+		<div class="product-cell">
 			<div>
 				<div>
 					<div class="catImg P-fish">
 						<a href="{{route('productCategory.show',16)}}">
-							<img src="{{asset('images/productsIMG/soup-test.png')}}" alt="特級麻辣養生鍋底">	
+							<img src="{{asset('images/cat/landing/16.png')}}" alt="特級麻辣養生鍋底">
 						</a>
 						<div onclick="location.href='{{route('productCategory.show',16)}}';" class="P-buy">我要買</div>
 					</div>
 				</div>
 			</div>
-		</div> --}}
+		</div>
 	</div>
 
 <div class="productArea container">

@@ -102,17 +102,17 @@
 				</div>
 			</div>
 		</div>
-		{{-- <div class="product-cell">
+		<div class="product-cell">
 			<div>
 				<div>
 					<div class="catImg P-soup-5" id="{{Request::is('productCategory/16') ? 'currentCat' : ''}}" onclick="location.href='/productCategory/16'">
 						<a href="{{route('productCategory.show',16)}}">
-							<img src="{{asset('images/cat/menu/1.png')}}" alt="特級麻辣養生鍋底">	
+							<img src="{{asset('images/cat/menu/16.png')}}" alt="特級麻辣養生鍋底">	
 						</a>
 					</div>
 				</div>
 			</div>
-		</div> --}}
+		</div>
 	</div>
 
 	<div class="container">
