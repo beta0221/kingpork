@@ -33,6 +33,15 @@
 						<label for="name">新增類別：</label>
 						<input type="text" name="name" class="form-control" value="{{$PC->name}}">
 
+						<label class="mt-4">嵌入youtube影片範例：</label>
+						<div class="mb-4" style="font-size:6px;">
+							<pre class="m-0">&lt;div class="youtube-outter"&gt;</pre>
+							<pre class="m-0">&lt;div class="youtube-inner"&gt;</pre>
+							<pre class="m-0">&lt;iframe width="100%" height="100%" src="{影片網址}" frameborder="0" allow="accelerometer; autoplay; </pre>
+							<pre class="m-0">encrypted-media; gyroscope; picture-in-picture" allowfullscreen&gt;&lt;/iframe&gt;</pre>
+							<pre class="m-0">&lt;/div&gt;</pre>
+							<pre class="m-0">&lt;/div&gt;</pre>
+						</div>
 
 						<label for="content">內容：</label>
 						<textarea type="text" name="content" class="form-control">{{$PC->content}}</textarea>
