@@ -140,7 +140,7 @@ class OrderManagementController extends Controller
         //     $query->orWhere('pay_by','貨到付款')->orWhere([['status','=','1'],['pay_by','!=','貨到付款']]);  
         // })->whereIn('bill_id',$request->selectArray)->get();
 
-        $jsons = Bill::whereIn('bill_id',$request->selectArray)->get();
+        $jsons = Bill::whereIn('bill_id',$request->selectArray)->orderBy('id','desc')->get();
 
         $j = 0;
         $orders = [];
@@ -187,6 +187,7 @@ class OrderManagementController extends Controller
                         }
 
                         $orders[$j] = 
+                        $json->created_at.",".
                         $json->bill_id.",".
                         '官網'.$json->pay_by.",".
                         $cash.",".
@@ -204,6 +205,7 @@ class OrderManagementController extends Controller
 
                 }else{
                     $orders[$j] = 
+                    $json->created_at.",".
                     $json->bill_id.",".
                     '官網'.$json->pay_by.",".
                     $cash.",".
