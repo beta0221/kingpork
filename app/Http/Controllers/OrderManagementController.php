@@ -140,7 +140,7 @@ class OrderManagementController extends Controller
         //     $query->orWhere('pay_by','貨到付款')->orWhere([['status','=','1'],['pay_by','!=','貨到付款']]);  
         // })->whereIn('bill_id',$request->selectArray)->get();
 
-        $jsons = Bill::whereIn('bill_id',$request->selectArray)->orderBy('id','desc')->get();
+        $jsons = Bill::whereIn('bill_id',$request->selectArray)->orderBy('id','asc')->get();
 
         $j = 0;
         $orders = [];
@@ -293,14 +293,13 @@ class OrderManagementController extends Controller
         ];
         $billArray = json_decode($request->bill_id);
         $now = date("Y-m-d");
-
-        foreach ($billArray as $bill_id) {
-            if($bill = Bill::where('bill_id',$bill_id)->first()){
+        if($bills = Bill::whereIn('bill_id',$billArray)->orderBy('id','asc')->get()){
+            foreach ($bills as  $bill) {
                 $items = json_decode($bill->item,true);
                 foreach ($items as $index => $item) {
                     if($product = Products::where('slug',$item['slug'])->first()){
                         
-                        //$bill_id
+                        $bill_id = $bill->id;
                         $billDate = $bill->created_at;
                         //$now
                         //
