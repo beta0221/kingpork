@@ -113,11 +113,22 @@
 				</div>
 			</div>
 		</div>
+		<div class="product-cell">
+			<div>
+				<div>
+					<div class="catImg P-soup-6" id="{{Request::is('productCategory/19') ? 'currentCat' : ''}}" onclick="location.href='/productCategory/19'">
+						<a href="{{route('productCategory.show',19)}}">
+							<img src="{{asset('images/cat/menu/19.png')}}" alt="5鍋聯盟">	
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 
 	<div class="container">
 
-		<div class="row">
+		<div class="row" style="{{Request::is('productCategory/19') ? 'display:none;' : ''}}">
 			<div class="col-md-6 col-12">
 				<div class="productIMG">
 					<img id="productIMG" src="{{asset('images/cat')}}/detail/{{$productCategory->id}}.png">
@@ -204,6 +215,11 @@
 		<hr class="hr">
 		<div class="row">
 			<div class="col-md-10 offset-md-1 aboutContent">
+				{{-- <div>
+					<img src="/images/cat/detail/19.png" style="width:100%" />
+					<div class="btn" id="ExpressPayBtn" data-product-id="68" style="position:absolute;right:3%;top:42.5%;font-size:20px;color:#fff;background:orange;cursor:pointer">立即購買</div>
+					<div class="btn" id="ExpressPayBtn" data-product-id="69" style="position:absolute;right:3%;top:70%;font-size:20px;color:#fff;background:orange;cursor:pointer">立即購買</div>
+				</div> --}}
 				{!!$productCategory->content!!}
 			</div>
 		</div>
@@ -249,6 +265,24 @@
 			$('.addToKartBtn').css('display','block');
 		},500);
 		
+		$('#ExpressPayBtn').click(function(){
+			var id = $(this).data('product-id');
+			$.ajax({
+				type:'POST',
+				url:'{{route('kart.store')}}',
+				dataType:'json',
+				data: {
+					'product_id':id,
+				},
+				success: function (response) {
+					window.location.href = "/kart";
+				},
+				error: function (data) {
+					
+				}
+			});
+		});
+
 	});
 
 	function showProduct(id){

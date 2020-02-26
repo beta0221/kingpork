@@ -136,6 +136,18 @@
 				</div>
 			</div>
 		</div>
+		<div class="product-cell">
+			<div>
+				<div>
+					<div class="catImg">
+						<a href="{{route('productCategory.show',19)}}">
+							<img src="{{asset('images/cat/landing/19.png')}}" alt="促銷方案">
+						</a>
+						<div onclick="location.href='{{route('productCategory.show',19)}}';" class="P-buy">我要買</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 
 <div class="productArea container">
