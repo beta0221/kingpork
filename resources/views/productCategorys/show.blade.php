@@ -265,7 +265,7 @@
 			$('.addToKartBtn').css('display','block');
 		},500);
 		
-		$('#ExpressPayBtn').click(function(){
+		$('.ExpressPayBtn').click(function(){
 			var id = $(this).data('product-id');
 			$.ajax({
 				type:'POST',
