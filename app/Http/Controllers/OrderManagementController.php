@@ -299,7 +299,7 @@ class OrderManagementController extends Controller
                 foreach ($items as $index => $item) {
                     if($product = Products::where('slug',$item['slug'])->first()){
                         
-                        $bill_id = $bill->id;
+                        $bill_id = $bill->bill_id;
                         $billDate = $bill->created_at;
                         //$now
                         //
