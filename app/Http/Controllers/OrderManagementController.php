@@ -194,7 +194,7 @@ class OrderManagementController extends Controller
                         $ship_time.",".
                         $gift['name'].",".
                         $gift['phone'].",".
-                        '5P+5G*'.$gift['quantity'].';'.",".
+                        $sendProduct->short.'*'.$gift['quantity'].';'.",".
                         str_replace([' ','?'],'',$gift['address']).",".
                         date('Y/m/d').",".
                         $arrive.",".
@@ -220,60 +220,6 @@ class OrderManagementController extends Controller
                     $j++;
                 }
             
-            }else{
-                
-                if ($json->ship_name == '*' && $json->ship_phone == '*') {
-                    
-                    $sendProduct = Products::where('slug','30002')->firstOrFail();
-
-                    $gifts = json_decode($json->ship_address,true);
-                    foreach ($gifts as $gift) {
-                        if ($gift['time'] == '14:00-18:00') {
-                            $ship_time = '2';
-                        }else{
-                            $ship_time = '1';
-                        }
-
-                        $created_at = str_replace('-','/',substr($json->created_at,0,10));
-                        $orders[$j] = 
-                        $created_at.",".
-                        $json->bill_id.",".
-                        '官網'.$json->pay_by.",".
-                        $cash.",".
-                        $ship_time.",".
-                        $gift['name'].",".
-                        $gift['phone'].",".
-                        $json->ship_three_id.",".
-                        $json->ship_three_company.",".
-                        '5P+5G*'.$gift['quantity'].';'.",".
-                        str_replace([' ','?'],'',$gift['address']).",".
-                        date('Y/m/d').",".
-                        $arrive.",".
-                        (int)$gift['quantity']*$sendProduct->price;
-                        $j++;
-
-                    }
-                }else{
-
-                    $created_at = str_replace('-','/',substr($json->created_at,0,10));
-                    $orders[$j] = 
-                    $created_at.",".
-                    $json->bill_id.",".
-                    '官網'.$json->pay_by.",".
-                    $cash.",".
-                    $ship_time.",".
-                    $json->ship_name.",".
-                    $json->ship_phone.",".
-                    $json->ship_three_id.",".
-                    $json->ship_three_company.",".
-                    $itemArray.",".
-                    $json->ship_county.$json->ship_district.$json->ship_address.",".
-                    date('Y/m/d').",".
-                    $arrive.",".
-                    $json->price;
-                    $j++;
-
-                }
             }
 
 
@@ -295,50 +241,30 @@ class OrderManagementController extends Controller
         $now = date("Y-m-d");
         if($bills = Bill::whereIn('bill_id',$billArray)->orderBy('id','asc')->get()){
             foreach ($bills as  $bill) {
-                $items = json_decode($bill->item,true);
-                foreach ($items as $index => $item) {
-                    if($product = Products::where('slug',$item['slug'])->first()){
-                        
-                        $bill_id = $bill->bill_id;
-                        $billDate = $bill->created_at;
-                        //$now
-                        //
-                        $buyer = $bill->user_name;
-                        $erp_id = $product->erp_id;
-                        //
-                        $productName = $product->name;
-                        $quantity = $item['quantity'];
-                        //組
-                        $price = $product->price;
-                        
-                        if($index == 0){
-                            $bonus = $bill->bonus_use;
-                            $totalPrice = $bill->price;
-                        }else{
-                            $bonus = null;
-                            $totalPrice = null;
-                        }
-                        
-                        //totalPrice
-                        $receiver = $bill->ship_name;
-                        $payType = '官網' . $bill->pay_by;
-                        $address = $bill->ship_county . $bill->ship_district . $bill->ship_address;
-                        $phone = $bill->ship_phone;
-                        //$phone
-                        if($bill->pay_by == '貨到付款' && $index == 0){
-                            $onDeliveryPrice = $bill->price;
-                        }else{
-                            $onDeliveryPrice = 0;
-                        }
-                        //$receiver
-                        $invoiceType = $bill->ship_receipt;
-                        $invoice_id = $bill->ship_three_id;
-                        $invoice_company = $bill->ship_three_company;
 
-                        $newRow = [$bill_id,$billDate,$now,null,$buyer,$erp_id,null,$productName,$quantity,'組',$price,$bonus,$totalPrice,null,$totalPrice,$receiver,null,$address,$phone,$phone,null,$onDeliveryPrice,$payType,null,null,null,null,$receiver,$invoiceType,$invoice_id,$invoice_company,null,null,null,null,null,null,null,'官網'];
+                if($bill->ship_name == '*' && $bill->ship_phone == '*'){
+                    $product = Products::where('slug','30002')->firstOrFail();
+                    $gifts = json_decode($bill->ship_address,true);
+                    foreach ($gifts as $index => $gift) {
+                        $receiver = $gift['name'];
+                        $address = $gift['address'];
+                        $phone = $gift['phone'];
+                        $newRow = $this->getAccountantRow($bill,$product,$index,$gift['quantity'],$now,$receiver,$address,$phone);
                         array_push($cellData,$newRow);
                     }
+                }else{
+                    $items = json_decode($bill->item,true);
+                    foreach ($items as $index => $item) {
+                        if($product = Products::where('slug',$item['slug'])->first()){
+                            $receiver = $bill->ship_name;
+                            $address = $bill->ship_county . $bill->ship_district . $bill->ship_address;
+                            $phone = $bill->ship_phone;
+                            $newRow = $this->getAccountantRow($bill,$product,$index,$item['quantity'],$now,$receiver,$address,$phone);
+                            array_push($cellData,$newRow);
+                        }
+                    }
                 }
+
             }
         }
 
@@ -348,6 +274,34 @@ class OrderManagementController extends Controller
             });
         })->download('xls');
 
+    }
+
+    private function getAccountantRow($bill,$product,$index,$quantity,$now,$receiver,$address,$phone){
+        $bill_id = $bill->bill_id;
+        $billDate = $bill->created_at;
+        $buyer = $bill->user_name;
+        $erp_id = $product->erp_id;
+        $productName = $product->name;
+        $price = $product->price;
+        if($index == 0){
+            $bonus = $bill->bonus_use;
+            $totalPrice = $bill->price;
+        }else{
+            $bonus = null;
+            $totalPrice = null;
+        }
+        $payType = '官網' . $bill->pay_by;
+        if($bill->pay_by == '貨到付款' && $index == 0){
+            $onDeliveryPrice = $bill->price;
+        }else{
+            $onDeliveryPrice = 0;
+        }
+        $invoiceType = $bill->ship_receipt;
+        $invoice_id = $bill->ship_three_id;
+        $invoice_company = $bill->ship_three_company;
+
+        $newRow = [$bill_id,$billDate,$now,null,$buyer,$erp_id,null,$productName,$quantity,'組',$price,$bonus,$totalPrice,null,$totalPrice,$receiver,null,$address,$phone,$phone,null,$onDeliveryPrice,$payType,null,null,null,null,$receiver,$invoiceType,$invoice_id,$invoice_company,null,null,null,null,null,null,null,'官網'];
+        return $newRow;
     }
 
 
