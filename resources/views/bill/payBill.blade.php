@@ -3,12 +3,13 @@
 @section('title','| 付款')
 
 @section('dataLayer')
+@if(isset($dataLayer))
 	<script>
 		var d = {!!$dataLayer!!};
 		window.dataLayer = window.dataLayer || [];
         window.dataLayer.push(d);
 	</script>
-	
+@endif
 @endsection
 
 @section('stylesheets')
