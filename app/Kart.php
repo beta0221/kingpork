@@ -32,4 +32,16 @@ class Kart extends Model
         return $totalPrice;
     }
 
+
+    public static function hasProduct($user_id,$productArray){
+        $result = false;
+        $productIdArray = DB::table('kart')->select('product_id')->where('user_id',$user_id)->get();
+        $productInKartArray = [];
+        foreach ($productIdArray as $item) {
+            if(in_array($item->product_id,$productArray)){
+                $result = true;
+            }
+        }
+        return $result;
+    }
 }

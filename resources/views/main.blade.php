@@ -117,6 +117,11 @@ function delete_item(id){
     },
     success: function (response) {
               
+      if(response.msg == '403'){
+        window.location.reload();
+        return false;
+      }
+
         $('#item_'+id).remove();
         $('#item'+id).remove();
         $('#add_'+id).empty().append('加入<img src="{{asset('images/cart.png')}}">');

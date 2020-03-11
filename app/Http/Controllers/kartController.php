@@ -270,13 +270,21 @@ class kartController extends Controller
      */
     public function destroy(Request $request,$id)
     {
+        $additionalProducts = Products::getAdditionalProducts();
         if (Auth::user()) {
             
             $kart = Kart::where('user_id',Auth::user()->id)->where('product_id',$id)->delete();
 
             if($kart)
             {
-                return response()->json(['msg'=>'成功刪除','status'=>1]);    
+
+                $totalPrice = Kart::getKartTotalPrice(Auth::user()->id,$additionalProducts);
+                if($totalPrice < 500 && Kart::hasProduct(Auth::user()->id,$additionalProducts)){
+                    Kart::where('user_id',Auth::user()->id)->whereIn('product_id',$additionalProducts)->delete();
+                    return response()->json(['msg'=>'403','status'=>1]);
+                }
+
+                return response()->json(['msg'=>'成功刪除','status'=>1]);
             }
             else
             {

@@ -386,6 +386,11 @@
 				_method: 'delete',
 			},
 			success: function (response) {
+
+				if(response=='403'){
+					window.location.reload();
+				}
+
                 if (response.status == 1) {
                 	$('#add_'+id).empty().append('加入<img src="{{asset('images/cart.png')}}">');
 	                $('#add_'+id).removeClass('deleteKartBtn')
