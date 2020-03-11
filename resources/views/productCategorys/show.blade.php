@@ -346,7 +346,7 @@
 			},
 			success: function (response) {
                 if(response == '403'){
-					alert('需滿500元才可進行加價購');
+					alert('需在主選單訂購超過500元，才可進行加價購。');
 					return false;
 				}
                 $('#add_'+id).empty().append('取消<img src="{{asset('images/cart.png')}}">');

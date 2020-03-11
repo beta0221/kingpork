@@ -157,11 +157,6 @@ class kartController extends Controller
         //
     }
 
-    public function test(){
-        $p = Kart::getKartTotalPrice(1);
-        return response($p);
-    }
-
     /**
      * Store a newly created resource in storage.
      *
