@@ -133,8 +133,14 @@
 								<input style="display: none;" type="text" value="{{$product->slug}}" name="item[]">
 							</td>
 
+							
 							<td class="product-quantity-TD">
-								<input id="{{$product->slug}}" class="quantity" type="number" value="1" name="quantity[]" price="{{$product->price}}">
+								@if($product->category_id==12)
+									<span>1</span>
+									<input hidden id="{{$product->slug}}" class="quantity" type="number" value="1" name="quantity[]" price="{{$product->price}}">
+								@else
+									<input id="{{$product->slug}}" class="quantity" type="number" value="1" name="quantity[]" price="{{$product->price}}">
+								@endif
 							</td>
 
 							<td class="product-price-TD">

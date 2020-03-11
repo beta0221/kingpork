@@ -67,9 +67,18 @@ class ProductCategoryController extends Controller
      */
     public function show($id)
     {
+        $additionalCategory = null;
+        $addableCat = [1,2,3,9];
         $productCategory = ProductCategory::find($id);
+        
+        if(in_array($id,$addableCat)){
+            $additionalCategory = ProductCategory::find(12);
+        }
 
-        return view('productCategorys.show',['productCategory'=>$productCategory]);
+        return view('productCategorys.show',[
+            'productCategory'=>$productCategory,
+            'additionalCategory'=>$additionalCategory
+        ]);
     }
 
     /**

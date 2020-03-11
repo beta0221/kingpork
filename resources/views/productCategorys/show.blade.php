@@ -156,51 +156,33 @@
 
 						<div class="productBox">
 						@foreach($productCategory->products as $product)
-
-
 							@if($product->public == 1)
 							<div onclick="showProduct({{$product->id}});" class="productItem">
-								
 								<div class="left-name-box">
-
 									<div class="left-top-box">
 										<span>{{$product->name}}</span>
 									</div>
-
 									<div class="left-bottom-box">
 										{!!($product->discription == null)?'':'<span class="' . 'product-discription">'. $product->discription .'</span>'!!}
 									</div>
-									
 								</div>
 								<div class="right-price-box">
-
 									<div class="right-top-box">
 										<span class="productPrice">${{$product->price}}</span>
 									</div>
-									
 									<div class="right-bottom-box">
 										<span class="productPrice productPrice_avg">
-											{{($product->format!=null)?'(均價$'.$product->format.')':''}}
-											
+											{{($product->format!=null)?'(均價$'.$product->format.')':''}}	
 										</span>
 									</div>
-
 								</div>
 								<div class="right-button-box">
-
 									<button id="add_{{$product->id}}" class="addToKartBtn" onclick="addToKart({{$product->id}})" product_id="{{$product->id}}">
-
 										加入<img src="{{asset('images/cart.png')}}">
-
 									</button>
-
 								</div>
-
-
 							</div>
 							@endif
-
-
 						@endforeach
 						</div>
 							
@@ -209,6 +191,58 @@
 					</div>
 				</div>
 			</div>
+
+			
+
+			@if(isset($additionalCategory))
+			<hr>
+			<div class="row">
+				<div class="col-md-6 col-12">
+					
+				</div>
+
+				<div class="col-md-6 col-12">
+					<div class="menuBoard">
+						<div class="menuBoard-content">
+							<div class="titleRow">
+								<h1>加價購</h1>
+							</div>
+							<div class="productBox">
+								@foreach($additionalCategory->products as $product)
+									@if($product->public == 1)
+									<div onclick="showProduct({{$product->id}});" class="productItem">
+										<div class="left-name-box">
+											<div class="left-top-box">
+												<span>{{$product->name}}</span>
+											</div>
+											<div class="left-bottom-box">
+												{!!($product->discription == null)?'':'<span class="' . 'product-discription">'. $product->discription .'</span>'!!}
+											</div>
+										</div>
+										<div class="right-price-box">
+											<div class="right-top-box">
+												<span class="productPrice">${{$product->price}}</span>
+											</div>
+											<div class="right-bottom-box">
+												<span class="productPrice productPrice_avg">
+													{{($product->format!=null)?'(均價$'.$product->format.')':''}}	
+												</span>
+											</div>
+										</div>
+										<div class="right-button-box">
+											<button id="add_{{$product->id}}" class="addToKartBtn" onclick="addToKart({{$product->id}})" product_id="{{$product->id}}">
+												加入<img src="{{asset('images/cart.png')}}">
+											</button>
+										</div>
+									</div>
+									@endif
+								@endforeach
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			@endif
 
 			<button id="goToKartBtn" class="goToKartBtn" onclick="location.href='{{route('kart.index')}}'">前往結帳<img src="{{asset('images/point.png')}}" alt="前往結帳"></button>
 
