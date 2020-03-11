@@ -117,11 +117,25 @@ class kartController extends Controller
             $kart = Kart::where('user_id', Auth::user()->id)->orderBy('product_id')->get();
             $shit = [];
             $i = 0;
+            $productIdArray = [];
+            $additionalProducts = Products::getAdditionalProducts();
             foreach ($kart as $k) {
                 $shit[$i] = $k->product_id;
                 $i++;
+                if(!in_array($k->product_id,$additionalProducts)){
+                    $productIdArray[] = $k->product_id;
+                }
             }
-            $products = Products::whereIn('id', $shit)->get();
+
+            $totalPrice = Products::totalPrice($productIdArray);
+            if($totalPrice < 500){
+                Kart::where('user_id',Auth::user()->id)->whereIn('product_id',$additionalProducts)->delete();
+                $products = Products::whereIn('id', $productIdArray)->get();
+            }else{
+                $products = Products::whereIn('id', $shit)->get();
+            }
+
+            
             return view('kart.index',['products'=>$products]);
 
         }
@@ -143,6 +157,11 @@ class kartController extends Controller
         //
     }
 
+    public function test(){
+        $p = Kart::getKartTotalPrice(1);
+        return response($p);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -151,9 +170,19 @@ class kartController extends Controller
      */
     public function store(Request $request)
     {
-        if (Auth::user()) {
-            
+
+        $additionalProducts = Products::getAdditionalProducts();
         
+
+        if (Auth::user()) {
+
+            if(in_array($request->product_id,$additionalProducts)){
+                $totalPrice =Kart::getKartTotalPrice(Auth::user()->id,$additionalProducts);
+                if($totalPrice < 500){
+                    return response('403');
+                }
+            }
+            
             $kart = Kart::where('product_id',$request->product_id)
                 ->where('user_id', Auth::user()->id)
                 ->first();
@@ -169,6 +198,20 @@ class kartController extends Controller
         }else{
             $ip_address = request()->ip();
             $sessionCart = sessionCart::where('ip_address',$ip_address)->first();
+
+            if(in_array($request->product_id,$additionalProducts)){
+                if($sessionCart){
+                    $productIdArray = json_decode($sessionCart->item);
+                    $totalPrice = Products::totalPrice($productIdArray,$additionalProducts);
+                    if($totalPrice < 500){
+                        return response('403');
+                    }
+                }else{
+                    return response('403');
+                }
+            }
+
+
             if ($sessionCart) {
                 $items = json_decode($sessionCart->item);
                 array_push($items,$request->product_id);

@@ -345,7 +345,10 @@
 				'product_id':id,
 			},
 			success: function (response) {
-                
+                if(response == '403'){
+					alert('需滿500元才可進行加價購');
+					return false;
+				}
                 $('#add_'+id).empty().append('取消<img src="{{asset('images/cart.png')}}">');
                 $('#add_'+id).addClass('deleteKartBtn');
                 $('#add_'+id).attr('onclick','deleteFromKart('+id+')');
