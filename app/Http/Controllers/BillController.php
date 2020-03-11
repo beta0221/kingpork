@@ -132,6 +132,19 @@ class BillController extends Controller
             'ship_pay_by'=>'required',
         ]);
 
+        $additionalProducts = Products::getAdditionalProductSlug();
+        $hasAdditionalProduct = false;
+        foreach ($request->item as $slug) {
+            if(in_array($slug,$additionalProducts)){
+                $hasAdditionalProduct = true;
+            }
+        }
+        if($hasAdditionalProduct){
+            $totalPrice = Products::totalPriceBySlug($request->item,$additionalProducts);
+            if($totalPrice < 500){
+                return redirect()->route('kart.index');
+            }
+        }
 
         $i = 0;
         $itemArray = [];

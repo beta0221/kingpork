@@ -24,6 +24,15 @@ class Products extends Model
         return $idArray;
     }
 
+    public static function getAdditionalProductSlug(){
+        $slugArray=[];
+        $result = DB::table('products')->select('slug')->where('category_id',Products::$additionalCatId)->get();
+        foreach ($result as $item) {
+            $slugArray[] = $item->slug;
+        }
+        return $slugArray;
+    }
+
     public static function totalPrice($productIdArray,$additionalProducts=[]){
         if(count($additionalProducts) <= 0){
             $realProductIdArray = $productIdArray;
@@ -43,5 +52,26 @@ class Products extends Model
         }
         return $totalPrice;
     }
+
+    public static function totalPriceBySlug($productSlugArray,$additionalProductSlug=[]){
+        if(count($additionalProductSlug) <= 0){
+            $realProductSlugArray = $productSlugArray;
+        }else{
+            $realProductSlugArray = [];
+            foreach ($productSlugArray as $slug) {
+                if(!in_array($slug,$additionalProductSlug)){
+                    $realProductSlugArray[] = $slug;
+                }
+            }
+        }
+        
+        $priceArray = DB::table('products')->select('price')->whereIn('slug',$realProductSlugArray)->get();
+        $totalPrice = 0;
+        foreach ($priceArray as $item) {
+            $totalPrice += $item->price;
+        }
+        return $totalPrice;
+    }
+
 
 }
