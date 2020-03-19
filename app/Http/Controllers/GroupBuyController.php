@@ -17,7 +17,7 @@ class GroupBuyController extends Controller
     public function index()
     {
     	
-    	$products = Products::where('category_id',6)->get();
+    	$products = Products::where('category_id',6)->where('public',1)->get();
     	
     	return view('groupBuy.index',['products'=>$products]);
     }
