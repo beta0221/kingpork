@@ -113,7 +113,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="product-cell">
+		{{-- <div class="product-cell">
 			<div>
 				<div>
 					<div class="catImg P-soup-6" id="{{Request::is('productCategory/19') ? 'currentCat' : ''}}" onclick="location.href='/productCategory/19'">
@@ -123,7 +123,7 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> --}}
 	</div>
 
 	<div class="container">

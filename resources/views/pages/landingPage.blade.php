@@ -136,7 +136,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="product-cell">
+		{{-- <div class="product-cell">
 			<div>
 				<div>
 					<div class="catImg">
@@ -147,7 +147,7 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> --}}
 	</div>
 
 <div class="productArea container">
