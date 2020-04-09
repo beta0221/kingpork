@@ -11,7 +11,7 @@
 <div style="margin-top: 40px;margin-bottom: 40px;" class="container">
 	<div class="row">
 		<div class="col-md-6 offset-md-3 form-box">
-			<form class="mt-4 mb-4" action="{{route('dealer.store')}}" method="POST" enctype="multipart/form-data">
+			<form class="mt-4 mb-4" action="{{route('group.store')}}" method="POST" enctype="multipart/form-data">
 				{{csrf_field()}}
 					<div class="form-row">
 					  <div class="form-group col-md-12">

@@ -29,7 +29,7 @@ foreach ($groups as $group) {
 ?>
 <div style="margin-top: 40px;margin-bottom: 40px;min-height: 500px;" class="container">
 	<div class="mb-2">
-		<a style="background-color: #d9534f;" class="btn text-white" href="/dealer/create">開設新團購</a>	
+		<a style="background-color: #d9534f;" class="btn text-white" href="/group/create">開設新團購</a>	
 	</div>
 	
 	<div class="row">
@@ -65,10 +65,10 @@ foreach ($groups as $group) {
 			  		<td rowspan="{{count($group->products)}}">{{$i}}</td>
 			  		<td rowspan="{{count($group->products)}}">{{$group->title}}</td>
 			  		<td rowspan="{{count($group->products)}}">
-			  			<input id="group_url_{{$i}}" style="" type="text" value="{{'https://www.kingpork.com.tw'.'/dealer/'.$group->group_code}}">
+			  			<input id="group_url_{{$i}}" style="" type="text" value="{{'https://www.kingpork.com.tw'.'/group/'.$group->group_code}}">
 			  			<button class="btn btn-sm btn-primary copy-btn" data-clipboard-target="#group_url_{{$i}}">複製</button>
 			  			<a class="btn btn-sm btn-warning" target="_blank" href="/group-excel/{{$group->group_code}}">名單</a>
-			  			<a class="btn btn-sm btn-success" href="{{'/dealer/'.$group->group_code}}" target="_blank">瀏覽</a>
+			  			<a class="btn btn-sm btn-success" href="{{'/group/'.$group->group_code}}" target="_blank">瀏覽</a>
 			  		</td>
 			  		<td rowspan="{{count($group->products)}}">{{$group->deadline}}</td>
 			  		@endif

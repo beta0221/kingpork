@@ -35,7 +35,7 @@
 						    <tr>
 							  	<td>{{$product->name}}</th>
 								<td>{{$product->discription}}</td>
-						      	<td>{{$product->price}}元</td>
+						      	<td style="color:darkred"><h4>{{$product->price}}元</h4></td>
 						    </tr>
 							@endforeach
 						</tbody>
@@ -88,8 +88,17 @@
 								@endforeach
 							
 						</div>
+
+
+						<div>
+							成團金額:5000元
+						</div>
+						<div>
+							目前累計:{{$productTotal}}元
+						</div>
+
 						
-						<div class="form-group">
+						<div class="form-group mt-4">
 						    <label for="">訂貨備註：</label>
 						    <textarea class="form-control" id="comment"></textarea>
 						    

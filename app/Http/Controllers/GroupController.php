@@ -97,7 +97,7 @@ class GroupController extends Controller
 
         $group->products()->sync($req->products);
 
-        return redirect()->route('dealer.index');
+        return redirect()->route('group.index');
 
     }
 
@@ -148,7 +148,18 @@ class GroupController extends Controller
     public function show($group_code)
     {
         $group = Group::where('group_code',$group_code)->firstOrFail();
-        return view('dealer.dealer_join',['group'=>$group]);
+
+        $productTotal = 0;
+        foreach ($group->products as $product) {
+            $sum = $group->productSum($product->id);
+            $productTotal += $sum * $product->price;
+        }
+
+
+        return view('dealer.dealer_join',[
+            'group'=>$group,
+            'productTotal'=>$productTotal
+        ]);
         // return response()->json($group);
     }
 
