@@ -97,7 +97,7 @@ class GroupController extends Controller
 
         $group->products()->sync($req->products);
 
-        return $this->index();
+        return redirect()->route('dealer.index');
 
     }
 
