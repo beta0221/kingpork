@@ -14,7 +14,10 @@
 				<div class="card">
 					
 					@if($group->image)
-					<img class="card-img-top" src="/images/groupIMG/{{$group->group_code}}/{{$group->image}}">
+					<div>
+						<img class="card-img-top" src="/images/groupIMG/{{$group->group_code}}/{{$group->image}}">
+					</div>
+					
 					@endif
 					
 				  <div class="card-body p-4">
@@ -24,7 +27,7 @@
 						    <tr>
 						      <th scope="col">商品</th>
 						      <th scope="col">團購價</th>
-						      <th scope="col">成團數量</th>
+						      <th scope="col">原價</th>
 						    </tr>
 						  </thead>
 						  <tbody>
@@ -32,7 +35,7 @@
 						    <tr>
 						      <td>{{$product->name}}</th>
 						      <td>{{$product->price}}</td>
-						      <td><span id="current_{{$product->id}}">{{$group->productSum($product->id)}}</span>/{{$product->min_for_dealer}}</td>
+							  <td>{{$product->discription}}</td>
 						    </tr>
 							@endforeach
 						</tbody>
@@ -73,13 +76,14 @@
 								<div class="form-check product-array">
 								  <input class="product" type="checkbox" value="{{$product->id}}">
 								  <label class="form-check-label" for="defaultCheck1">
-								    商品：{{$product->name}} 價格：{{$product->price}} 成團數量：<span id="max_{{$product->id}}">{{$product->min_for_dealer}}</span>
+									{{$product->name}} 價格：{{$product->price}} 
+									{{-- 成團數量：<span id="max_{{$product->id}}">{{$product->min_for_dealer}}</span> --}}
 								  </label>
 								  <label class="form-check-label" for="defaultCheck1">
 								    數量：
 								  </label>
 								  <input style="display: inline-block;width:56px;" type="number" min="1" value="1" class="ml-2 form-control amount">
-								  <span>（剩餘：</span><span id="left_{{$product->id}}">{{$product->min_for_dealer - $group->productSum($product->id)}}</span><span>）</span>
+								  {{-- <span>（剩餘：</span><span id="left_{{$product->id}}">{{$product->min_for_dealer - $group->productSum($product->id)}}</span><span>）</span> --}}
 								</div>
 								@endforeach
 							

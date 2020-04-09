@@ -8,6 +8,25 @@
 
 
 @section('content')
+
+<?php
+
+$groupTotal = [];
+$productSum = [];
+$productTotalPrice = [];
+
+foreach ($groups as $group) {
+	$productTotal = 0;
+	foreach ($group->products as $product) {
+		$sum = $group->productSum($product->id);
+		$productSum[$group->group_code][$product->id] = $sum;
+		$productTotalPrice[$group->group_code][$product->id] = ($sum * $product->price);
+		$productTotal += $sum * $product->price;
+	}
+	$groupTotal[$group->group_code] = $productTotal;
+}
+
+?>
 <div style="margin-top: 40px;margin-bottom: 40px;min-height: 500px;" class="container">
 	<div class="mb-2">
 		<a style="background-color: #d9534f;" class="btn text-white" href="/dealer/create">開設新團購</a>	
@@ -23,20 +42,24 @@
 			      <th scope="col">網址</th>
 			      <th scope="col">截止日期</th>
 			      <th scope="col">商品</th>
-			      <th scope="col">數量</th>
-			      <th scope="col">狀態</th>
+			      <th scope="col">目前數量</th>
+				  <th scope="col">狀態</th>
+				  <th scope="col">目前總金額</th>
 			      <th scope="col">-</th>
 			    </tr>
 			  </thead>
 			  <tbody>
-			  	<?php $i=1; $success = false;$isSuccess = false?>
+			  	<?php $i=1; $threshold = 5000;?>
 			  	@foreach($groups as $group)
-			  	<?php $j = 0;?>
-			  	@foreach($group->products as $product)
-			  	<?php if ($group->productSum($product->id)>=$product->min_for_dealer) {
-			  		$success = true;
-			  		
-			  	} ?>
+				  	<?php 
+					  $j = 0;
+					?>
+			  	@foreach($group->products as $index => $product)
+				  	<?php 
+					  $total = $groupTotal[$group->group_code]; 
+					  $_productSum = $productSum[$group->group_code][$product->id];
+					  $_productTotalPrice = $productTotalPrice[$group->group_code][$product->id];
+					?>
 			  	<tr>
 			  		@if($j==0)
 			  		<td rowspan="{{count($group->products)}}">{{$i}}</td>
@@ -51,36 +74,35 @@
 			  		@endif
 			  		
 			  		<td>{{$product->name}}</td>
-			  		<td>{{$group->productSum($product->id)}}/{{$product->min_for_dealer}}</td>
-			  		<td>
-			  			@if($group->deadline>=date("Y-m-d"))
-			  				<font color="gray">揪團中</font>
-			  			@else
-			  				已截止
-			  			@endif
-			  			@if($group->productSum($product->id)>=$product->min_for_dealer)
-							(<font color="green">成團</font>)
-						@else
-							(<font color="red">未成團</font>)
-						@endif
-					</td>
-			  		@if($isSuccess == false && $success == true)
-					<td rowspan="{{count($group->products)}}">
-
-						@if(!$group->is_done)
-						<div class="btn btn-sm btn-success" onclick="submit_group('{{$group->group_code}}');">送單</div>
-						@else
-						已送出
-						@endif
-
-					</td>
-
-					<?php $isSuccess = true; ?>
+			  		<td>{{$_productSum}}({{$_productTotalPrice}})</td>
+			  		
 					
-			  		@endif
+					@if($j==0)
+					<td rowspan="{{count($group->products)}}">
+						@if($group->deadline>=date("Y-m-d"))
+							<font color="gray">揪團中</font>
+						@else
+							已截止
+						@endif
+				  	</td>
+					<td rowspan="{{count($group->products)}}">
+						{{$total}}
+					</td>
+					<td rowspan="{{count($group->products)}}">
+						@if($total >= $threshold)
+							@if(!$group->is_done)
+								<div class="btn btn-sm btn-success" onclick="submit_group('{{$group->group_code}}');">送單</div>
+							@else
+								已送出
+							@endif
+						@else
+							未達標
+						@endif
+					</td>
+					@endif
 			  		
 			  	</tr>
-			  	<?php $j++; $success = false?>
+			  	<?php $j++;?>
 			  	@endforeach
 			  	
 			  	<?php $i++; $isSuccess = false;?>

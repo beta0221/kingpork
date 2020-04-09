@@ -41,7 +41,8 @@
 								<div class="form-check">
 								  <input name="products[]"	 type="checkbox" value="{{$product->id}}" id="">
 								  <label class="form-check-label" for="">
-								    商品：{{$product->name}} 價格：{{$product->price}} 最低數量：{{$product->min_for_dealer}}
+									{{$product->name}} 價格:{{$product->price}} (原價:{{$product->discription}})
+									{{-- 最低數量：{{$product->min_for_dealer}} --}}
 								  </label>
 								</div>
 						  	@endif

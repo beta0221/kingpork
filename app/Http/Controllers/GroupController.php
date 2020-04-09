@@ -31,7 +31,7 @@ class GroupController extends Controller
     public function index()
     {
         if (Auth::user()->isDealer) {
-            $groups = Group::where('dealer_id',Auth::user()->id)->get();
+            $groups = Group::where('dealer_id',Auth::user()->id)->orderBy('id','DESC')->get();
         
             return view('dealer.dealer_index',['groups'=>$groups]);
         }
@@ -108,16 +108,23 @@ class GroupController extends Controller
         
         $itemArray = [];
         
-        
+        $allTotal = 0;
         foreach ($group->products as $key => $product) {
-            $max = Products::find($product->id)->min_for_dealer;
+            // $max = Products::find($product->id)->min_for_dealer;
             $total = $group->productSum($product->id);
+            $totalPrice = $total * $product->price;
 
-            if ($max == $total) {
+            $allTotal += $totalPrice;
+            // if ($max == $total) {
                 $itemArray[$product->slug] = $total; 
                 
-            }
+            // }
 
+        }
+
+        //門檻5000
+        if($allTotal < 5000){
+            $itemArray = [];
         }
 
         $result = [
@@ -157,23 +164,23 @@ class GroupController extends Controller
             'amount'=>'required',
         ]);
 
-        $isChecked = true;
-        $group = Group::where('group_code',$req->group_code)->firstOrFail();
+        // $isChecked = true;
+        // $group = Group::where('group_code',$req->group_code)->firstOrFail();
         
         
-        $productAmount = [];
-        foreach ($req->product as $key=>$product) {
-            $max = Products::find($product)->min_for_dealer;
-            $total = $group->productSum($product);
-            $productAmount[$product] = $total;
-            if ($total + $req->amount[$key] > $max) {
-                $isChecked = false;
-            }
-        }
+        // $productAmount = [];
+        // foreach ($req->product as $key=>$product) {
+        //     $max = Products::find($product)->min_for_dealer;
+        //     $total = $group->productSum($product);
+        //     $productAmount[$product] = $total;
+        //     if ($total + $req->amount[$key] > $max) {
+        //         $isChecked = false;
+        //     }
+        // }
 
-        if (!$isChecked) {
-            return response()->json($productAmount);
-        }else{
+        // if (!$isChecked) {
+            // return response()->json($productAmount);
+        // }else{
             $member = GroupMember::create($req->except(['group_code','product','amount']));
             foreach ($req->product as $i=>$product) {
                 $member->membersBill()->create([
@@ -182,7 +189,7 @@ class GroupController extends Controller
                 ]);
             }
             return response()->json('success');
-        }
+        // }
 
     }
 
