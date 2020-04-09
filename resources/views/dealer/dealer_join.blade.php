@@ -25,17 +25,17 @@
 				    <table class="table">
 				    	<thead class="thead-dark">
 						    <tr>
-						      <th scope="col">商品</th>
+							  <th scope="col">商品</th>
+							  <th scope="col">原價</th>
 						      <th scope="col">團購價</th>
-						      <th scope="col">原價</th>
 						    </tr>
 						  </thead>
 						  <tbody>
 							@foreach($group->products as $product)
 						    <tr>
-						      <td>{{$product->name}}</th>
-						      <td>{{$product->price}}</td>
-							  <td>{{$product->discription}}</td>
+							  	<td>{{$product->name}}</th>
+								<td>{{$product->discription}}</td>
+						      	<td>{{$product->price}}元</td>
 						    </tr>
 							@endforeach
 						</tbody>
