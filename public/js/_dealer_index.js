@@ -7,13 +7,31 @@ $(document).ready(function(){
   		}
 	});
 
+
+
+	$('#ship_receipt').change(function(){
+		if($(this).val() == 2){
+			$('#receipt_three_group').hide();
+		}else{
+			$('#receipt_three_group').show();
+		}
+	});
+
 });
 
-function submit_group(group_code){
+var groupCode = '';
 
+function show_submit_form(group_code,group_title){
+	$('#model-title').html(group_title);
+	groupCode = group_code;
+}
+
+function submit_group(){
+	$('#form-submit-button').hide();
+	
 	$.ajax({
 			type:'POST',
-			url:'/group-detail/' + group_code,
+			url:'/group-detail/' + groupCode,
 			dataType:'json',
 			data:{
 				_method:'patch',
@@ -23,8 +41,8 @@ function submit_group(group_code){
 				$('.submit_item').remove();
 				$('.submit_quantity').remove();
 				$.each(res.itemArray,function(key,value){
-					$('#submit_form').append('<input class="submit_item" type="text" name="item[]" value="'+key+'">');
-					$('#submit_form').append('<input class="submit_quantity" type="text" name="quantity[]" value="'+value+'">');
+					$('#submit_form').append('<input class="submit_item" type="hidden" name="item[]" value="'+key+'">');
+					$('#submit_form').append('<input class="submit_quantity" type="hidden" name="quantity[]" value="'+value+'">');
 				});
 				$('#submit_address').val(res.address);
 			},

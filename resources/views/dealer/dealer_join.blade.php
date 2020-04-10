@@ -76,13 +76,11 @@
 								<div class="form-check product-array">
 								  <input class="product" type="checkbox" value="{{$product->id}}">
 								  <label class="form-check-label" for="defaultCheck1">
-									{{$product->name}} 價格：{{$product->price}} 
+									{{$product->name}}：{{$product->price}}元
 									{{-- 成團數量：<span id="max_{{$product->id}}">{{$product->min_for_dealer}}</span> --}}
 								  </label>
-								  <label class="form-check-label" for="defaultCheck1">
-								    數量：
-								  </label>
-								  <input style="display: inline-block;width:56px;" type="number" min="1" value="1" class="ml-2 form-control amount">
+								  <label class="form-check-label p-0" for="defaultCheck1">數量:</label>
+								  <input style="display: inline-block;width:56px;" type="number" min="1" value="1" class="form-control amount">
 								  {{-- <span>（剩餘：</span><span id="left_{{$product->id}}">{{$product->min_for_dealer - $group->productSum($product->id)}}</span><span>）</span> --}}
 								</div>
 								@endforeach
@@ -91,10 +89,10 @@
 
 
 						<div>
-							成團金額:5000元
+							<h5>成團金額：5000元</h5>
 						</div>
 						<div>
-							目前累計:{{$productTotal}}元
+							<h4>目前累計：<font color="darkred">{{$productTotal}}元</font></h4>
 						</div>
 
 						

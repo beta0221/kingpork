@@ -1,6 +1,6 @@
 @extends('main')
 
-@section('title','| 經銷商')
+@section('title','| 團購')
 
 @section('stylesheets')
 	{{Html::style('css/_dealer_index.css')}}
@@ -64,11 +64,15 @@ foreach ($groups as $group) {
 			  		@if($j==0)
 			  		<td rowspan="{{count($group->products)}}">{{$i}}</td>
 			  		<td rowspan="{{count($group->products)}}">{{$group->title}}</td>
-			  		<td rowspan="{{count($group->products)}}">
-			  			<input id="group_url_{{$i}}" style="" type="text" value="{{'https://www.kingpork.com.tw'.'/group/'.$group->group_code}}">
-			  			<button class="btn btn-sm btn-primary copy-btn" data-clipboard-target="#group_url_{{$i}}">複製</button>
-			  			<a class="btn btn-sm btn-warning" target="_blank" href="/group-excel/{{$group->group_code}}">名單</a>
-			  			<a class="btn btn-sm btn-success" href="{{'/group/'.$group->group_code}}" target="_blank">瀏覽</a>
+					  <td rowspan="{{count($group->products)}}">
+						<div>
+							<input id="group_url_{{$i}}" style="" type="text" value="{{'https://www.kingpork.com.tw'.'/group/'.$group->group_code}}">
+						</div>
+			  			<div>
+							<button class="btn btn-sm btn-primary copy-btn" data-clipboard-target="#group_url_{{$i}}">複製</button>
+							<a class="btn btn-sm btn-warning" target="_blank" href="/group-excel/{{$group->group_code}}">名單</a>
+							<a class="btn btn-sm btn-success" href="{{'/group/'.$group->group_code}}" target="_blank">瀏覽</a>
+						</div>
 			  		</td>
 			  		<td rowspan="{{count($group->products)}}">{{$group->deadline}}</td>
 			  		@endif
@@ -91,7 +95,7 @@ foreach ($groups as $group) {
 					<td rowspan="{{count($group->products)}}">
 						@if($total >= $threshold)
 							@if(!$group->is_done)
-								<div class="btn btn-sm btn-success" onclick="submit_group('{{$group->group_code}}');">送單</div>
+					<div class="btn btn-sm btn-success" onclick="show_submit_form('{{$group->group_code}}','{{$group->title}}');" data-toggle="modal" data-target="#submit-form-modal">送單</div>
 							@else
 								已送出
 							@endif
@@ -105,7 +109,7 @@ foreach ($groups as $group) {
 			  	<?php $j++;?>
 			  	@endforeach
 			  	
-			  	<?php $i++; $isSuccess = false;?>
+			  	<?php $i++;?>
 			  	@endforeach
 			    
 			    
@@ -115,21 +119,81 @@ foreach ($groups as $group) {
 		</div>
 	</div>
 
+	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#submit-form-modal">
+		Launch demo modal
+	  </button>
+	<!-- Modal -->
+	<div class="modal fade" id="submit-form-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+			<h5 class="modal-title" id="model-title"></h5>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+			</div>
+			<div class="modal-body">
+				<form id="submit_form" action="{{route('bill.store')}}" method="POST">
+					{{csrf_field()}}
+					<input type="hidden" name="ship_email" value="{{Auth::user()->email}}">
 
-	<div style="display: none;">
-		<form id="submit_form" action="{{route('bill.store')}}" method="POST">
-			{{csrf_field()}}
-			<input type="text" name="ship_name" value="{{Auth::user()->name}}">
-			<input type="text" name="ship_phone" value="{{Auth::user()->phone}}">
-			<input type="text" name="ship_email" value="{{Auth::user()->email}}">
-			<input type="text" name="bonus" value="0">
-			<input type="text" name="ship_receipt" value="2">
-			<input type="text" name="ship_arrive" value="no">
-			<input type="text" name="time" value="no">
-			<input id="submit_address" type="text" name="ship_address" value="">
-			<input type="text" name="ship_pay_by" value="ATM">
-		</form>
+					<label>收件人</label>
+					<div class="form-group">
+						<input class="form-control" type="text" name="ship_name" value="{{Auth::user()->name}}">
+					</div>
+
+					<label>手機</label>
+					<div class="form-group">
+						<input class="form-control" type="text" name="ship_phone" value="{{Auth::user()->phone}}">
+					</div>
+					
+					<label>使用紅利(可用:{{Auth::user()->bonus}})</label>
+					<div class="form-group">
+						<input class="form-control" type="number" min="0" name="bonus" value="0">
+					</div>
+					
+					<label>發票</label>
+					<div class="form-group">
+						<select id="ship_receipt" name="ship_receipt" class="form-control">
+							<option value="2">二連</option>
+							<option value="3">三聯</option>
+						</select>
+					</div>
+
+					<div id="receipt_three_group" style="display:none;">
+						<label>統編號碼</label>
+						<div class="form-group">
+							<input class="form-control" type="text" name="ship_three_id"" value="" placeholder="統編號碼">
+						</div>
+
+						<label>公司抬頭</label>
+						<div class="form-group">
+							<input class="form-control" type="text" name="ship_three_company" value="" placeholder="公司抬頭">
+						</div>
+					</div>
+
+					<input type="hidden" name="ship_arrive" value="no">
+					<input type="hidden" name="time" value="no">
+					<input id="submit_address" type="hidden" name="ship_address" value="">
+
+					<label>付款方式</label>
+					<div class="form-group">
+						<select name="ship_pay_by" class="form-control">
+							<option value="ATM">ATM轉帳</option>
+							<option value="CREDIT">信用卡</option>
+							<option value="cod">貨到付款</option>
+						</select>
+					</div>
+					
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button id="form-submit-button" type="button" class="btn btn-success" onclick="submit_group()">確認送出</button>
+			</div>
+		</div>
+		</div>
 	</div>
+
 	
 
 </div>
