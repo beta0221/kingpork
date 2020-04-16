@@ -77,18 +77,8 @@ class GroupController extends Controller
 
 
         if ($req->hasFile('image')) {
-            //image stuff
             $image = $req->file('image'); //先把檔案存到 $image 變數
-            $filename = time() . '.' . $image->getClientOriginalExtension(); //取得檔案完整原檔名再加上 時間在前面
-            $path = 'groupIMG/'.$group_code;
-            $location = public_path('images/groupIMG/'.$group_code .'/' . $filename);//把圖片url存到$location變數裡面
-            if(!Storage::exists($path)){
-                Storage::makeDirectory($path);   
-            }else{
-                \File::cleanDirectory($path);
-            }
-            //resize(800,400)
-            Image::make($image)->save($location);//把圖面resize之後存進路徑
+            $filename = $this->storeImage($image,$group_code);
             $group->image = $filename;//存進資料庫語法跟其他欄位一樣只是放進來是$filename變數
         }
             
@@ -99,6 +89,21 @@ class GroupController extends Controller
 
         return redirect()->route('group.index');
 
+    }
+    private function storeImage($image,$group_code){
+        //image stuff
+        $filename = time() . '.' . $image->getClientOriginalExtension(); //取得檔案完整原檔名再加上 時間在前面
+        $path = 'groupIMG/'.$group_code;
+        $location = public_path('images/groupIMG/'.$group_code .'/' . $filename);//把圖片url存到$location變數裡面
+        if(!Storage::exists($path)){
+            Storage::makeDirectory($path);   
+        }else{
+            $files = Storage::allFiles($path);
+            Storage::delete($files);
+        }
+        //resize(800,400)
+        Image::make($image)->save($location);//把圖面resize之後存進路徑
+        return $filename;
     }
 
 
@@ -212,7 +217,11 @@ class GroupController extends Controller
      */
     public function edit(Group $group)
     {
-        //
+        $products = $group->products()->get();
+        return view('dealer.dealer_create',[
+            'products'=>$products,
+            'group'=>$group
+        ]);
     }
 
     /**
@@ -224,7 +233,21 @@ class GroupController extends Controller
      */
     public function update(Request $request, Group $group)
     {
-        //
+        $group->title = $request->title;
+        $group->deadline = $request->deadline;
+        $group->address = $request->address;
+        $group->comment = $request->comment;
+
+        if ($request->hasFile('image')){
+            $image = $request->file('image');
+            $filename = $this->storeImage($image,$group->group_code);
+            // return response($filename);
+            $group->image = $filename;
+        }
+
+        $group->save();
+            
+        return redirect()->route('group.show',$group->group_code);
     }
 
     /**

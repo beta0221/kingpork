@@ -53,7 +53,7 @@
 				<hr>	
 
 				<div class="card">
-					{{-- @if($group->deadline>=date("Y-m-d")) --}}
+					@if($group->deadline>=date("Y-m-d") && $group->is_done!=1)
 					<form class="mt-4 mb-4 pl-4 pr-4" id="join-group-form">
 						
 						<input style="display: none;" type="text" id="group_id" value="{{$group->id}}">
@@ -106,9 +106,9 @@
 						@endif
 					</form>
 					<h2 id="success-alert" class="mt-4 mb-4" style="text-align: center;display: none;color: green;">訂單成功送出。</h2>
-					{{-- @else
-					<h2 class="mt-4 mb-4" style="text-align: center;">本團購已截止</h2>
-					@endif --}}
+					@else
+					<h2 class="mt-4 mb-4" style="text-align: center;">本團購已結束</h2>
+					@endif
 				</div>
 
 			</div>

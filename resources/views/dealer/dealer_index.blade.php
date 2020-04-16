@@ -71,6 +71,7 @@ foreach ($groups as $group) {
 			  			<div>
 							<button class="btn btn-sm btn-primary copy-btn" data-clipboard-target="#group_url_{{$i}}">複製</button>
 							<a class="btn btn-sm btn-warning" target="_blank" href="/group-excel/{{$group->group_code}}">名單</a>
+						  	<a class="btn btn-sm btn-info" href="/group/{{$group->id}}/edit">編輯</a>
 							<a class="btn btn-sm btn-success" href="{{'/group/'.$group->group_code}}" target="_blank">瀏覽</a>
 						</div>
 			  		</td>
@@ -119,9 +120,6 @@ foreach ($groups as $group) {
 		</div>
 	</div>
 
-	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#submit-form-modal">
-		Launch demo modal
-	  </button>
 	<!-- Modal -->
 	<div class="modal fade" id="submit-form-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
