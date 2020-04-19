@@ -69,10 +69,10 @@ foreach ($groups as $group) {
 							<input id="group_url_{{$i}}" style="" type="text" value="{{'https://www.kingpork.com.tw'.'/group/'.$group->group_code}}">
 						</div>
 			  			<div>
-							<button class="btn btn-sm btn-primary copy-btn" data-clipboard-target="#group_url_{{$i}}">複製</button>
-							<a class="btn btn-sm btn-warning" target="_blank" href="/group-excel/{{$group->group_code}}">名單</a>
-						  	<a class="btn btn-sm btn-info" href="/group/{{$group->id}}/edit">編輯</a>
-							<a class="btn btn-sm btn-success" href="{{'/group/'.$group->group_code}}" target="_blank">瀏覽</a>
+							<button class="btn btn-sm btn-primary copy-btn" data-clipboard-target="#group_url_{{$i}}">複製網址</button>
+							<a class="btn btn-sm btn-warning" target="_blank" href="/group-excel/{{$group->group_code}}">訂購名單</a>
+						  	<a class="btn btn-sm btn-info" href="/group/{{$group->id}}/edit">修改</a>
+							<a class="btn btn-sm btn-success" href="{{'/group/'.$group->group_code}}" target="_blank">預覽</a>
 						</div>
 			  		</td>
 			  		<td rowspan="{{count($group->products)}}">{{$group->deadline}}</td>
@@ -96,7 +96,7 @@ foreach ($groups as $group) {
 					<td rowspan="{{count($group->products)}}">
 						@if($total >= $threshold)
 							@if(!$group->is_done)
-					<div class="btn btn-sm btn-success" onclick="show_submit_form('{{$group->group_code}}','{{$group->title}}');" data-toggle="modal" data-target="#submit-form-modal">送單</div>
+					<div class="btn btn-sm btn-success" onclick="show_submit_form('{{$group->group_code}}','{{$group->title}}');" data-toggle="modal" data-target="#submit-form-modal">結帳</div>
 							@else
 								已送出
 							@endif
