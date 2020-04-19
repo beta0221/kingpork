@@ -42,6 +42,12 @@
 							<pre class="m-0">&lt;/div&gt;</pre>
 							<pre class="m-0">&lt;/div&gt;</pre>
 						</div>
+						<label class="mt-4">圖片超連結範例：</label>
+						<div class="mb-4" style="font-size:6px;">
+							<pre class="m-0">&lt;a src="{連結網址}"&gt;</pre>
+							<pre class="m-0">&lt;img style="width:100%" src="{圖片連結}" /&gt;</pre>
+							<pre class="m-0">&lt;/a&gt;</pre>
+						</div>
 
 						<label for="content">內容：</label>
 						<textarea type="text" name="content" class="form-control">{{$PC->content}}</textarea>
