@@ -219,6 +219,23 @@ class BillController extends Controller
             $user_name = $request->user_name;
         }
 
+
+        
+        $itemArray = [];
+        $getBonus = 0;
+        foreach($kart as $item)
+        {
+            $product = Products::where('slug', $item['slug'])->firstOrFail();   
+            $itemArray[] = [
+                'name' => $product->name,
+                'price' => $product->price,
+                'quantity' => $item['quantity'],
+            ];
+            $getBonus += ($product->bonus * (int)$item['quantity']);
+        }
+
+
+
         if ($request->ship_pay_by=='ATM'OR$request->ship_pay_by=='CREDIT') {
 
             //test
@@ -307,6 +324,7 @@ class BillController extends Controller
                 $bill->item = json_encode($kart);
                 $bill->bonus_use = $bonusCount;
                 $bill->price = $total;
+                $bill->get_bonus = $getBonus;
                 $bill->SPToken = $SPToken;              //SPToken
                 $bill->ship_name = $request->ship_name;
                 $bill->ship_gender = $request->ship_gender;
@@ -340,6 +358,7 @@ class BillController extends Controller
             $bill->item = json_encode($kart);
             $bill->bonus_use = $bonusCount;
             $bill->price = $total;
+            $bill->get_bonus = $getBonus;
             $bill->ship_name = $request->ship_name;
             $bill->ship_gender = $request->ship_gender;
             $bill->ship_phone = $request->ship_phone;
@@ -359,18 +378,6 @@ class BillController extends Controller
             $bill->save();
 
 
-            $i = 0;
-            $itemArray = [];
-            foreach($kart as $item)
-            {
-                $product = Products::where('slug', $item['slug'])->firstOrFail();   
-                $itemArray[$i] = [
-                    'name' => $product->name,
-                    'price' => $product->price,
-                    'quantity' => $item['quantity'],
-                ];
-                $i++;
-            }
             $data = array(
                 'user_name'=>$user_name,
                 'ship_gender'=>$request->ship_gender,
@@ -537,7 +544,7 @@ class BillController extends Controller
 
             //$user = User::where('name',$the->user_name)->firstOrFail();//紅利回算機制{
             $user = User::find($the->user_id);
-            $TradeAmt = (int)$TradeAmt;
+            $TradeAmt = (int)$the->get_bonus;
             $user->bonus = $user->bonus+$TradeAmt;
             $user->save();                                          //}紅利回算機制
 
