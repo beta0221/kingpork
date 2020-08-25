@@ -58,9 +58,9 @@
 		<div class="product-cell float-cell">
 			<div>
 				<div>
-					<div class="catImg P-soup" id="{{Request::is('productCategory/11') ? 'currentCat' : ''}}" onclick="location.href='/productCategory/11'">
-						<a href="{{route('productCategory.show',11)}}">
-							<img src="{{asset('images/cat/menu/11.png')}}" alt="酸白菜鍋底">	
+					<div class="catImg P-soup" id="{{Request::is('productCategory/20') ? 'currentCat' : ''}}" onclick="location.href='/productCategory/20'">
+						<a href="{{route('productCategory.show',20)}}">
+							<img src="{{asset('images/cat/menu/20.png')}}" alt="活凍金鑽蝦">	
 						</a>
 					</div>
 				</div>
@@ -113,17 +113,17 @@
 				</div>
 			</div>
 		</div>
-		{{-- <div class="product-cell">
+		<div class="product-cell">
 			<div>
 				<div>
-					<div class="catImg P-soup-6" id="{{Request::is('productCategory/19') ? 'currentCat' : ''}}" onclick="location.href='/productCategory/19'">
-						<a href="{{route('productCategory.show',19)}}">
-							<img src="{{asset('images/cat/menu/19.png')}}" alt="5鍋聯盟">	
+					<div class="catImg P-soup-6" id="{{Request::is('productCategory/21') ? 'currentCat' : ''}}" onclick="location.href='/productCategory/21'">
+						<a href="{{route('productCategory.show',21)}}">
+							<img src="{{asset('images/cat/menu/21.png')}}" alt="活凍Q麵">	
 						</a>
 					</div>
 				</div>
 			</div>
-		</div> --}}
+		</div>
 	</div>
 
 	<div class="container">

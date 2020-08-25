@@ -76,10 +76,10 @@
 			<div>
 				<div>
 					<div class="catImg">
-						<a href="{{route('productCategory.show',11)}}">
-							<img src="{{asset('images/cat/landing/11.png')}}" alt="酸白菜鍋">	
+						<a href="{{route('productCategory.show',20)}}">
+							<img src="{{asset('images/cat/landing/20.png')}}" alt="活凍金鑽蝦">	
 						</a>
-						<div onclick="location.href='{{route('productCategory.show',11)}}';" class="P-buy">我要買</div>
+						<div onclick="location.href='{{route('productCategory.show',20)}}';" class="P-buy">我要買</div>
 					</div>
 				</div>
 			</div>
@@ -136,18 +136,18 @@
 				</div>
 			</div>
 		</div>
-		{{-- <div class="product-cell">
+		<div class="product-cell">
 			<div>
 				<div>
 					<div class="catImg">
-						<a href="{{route('productCategory.show',19)}}">
-							<img src="{{asset('images/cat/landing/19.png')}}" alt="促銷方案">
+						<a href="{{route('productCategory.show',21)}}">
+							<img src="{{asset('images/cat/landing/21.png')}}" alt="活凍Q麵">
 						</a>
-						<div onclick="location.href='{{route('productCategory.show',19)}}';" class="P-buy">我要買</div>
+						<div onclick="location.href='{{route('productCategory.show',21)}}';" class="P-buy">我要買</div>
 					</div>
 				</div>
 			</div>
-		</div> --}}
+		</div>
 	</div>
 
 <div class="productArea container">
