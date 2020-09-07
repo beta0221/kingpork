@@ -98,7 +98,7 @@
 				<h1 style="font-size: 24px;margin-bottom:8px">粉絲專屬組合</h1>
 				<h3 style="margin-left:16px">＊至尊金鑽蝦1盒600g</h3>
 				<h3 style="margin-left:16px">＊金園厚切排骨2片</h3>
-				<h3 style="margin-left:16px">＊金園無體雞腿排2隻</h3>
+				<h3 style="margin-left:16px">＊金園無骨雞腿排2隻</h3>
 				<h3 style="margin-left:16px">＊挪威鯖魚2片</h3>
 			</div>
 			<div class="introduce-stack">
