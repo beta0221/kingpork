@@ -56,15 +56,13 @@
 
 	<div class="content">
 
-		
-		<div class="slider">{{-- 1920 x 1080 --}}
-			<video playsinline autoplay muted loop class="slider-group" >
+		{{-- 1920 x 1080 --}}
+		<div class="slider">
+			{{-- <video playsinline autoplay muted loop class="slider-group" >
   				<source src="{{asset('vedios/head.mp4')}}" type="video/mp4">
   			您的瀏覽器不支援此影片
-			</video>
-			{{-- <div class="slider-group"> --}}
-				{{-- <img src="{{asset('images/productsIMG/pork.png')}}">
-			</div> --}}
+			</video> --}}
+			<img style="position: absolute;top:0;left:0;width:100%" src="/images/moon_fast.jpg">
 		</div>
 
 		<div class="clear"></div>
@@ -94,22 +92,20 @@
 
 		<div class="introduce">
 			<div class="introduce-stack">
-				<h2 style="font-size: 18px;margin-left: -10px">【金園排骨】西門町傳承一甲子的古早味</h2>
+				<h2 style="font-size: 18px;margin-left: -10px">【金園排骨】中秋烤肉在你家</h2>
 			</div>
-			<div class="introduce-stack">
-				@if($productCategory->id == 4)
-				<h1 style="font-size: 24px;">粉絲專屬組合(3P+3G)</h1>
-				@else
-				<h1 style="font-size: 24px;">銀髮族專屬</h1>
-				@endif
+			<div >
+				<h1 style="font-size: 24px;margin-bottom:8px">粉絲專屬組合</h1>
+				<h3 style="margin-left:16px">＊至尊金鑽蝦1盒600g</h3>
+				<h3 style="margin-left:16px">＊金園厚切排骨2片</h3>
+				<h3 style="margin-left:16px">＊金園無體雞腿排2隻</h3>
+				<h3 style="margin-left:16px">＊挪威鯖魚2片</h3>
 			</div>
 			<div class="introduce-stack">
 
 				<span>
-				<font style="font-size: 18px;color:red;font-weight: 800">NT${{$min}} </font>
-				@if($productCategory->id == 4)
-				<font style="font-size: 12px;text-decoration: line-through;">(NT${{$min/0.8}})</font>
-				@endif
+					<font style="font-size: 18px;color:red;font-weight: 800">NT$ 1,200 </font>
+					<font style="font-size: 12px;text-decoration: line-through;">(NT$ 1,500)</font>
 				</span>
 
 				<span class="flag">免運費</span>
@@ -118,17 +114,17 @@
 			</div>
 
 
-			@if($productCategory->id == 4)
+			
 			<div class="introduce-stack">
-				<span style="font-size: 16px;font-weight: 600">加購第二組只要</span><font style="font-size: 18px;color:red;font-weight: 800">NT$339</font><font style="font-size: 16px;font-weight: 600"> ～！</font>
+				<span style="font-size: 16px;font-weight: 600">加購第二組只要</span><font style="font-size: 18px;color:red;font-weight: 800">NT$ 1,998</font><font style="font-size: 16px;font-weight: 600"> ～！</font>
 			</div>
-			@endif
+			
 
 			<div class="introduce-stack">
 				<img src="{{asset('images/black_cat.png')}}"><span>黑貓冷凍配送</span>
 			</div>
 			
-			@if($productCategory->id == 4)
+			
 			<div class="introduce-stack">
 				<span>已搶購</span><span>{{$count}}</span><span>件</span>
 
@@ -147,7 +143,7 @@
 				<span id="timer_s" class="timmer">{{$countDown['from_s']}}</span>
 				<span>秒</span>
 			</div>
-			@endif
+			
 
 
 

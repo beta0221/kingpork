@@ -21,7 +21,7 @@ class SingleController extends Controller
      */
     public function index()
     {
-        return redirect('buynow/4');
+        return redirect('buynow/24');
     }
 
     /**
@@ -225,23 +225,22 @@ class SingleController extends Controller
      */
     public function show($id)
     {   
-        if($id != 7){
-            $id = 4;
-        }
+        
+        $id = 24;
 
         $productCategory = ProductCategory::find($id);
-        $max = $productCategory->products->max('price');
-        $min = $productCategory->products->min('price');
+        // $max = $productCategory->products->max('price');
+        // $min = $productCategory->products->min('price');
         $count = Bill::count();
         $count = $count*2;
-        $target = 1000;
+        $target = 5000;
 
         date_default_timezone_set('Asia/Taipei');
         $d = date('d');
         $H = date('H');
         $i = date('i');
         $s = date('s');
-        $from_d = 31 - $d;
+        $from_d = 25 - $d;
         $from_H = 24 - $H + $from_d * 24;
         $from_i = 60 - $i;
         $from_s = 60 - $s;
@@ -251,15 +250,20 @@ class SingleController extends Controller
             'from_s'=>$from_s,
         ];
 
-        return view('single.index',['productCategory'=>$productCategory,'max'=>$max,'min'=>$min,'count'=>$count,'target'=>$target,'countDown'=>$countDown]);
+        return view('single.index',[
+            'productCategory'=>$productCategory,
+            // 'max'=>$max,
+            // 'min'=>$min,
+            'count'=>$count,
+            'target'=>$target,
+            'countDown'=>$countDown,
+        ]);
     }
 
     public function showToBuy($id)
     {
-        if ($id!=7) {
-            // return redirect()->route('showToBuy',4);
-            $id = 4;
-        }
+        
+        $id = 24;
         $productCategory = ProductCategory::find($id);
         return view('single.buy',['productCategory'=>$productCategory]);   
     }

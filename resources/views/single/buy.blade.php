@@ -32,20 +32,21 @@
 		</div>
 
 		<div class="slider">{{-- 1920 x 1080 --}}
-			<video autoplay muted loop class="slider-group" >
+			{{-- <video autoplay muted loop class="slider-group" >
   				<source src="{{asset('vedios/head.mp4')}}" type="video/mp4">
   			您的瀏覽器不支援此影片
-			</video>
+			</video> --}}
+			<img style="position: absolute;top:0;left:0;width:100%" src="/images/moon_fast.jpg">
 		</div>
 
 		<div class="product-outter">
 			<div class="product-title">
-				<h1>厚切手打排骨</h1>
+				<h1>中秋烤肉套組</h1>
 			</div>
 			<div class="product-content">
-				@foreach($productCategory->products as $product)
+				@foreach($productCategory->products as $index => $product)
 				@if($product->public == 1)
-				<div class="product-row {{($product->slug=='40001')?'product-select':''}} {{($product->slug=='70001')?'product-select':''}}" price="{{$product->price}}" onclick="product_select({{$product->slug}},{{$product->price}});">
+				<div class="product-row {{($index == 0)?'product-select':''}}" price="{{$product->price}}" onclick="product_select('{{$product->slug}}',{{$product->price}});">
 
 					<div class="left-name-box">
 
@@ -191,7 +192,7 @@
 <script src="{{asset('js/jquery/jquery-3.2.1.min.js')}}"></script>
 <script>
 $(document).ready(function(){
-	product_select({{$productCategory->products[0]->slug}},{{$productCategory->products[0]->price}});
+	product_select('{{$productCategory->products[0]->slug}}',{{$productCategory->products[0]->price}});
 });
 </script>
 <script src="{{asset('js/_singleBuy.js')}}"></script>
