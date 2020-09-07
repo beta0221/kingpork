@@ -232,8 +232,8 @@ class SingleController extends Controller
         // $max = $productCategory->products->max('price');
         // $min = $productCategory->products->min('price');
         $count = Bill::count();
-        $count = $count*2;
-        $target = 5000;
+        $count = $count - 3000;
+        $target = 1000;
 
         date_default_timezone_set('Asia/Taipei');
         $d = date('d');
