@@ -116,7 +116,7 @@
 
 			
 			<div class="introduce-stack">
-				<span style="font-size: 16px;font-weight: 600">兩組只要</span><font style="font-size: 18px;color:red;font-weight: 800">NT$ 1,998</font><font style="font-size: 16px;font-weight: 600"> ～！</font>
+				<span style="font-size: 16px;font-weight: 600">加購第二組只要</span><font style="font-size: 18px;color:red;font-weight: 800">NT$ 799</font><font style="font-size: 16px;font-weight: 600"> ～！</font>
 			</div>
 			
 
