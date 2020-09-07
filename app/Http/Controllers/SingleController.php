@@ -233,7 +233,7 @@ class SingleController extends Controller
         // $min = $productCategory->products->min('price');
         $count = Bill::count();
         $count = $count - 3000;
-        $target = 1000;
+        $target = 973;
 
         date_default_timezone_set('Asia/Taipei');
         $d = date('d');
