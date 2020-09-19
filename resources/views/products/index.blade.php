@@ -142,9 +142,11 @@ $(document).ready(function(){
 	});
 
 	$('#categorySelecter').change(function(){
+		$('input#page').val(1);
 		$('#catForm').submit();
 	});
 	$('#publicSelector').change(function(){
+		$('input#page').val(1);
 		$('#catForm').submit();
 	});
 
