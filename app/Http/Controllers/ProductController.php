@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Pagination;
 use Illuminate\Http\Request;
 use App\Products;
 use App\ProductCategory;
 use App\Kart;
+use App\Model\Product;
 use Image;
 use Storage;
 use Illuminate\Support\Facades\Auth;
@@ -28,24 +30,34 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $category = isset($_GET['category']) ? $_GET['category'] : null;
+        $p = new Pagination($request);
+        $category = ($request->category) ? $request->category : null;
+        $public = $request->public;
 
-        if (isset($category) AND $category != '') {
-            if ($category == 0) {
-                $products = Products::where('public',0)->orderBy('price','asc')->get(); 
-            }else{
-                $products = Products::where('category_id',$category)->where('public',1)->orderBy('price','asc')->get();    
-            }
+        $query = Products::orderBy($p->orderBy,$p->ascOrdesc);
+
+        if($category){
+            $query = $query->where('category_id',$category);
         }
-        else{
-            $products = Products::orderBy('price','asc')->where('public',1)->get();    
+
+        if(!is_null($public) || $public != ''){
+            $query = $query->where('public',$public);
         }
+
+        $total = $query->count();
+        $totalPage = ceil($total / $p->rows);
+        $products = $query->skip($p->skip)->take($p->rows)->get();
 
         $cats = ProductCategory::all();
 
-        return view('products.index', ['products' => $products,'cats'=>$cats]);
+        return view('products.index', [
+            'products' => $products,
+            'cats'=>$cats,
+            'totalPage'=>$totalPage,
+            'request'=>$request
+        ]);
     }
 
     /**

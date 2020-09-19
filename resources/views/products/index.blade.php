@@ -22,13 +22,25 @@
 <a href="{{route('products.create')}}" class="btn btn-success btn-sm mt-2 mb-2 ml-3 mr-3" style="color: #fff;cursor: pointer;">新增產品</a>
 
 <form id="catForm" style="display: inline-block;" action="{{URL::current()}}" method="GET">
+	<span>類別</span>
 	<select name="category" id="categorySelecter">
 		<option value="">全部分類</option>
 		@foreach($cats as $cat)
-		<option value="{{$cat->id}}">{{$cat->name}}</option>
+		<option {{($request->category==$cat->id)?'selected':''}} value="{{$cat->id}}">{{$cat->name}}</option>
 		@endforeach
-		<option value="0">已下架</option>
 	</select>
+
+	<span>上下架</span>
+	<select name="public" id="publicSelector">
+		<option value="">全部</option>
+		<option {{($request->public=='1')?'selected':''}} value="1">上架</option>
+		<option {{($request->public=='0')?'selected':''}} value="0">下架</option>
+	</select>
+
+	<div class="ml-2 btn btn-sm btn-primary" onclick="prev()">上頁</div>
+	<input id="page" name="page" style="width:40px" value="{{($request->page)?$request->page:1}}" />
+	<div class="btn btn-sm btn-primary" onclick="next()">下頁</div>
+	<span>共{{$totalPage}}頁</span>
 </form>
 		
 <!-- Modal -->
@@ -120,6 +132,8 @@
 
 @section('scripts')
 <script>
+var current_page = parseInt({{($request->page)?$request->page:'1'}});
+var total_page = parseInt({{$totalPage}});
 $(document).ready(function(){
 	$.ajaxSetup({
   		headers: {
@@ -130,6 +144,9 @@ $(document).ready(function(){
 	$('#categorySelecter').change(function(){
 		$('#catForm').submit();
 	});
+	$('#publicSelector').change(function(){
+		$('#catForm').submit();
+	});
 
 	@if (isset($_GET['category']))
 	$('#categorySelecter').val('{{$_GET['category']}}');
@@ -137,7 +154,6 @@ $(document).ready(function(){
 });
 
 function publicProduct(id){
-
 	$.ajax({
 		type:'POST',
 		url:'/products/public/' + id,
@@ -148,13 +164,23 @@ function publicProduct(id){
 		success:function(response){
 			location.reload();
 			// alert(response);
-
 		},
 		error:function(){
 			// alert('error');
 		}
 	});
-
 }
+
+function next(){
+	if(current_page >= total_page){ return; }
+	$('input#page').val(current_page + 1);
+	$('#catForm').submit();
+}
+function prev(){
+	if(current_page <= 1){ return; }
+	$('input#page').val(current_page - 1);
+	$('#catForm').submit();
+}
+
 </script>
 @endsection
