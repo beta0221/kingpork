@@ -178,6 +178,12 @@ class BillController extends Controller
             return('錯誤：請檢查網頁JAVASCRIPT是否正常運作');
         }
 
+
+        //total 打折 (全館95折)
+        $total = ceil($total * 0.95);
+
+
+
         $kart = [];
         for ($i=0; $i < count($itemArray); $i++) { 
             $kart[$i] = [

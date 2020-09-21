@@ -309,6 +309,9 @@ $(document).ready(function(){
 				$('#transport-fee').css('display','table-row');	
 			}
 
+			//全館95折
+			price = Math.floor(price * 0.95);
+
 			$('#sum').empty().append(price);
 
 			if (price == 0) {

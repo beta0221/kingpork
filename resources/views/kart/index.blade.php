@@ -320,7 +320,7 @@
 					
 					<div class="priceSum">
 						<span style="margin: 0 8px 0 8px;font-size: 18pt;float: right;" id="sum"></span>
-						<span style=";margin: 0 8px 0 8px;font-size: 18pt;float: right;">總額：</span>
+						<span style=";margin: 0 8px 0 8px;font-size: 18pt;float: right;">(限時全館95折)總額：</span>
 					</div>
 
 					<div class="submitBtn">
