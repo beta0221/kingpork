@@ -180,7 +180,7 @@ class BillController extends Controller
 
 
         //total 打折 (全館95折)
-        $total = ceil($total * 0.95);
+        //$total = ceil($total * 0.95);
 
 
 

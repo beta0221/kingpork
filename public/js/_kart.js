@@ -310,7 +310,7 @@ $(document).ready(function(){
 			}
 
 			//全館95折
-			price = Math.floor(price * 0.95);
+			//price = Math.floor(price * 0.95);
 
 			$('#sum').empty().append(price);
 
