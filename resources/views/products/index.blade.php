@@ -73,14 +73,13 @@
 			<th scope="col">圖片</th>
 			<th scope="col">名稱</th>
 			<th scope="col">縮寫</th>
+			<th scope="col">erp</th>
 			<th scope="col">小標</th>
 			<th scope="col">代號</th>
 			<th scope="col">類別</th>
 			<th scope="col">每片單價</th>
 			<th scope="col">價格</th>
 			<th scope="col">紅利</th>
-			{{-- <th scope="col">內容</th> --}}
-			{{-- <th scope="col">-</th> --}}
 			<th scope="col">-</th>
 			<th scope="col">-</th>
 		</tr>
@@ -91,30 +90,20 @@
 			<td>{{$product->id}}</td>
 			<td>
 				<img class="productsIMG" src="{{asset('images/productsIMG') . '/' . $product->image}}" alt="">
-				{{-- {{$product->image}} --}}
 			</td>
 			<td>{{$product->name}}</td>
 			<td>{{$product->short}}</td>
+			<td>{{$product->erp_id}}</td>
 			<td>{{$product->discription}}</td>
 			<td>{{$product->slug}}</td>
 			<td>{{$product->productCategory->name}}</td>
 			<td>{{$product->format}}</td>
 			<td>{{$product->price}}</td>
 			<td>{{$product->bonus}}</td>
-			{{-- <td>
-				{{substr(strip_tags($product->content),0,50)}}
-				{{strlen(strip_tags($product->content)) > 50 ? '...' : ''}}
-			</td> --}}
-			{{-- <td>
-				<button onclick="show({{$product->id}})" style="cursor:pointer;" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#exampleModal">瀏覽</button>
-			</td> --}}
 			<td>
 				<a class="btn btn-sm btn-warning" href="{{ route('products.edit', $product->id)}}">編輯</a>
 			</td>
 			<td>
-				{{-- {!!Form::open(['route'=> ['products.destroy',$product->id],'method'=>'DELETE'])!!}
-					{!!Form::submit('刪除',['class'=>'btn btn-danger btn-sm','style'=>'cursor:pointer;'])!!}
-				{!!Form::close()!!} --}}
 				@if($product->public == 1)
 					<div class="public-btn btn btn-sm btn-success ml-1 mr-1" onclick="publicProduct({{$product->id}});">已上架</div>
 				@else
