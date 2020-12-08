@@ -199,6 +199,7 @@ class BillController extends Controller
                     'slug' => '99998',
                     'quantity' => 1,
                 ];
+                $total += 150;
             }
         }
 
