@@ -192,6 +192,16 @@ class BillController extends Controller
             ];
         }
 
+        //如果有25的話判斷總額是否滿2000
+        if($result = Products::hasCategory($request->item,25)){
+            if (!in_array('99998',$itemArray) AND $total < 2000) {
+                $kart[] = [
+                    'slug' => '99998',
+                    'quantity' => 1,
+                ];
+            }
+        }
+
         if(Auth::user()){
             $bonus = $request->bonus;               // bonus{
             if ($bonus > Auth::user()->bonus) {

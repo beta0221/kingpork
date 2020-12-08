@@ -73,5 +73,16 @@ class Products extends Model
         return $totalPrice;
     }
 
+    public static function hasCategory($productSlugArray,$cat_id){
+        $productList = Products::whereIn('slug',$productSlugArray)->get();
+        $result = false;
+        foreach ($productList as $product) {
+            if($product->category_id == $cat_id){
+                $result = true;
+            }
+        }
+        return $result;
+    }
+
 
 }
