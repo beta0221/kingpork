@@ -30,6 +30,7 @@ Route::patch('products/public/{id}','ProductController@publicProduct');
 
 // productCategory routes
 Route::resource('productCategory','ProductCategoryController');
+Route::get('/vip/products/{code}','ProductCategoryController@view_vipProducts');
 // singleCategory routes
 Route::resource('/buynow','SingleController');
 Route::get('/buynow/form/{id}','SingleController@showToBuy')->name('showToBuy');
