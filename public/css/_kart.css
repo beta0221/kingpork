@@ -267,6 +267,7 @@
 	}
 	.product-name-TD,.product-name-TH{
 		padding-left: 8px;
+		font-size: 16px;
 	}
 	.product-quantity-TD,.product-price-TD,.product-del-TD{
 		width: 40px;
