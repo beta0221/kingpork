@@ -1,6 +1,6 @@
 new ClipboardJS('.copy-btn');
 
-$(document).ready(function(){
+jQuery(function(){
 	$.ajaxSetup({
   		headers: {
     		'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -9,7 +9,7 @@ $(document).ready(function(){
 
 
 
-	$('#ship_receipt').change(function(){
+	$('#ship_receipt').on('change',function(){
 		if($(this).val() == 2){
 			$('#receipt_three_group').hide();
 		}else{
@@ -50,7 +50,7 @@ function submit_group(){
 				console.log(error);	
 			},
 			complete:function(){
-				$('#submit_form').submit();
+				$('#submit_form').trigger('submit');
 			}
 		});
 }
