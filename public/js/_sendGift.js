@@ -69,7 +69,7 @@ $(document).ready(function(){
 			$('#ship_address').val(JSON.stringify(sendListArray));
 			// console.log('totalQuantity='+totalQuantity);
 			$('#quantity').val(totalQuantity);
-			$('#price-sum').empty().append(totalQuantity * 888);
+			$('#price-sum').empty().append(totalQuantity * productPrice);
 
 			// show and hide
 			$(this).css('display','none');

@@ -16,7 +16,7 @@ class SendGiftController extends Controller
 	
     public function index()
     {
-    	$giftProduct = Products::where('slug','30002')->firstOrFail();
+    	$giftProduct = Products::where('slug','30007')->firstOrFail();
     	return view('sendGift.index',['giftProduct'=>$giftProduct]);
     }
 }

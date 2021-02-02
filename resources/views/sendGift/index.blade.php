@@ -12,7 +12,7 @@
 
 <div class="product-display-image-outter">
 	<div class="product-display-image">
-		<img src="/images/send-gift.jpg" alt="">
+		<img src="/images/send-gift.png" alt="">
 	</div>	
 </div>
 
@@ -44,7 +44,8 @@
 					</div>
 
 					<div class="product-display-Info-price">
-						<h2>排骨 5 片＋雞腿 5 支</h2>
+						<h2>至尊蝦1+鯖魚2+豬排2+雞腿2+四款萬用鍋底各1</h2>
+						{{-- <h2>排骨 5 片＋雞腿 5 支</h2> --}}
 						<h2 class="price-h2"><font color="#c80013">${{$giftProduct->price}}</font></h2>
 					</div>
 					
@@ -86,7 +87,7 @@
 							<div class="price-sum btn btn-block mb-2">總額：＄<span id="price-sum"></span></div>
 							<form id="billing-form" action="{{route('bill.store')}}" method="POST">
 								{{csrf_field()}}
-								<input type="text" name="item[]" value="30002" style="display: none;">
+								<input type="text" name="item[]" value="{{$giftProduct->slug}}" style="display: none;">
 								<input id="quantity" type="number" name="quantity[]" style="display: none;">
 								<input type="text" name="ship_name" value="*" style="display: none;">
 								<input type="text" name="ship_phone" value="*" style="display: none;">
@@ -182,5 +183,8 @@
 @endsection
 
 @section('scripts')
+<script>
+	const productPrice = {{$giftProduct->price}};
+</script>
 {{ Html::script('js/_sendGift.js') }}
 @endsection
