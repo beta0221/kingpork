@@ -265,14 +265,15 @@ class GroupController extends Controller
     {
 
         $cellData = [
-            ['姓名','電話','訂購產品','數量','訂購時間','備註'],
+            ['姓名','電話','訂購產品','數量','團購價','小計','訂購時間','備註'],
         ];
 
-        $dataSet = DB::select('SELECT member.`name` as member_name,member.`phone`,member.`comment`,products.`name` as product_name,bill.`amount`,member.`created_at` FROM `groups` as groups ,`group_members` as member, `group_members_bills` as bill, `products` as products WHERE groups.`group_code` = :group_code and groups.`id` = member.`group_id` and member.`id` = bill.`member_id` and bill.`product_id` = products.`id`;',['group_code'=>$group_code]);
+        $dataSet = DB::select('SELECT member.`name` as member_name,member.`phone`,member.`comment`,products.`name` as product_name,products.`price` as price,bill.`amount`,member.`created_at` FROM `groups` as groups ,`group_members` as member, `group_members_bills` as bill, `products` as products WHERE groups.`group_code` = :group_code and groups.`id` = member.`group_id` and member.`id` = bill.`member_id` and bill.`product_id` = products.`id`;',['group_code'=>$group_code]);
 
         foreach ($dataSet as $key => $row) {
             $newArray = [];
-            array_push($newArray,$row->member_name,$row->phone,$row->product_name,$row->amount,$row->created_at,$row->comment);
+            $subtotal = $row->amount * $row->price;
+            array_push($newArray,$row->member_name,$row->phone,$row->product_name,$row->amount,$row->price,$subtotal,$row->created_at,$row->comment);
             array_push($cellData,$newArray);
         }
 

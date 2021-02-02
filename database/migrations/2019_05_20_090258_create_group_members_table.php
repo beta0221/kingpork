@@ -18,7 +18,7 @@ class CreateGroupMembersTable extends Migration
             $table->integer('group_id')->ungisned();
             $table->string('name');
             $table->string('phone');
-            $table->string('comment');
+            $table->string('comment')->nullable();
             $table->timestamps();
         });
     }
