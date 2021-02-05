@@ -128,7 +128,7 @@ class BillController extends Controller
 
         $this->validate($request,[
             'item.*'=>'required',
-            'quantity.*'=>'required|integer|min:1',
+            'quantity.*'=>'required|integer|min:0',
             'ship_name'=>'required',
             'ship_phone'=>'required',
             'ship_address'=>'required',
@@ -245,7 +245,7 @@ class BillController extends Controller
 
 
         Log::info('c');
-        
+
         $itemArray = [];
         $getBonus = 0;
         foreach($kart as $item)
