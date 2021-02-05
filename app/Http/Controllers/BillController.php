@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use GuzzleHttp\Client;
 use GuzzleHttp\Pool;
 use GuzzleHttp\Exception\ClientException;
+use Illuminate\Support\Facades\Log;
 use Mail;
 
 
@@ -122,6 +123,9 @@ class BillController extends Controller
      */
     public function store(Request $request)
     {
+
+        Log::info(json_encode($request));
+
         $this->validate($request,[
             'item.*'=>'required',
             'quantity.*'=>'required|integer|min:1',
