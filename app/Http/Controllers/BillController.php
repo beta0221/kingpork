@@ -124,7 +124,7 @@ class BillController extends Controller
     public function store(Request $request)
     {
 
-        Log::info(json_encode($request));
+        Log::info(json_encode($request->getContent()));
 
         $this->validate($request,[
             'item.*'=>'required',
