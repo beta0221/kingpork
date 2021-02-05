@@ -136,6 +136,8 @@ class BillController extends Controller
             'ship_pay_by'=>'required',
         ]);
 
+        Log::info('a');
+
         $additionalProducts = Products::getAdditionalProductSlug();
         $hasAdditionalProduct = false;
         foreach ($request->item as $slug) {
@@ -165,6 +167,7 @@ class BillController extends Controller
             $j++;
         }
 
+        Log::info('b');
 
         $cc = DB::table('products')->whereIn('slug', $itemArray)->orderBy('id')->get();
         $n = 0;
@@ -241,6 +244,7 @@ class BillController extends Controller
         }
 
 
+        Log::info('c');
         
         $itemArray = [];
         $getBonus = 0;
