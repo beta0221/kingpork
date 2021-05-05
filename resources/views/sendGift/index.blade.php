@@ -58,7 +58,7 @@
 								<td class="send-name">收件人</td>
 								<td class="send-ad">地址</td>
 								<td class="send-ph">聯絡電話</td>
-								<td style="display: none" class="send-time">時段</td>
+								<td class="send-time">時段</td>
 								<td class="send-qu">數量</td>
 								<td class="send-new">
 									<div id="addListBtn" class="btn btn-block btn-sm btn-success">新增</div>
@@ -68,7 +68,7 @@
 								<td><input class="form-control" type="text"></td>
 								<td><input class="form-control" type="text"></td>
 								<td><input class="form-control" type="text"></td>
-								<td style="display: none">
+								<td>
 									<select class="form-control" name="" id="">
 										<option value="no">不指定</option>
 										<option value="13:00">13:00前</option>

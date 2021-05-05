@@ -149,7 +149,7 @@
 							</td>
 						</tr>
 						
-						<tr style="display: none">
+						<tr>
 							<td>
 								<label for="">　希望到貨日:</label>
 
@@ -173,7 +173,7 @@
 							</td>
 						</tr>
 
-						<tr style="display: none">
+						<tr>
 							<td>
 								<label for="">　時間：</label>
 								<input name="ship_time" class="radio" type="radio" name="time" value="no" checked><span>不指定</span>
