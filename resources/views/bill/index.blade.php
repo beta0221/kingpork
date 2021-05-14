@@ -4,6 +4,31 @@
 
 @section('stylesheets')
 {{Html::style('css/_bill.css')}}
+<style>
+	ul.pagination a,ul.pagination span{
+		position: relative;
+		float: left;
+		padding: 6px 12px;
+		margin-left: -1px;
+		line-height: 1.42857143;
+		text-decoration: none;
+		background-color: #fff;
+		border: 1px solid #ddd;
+	}
+	ul.pagination a{
+		color: #337ab7;
+	}
+	ul.pagination span{
+		color: gray;
+	}
+	ul.pagination li.active span{
+		z-index: 3;
+		color: #fff;
+		cursor: default;
+		background-color: #337ab7;
+		border-color: #337ab7;
+	}
+</style>
 @endsection
 
 
@@ -23,91 +48,64 @@
 					<tr>
 						<th>日期</th>
 						<th>訂單編號</th>
-						<th>
-							<table style="width: 100%;">
-								<tr>
-									<td class="TNT1">產品</td>
-									<td class="TNT2">價格</td>
-									<td class="TNT3">數量</td>
-								</tr>
-							</table>
-						</th>
 						<th>紅利折扣</th>
 						<th>總價</th>
 						<th>付款方式</th>
 						<th>付款狀態</th>
 						<th>出貨狀態</th>
 						<th>-</th>
-						<th>-</th>
 					</tr>
 
-					@if($finalBills)
+					@if($bills)
 
-						@foreach($finalBills as $billX)
+						@foreach($bills as $bill)
 
 							<tr class="bill-tr">
 
-								<td class="TDdate">{{$billX[0]['created_at']}}</td>
-								<td class="TDbill_id">{{$billX[0]['bill_id']}}</td>
-								<td class="TDproduct">
-									<table style="width: 100%;">
-										@foreach($billX as $billY)
-											
-											<tr class="item-tr">
-												<td class="TNT1">{{$billY['name']}}</td>
-												<td class="TNT2">{{$billY['price']}}</td>
-												<td class="TNT3">{{$billY['quantity']}}</td>
-											</tr>
-
-										@endforeach
-									</table>
+								<td class="TDdate">{{$bill->created_at}}</td>
+								<td class="TDbill_id">
+									<a href="{{route('billDetail',['bill_id'=>$bill->bill_id])}}">{{$bill->bill_id}}</a>
+									
 								</td>
-								<td><font color="red">{{$billX[0]['bonus_use']}}</font></td>
-								<td class="TDtotal"><font color="#0275d8">{{$billX[0]['total']}}</font></td>
+								
+								<td><font color="red">{{$bill->bonus_use}}</font></td>
+								<td class="TDtotal"><font color="#0275d8">{{$bill->price}}</font></td>
 								<td>
 									
-									@if($billX[0]['pay_by'] == 'CREDIT')
+									@if($bill->pay_by == 'CREDIT')
 										信用卡
-									@elseif($billX[0]['pay_by'] == 'ATM')
+									@elseif($bill->pay_by == 'ATM')
 										ATM轉帳
 									@else
-										{{$billX[0]['pay_by']}}
+										{{$bill->pay_by}}
 									@endif
 
 									
 								</td>
 								<td>
-									@if($billX[0]['status'] == 1)
+									@if($bill->status == 1)
 										<font color="#5cb85c">已付款</font>
-									@elseif($billX[0]['pay_by'] == '貨到付款')
+									@elseif($bill->pay_by == '貨到付款')
 										<font color="gray">-</font>
 									@else
 										<font color="gray">未付款</font>
 									@endif
 								</td>
 								<td>
-									@if($billX[0]['shipment']==0)
+									@if($bill->shipment==0)
 										<font color="gray">-</font>
-									@elseif($billX[0]['shipment']==1)
+									@elseif($bill->shipment==1)
 										<font color="#eb9316">準備中</font>
-									@elseif($billX[0]['shipment']==2)
+									@elseif($bill->shipment==2)
 										<font color="#5cb85c">已出貨</font>
-									@elseif($billX[0]['shipment']==3)
+									@elseif($bill->shipment==3)
 										<font color="green">已收貨</font>
 									@endif
 									
 								</td>
 								<td>
-									@if($billX[0]['status'] == 1 OR $billX[0]['status'] == 's' OR $billX[0]['pay_by'] == '貨到付款')
-										<font color="gray">-</font>
-									@else
-										<a href="{{route('bill.show', $billX[0]['bill_id'])}}">付款</a>
-									@endif
-									
-								</td>
-								<td>
-									@if($billX[0]['status'] != 1 AND $billX[0]['shipment']==0)
-										<font style="cursor: pointer;" color="gray" onclick="cancelBill({{$billX[0]['bill_id']}})">取消訂單</font>
+									@if($bill->status != 1 AND $bill['shipment']==0)
+										<font style="cursor: pointer;" color="gray" onclick="cancelBill({{$bill->bill_id}})">取消訂單</font>
 									@else
 										<font color="gray">-</font>
 									@endif
@@ -127,16 +125,9 @@
 
 				
 				</table>
-				@if($page!=ceil($rows_amount/6))
-				<p class="some-more-dot">.</p><p class="some-more-dot">.</p><p class="some-more-dot">.</p>
-				@endif
-				@if($rows_amount > 6)
-					<div class="pagination-bar">
-					@for($i = 1;$i <= ceil($rows_amount/6);$i++)
-						<a class="{{($page==$i)?'now-pagination':''}}" href="{{Request::url()}}?p={{$i}}">{{$i}}</a>
-					@endfor
-					</div>
-				@endif
+				<div style="margin-top:12px;">
+					{{$bills->links()}}
+				</div>
 			</div>
 		</div>
 	</div>

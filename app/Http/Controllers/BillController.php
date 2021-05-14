@@ -9,6 +9,7 @@ use App\Kart;
 use App\User;
 use Session;
 use DB;
+use App\Helpers\ECPay;
 use Illuminate\Support\Facades\Auth;
 use GuzzleHttp\Client;
 use GuzzleHttp\Pool;
@@ -36,73 +37,8 @@ class BillController extends Controller
      */
     public function index()
     {
-
-        $records = Bill::where('user_id',Auth::user()->id)->orderBy('id','desc')->get();
-        
-        if (count($records) == 0) {
-            return view('bill.index',['finalBills'=>null,'rows_amount'=>0,'page'=>1]);
-        }
-        $i = 0;
-        $bill=[];
-        foreach($records as $record)
-        {   
-            $bill[$i] = json_decode($record->item,true);
-            $i++;
-        }
-        $products = [];
-        $finalBill = [];
-
-        $set_amount=6;  //一頁要顯示幾筆資料
-        $rows_amount=count($records);
-
-
-        if (isset($_GET['p'])) {
-            $page = $_GET['p'];
-        }else{
-            $page = 1;
-        }
-
-        if ($rows_amount > $set_amount) {     //超過6筆就只抓6筆
-            
-            $rows_amount = $set_amount;
-            
-            $row_from = 0 + $set_amount*($page-1); 
-
-            if (count($records) > $page*$set_amount) {
-                $row_to = $set_amount + $set_amount*($page-1);
-            }else{
-                $row_to = count($records);
-            }
-                
-
-        }else{
-            $row_from = 0;
-            $row_to = $rows_amount;
-        }
-
-
-        
-        for ($x=$row_from; $x < $row_to; $x++) {
-            for ($y=0; $y < count($bill[$x]); $y++) { 
-                $products[$x][$y]=Products::where('slug',$bill[$x][$y]['slug'])->get();
-                $finalBills[$x][$y] = [
-                    'name' => $products[$x][$y][0]->name, //產品名稱
-                    'price' => $products[$x][$y][0]->price, //產品單價
-                    'quantity' => $bill[$x][$y]['quantity'], //產品數量
-                    'bill_id' => $records[$x]->bill_id,     //訂單編號
-                    'bonus_use'=>$records[$x]->bonus_use,
-                    'total' => $records[$x]->price,         //總價
-                    'status' => $records[$x]->status,       //付款狀態
-                    'shipment' => $records[$x]->shipment,   //出貨狀態
-                    'pay_by' => $records[$x]->pay_by,       //付款方式
-                    'SPToken' => $records[$x]->SPToken,     //SPToken
-                    'created_at' => $records[$x]->created_at, //訂購日期
-
-                ];
-            }
-        }
-        return view('bill.index',['finalBills'=>$finalBills,'rows_amount'=>count($records),'page'=>$page]);
-
+        $bills = Bill::where('user_id',Auth::user()->id)->orderBy('id','desc')->paginate(10);
+        return view('bill.index',['bills'=>$bills]);
     }
 
     /**
@@ -113,6 +49,192 @@ class BillController extends Controller
     public function create()
     {
         //
+    }
+
+    public function pay(){
+
+    }
+
+    public function store_stage(Request $request){
+
+        $this->validate($request,[
+            'item.*'=>'required',
+            'quantity.*'=>'required|integer|min:0',
+            'ship_name'=>'required',
+            'ship_phone'=>'required',
+            'ship_address'=>'required',
+            'ship_email'=>'required|E-mail',
+            'ship_pay_by'=>'required',
+        ]);
+
+        $additionalProducts = Products::getAdditionalProductSlug();
+        $hasAdditionalProduct = false;
+        foreach ($request->item as $slug) {
+            if(in_array($slug,$additionalProducts)){
+                $hasAdditionalProduct = true;
+            }
+        }
+        if($hasAdditionalProduct){
+            $totalPrice = Products::totalPriceBySlug($request->item,$additionalProducts);
+            if($totalPrice < 500){
+                return redirect()->route('kart.index');
+            }
+        }
+
+        date_default_timezone_set('Asia/Taipei');
+        $MerchantTradeNo = time() . rand(10,99);//先給訂單編號
+
+        $user_id = null;
+        $user_name = $request->user_name;
+        $useBonus = 0;
+        $total = 0;
+        $getBonus = 0;
+        $kart = [];
+
+        foreach ($request->item as $index => $slug) {
+            $quantity = $request->quantity[$index];
+            $kart[] = [
+                'slug' => $slug,
+                'quantity' => $request->quantity[$index],
+            ];
+
+            $product = Products::where('slug', $slug)->firstOrFail();
+            $getBonus += ($product->bonus * (int)$quantity);
+            $total += $product->price;
+        }
+
+        $user = $request->user();
+        if($user){
+            $user_id = $user->id;
+            $user_name = $user->name;
+
+            $bonus = $request->bonus;               // bonus{
+            if ($bonus > $user->bonus) { $bonus = $user->bonus; }
+            if (fmod($bonus,50) != 0) { $bonus = $bonus - fmod($bonus,50); }
+            if ($bonus / 50 > $total) { $bonus = $total * 50; }
+            if ($bonus < 0) { $bonus = 0; }
+            $useBonus = $bonus / 50;
+            $total = $total - $useBonus;          // }bonus    
+        }
+
+        $bill = new Bill;
+        $bill->user_id = $user_id;
+        $bill->bill_id = $MerchantTradeNo;
+        $bill->user_name = $user_name;
+        $bill->item = json_encode($kart);
+        $bill->bonus_use = $useBonus;
+        $bill->price = $total;
+        $bill->get_bonus = $getBonus;
+        $bill->ship_name = $request->ship_name;
+        $bill->ship_gender = $request->ship_gender;
+        $bill->ship_phone = $request->ship_phone ;
+        $bill->ship_county = $request->ship_county ;
+        $bill->ship_district = $request->ship_district ;
+        $bill->ship_address = $request->ship_address ;
+        $bill->ship_email = $request->ship_email ;
+        $bill->ship_arrive = $request->ship_arrive ;
+        $bill->ship_arriveDate = $request->ship_arriveDate ;
+        $bill->ship_time = $request->ship_time ;
+        $bill->ship_receipt = $request->ship_receipt ;
+        $bill->ship_three_id = $request->ship_three_id ;
+        $bill->ship_three_company = $request->ship_three_company ;
+        $bill->ship_memo = $request->ship_memo ;
+        $bill->pay_by = $request->ship_pay_by;
+        if($request->ship_pay_by == 'cod'){
+            $bill->pay_by = '貨到付款';
+        }
+
+        $bill->save();
+
+
+        
+        if($user){
+            Kart::where('user_id',$user->id)->delete(); //清除購物車
+            $user->updateBonus($useBonus);  //扣除使用者紅利點數
+        }
+        
+        //寄送信件
+
+        switch ($request->ship_pay_by) {
+            case 'ATM':
+            case 'CREDIT':
+                return redirect()->route('payBill',['bill_id'=>$MerchantTradeNo]);
+                break;
+            case 'cod':
+                return redirect()->route('billThankyou',['bill_id'=>$MerchantTradeNo]);
+            default:
+                break;
+        }
+        
+
+    }
+
+    public function view_payBill($bill_id){
+
+        $bill = Bill::where('bill_id',$bill_id)->firstOrFail();
+        $ecpay = new ECPay($bill);
+
+        if(!$token = $ecpay->getToken()){
+            return '錯誤頁面';
+        }
+
+        return view('bill.payBill_v2',[
+            'bill_id' => $bill_id,
+            'token' => $token,
+            'ecpaySDKUrl'=> $ecpay->getEcpaySDKUrl(),
+        ]);
+    }
+
+    public function payBill(Request $request,$bill_id){
+        $bill = Bill::where('bill_id',$bill_id)->firstOrFail();
+        if(!$request->has('PayToken')){ return '錯誤頁面'; }
+        $ecpay = new ECPay($bill);
+
+        $resultUrl = $ecpay->createPayment($request->PayToken);
+        if(!$resultUrl){ return '錯誤頁面'; }
+        return redirect($resultUrl);
+    }
+
+    /** 付款完成api */
+    public function api_ecpay_pay(Request $request,$bill_id){
+        $bill = Bill::where('bill_id',$bill_id)->firstOrFail();
+        $ecpay = new ECPay($bill);
+        $ecpay->handleAtmPayRequest($request);
+
+        return "1|OK";
+    }
+
+    /** 綠界付款完成頁面  */
+    public function view_ecpay_thankyouPage($bill_id){
+        return redirect()->route('billThankyou',['bill_id'=>$bill_id]);
+    }
+
+    public function view_billThankyou($bill_id){
+        $bill = Bill::where('bill_id',$bill_id)->firstOrFail();
+        $products = $bill->products();
+
+        return view('bill.thankyou',[
+            'bill'=>$bill,
+            'products' => $products,
+        ]);
+    }
+
+    public function view_billDetail($bill_id){
+        $bill = Bill::where('bill_id',$bill_id)->firstOrFail();
+        $products = $bill->products();
+        $atmInfo = null;
+        if($bill->pay_by == 'ATM'){
+            $ecpay = new ECPay($bill);
+            if($_atmInfo = $ecpay->getAtmInfo()){
+                $atmInfo = $_atmInfo;
+            }
+        }
+
+        return view('bill.detail',[
+            'bill' => $bill,
+            'products' => $products,
+            'atmInfo' => $atmInfo,
+        ]);
     }
 
     /**

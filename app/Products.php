@@ -10,6 +10,8 @@ class Products extends Model
 
     protected static $additionalCatId = 12;
 
+    public $quantity = null;
+
     public function productCategory()
     {
     	return $this->belongsTo('App\ProductCategory','category_id');
