@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\ProductCategory;
+use App\sessionCart;
 
 class ProductCategoryController extends Controller
 {
@@ -75,9 +76,18 @@ class ProductCategoryController extends Controller
             $additionalCategory = ProductCategory::find(12);
         }
 
+        $kartProductsId = [];
+        if ($user = request()->user()) {
+            $kartProductsId = $user->kartProductsId();
+        }else{
+            $ip = request()->ip();
+            $kartProductsId = sessionCart::productsId($ip);
+        }
+
         return view('productCategorys.show',[
             'productCategory'=>$productCategory,
-            'additionalCategory'=>$additionalCategory
+            'additionalCategory'=>$additionalCategory,
+            'kartProductsId' => $kartProductsId
         ]);
     }
 

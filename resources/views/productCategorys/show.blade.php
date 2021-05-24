@@ -157,7 +157,7 @@
 						<div class="productBox">
 						@foreach($productCategory->products as $product)
 							@if($product->public == 1)
-							<div onclick="showProduct({{$product->id}});" class="productItem">
+							<div class="productItem">
 								<div class="left-name-box">
 									<div class="left-top-box">
 										<span>{{$product->name}}</span>
@@ -210,7 +210,7 @@
 							<div class="productBox">
 								@foreach($additionalCategory->products as $product)
 									@if($product->public == 1)
-									<div onclick="showProduct({{$product->id}});" class="productItem">
+									<div class="productItem">
 										<div class="left-name-box">
 											<div class="left-top-box">
 												<span>{{$product->name}}</span>
@@ -263,6 +263,8 @@
 
 @section('scripts')
 <script>
+	const kartProductsId = {{json_encode($kartProductsId)}};
+
 	$(document).ready(function(){
 
 		$.ajaxSetup({
@@ -271,33 +273,12 @@
   			}
 		});
 
+		initAddToKartBtn();
+
 		$('.productItem').click(function(){			//點擊後加入nowItem Class
 			$('.nowItem').removeClass('nowItem');
 			$(this).addClass('nowItem');
 		});
-
-		$('.addToKartBtn').each(function(){
-			var id = $(this).attr('product_id');
-			
-			$.ajax({
-				type:'GET',
-				url:'/checkIfKart/'+$(this).attr('product_id'),
-				dataType:'json',
-				success: function (response) {
-					if (response.msg == true) {
-						$('#add_'+id).empty().append('取消<img src="{{asset('images/cart.png')}}">');
-						$('#add_'+id).addClass('deleteKartBtn');
-						$('#add_'+id).attr('onclick','deleteFromKart('+id+')');
-					}
-	            },
-	            error: function () {
-	                // alert('錯誤');
-	            },
-			});
-		});
-		setTimeout(function(){
-			$('.addToKartBtn').css('display','block');
-		},500);
 		
 		$('.ExpressPayBtn').click(function(){
 			var id = $(this).data('product-id');
@@ -318,6 +299,16 @@
 		});
 
 	});
+
+	function initAddToKartBtn(){
+
+		kartProductsId.forEach(productId => {
+			$('#add_'+productId).empty().append('取消<img src="/images/cart.png">');
+			$('#add_'+productId).addClass('deleteKartBtn');
+			$('#add_'+productId).attr('onclick','deleteFromKart('+productId+')');
+		});
+
+	}
 
 	function showProduct(id){
 
@@ -352,9 +343,8 @@
                 $('#add_'+id).empty().append('取消<img src="{{asset('images/cart.png')}}">');
                 $('#add_'+id).addClass('deleteKartBtn');
                 $('#add_'+id).attr('onclick','deleteFromKart('+id+')');
-                // navbar cart 加一
-                var inKart = parseInt($('#inKart').html()) + 1;
-                $('#inKart').empty().append(inKart);
+                
+				getKartProducts();
                 
             },
             error: function (data) {
@@ -395,9 +385,8 @@
                 	$('#add_'+id).empty().append('加入<img src="{{asset('images/cart.png')}}">');
 	                $('#add_'+id).removeClass('deleteKartBtn')
 	                $('#add_'+id).attr('onclick','addToKart('+id+')');
-                	// navbar cart 減一
-	                var inKart = parseInt($('#inKart').html()) - 1;
-	                $('#inKart').empty().append(inKart);
+                	
+					getKartProducts();
 	                
                 }
             },

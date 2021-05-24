@@ -77,30 +77,16 @@ class kartController extends Controller
 
     }
 
-    public function ajaxShowIndex() //ajax 呼叫 modal 顯示購物車中的內容
+    /** 購物車內容 */
+    public function getProducts()
     {
-        if (Auth::user()) {
-            
-            $kart = Kart::where('user_id', Auth::user()->id)->get();
-            $shit = [];
-            $i = 0;
-            foreach ($kart as $k) {
-                $shit[$i] = $k->product_id;
-                $i++;
-            }
-            $products = Products::whereIn('id', $shit)->get();
-            return response()->json($products);
-        }else{
-            $ip_address = request()->ip();
-            $sessionCart = sessionCart::where('ip_address',$ip_address)->first();
-            if ($sessionCart) {
-                $products = Products::whereIn('id', json_decode($sessionCart->item))->get();
-                return response()->json($products);
-            }else{
-                return response()->json('new');
-            }
-            
+        if ($user = Auth::user()) {
+            return response()->json($user->kartProducts());
         }
+
+        $ip = request()->ip();
+        $products = sessionCart::products($ip);
+        return response()->json($products);
     }
 
 

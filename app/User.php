@@ -42,6 +42,18 @@ class User extends Authenticatable
         return $this->hasMany('App\Group','dealer_id','id');
     }
 
+    /**使用者購物車中的商品id */
+    public function kartProductsId(){
+        $product_id_array = Kart::where('user_id', $this->id)->pluck('product_id');
+        return $product_id_array;
+    }
+
+    /**使用者購物車中的商品 */
+    public function kartProducts(){
+        $product_id_array = $this->kartProductsId();
+        $products = Products::whereIn('id', $product_id_array)->get();
+        return $products;
+    }
 
     /**
      * 更新使用者的紅利點數 

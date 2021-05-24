@@ -66,18 +66,12 @@ $(document).ready(function(){
     }
   });
 
-  $.ajax({
-    type:'POST',
-    url:'{{route('getInKart')}}',
-    dataType:'json',
-    success: function (response) {
-          $('#inKart').append(response.msg);
-       },
-       error: function (data) {
-          // alert('Cart api error');
-       }
-  });
+  getKartProducts();
+  getRunner();
+  
+});
 
+function getRunner(){
   $.ajax({
     type:'GET',
     url:'/getRunner',
@@ -88,18 +82,18 @@ $(document).ready(function(){
     error: function (data) {
     }
   });
-    
-});
-function ajaxShowKart(){
+}
+
+function getKartProducts(){
   $('.item_class').remove();
   $.ajax({
     type:'GET',
-    url:'/ajaxShowIndex',
+    url:'/kart/getProducts',
     dataType:'json',
     success: function (response) {
+      $('#inKart').html(response.length);
       $.each(response,function(index,product){
         $('.modal-body-table').append('<tr class="item_class" id="item_'+product.id+'"><td><img src="'+ '{{asset('images/productsIMG')}}'+'/'+product.image+'"></td><td>'+product.name+'</td><td>'+product.price+'</td><td><button class="btn btn-sm btn-danger" onclick="delete_item('+product.id+');">刪除</button></td></tr>');
-
       });
     },
     error: function (data) {
@@ -107,6 +101,7 @@ function ajaxShowKart(){
     }
   });
 }
+
 function delete_item(id){
   $.ajax({
     type:'POST',

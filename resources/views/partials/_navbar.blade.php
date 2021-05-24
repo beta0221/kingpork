@@ -45,7 +45,7 @@
 		        <a href="{{route('login')}}">登入/註冊</a>
 			</li>
 			<li class="navbar-li">
-		        <a href="#" data-toggle="modal" data-target="#exampleModal" onclick="event.preventDefault();ajaxShowKart();"><img src="{{asset('images/cart.png')}}"></a>
+		        <a href="#" data-toggle="modal" data-target="#cartModal" onclick="event.preventDefault();"><img src="{{asset('images/cart.png')}}"></a>
 			</li>
 			<li class="navbar-li">
 		        <span id="inKart"></span>
@@ -72,7 +72,7 @@
 				{{ csrf_field() }}
 	        </form>
 	        <li class="navbar-li">
-		        <a href="#" data-toggle="modal" data-target="#exampleModal" onclick="event.preventDefault();ajaxShowKart();"><img src="{{asset('images/cart.png')}}"></a>
+		        <a href="#" data-toggle="modal" data-target="#cartModal" onclick="event.preventDefault();"><img src="{{asset('images/cart.png')}}"></a>
 			</li>
 			<li class="navbar-li">
 		        <span id="inKart"></span>
@@ -100,11 +100,11 @@
 <div onclick="burgerUp();" class="burger"><img src="{{asset('images/burger.png')}}"></div>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="cartModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">我的購物車</h5>
+        <h5 class="modal-title" id="cartModalLabel">我的購物車</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

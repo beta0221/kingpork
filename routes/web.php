@@ -41,7 +41,10 @@ Route::get('/searchOrder','SingleController@searchOrder');
 Route::resource('kart','kartController',['only'=>['index','store','destroy']]);
 Route::post('inKart','kartController@inKart')->name('getInKart');//for api
 Route::get('checkIfKart/{product}','kartController@checkIfKart');
-Route::get('ajaxShowIndex','kartController@ajaxShowIndex');
+Route::group(['prefix' => 'kart'],function(){
+    Route::get('getProducts','kartController@getProducts');
+});
+
 
 //Bill routes
 Route::resource('bill','BillController');
