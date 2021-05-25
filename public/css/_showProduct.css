@@ -130,6 +130,7 @@
 	border:none;
 	border-radius: .3em;
 	background:#f0ad4e;
+	display: block;
 }
 .addToKartBtn img{
 	height: 22px;
