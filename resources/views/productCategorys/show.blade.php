@@ -268,6 +268,9 @@
 	$(document).ready(function(){
 
 		initAddToKartBtn();
+		setTimeout(function(){
+			$('.addToKartBtn').css('display','block');
+		},200);
 
 		$('.productItem').click(function(){			//點擊後加入nowItem Class
 			$('.nowItem').removeClass('nowItem');
