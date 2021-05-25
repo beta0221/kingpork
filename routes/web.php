@@ -44,6 +44,7 @@ Route::get('checkIfKart/{product}','kartController@checkIfKart');
 Route::group(['prefix' => 'kart'],function(){
     Route::get('getProducts','kartController@getProducts');
 });
+Route::get('ajaxShowIndex','kartController@ajaxShowIndex');//
 
 
 //Bill routes

@@ -263,15 +263,9 @@
 
 @section('scripts')
 <script>
-	const kartProductsId = {{json_encode($kartProductsId)}};
+	const kartProductsId = {!!json_encode($kartProductsId)!!};
 
 	$(document).ready(function(){
-
-		$.ajaxSetup({
-  			headers: {
-    			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-  			}
-		});
 
 		initAddToKartBtn();
 
@@ -324,7 +318,7 @@
             },
 		});
 
-	};
+	}
 
 	function addToKart(id){
 		
@@ -360,10 +354,10 @@
 
 		var _id = id.toString();
 		
-		fbq('track', 'AddToCart', {
-			content_ids: [_id],
-			content_type: 'product',
-		});
+		// fbq('track', 'AddToCart', {
+		// 	content_ids: [_id],
+		// 	content_type: 'product',
+		// });
 	}
 
 	function deleteFromKart(id){

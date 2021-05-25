@@ -89,7 +89,10 @@ class kartController extends Controller
         return response()->json($products);
     }
 
-
+    public function ajaxShowIndex() //ajax 呼叫 modal 顯示購物車中的內容
+    {
+        return $this->getProducts();
+    }
 
     /**
      * Display a listing of the resource.
