@@ -103,7 +103,7 @@ class BillController extends Controller
             $total += $product->price;
         }
 
-        // if (!in_array('99999',$request->item) AND $total <= 499) { return('錯誤'); }
+        if (!in_array('99999',$request->item) AND $total <= 499) { return('錯誤'); }
 
         $user = $request->user();
         if($user){
