@@ -55,7 +55,7 @@ class BillController extends Controller
 
     }
 
-    public function store_stage(Request $request){
+    public function store(Request $request){
 
         $this->validate($request,[
             'item.*'=>'required',
@@ -101,6 +101,10 @@ class BillController extends Controller
             $product = Products::where('slug', $slug)->firstOrFail();
             $getBonus += ($product->bonus * (int)$quantity);
             $total += $product->price;
+        }
+
+        if(config('app.env') == "production"){
+            if (!in_array('99999',$request->item) AND $total <= 499) { return('錯誤'); }
         }
 
         $user = $request->user();
@@ -201,6 +205,10 @@ class BillController extends Controller
         $ecpay = new ECPay($bill);
         $ecpay->handleAtmPayRequest($request);
 
+        Log::info("收到綠界回傳的api了！");
+        Log::info("訂單編號：" . $bill_id);
+        Log::info(json_encode($request->all()));
+
         return "1|OK";
     }
 
@@ -243,7 +251,7 @@ class BillController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store_deprecate(Request $request)
     {
 
         Log::info(json_encode($request->getContent()));

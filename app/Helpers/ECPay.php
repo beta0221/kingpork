@@ -246,7 +246,7 @@ class ECPay{
         curl_close($curl);
         
         if ($err) {
-            //log err
+            Log::info($err);
             return null;
         }
 
@@ -273,7 +273,7 @@ class ECPay{
         curl_close($curl);
 
         if ($err) {
-            //log err
+            Log::info($err);
             return null;
         }
         
