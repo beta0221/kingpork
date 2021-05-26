@@ -63,7 +63,7 @@
 
 
 var _token = "{{$token}}";
-var env = 'Stage';
+var env = "{{(config('app.env') == 'production')?'Prod':'Stage'}}";
 $(function(){
     delete $.ajaxSettings.headers["X-CSRF-TOKEN"];
     
