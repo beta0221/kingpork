@@ -68,6 +68,11 @@ class ECPay{
     /** 國別碼 */
     private $CountryCode;
 
+
+    const PAYMENT_INFO_CARD = 'CardInfo';
+    const PAYMENT_INFO_ATM = 'ATMInfo';
+    
+
     /**
      * 建構子
      * @param Bill $order
@@ -332,14 +337,13 @@ class ECPay{
     }
 
     /**
-     * 取得atm付款碼
+     * 取得綠界金流交易資訊
      * @return array
      */
-    public function getAtmInfo(){
+    public function getPaymentInfo(){
         if(!$log = $this->bill->paymentLogs()->where('type',PaymentLog::TYPE_CREATE_PAYMENT)->first()){ return null; }
         $data = $this->string2DecryptedArray($log->Data);
-        if(!isset($data['ATMInfo'])){ return null; }
-        return $data['ATMInfo'];
+        return $data;
     }
 
 

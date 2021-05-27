@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Helpers\ECPay;
 use Illuminate\Database\Eloquent\Model;
 
 class Bill extends Model
@@ -31,6 +32,15 @@ class Bill extends Model
         if(empty($this->user_id)){ return; }
         $user = User::find($this->user_id);
         $user->updateBonus($this->get_bonus,false);
+    }
+
+    public function getPaymentInfo($type = null){
+        $ecpay = new ECPay($this);
+        if(!$data = $ecpay->getPaymentInfo()){ return null; }
+        if(!$type){ return $data; }
+        if(!isset($data[$type])){ return null; }
+
+        return (object)$data[$type];
     }
     
 }

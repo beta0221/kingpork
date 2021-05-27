@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Bill;
+use App\Helpers\ECPay;
 use App\User;
 use App\Products;
 use Excel;
@@ -423,27 +424,20 @@ class OrderManagementController extends Controller
     {
 
         $bill = Bill::where('bill_id',$id)->firstOrFail();
-        $items = json_decode($bill->item,true);
+        $items = $bill->products();
+        $cardInfo = $bill->getPaymentInfo(ECPay::PAYMENT_INFO_CARD);
 
-        $i = 0;
-        $itemArray = [];
-        foreach($items as $item)
-        {
-            $product = Products::where('slug', $item['slug'])->firstOrFail();   
-            $itemArray[$i] = [
-                'name' => $product->name,
-                'price' => $product->price,
-                'quantity' => $item['quantity'],
-                'discription'=>$product->discription,
-            ];
-            $i++;
-        }
-        if ($bill->user_id!=null) {
+        $user = null;
+        if ($bill->user_id != null) {
             $user = User::find($bill->user_id);
-            return view('order.showAll',['bill'=>$bill,'items'=>$itemArray,'user'=>$user]);
-        }else{
-            return view('order.showAll',['bill'=>$bill,'items'=>$itemArray]);
         }
+        
+        return view('order.showAll',[
+            'bill'=>$bill,
+            'items'=>$items,
+            'user'=>$user,
+            'cardInfo' => $cardInfo
+        ]);
         
     }
 

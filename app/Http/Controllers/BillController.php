@@ -229,10 +229,22 @@ class BillController extends Controller
         $bill = Bill::where('bill_id',$bill_id)->firstOrFail();
         $products = $bill->products();
         $atmInfo = null;
-        if($bill->pay_by == 'ATM'){
-            $ecpay = new ECPay($bill);
-            if($_atmInfo = $ecpay->getAtmInfo()){
-                $atmInfo = $_atmInfo;
+        $cardInfo = null;
+
+        if($data = $bill->getPaymentInfo()){
+            switch ($bill->pay_by) {
+                case 'ATM':
+                    if(isset($data['ATMInfo'])){
+                        $atmInfo = (object)$data[ECPay::PAYMENT_INFO_ATM];
+                    }
+                    break;
+                case 'CREDIT':
+                    if(isset($data['CardInfo'])){
+                        $cardInfo = (object)$data[ECPay::PAYMENT_INFO_CARD];
+                    }
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -240,6 +252,7 @@ class BillController extends Controller
             'bill' => $bill,
             'products' => $products,
             'atmInfo' => $atmInfo,
+            'cardInfo' => $cardInfo
         ]);
     }
 

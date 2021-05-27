@@ -43,7 +43,14 @@
                 @include('bill.atmInfo',['atmInfo'=>$atmInfo])    
                 @endif
                 
-
+                @if (!empty($cardInfo))
+                <div class="row">
+                    <div class="col-md-12 mt-2 mb-2">
+                        <h4>信用卡資訊</h4>
+                        卡片末四碼：{{$cardInfo->Card4No}}
+                    </div>
+                </div>
+                @endif
 
                 <div>
                     <h5>收貨人：</h5>

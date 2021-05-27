@@ -62,7 +62,7 @@
 		<div class="outter">
 			<h2>No. <font color="steelblue">{{$bill->bill_id}}</font></h2>
 			<hr>
-			@if(isset($user))
+			@if($user)
 			<table class="bill-table">
 				<tr>
 					<td class="head">姓名</td>
@@ -101,10 +101,10 @@
 						<table class="item-table">
 							@foreach($items as $item)
 							<tr>
-								<td class="item-col-td">{{$item['name']}}</td>
-								<td class="item-col-td">{{$item['discription']}}</td>	
-								<td class="item-col-td">{{$item['price']}}</td>
-								<td class="item-col-td">{{$item['quantity']}}</td>
+								<td class="item-col-td">{{$item->name}}</td>
+								<td class="item-col-td">{{$item->discription}}</td>	
+								<td class="item-col-td">{{$item->price}}</td>
+								<td class="item-col-td">{{$item->quantity}}</td>
 							</tr>
 							@endforeach
 						</table>
@@ -156,7 +156,7 @@
 				</tr>
 				<tr>
 					<td class="head">繳費方式</td>
-					<td>{{$bill->pay_by}}-授權碼:{{$bill->auth_code}}</td>
+					<td>{{$bill->pay_by}}-授權碼:{{$bill->auth_code}}{{(isset($cardInfo->AuthCode))?$cardInfo->AuthCode:''}}</td>
 					<td class="head">繳費狀態</td>
 					<td>
 						@if($bill->status==1)
