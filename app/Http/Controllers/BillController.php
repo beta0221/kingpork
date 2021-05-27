@@ -1091,48 +1091,48 @@ class BillController extends Controller
      */
     public function destroy($id)
     {
-        $bill = Bill::where('bill_id',$id)->firstOrFail();
-        if ($bill->status == '0') {
+        // $bill = Bill::where('bill_id',$id)->firstOrFail();
+        // if ($bill->status == '0') {
 
 
-            $user = User::find($bill->user_id);
-            $user->bonus = $user->bonus + $bill->bonus_use * 50;
-            $user->save();
+        //     $user = User::find($bill->user_id);
+        //     $user->bonus = $user->bonus + $bill->bonus_use * 50;
+        //     $user->save();
 
-            $delete = Bill::where('bill_id',$id)->delete();
+        //     $delete = Bill::where('bill_id',$id)->delete();
 
-            if($delete){
-                return response()->json('1');
-            }else{
-                return response()->json('0');
-            }
-        }else{
-            return response()->json('s');
-        }
+        //     if($delete){
+        //         return response()->json('1');
+        //     }else{
+        //         return response()->json('0');
+        //     }
+        // }else{
+        //     return response()->json('s');
+        // }
         
     }
 
-    public function cancelBill($id)
-    {
-        $bill = Bill::where('bill_id',$id)->firstOrFail();
+    // public function cancelBill($id)
+    // {
+    //     $bill = Bill::where('bill_id',$id)->firstOrFail();
 
-        if ($bill->status !=1 AND $bill->shipment==0){
+    //     if ($bill->status !=1 AND $bill->shipment==0){
 
-            if ($bill->user_id !=null) {
-                $user = User::find($bill->user_id);
-                $user->bonus = $user->bonus + $bill->bonus_use * 50;
-                $user->save();
-            }
+    //         if ($bill->user_id !=null) {
+    //             $user = User::find($bill->user_id);
+    //             $user->bonus = $user->bonus + $bill->bonus_use * 50;
+    //             $user->save();
+    //         }
             
 
-            $delete = Bill::where('bill_id',$id)->delete();
-            if ($delete) {
-                return response()->json('success');
-            }else{
-                return response()->json('error');
-            }
-        }
+    //         $delete = Bill::where('bill_id',$id)->delete();
+    //         if ($delete) {
+    //             return response()->json('success');
+    //         }else{
+    //             return response()->json('error');
+    //         }
+    //     }
 
-    }
+    // }
 
 }

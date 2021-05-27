@@ -53,7 +53,7 @@
 						<th>付款方式</th>
 						<th>付款狀態</th>
 						<th>出貨狀態</th>
-						<th>-</th>
+						{{-- <th>-</th> --}}
 					</tr>
 
 					@if($bills)
@@ -103,13 +103,13 @@
 									@endif
 									
 								</td>
-								<td>
+								{{-- <td>
 									@if($bill->status != 1 AND $bill['shipment']==0)
 										<font style="cursor: pointer;" color="gray" onclick="cancelBill({{$bill->bill_id}})">取消訂單</font>
 									@else
 										<font color="gray">-</font>
 									@endif
-								</td>
+								</td> --}}
 							</tr>
 							
 
@@ -148,28 +148,6 @@
 		});
 	});
 
-	function cancelBill(id){
-		var r = confirm('是否確定取消訂單？');
-		if (r==true) {
-			$.ajax({
-				type:'POST',
-				url:'/bill/cancel/'+id,
-				dataType:'json',
-				data: {
-					_method: 'delete',
-				},
-				success: function (response) {
-						
-					window.location.href = '/bill';
-					
-				},
-				error: function () {
-			        alert('錯誤');
-			    },
-			});
-		}
-		
 
-	}
 </script>
 @endsection
