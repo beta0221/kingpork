@@ -100,7 +100,7 @@ class BillController extends Controller
 
             $product = Products::where('slug', $slug)->firstOrFail();
             $getBonus += ($product->bonus * (int)$quantity);
-            $total += $product->price;
+            $total += ($product->price * (int)$quantity);
         }
 
         if (!in_array('99999',$request->item) AND $total <= 499) { return('錯誤'); }
@@ -201,7 +201,7 @@ class BillController extends Controller
             $bill->save();
             $bill->sendBonusToBuyer();
         }
-        
+
         if(!$resultUrl){ return '錯誤頁面'; }
         return redirect($resultUrl);
     }
