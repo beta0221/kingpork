@@ -577,4 +577,22 @@ class OrderManagementController extends Controller
     {
         //
     }
+
+    public function cancelBill($id)
+    {
+        $bill = Bill::where('bill_id',$id)->firstOrFail();
+        $user = User::findOrFail($bill->user_id);
+
+        if ($bill->status == 1 || $bill->shipment != 0){
+            return response()->json('error');   
+        }
+
+        $amount = $bill->bonus_use * 50;
+        $user->updateBonus($amount,false);
+
+        $bill->updateShipment(Bill::SHIPMENT_VOID);
+        return response()->json('success');
+
+    }
+
 }

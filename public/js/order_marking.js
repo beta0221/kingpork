@@ -66,15 +66,13 @@ function cancelBill(id){
 		if (r==true) {
 			$.ajax({
 				type:'POST',
-				url:'/bill/cancel/'+id,
+				url:'/order/cancel/'+id,
 				dataType:'json',
 				data: {
 					_method: 'delete',
 				},
 				success: function (response) {
-						
 					location.reload();
-					
 				},
 				error: function () {
 			        alert('錯誤');

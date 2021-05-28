@@ -53,7 +53,7 @@
 						<th>付款方式</th>
 						<th>付款狀態</th>
 						<th>出貨狀態</th>
-						{{-- <th>-</th> --}}
+						<th>-</th>
 					</tr>
 
 					@if($bills)
@@ -99,17 +99,17 @@
 									@elseif($bill->shipment==2)
 										<font color="#5cb85c">已出貨</font>
 									@elseif($bill->shipment==3)
-										<font color="green">已收貨</font>
+										<font color="gray">已取消</font>
 									@endif
 									
 								</td>
-								{{-- <td>
+								<td>
 									@if($bill->status != 1 AND $bill['shipment']==0)
 										<font style="cursor: pointer;" color="gray" onclick="cancelBill({{$bill->bill_id}})">取消訂單</font>
 									@else
 										<font color="gray">-</font>
 									@endif
-								</td> --}}
+								</td>
 							</tr>
 							
 
@@ -140,13 +140,26 @@
 
 @section('scripts')
 <script>
-	$(document).ready(function(){
-		$.ajaxSetup({
-			headers: {
-				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-			}
-		});
-	});
+
+	function cancelBill(id){
+		var r = confirm('是否確定取消訂單？');
+		if (r==true) {
+			$.ajax({
+				type:'POST',
+				url:'/bill/cancel/'+id,
+				dataType:'json',
+				data: {
+					_method: 'delete',
+				},
+				success: function (response) {
+					window.location.href = '/bill';
+				},
+				error: function () {
+			        alert('錯誤');
+			    },
+			});
+		}
+	}
 
 
 </script>

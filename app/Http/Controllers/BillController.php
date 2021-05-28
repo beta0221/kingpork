@@ -26,7 +26,7 @@ class BillController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth',['only'=>['index','findMemory']]);
+        $this->middleware('auth',['only'=>['index','findMemory','cancelBill']]);
     }
 
 
@@ -1114,27 +1114,24 @@ class BillController extends Controller
         
     }
 
-    // public function cancelBill($id)
-    // {
-    //     $bill = Bill::where('bill_id',$id)->firstOrFail();
+    public function cancelBill($id)
+    {
+        $bill = Bill::where('bill_id',$id)->firstOrFail();
+        $user = Auth::user();
 
-    //     if ($bill->status !=1 AND $bill->shipment==0){
+        if($bill->user_id != $user->id){
+            return response()->json('error');
+        }
+        if ($bill->status == 1 || $bill->shipment != 0){
+            return response()->json('error');   
+        }
 
-    //         if ($bill->user_id !=null) {
-    //             $user = User::find($bill->user_id);
-    //             $user->bonus = $user->bonus + $bill->bonus_use * 50;
-    //             $user->save();
-    //         }
-            
+        $amount = $bill->bonus_use * 50;
+        $user->updateBonus($amount,false);
 
-    //         $delete = Bill::where('bill_id',$id)->delete();
-    //         if ($delete) {
-    //             return response()->json('success');
-    //         }else{
-    //             return response()->json('error');
-    //         }
-    //     }
+        $bill->updateShipment(Bill::SHIPMENT_VOID);
+        return response()->json('success');
 
-    // }
+    }
 
 }

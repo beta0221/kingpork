@@ -54,7 +54,7 @@ Route::get('checkBill/{bill}','BillController@checkBill');
 Route::post('bill/sendMail','BillController@sendMail')->name('bill.sendMail');
 // Route::post('bill/sendMailC','BillController@sendMailC')->name('bill.sendMailC');
 Route::get('findMemory','BillController@findMemory')->name('findMemory');
-// Route::delete('/bill/cancel/{bill}','BillController@cancelBill');
+Route::delete('/bill/cancel/{bill}','BillController@cancelBill');
 // Route::get('/bill/getDataLayerForGA/{bill_id}','BillController@getDataLayerForGA');  
 Route::get('bill/{bill_id}/detail','BillController@view_billDetail')->name('billDetail');
 Route::get('bill/{bill_id}/thankyou','BillController@view_billThankyou')->name('billThankyou');
@@ -82,6 +82,7 @@ Route::patch('order/marking/{id}','OrderManagementController@marking');
 Route::post('order/ExportExcelForAccountant','OrderManagementController@ExportExcelForAccountant');
 Route::get('order/export/MonthlyReport/{date}','OrderManagementController@MonthlyReport');
 Route::get('order/export/DailyReport/{date}','OrderManagementController@DailyReport');
+Route::delete('order/cancel/{bill_id}','OrderManagementController@cancelBill');
 
 //php artisan make:auth
 Auth::routes();
