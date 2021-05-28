@@ -20,6 +20,7 @@
 <body>
     <h3>訂購人：{{$user->name}}</h3>
     <h3>目前紅利：{{$user->bonus}}</h3>
+    <h3>正確紅利：<font color="red">{{$bonus}}</font></h3>
 
     <table style="text-align: center">
         <tr>

@@ -599,9 +599,21 @@ class OrderManagementController extends Controller
         $user = User::findOrFail($user_id);
         $bills = Bill::where('user_id',$user_id)->orderBy('id','desc')->get();
 
+        $bonus = 5000;
+        foreach ($bills as $bill) {
+            $bonus -= $bill->bonus_use * 50;
+
+            if($bill->status == 1){
+                $bonus += $bill->get_bonus;
+            }else if($bill->pay_by == '貨到付款' && $bill->shipment == 2){
+                $bonus += $bill->get_bonus;
+            }
+        }
+
         return view('order.history',[
             'user' => $user,
-            'bills' => $bills
+            'bills' => $bills,
+            'bonus' => $bonus
         ]);
     }
 
