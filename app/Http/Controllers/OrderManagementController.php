@@ -620,10 +620,19 @@ class OrderManagementController extends Controller
     public function regulateUserBonus(Request $request,$user_id){
         $user = User::findOrFail($user_id);
         if($request->has('bonus')){
+            
+            $correct_bonus = (int)$request->bonus;
+            
+            if ($user->bonus > $correct_bonus){
+                
+                $user->bonus = $correct_bonus;
+                
+                if($correct_bonus < 0){
+                    $user->bonus = 0;
+                }
 
-            if ($user->bonus > $request->bonus){
-                $user->bonus = $request->bonus;
                 $user->save();
+                
             }
             
         }
