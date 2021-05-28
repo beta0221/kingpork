@@ -601,7 +601,10 @@ class OrderManagementController extends Controller
 
         $bonus = 5000;
         foreach ($bills as $bill) {
-            $bonus -= $bill->bonus_use * 50;
+
+            if($bill->shipment != 3){
+                $bonus -= $bill->bonus_use * 50;
+            }
 
             if($bill->status == 1){
                 $bonus += $bill->get_bonus;
@@ -632,7 +635,7 @@ class OrderManagementController extends Controller
                 }
 
                 $user->save();
-                
+
             }
             
         }
