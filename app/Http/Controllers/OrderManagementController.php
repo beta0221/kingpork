@@ -617,4 +617,19 @@ class OrderManagementController extends Controller
         ]);
     }
 
+    public function regulateUserBonus(Request $request,$user_id){
+        $user = User::findOrFail($user_id);
+        if($request->has('bonus')){
+
+            if ($user->bonus > $request->bonus){
+                $user->bonus = $request->bonus;
+                $user->save();
+            }
+            
+        }
+
+        return redirect('order/history/' . $user_id);
+        
+    }
+
 }

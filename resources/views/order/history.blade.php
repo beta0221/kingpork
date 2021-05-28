@@ -22,7 +22,15 @@
     <h3>目前紅利：{{$user->bonus}}</h3>
     <h3>正確紅利：<font color="red">{{$bonus}}</font></h3>
 
-    <table style="text-align: center">
+    @if ($user->bonus > $bonus)
+        <form method="POST" action="/regulate/bonus/{{$user->id}}">
+            {{ csrf_field() }}
+            <input type="hidden" value="{{$bonus}}" name="bonus">
+            <button type="submit">校正</button>
+        </form>
+    @endif
+
+    <table style="text-align: center;margin-top:12px">
         <tr>
            <td>訂單編號</td> 
            <td>折抵</td> 

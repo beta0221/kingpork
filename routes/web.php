@@ -84,6 +84,7 @@ Route::get('order/export/MonthlyReport/{date}','OrderManagementController@Monthl
 Route::get('order/export/DailyReport/{date}','OrderManagementController@DailyReport');
 Route::delete('order/cancel/{bill_id}','OrderManagementController@cancelBill');
 Route::get('order/history/{user_id}','OrderManagementController@orderHistory');
+Route::post('regulate/bonus/{user_id}','OrderManagementController@regulateUserBonus');
 
 //php artisan make:auth
 Auth::routes();
