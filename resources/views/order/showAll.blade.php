@@ -71,7 +71,9 @@
 					<td class="head">累計紅利</td>
 				</tr>
 				<tr>
-					<td>{{$user->name}}</td>
+					<td>
+						<a href="/order/history/{{$user->id}}" target="_blank">{{$user->name}}</a>
+					</td>
 					<td>{{$user->email}}</td>
 					<td>{{$user->phone}}</td>
 					<td>{{$user->bonus}}</td>

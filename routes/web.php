@@ -83,6 +83,7 @@ Route::post('order/ExportExcelForAccountant','OrderManagementController@ExportEx
 Route::get('order/export/MonthlyReport/{date}','OrderManagementController@MonthlyReport');
 Route::get('order/export/DailyReport/{date}','OrderManagementController@DailyReport');
 Route::delete('order/cancel/{bill_id}','OrderManagementController@cancelBill');
+Route::get('order/history/{user_id}','OrderManagementController@orderHistory');
 
 //php artisan make:auth
 Auth::routes();

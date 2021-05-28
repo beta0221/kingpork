@@ -595,4 +595,14 @@ class OrderManagementController extends Controller
 
     }
 
+    public function orderHistory($user_id){
+        $user = User::findOrFail($user_id);
+        $bills = Bill::where('user_id',$user_id)->orderBy('id','desc')->get();
+
+        return view('order.history',[
+            'user' => $user,
+            'bills' => $bills
+        ]);
+    }
+
 }
