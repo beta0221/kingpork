@@ -152,7 +152,9 @@ class BillController extends Controller
         
         if($user){
             Kart::where('user_id',$user->id)->delete(); //清除購物車
-            $user->updateBonus($useBonus);  //扣除使用者紅利點數
+            if($bonus != 0){
+                $user->updateBonus($bonus);  //扣除使用者紅利點數
+            }
         }
         
         //寄送信件
