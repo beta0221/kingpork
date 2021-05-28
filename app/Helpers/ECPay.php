@@ -299,9 +299,6 @@ class ECPay{
         if(!isset($Data['OrderInfo']['PaymentType'])){ return null; }
         switch ($Data['OrderInfo']['PaymentType']) {
             case 'Credit':
-                $this->bill->status = 1;
-                $this->bill->save();
-                $this->bill->sendBonusToBuyer();
                 return route('billThankyou',['bill_id'=>$this->bill->bill_id]);    
                 break;
             case 'ATM':
@@ -314,11 +311,11 @@ class ECPay{
     }
 
     /** 
-     * 處理atm付款回傳請求
+     * 處理付款回傳請求
      * @param Request $request
-     * @return void
+     * @return bool 是否成功付款
      */
-    public function handleAtmPayRequest(Request $request){
+    public function handlePayRequest(Request $request){
         $res = json_decode($request->getContent(),true);
         if(!isset($res['TransCode']) || !isset($res['TransMsg']) || !isset($res['Data'])){ return; }
         PaymentLog::insert_row(
@@ -330,10 +327,10 @@ class ECPay{
         );
         //$this->string2DecryptedArray($res['Data']);
         if($res['TransCode'] == 1){
-            $this->bill->status = 1;
-            $this->bill->save();
-            $this->bill->sendBonusToBuyer();
+            return true;
         }
+
+        return false;
     }
 
     /**
