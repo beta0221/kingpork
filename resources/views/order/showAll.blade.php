@@ -95,6 +95,7 @@
 					</td>
 					<td class="head">紅利折扣</td>
 					<td class="head">總金額</td>
+					<td class="head">回饋紅利</td>
 				</tr>
 				<tr>
 					<td>
@@ -111,6 +112,7 @@
 					</td>
 					<td>{{$bill->bonus_use}}</td>
 					<td>{{$bill->price}}</td>
+					<td>{{$bill->get_bonus}}</td>
 				</tr>
 			</table>
 
