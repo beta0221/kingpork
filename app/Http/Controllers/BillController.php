@@ -195,6 +195,13 @@ class BillController extends Controller
         $ecpay = new ECPay($bill);
 
         $resultUrl = $ecpay->createPayment($request->PayToken);
+
+        if(!is_null($resultUrl) && $bill->pay_by == 'CREDIT'){
+            $bill->status = 1;
+            $bill->save();
+            $bill->sendBonusToBuyer();
+        }
+        
         if(!$resultUrl){ return '錯誤頁面'; }
         return redirect($resultUrl);
     }
@@ -203,7 +210,13 @@ class BillController extends Controller
     public function api_ecpay_pay(Request $request,$bill_id){
         $bill = Bill::where('bill_id',$bill_id)->firstOrFail();
         $ecpay = new ECPay($bill);
-        $ecpay->handleAtmPayRequest($request);
+        $isSuccess = $ecpay->handlePayRequest($request);
+
+        if($isSuccess && $bill->pay_by == 'ATM'){
+            $bill->status = 1;
+            $bill->save();
+            $bill->sendBonusToBuyer();
+        }
 
         Log::info("收到綠界回傳的api了！");
         Log::info("訂單編號：" . $bill_id);
