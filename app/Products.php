@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\DB;
 
 class Products extends Model
 {
-
-    protected static $additionalCatId = 12;
+    const GIFT_SLUG = "30007";
+    const ADDITIONAL_CAT_ID = 12;
 
     public $quantity = null;
 
@@ -19,7 +19,7 @@ class Products extends Model
 
     public static function getAdditionalProducts(){
         $idArray=[];
-        $result = DB::table('products')->select('id')->where('category_id',Products::$additionalCatId)->get();
+        $result = DB::table('products')->select('id')->where('category_id',Products::ADDITIONAL_CAT_ID)->get();
         foreach ($result as $id) {
             $idArray[] = $id->id;
         }
@@ -28,7 +28,7 @@ class Products extends Model
 
     public static function getAdditionalProductSlug(){
         $slugArray=[];
-        $result = DB::table('products')->select('slug')->where('category_id',Products::$additionalCatId)->get();
+        $result = DB::table('products')->select('slug')->where('category_id',Products::ADDITIONAL_CAT_ID)->get();
         foreach ($result as $item) {
             $slugArray[] = $item->slug;
         }

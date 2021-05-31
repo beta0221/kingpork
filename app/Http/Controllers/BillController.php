@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Bill;
+use App\BillItem;
 use App\Products;
 use App\Kart;
 use App\User;
@@ -89,18 +90,23 @@ class BillController extends Controller
         $useBonus = 0;
         $total = 0;
         $getBonus = 0;
-        $kart = [];
+        $products = [];
+        // $kart = [];
 
         foreach ($request->item as $index => $slug) {
             $quantity = $request->quantity[$index];
-            $kart[] = [
-                'slug' => $slug,
-                'quantity' => $request->quantity[$index],
-            ];
-
             $product = Products::where('slug', $slug)->firstOrFail();
+            $product->quantity = (int)$quantity;
+            $products[] = $product;
+
             $getBonus += ($product->bonus * (int)$quantity);
             $total += ($product->price * (int)$quantity);
+            
+            // $kart[] = [
+            //     'slug' => $slug,
+            //     'quantity' => $request->quantity[$index],
+            // ];
+            
         }
 
         if (!in_array('99999',$request->item) AND $total <= 499) { return('錯誤'); }
@@ -123,7 +129,7 @@ class BillController extends Controller
         $bill->user_id = $user_id;
         $bill->bill_id = $MerchantTradeNo;
         $bill->user_name = $user_name;
-        $bill->item = json_encode($kart);
+        $bill->item = null;
         $bill->bonus_use = $useBonus;
         $bill->price = $total;
         $bill->get_bonus = $getBonus;
@@ -148,6 +154,9 @@ class BillController extends Controller
 
         $bill->save();
 
+        foreach ($products as $product) {
+            BillItem::insert_row($bill->id,$product);
+        }
 
         
         if($user){

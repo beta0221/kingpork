@@ -105,7 +105,7 @@
 							@foreach($items as $item)
 							<tr>
 								<td class="item-col-td">{{$item->name}}</td>
-								<td class="item-col-td">{{$item->discription}}</td>	
+								<td class="item-col-td">{{$item->description}}{{$item->discription}}</td>	
 								<td class="item-col-td">{{$item->price}}</td>
 								<td class="item-col-td">{{$item->quantity}}</td>
 							</tr>

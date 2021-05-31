@@ -16,8 +16,14 @@ class Bill extends Model
     public function paymentLogs(){
         return $this->hasMany('App\PaymentLog');
     }
+
+    public function billItems(){
+        return $this->hasMany('App\BillItem','bill_id','id');
+    }
     
     public function products(){
+        if(is_null($this->item)){ return $this->billItems()->get(); }
+
         $items = json_decode($this->item,true);
         $slugArray = [];
         $quantityDict = [];

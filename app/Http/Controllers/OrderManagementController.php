@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Bill;
+use App\BillItem;
 use App\Helpers\ECPay;
 use App\User;
 use App\Products;
@@ -133,96 +134,82 @@ class OrderManagementController extends Controller
         return view('order.index',['orders'=>$orders,'page_amount'=>$page_amount]);
     }
 
-   
+    private function getRow(Bill $bill,$now,$quantity = null){
+
+        $row = "";
+        $items = $bill->products();
+        $itemsInShort = "";
+        foreach($items as $item)       
+        {
+            $_quantity = $item->quantity;
+            if(!is_null($quantity)){
+                $_quantity = $quantity;
+            }
+            $itemsInShort .= ($item->short . '*' . $_quantity . ';');
+        }
+
+        $ship_time = '1';
+        if ($bill->ship_time == '14:00-18:00') {
+            $ship_time = '2';
+        }
+
+        $arrive = str_replace('-', '/', $bill->ship_arriveDate);
+        if ($bill->ship_arriveDate == null) {
+            $arrive = date('Y/m/d',strtotime('3 day'));
+        }
+
+        $cash = $bill->price;
+        if ($bill->pay_by != '貨到付款') {
+            $cash = null;
+        }
+
+        $bill->ship_county = str_replace(',','',$bill->ship_county);
+        $bill->ship_district = str_replace(',','',$bill->ship_district);
+        $bill->ship_address = str_replace(',','',$bill->ship_address);
+
+        $row = 
+            $bill->created_at.",".
+            $bill->bill_id.",".
+            '官網'.$bill->pay_by.",".
+            $cash.",".
+            $ship_time.",".
+            $bill->ship_name.",".
+            $bill->ship_phone.",".
+            $itemsInShort.",".
+            $bill->ship_county.$bill->ship_district.$bill->ship_address.",".
+            $now.",".
+            $arrive.",".
+            $bill->price;
+
+        return $row;
+
+    }
+
     public function csv_download(Request $request)
     {
 
-        // $jsons = Bill::where(function($query){
-        //     $query->orWhere('pay_by','貨到付款')->orWhere([['status','=','1'],['pay_by','!=','貨到付款']]);  
-        // })->whereIn('bill_id',$request->selectArray)->get();
-
-        $jsons = Bill::whereIn('bill_id',$request->selectArray)->orderBy('id','asc')->get();
-
-        $j = 0;
+        $bills = Bill::whereIn('bill_id',$request->selectArray)->orderBy('id','asc')->get();
+        
+        $now = date("Y-m-d");
         $orders = [];
-        foreach($jsons as $json)
+        foreach($bills as $bill)
         {   
-            $bills = json_decode($json->item,true);
-            $itemArray = "";
-            foreach($bills as $bill)       
-            {
-                $product = Products::where('slug', $bill['slug'])->firstOrFail();
-                $itemArray = $itemArray.$product->short.'*'.$bill['quantity'].';';    
-            }
-
-            if ($json->ship_time == '14:00-18:00') {
-                $ship_time = '2';
-            }else{
-                $ship_time = '1';
-            }
-
-            if ($json->ship_arriveDate == null) {
-                $arrive = date('Y/m/d',strtotime('3 day'));
-            }else{
-                $arrive = str_replace('-', '/', $json->ship_arriveDate);
-            }
-
-            if ($json->pay_by != '貨到付款') {
-                $cash = null;
-            }else{
-                $cash = $json->price;
-            }
-
-            if ($request->type == 0) {
-
-                if ($json->ship_name == '*' && $json->ship_phone == '*') {
-
-                    $sendProduct = Products::where('slug','30002')->firstOrFail();
-
-                    $gifts = json_decode($json->ship_address,true);
-                    foreach ($gifts as $gift) {
-                        if ($gift['time'] == '14:00-18:00') {
-                            $ship_time = '2';
-                        }else{
-                            $ship_time = '1';
-                        }
-
-                        $orders[$j] = 
-                        $json->created_at.",".
-                        $json->bill_id.",".
-                        '官網'.$json->pay_by.",".
-                        $cash.",".
-                        $ship_time.",".
-                        $gift['name'].",".
-                        $gift['phone'].",".
-                        $sendProduct->short.'*'.$gift['quantity'].';'.",".
-                        str_replace([' ','?'],'',$gift['address']).",".
-                        date('Y/m/d').",".
-                        $arrive.",".
-                        (int)$gift['quantity']*$sendProduct->price;
-                        $j++;
-                    }
-                    
-
-                }else{
-                    $orders[$j] = 
-                    $json->created_at.",".
-                    $json->bill_id.",".
-                    '官網'.$json->pay_by.",".
-                    $cash.",".
-                    $ship_time.",".
-                    $json->ship_name.",".
-                    $json->ship_phone.",".
-                    $itemArray.",".
-                    $json->ship_county.$json->ship_district.$json->ship_address.",".
-                    date('Y/m/d').",".
-                    $arrive.",".
-                    $json->price;
-                    $j++;
+            //代客送禮
+            if ($bill->ship_name == '*' && $bill->ship_phone == '*') {
+                $gifts = json_decode($bill->ship_address,true);
+                foreach ($gifts as $gift) {
+                    $_bill = $bill;
+                    $_bill->ship_time = $gift['time'];
+                    $_bill->ship_name = $gift['name'];
+                    $_bill->ship_phone = $gift['phone'];
+                    $_bill->ship_address = $gift['address'];
+                    $orders[] = $this->getRow($_bill,$now,(int)$gift['quantity']);
                 }
-            
+                continue;
             }
 
+            //一般訂單
+            $orders[] = $this->getRow($bill,$now);
 
         }
         $orders = json_encode($orders);
@@ -233,40 +220,48 @@ class OrderManagementController extends Controller
 
     public function ExportExcelForAccountant(Request $request){
 
-        
         date_default_timezone_set('Asia/Taipei');
         $cellData = [
             ['訂單編號','訂單日期','交易日期','客戶','購買人','商品貨號','','商品名稱','數量','單位','單價','抵扣紅利','含稅金額','','含稅金額','收件人','郵遞區號','送貨地址','聯絡電話','行動電話','代收宅配單號','代收貨款','付款方式','','','','發票號碼','發票收件人','發票種類','發票統編','買受人名稱','','','','','','信用卡後4碼','','部門'],
         ];
-        $billArray = json_decode($request->bill_id);
+        $bill_id_array = json_decode($request->bill_id);
         $now = date("Y-m-d");
-        if($bills = Bill::whereIn('bill_id',$billArray)->orderBy('id','asc')->get()){
-            foreach ($bills as  $bill) {
+        if($bills = Bill::whereIn('bill_id',$bill_id_array)->orderBy('id','asc')->get()){
 
+            foreach ($bills as  $bill) {
+                //代客送禮
                 if($bill->ship_name == '*' && $bill->ship_phone == '*'){
-                    $product = Products::where('slug','30002')->firstOrFail();
+                    if(!$product = Products::where('slug',Products::GIFT_SLUG)->first()){ continue; }
+
                     $gifts = json_decode($bill->ship_address,true);
                     foreach ($gifts as $index => $gift) {
                         $receiver = $gift['name'];
-                        $address = $gift['address'];
                         $phone = $gift['phone'];
-                        $newRow = $this->getAccountantRow($bill,$product,$index,$gift['quantity'],$now,$receiver,$address,$phone);
-                        array_push($cellData,$newRow);
+                        $address = $gift['address'];
+                        $quantity = (int)$gift['quantity'];
+                        
+                        $cellData[] = $this->getAccountantRow($bill,$product,$index,$quantity,$now,$receiver,$address,$phone);
                     }
-                }else{
-                    $items = json_decode($bill->item,true);
-                    foreach ($items as $index => $item) {
-                        if($product = Products::where('slug',$item['slug'])->first()){
-                            $receiver = $bill->ship_name;
-                            $address = $bill->ship_county . $bill->ship_district . $bill->ship_address;
-                            $phone = $bill->ship_phone;
-                            $newRow = $this->getAccountantRow($bill,$product,$index,$item['quantity'],$now,$receiver,$address,$phone);
-                            array_push($cellData,$newRow);
-                        }
+                    continue;
+                }
+
+                //一般訂單
+                $items = $bill->products();
+                foreach ($items as $index => $item) {
+                    $receiver = $bill->ship_name;
+                    $address = $bill->ship_county . $bill->ship_district . $bill->ship_address;
+                    $phone = $bill->ship_phone;
+
+                    if($item instanceof BillItem){
+                        if(!$product = Products::find($item->product_id)){ continue; }
+                        $item->erp_id = $product->erp_id;
                     }
+
+                    $cellData[] = $this->getAccountantRow($bill,$item,$index,$item->quantity,$now,$receiver,$address,$phone);
                 }
 
             }
+
         }
 
         Excel::create('會計訂單輸出-' . $now, function($excel)use($cellData) {
