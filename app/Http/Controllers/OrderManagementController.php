@@ -312,8 +312,7 @@ class OrderManagementController extends Controller
         $billsDic = [];
 
         foreach ($bills as $bill) {
-            $date = substr($bill->created_at,0,10);
-            $items = json_decode($bill->item,true);
+            $date = $bill->created_at->format('Y-m-d');
 
             if(isset($billsDic[$date]['amount'])){
                 $billsDic[$date]['amount'] += 1; 
