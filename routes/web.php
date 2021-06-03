@@ -67,6 +67,8 @@ Route::post('banner/switch','BannerController@switch');
 Route::patch('banner/public/{id}','BannerController@publicBanner');
 
 //Contact routes
+Route::post('toggleStatus/{id}','ContactController@toggleStatus');
+Route::get('sumPendingContact','ContactController@sumPendingContact');
 Route::resource('contactManage','ContactController');
 
 //Runner routes

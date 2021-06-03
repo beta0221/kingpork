@@ -92,6 +92,20 @@
     /*padding-top: 6.5px;*/
     position: relative;
   }
+
+  .sideBar_item .badge{
+    position: absolute;
+    left: 6px;
+    top: 4px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background-color: red;
+    text-align: center;
+    font-size: 2pt;
+    line-height: 18px;
+  }
+
   .sideBar_item:hover{
     background: #3a3a3a;
   }
@@ -161,6 +175,7 @@
   </li>
   <li class="sideBar_item {{Request::is('contact*') ? 'sideBar_now' : ''}}">
     <a href="{{route('contactManage.index')}}"><img src="{{asset('images/admin_mail.png')}}" alt="">客服管理</a>
+    <div class="badge contact-badge"></div>
   </li>
   <li class="sideBar_item {{Request::is('order*') ? 'sideBar_now' : ''}}">
     <a href="{{route('order.index')}}"><img src="{{asset('images/admin_delivery.png')}}" alt="">訂單管理</a>
@@ -185,4 +200,20 @@
 {{ Html::script('js/jquery/jquery-3.2.1.min.js') }}
 {{ Html::script('js/bootstrap/bootstrap.min.js') }}
 @yield('scripts')
+<script>
+  $.ajax({
+		type:'GET',
+		url:'/sumPendingContact',
+		dataType:'json',
+		success:function(res){
+      $('.contact-badge').html(res.sum);
+      if(res.sum == 0){
+        $('.contact-badge').html('');
+      }
+		},
+		error:function(){
+			alert('錯誤');
+		}
+	});
+</script>
 </html>

@@ -9,6 +9,7 @@
 	/*border:1pt solid red;*/
 	left: 0;
 	overflow: scroll;
+	
 }
 .right-outter{
 	/*border:1pt solid blue;*/
@@ -28,12 +29,6 @@
 	height: 100%;
 	float: left;
 	padding: 20px;
-}
-.stack-left .left-circle{
-	border-radius: 50%;
-	height: 100%;
-	width: 100%;
-	border: 0.5pt solid #000;
 }
 .stack-right{
 	width:calc(100% - 90px);
@@ -131,4 +126,28 @@
 }
 .left-stack .selected_message{
 	background-color: #f0ad4e;
+}
+
+ul.pagination a,ul.pagination span{
+	position: relative;
+	float: left;
+	padding: 6px 12px;
+	margin-left: -1px;
+	line-height: 1.42857143;
+	text-decoration: none;
+	background-color: #fff;
+	border: 1px solid #ddd;
+}
+ul.pagination a{
+	color: #337ab7;
+}
+ul.pagination span{
+	color: gray;
+}
+ul.pagination li.active span{
+	z-index: 3;
+	color: #fff;
+	cursor: default;
+	background-color: #337ab7;
+	border-color: #337ab7;
 }

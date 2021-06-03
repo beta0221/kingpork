@@ -87,3 +87,28 @@ function sendMail(){
 	
 
 }
+
+
+function toggleStatus(id,element){
+	$.ajax({
+		type:'POST',
+		url:'/toggleStatus/' + id,
+		dataType:'json',
+		data:{
+			_method:'post',
+		},
+		success:function(contact){
+			if(contact.status == 1){
+				$(element).html('已結案');
+				$(element).removeClass('btn-danger').addClass('btn-success');
+				
+			}else{
+				$(element).html('待處理');
+				$(element).removeClass('btn-success').addClass('btn-danger');
+			}
+		},
+		error:function(){
+			alert('錯誤');
+		}
+	});
+}

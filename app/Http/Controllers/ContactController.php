@@ -21,7 +21,7 @@ class ContactController extends Controller
      */
     public function index()
     {
-        $contacts = Contact::take(20)->orderBy('id','desc')->get();
+        $contacts = Contact::orderBy('id','desc')->paginate(20);
         return view('contact.index',['contacts'=>$contacts]);
     }
 
@@ -128,4 +128,22 @@ class ContactController extends Controller
     {
         //
     }
+
+
+
+    public function toggleStatus($id){
+        
+        $contact = Contact::findOrFail($id);
+        $contact->toggleStatus();
+        return response()->json($contact);
+
+    }
+
+
+    public function sumPendingContact(){
+        $sum = Contact::where('status',0)->count();
+        return response()->json(['sum'=>$sum]);
+    }
+
+
 }

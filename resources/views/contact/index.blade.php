@@ -7,12 +7,19 @@
 @endsection
 
 @section('content')
+
 <div class="left-outter">
+	{{$contacts->links()}}
+	
 @foreach($contacts as $contact)
 	
 	<div id="{{$contact->id}}" onclick="dialogue_select({{$contact->id}});" class="contact-stack">
 		<div class="stack-left">
-			<div class="left-circle"></div>
+			@if ($contact->status == 0)
+			<button class="btn btn-sm btn-danger" onclick="toggleStatus({{$contact->id}},this)">待處理</button>
+			@else
+			<button class="btn btn-sm btn-success" onclick="toggleStatus({{$contact->id}},this)">已結案</button>
+			@endif
 		</div>
 		<div class="stack-right">
 			<div class="stack-top">{{$contact->name}} <font size="2">< {{$contact->email}} ></font> <font size="2">{{$contact->created_at}}</font></div>
