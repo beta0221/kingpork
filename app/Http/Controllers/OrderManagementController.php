@@ -312,7 +312,7 @@ class OrderManagementController extends Controller
         $billsDic = [];
 
         foreach ($bills as $bill) {
-            $date = $bill->created_at->format('Y-m-d');
+            $date = substr($bill->created_at,0,10);
 
             if(isset($billsDic[$date]['amount'])){
                 $billsDic[$date]['amount'] += 1; 
