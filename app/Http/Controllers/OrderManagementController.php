@@ -23,115 +23,74 @@ class OrderManagementController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
 
-        $page = isset($_GET['page']) ? $_GET['page'] : 1 ;
-        $data_take = isset($_GET['data_take']) ? $_GET['data_take'] : 20 ;
+        $page = ($request->has('page')) ? $request->page : 1 ;
+        $data_take = ($request->has('data_take')) ? $request->data_take : 20 ;
         $data_from = $page * $data_take - $data_take;
-        $rows_amount = Bill::all()->count();
-        $page_amount = ceil($rows_amount / $data_take);
 
-
-        $jsons = Bill::where(function($query){
-
-            $user_name = isset($_GET['user_name']) ? $_GET['user_name'] : null;
-            $ship_phone = isset($_GET['ship_phone']) ? $_GET['ship_phone'] : null;
-            $shipment_0 = isset($_GET['shipment_0']) ? $_GET['shipment_0'] : null;
-            $shipment_1 = isset($_GET['shipment_1']) ? $_GET['shipment_1'] : null;
-            $shipment_2 = isset($_GET['shipment_2']) ? $_GET['shipment_2'] : null;
-            $shipment_3 = isset($_GET['shipment_3']) ? $_GET['shipment_3'] : null;
-            $pay_by_ATM = isset($_GET['pay_by_ATM']) ? $_GET['pay_by_ATM'] : null;
-            $pay_by_cod = isset($_GET['pay_by_cod']) ? $_GET['pay_by_cod'] : null;
-            $pay_by_credit = isset($_GET['pay_by_credit']) ? $_GET['pay_by_credit'] : null;
-            $ship_county = isset($_GET['ship_county']) ? $_GET['ship_county'] : null;
-            $bill_id = isset($_GET['bill_id']) ? $_GET['bill_id'] : null;
-            $date1 = isset($_GET['date1']) ? $_GET['date1'] : null;
-            $date2 = isset($_GET['date2']) ? $_GET['date2'] : null;
-
-            if (isset($user_name) AND $user_name != '') {
-                $query->Where('user_name',$user_name);
+        $query = Bill::orderBy('id','desc');
+        
+        if($request->has('user_name')){
+            $query->where('user_name',$request->user_name);
+        }
+        if($request->has('ship_phone')){
+            $query->where('ship_phone',$request->ship_phone);
+        }
+        if($request->has('shipment_0')){
+            if ($request->has('pay_by_ATM') OR $request->has('pay_by_credit')) {
+                $query->where('status','1')->where('shipment',$request->shipment_0);
+            }else{
+                $query->where(function($query) use($request){
+                    $query->where([['pay_by','貨到付款'],['shipment',$request->shipment_0]])->orWhere([['status','1'],['shipment',$request->shipment_0]]);
+                });
             }
-            if (isset($ship_phone) AND $ship_phone != '') {
-                $query->Where('ship_phone',$ship_phone);
-            }
-            if (isset($shipment_0)) {
-                if (isset($pay_by_ATM) OR isset($pay_by_credit)) {
-                    $query->Where('status','1')->where('shipment',$shipment_0);
-                }else{
-                    $query->Where(function($query){
-                        $shipment_0 = $_GET['shipment_0'];
-                        $query->Where([['pay_by','貨到付款'],['shipment',$shipment_0]])->orWhere([['status','1'],['shipment',$shipment_0]]);
-                    });
-                    
-                }
-            }
-            if (isset($shipment_1)) {
-                $query->Where('shipment',$shipment_1);
-            }
-            if (isset($shipment_2)) {
-                $query->Where('shipment',$shipment_2);
-            }
-            if (isset($shipment_3)) {
-                $query->Where('shipment',$shipment_3);
-            }
-            if (isset($pay_by_ATM)) {
-                $query->Where('pay_by',$pay_by_ATM);
-            }
-            if (isset($pay_by_cod)) {
-                $query->Where('pay_by',$pay_by_cod);
-            }
-            if (isset($pay_by_credit)) {
-                $query->Where('pay_by',$pay_by_credit);
-            }
-            if (isset($ship_county) AND $ship_county != '') {
-                $query->Where('ship_county',$ship_county);
-            }
-            if (isset($bill_id) AND $bill_id != '') {
-                $query->Where('bill_id',$bill_id);
-            }
-            if (isset($date1) AND isset($date2) AND $date1 != '') {
-                if ($date1 == $date2) {
-                    $query->Where('created_at','LIKE','%'.$date1.'%');
-                }else{
-                    $date2 = date('Y-m-d',strtotime($date2."+1 day"));
-                    $query->WhereBetween('created_at',[$date1,$date2]);             
-                }
-            }
-
-        })->orderBy('id','desc')->skip($data_from)->take($data_take)->get();
-
-        $j = 0;
-        $orders = [];
-        foreach($jsons as $json)
-        {   
-            
-            $orders[$j] = [
-                'created_at' => str_replace(" ","<br>",$json->created_at),
-                'bill_id' => $json->bill_id,
-                'user_name' => $json->user_name,
-                // 'item' => $itemArray,
-                'user_id'=>$json->user_id,
-                'price' => $json->price,
-                'status' => $json->status,
-                'pay_by' => $json->pay_by,
-                'ship_name' =>$json->ship_name,
-                'ship_gender' =>$json->ship_gender,
-                'ship_memo' => $json->ship_memo,
-                'ship_arrive' =>$json->ship_arrive,
-                'ship_arriveDate' =>$json->ship_arriveDate,
-                'ship_time' =>$json->ship_time,
-                'ship_receipt' =>$json->ship_receipt,
-                'ship_three_id' =>$json->ship_three_id,
-                'ship_three_company' =>$json->ship_three_company,
-                'shipment'=>$json->shipment,
-                'auth_code'=>$json->auth_code,
-                'allReturn'=>$json->allReturn,
-            ];
-            $j++;
+        }
+        if($request->has('shipment_1')){
+            $query->where('shipment',$request->shipment_1);
+        }
+        if($request->has('shipment_2')){
+            $query->where('shipment',$request->shipment_2);
+        }
+        if($request->has('shipment_3')){
+            $query->where('shipment',$request->shipment_3);
+        }
+        
+        $pay_by = [];
+        if($request->has('pay_by_ATM')){
+            $pay_by[] = $request->pay_by_ATM;
+        }
+        if($request->has('pay_by_cod')){
+            $pay_by[] = $request->pay_by_cod;
+        }
+        if($request->has('pay_by_credit')){
+            $pay_by[] = $request->pay_by_credit;
+        }
+        if(!empty($pay_by)){
+            $query->whereIn('pay_by',$pay_by);
         }
 
-        return view('order.index',['orders'=>$orders,'page_amount'=>$page_amount]);
+        if($request->has('ship_county')){
+            $query->where('ship_county',$request->ship_county);
+        }
+        if($request->has('bill_id')){
+            $query->where('bill_id',$request->bill_id);
+        }
+        if($request->has('date1') && $request->has('date2')){
+            if($request->date1 == $request->date2){
+                $query->whereDate('created_at',date('Y-m-d',strtotime($request->date1)));
+            }else{
+                $date2 = date('Y-m-d',strtotime($request->date2."+1 day"));
+                $query->whereBetween('created_at',[$request->date1,$date2]);
+            }
+        }
+        $total = $query->count();
+        $bills = $query->skip($data_from)->take($data_take)->get();
+        $page_amount = ceil($total / $data_take);
+        
+        return view('order.index',['orders'=>$bills,'page_amount'=>$page_amount]);
+
     }
 
     private function getRow(Bill $bill,$now,$quantity = null){

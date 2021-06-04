@@ -257,15 +257,12 @@
 
 				<tr class="table-tr">
 					<td class="{{$order['user_id']==null?'fromSingle':''}}">{{$i++}}</td>
-					<td>{!!$order['created_at']!!}</td>
+					<td>
+						{!!str_replace(" ","<br>",$order->created_at)!!}
+					</td>
 					
 					<td>
-						{{-- @if($order['ship_gender']==1)
-							<font color="green">{{$order['ship_name']}}</font>
-						@else
-							<font color="purple">{{$order['ship_name']}}</font>
-						@endif --}}
-						{{$order['user_name']}}
+						{{$order->user_name}}
 					</td>
 
 					<td><a href="{{url('order/showAll').'/'.$order['bill_id']}}" target="_blank">{{$order['bill_id']}}</a></td>
