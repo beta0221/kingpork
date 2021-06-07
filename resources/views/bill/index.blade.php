@@ -76,6 +76,8 @@
 										信用卡
 									@elseif($bill->pay_by == 'ATM')
 										ATM轉帳
+									@elseif($bill->pay_by == 'FAMILY')
+										超商付款
 									@else
 										{{$bill->pay_by}}
 									@endif

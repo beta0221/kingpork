@@ -199,6 +199,43 @@
 						</tr>
 
 						<tr>
+							<td class="">
+								<label for=""><span class="required">*</span>運送方式：</label>
+								<select id="shipping-carrier" name="carrier_id" class="shipping-carrier form-control">
+									@foreach ($carriers as $id => $name)
+									<option value="{{$id}}">{{$name}}</option>
+									@endforeach
+								</select>
+							</td>
+						</tr>
+
+						<tr class="family-column" style="display: none">
+							<td>
+								<label for="">全家冷凍超取</label>
+								<div class="btn btn-primary" onclick="call_windows()">選擇門市</div>
+							</td>
+						</tr>
+						
+						<tr class="family-column" style="display: none">
+							<td>
+								<label for=""><span class="required">*</span>門市代號：</label>
+								<input class="shipping-store form-control" type="text" name="store_number" readonly>
+							</td>
+						</tr>
+						<tr class="family-column" style="display: none">
+							<td>
+								<label for=""><span class="required">*</span>門市名稱：</label>
+								<input class="shipping-store form-control" type="text" name="store_name" readonly>
+							</td>
+						</tr>
+						<tr class="family-column" style="display: none">
+							<td>
+								<label for=""><span class="required">*</span>門市地址：</label>
+								<input class="shipping-store form-control" type="text" name="store_address" readonly>
+							</td>
+						</tr>
+
+						<tr class="blackcat-column">
 							<td>
 								<label for=""><span class="required">*</span>地址：</label>
 								<select id="ship_county" name="ship_county" class="shipping-ship_county form-control ship_county">
@@ -232,7 +269,7 @@
 							</td>
 						</tr>
 
-						<tr>
+						<tr class="blackcat-column">
 							<td>
 								<label for=""></label>
 								<input id="ship_address" name="ship_address" type="text" class="shipping-ship_address form-control" placeholder="地址">
@@ -308,7 +345,8 @@
 								<div class="pay_by">
 									<input id="pay_by_credit" class="radio" type="radio" name="ship_pay_by" value="CREDIT"><span>信用卡</span>
 	  								<input id="pay_by_atm" class="radio" type="radio" name="ship_pay_by" value="ATM"><span>ATM</span>
-	  								<input id="pay_by_cod" class="radio" type="radio" name="ship_pay_by" value="cod"><span>貨到付款</span>	
+	  								<input id="pay_by_cod" class="radio blackcat-column" type="radio" name="ship_pay_by" value="cod"><span class="blackcat-column">貨到付款</span>
+									<input id="pay_by_family" class="radio family-column" type="radio" name="ship_pay_by" value="FAMILY" style="display: none"><span class="family-column" style="display: none">全家取貨付款</span>
 								</div>
 							</td>
 						</tr>
@@ -348,4 +386,5 @@
 
 @section('scripts')
 {{ Html::script('js/_kart.js') }}
+{{ Html::script('js/_family.js') }}
 @endsection

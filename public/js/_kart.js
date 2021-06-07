@@ -173,91 +173,71 @@ $(document).ready(function(){
 			var afterDis = sum - bonus / 50;
 			$('#sum').empty().append(sum+'-'+bonusCount+'='+afterDis);
 		});
+
+		$('#shipping-carrier').on('change',function(){
+			let carrier_id = $(this).val();
+			$('.pay_by .radio').prop('checked', false);
+			if(carrier_id == 1){
+				$('.family-column').show();
+				$('.blackcat-column').hide();
+			}else{
+				$('.family-column').hide();
+				$('.blackcat-column').show();
+			}
+		});
+
 	});
 	function checkForm(){
 		var unFinished = 0;
 		$('.alert-field').empty()
 
-		if(!$('#pay_by_credit').is(':checked') && !$('#pay_by_atm').is(':checked') && !$('#pay_by_cod').is(':checked')){
+		if(!$('#pay_by_credit').is(':checked') && !$('#pay_by_atm').is(':checked') && !$('#pay_by_cod').is(':checked') && !$('#pay_by_family').is(':checked')){
+			$('.pay_by').addClass('alerting');
 			$('.alert-field').append('<strong>請選擇付款方式</strong><br>');
+			unFinished = 1;
 		}
 		if ($('#ship_name').val() == '') {
 			$('#ship_name').addClass('alerting');
-			
 			$('.alert-field').append('<strong><font color="red">＊</font>號處不可空白</strong><br>');
 			unFinished = 1;
 		}
 		if ($('#ship_email').val() == '') {
 			$('#ship_email').addClass('alerting');
-			if (unFinished == 0) {
-				$('.alert-field').append('<strong><font color="red">＊</font>號處不可空白</strong><br>');
-				unFinished = 1;
-			}
+			$('.alert-field').append('<strong><font color="red">＊</font>號處不可空白</strong><br>');
+			unFinished = 1;
 		}
 		if ($('#ship_phone').val() == '') {
 			$('#ship_phone').addClass('alerting');
-			if (unFinished == 0) {
-				$('.alert-field').append('<strong><font color="red">＊</font>號處不可空白</strong><br>');
-				unFinished = 1;
-			}
+			$('.alert-field').append('<strong><font color="red">＊</font>號處不可空白</strong><br>');
+			unFinished = 1;
 		}
 		if ($('#ship_county').val() == '') {
 			$('#ship_county').addClass('alerting');
-			if (unFinished == 0) {
-				$('.alert-field').append('<strong><font color="red">＊</font>號處不可空白</strong><br>');
-				unFinished = 1;
-			}
+			$('.alert-field').append('<strong><font color="red">＊</font>號處不可空白</strong><br>');
+			unFinished = 1;
 		}
 		if ($('#ship_address').val() == '') {
 			$('#ship_address').addClass('alerting');
-			if (unFinished == 0) {
+			$('.alert-field').append('<strong><font color="red">＊</font>號處不可空白</strong><br>');
+			unFinished = 1;
+		}
+
+		if ($('.two-three').val() == '3') {
+			if ($('#ship_three_id').val()=='') {
+				$('#ship_three_id').addClass('alerting');
+				$('.alert-field').append('<strong><font color="red">＊</font>號處不可空白</strong><br>');
+				unFinished = 1;
+			}
+			if ($('#ship_three_company').val()=='') {
+				$('#ship_three_company').addClass('alerting');
 				$('.alert-field').append('<strong><font color="red">＊</font>號處不可空白</strong><br>');
 				unFinished = 1;
 			}
 		}
 
-		if ($('.two-three').val() == '3') {
-			// if ($('#ship_three_name').val()=='') {
-			// 	$('#ship_three_name').addClass('alerting');
-			// 	if (unFinished == 0) {
-			// 		$('.alert-field').append('<strong><font color="red">＊</font>號處不可空白</strong><br>');
-			// 		unFinished = 1;
-			// 	}
-			// }
-			if ($('#ship_three_id').val()=='') {
-				$('#ship_three_id').addClass('alerting');
-				if (unFinished == 0) {
-					$('.alert-field').append('<strong><font color="red">＊</font>號處不可空白</strong><br>');
-					unFinished = 1;
-				}
-			}
-			if ($('#ship_three_company').val()=='') {
-				$('#ship_three_company').addClass('alerting');
-				if (unFinished == 0) {
-					$('.alert-field').append('<strong><font color="red">＊</font>號處不可空白</strong><br>');
-					unFinished = 1;
-				}
-			}
-		}
-
-		if(!$('#pay_by_credit').is(':checked') && !$('#pay_by_atm').is(':checked') && !$('#pay_by_cod').is(':checked')){
-			$('.pay_by').addClass('alerting');
-		}
-
-		if ($('#ship_name').val()!=''&&$('#ship_email').val()!=''&&$('#ship_phone').val()!=''&&$('#ship_county').val()!=''&&$('#ship_address').val()!='') {
-			if ($('.two-three').val()=='3'&&$('#ship_three_id').val()!=''&&$('#ship_three_company').val()!='') {
-				if($('#pay_by_credit').is(':checked') || $('#pay_by_atm').is(':checked') || $('#pay_by_cod').is(':checked')){
-					$('body').append('<div class="loader-bg"></div>');
-					$('body').append('<div class="loader-box"><div class="loader"></div><strong>請稍候...</strong></div>');
-					$('.kartForm').submit();
-				}
-			}else if($('.two-three').val()=='2'){
-				if($('#pay_by_credit').is(':checked') || $('#pay_by_atm').is(':checked') || $('#pay_by_cod').is(':checked')){
-					$('body').append('<div class="loader-bg"></div>');
-					$('body').append('<div class="loader-box"><div class="loader"></div><strong>請稍候...</strong></div>');
-					$('.kartForm').submit();
-				}
-			}
+		// alert(unFinished);
+		if(unFinished == 0){
+			$('.kartForm').submit();
 		}
 
 	};

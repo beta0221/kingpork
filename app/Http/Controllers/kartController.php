@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Bill;
 use Illuminate\Http\Request;
 use App\User;
 use App\Kart;
@@ -101,38 +102,33 @@ class kartController extends Controller
      */
     public function index()
     {
-        if(Auth::user()){
-            
-            $kart = Kart::where('user_id', Auth::user()->id)->orderBy('product_id')->get();
-            $shit = [];
-            $i = 0;
-            $productIdArray = [];
-            $additionalProducts = Products::getAdditionalProducts();
-            foreach ($kart as $k) {
-                $shit[$i] = $k->product_id;
-                $i++;
-                if(!in_array($k->product_id,$additionalProducts)){
-                    $productIdArray[] = $k->product_id;
-                }
-            }
-
-            $totalPrice = Products::totalPrice($productIdArray);
-            if($totalPrice < 500){
-                Kart::where('user_id',Auth::user()->id)->whereIn('product_id',$additionalProducts)->delete();
-                $products = Products::whereIn('id', $productIdArray)->get();
-            }else{
-                $products = Products::whereIn('id', $shit)->get();
-            }
-
-            
-            return view('kart.index',['products'=>$products]);
-
-        }
-        else{
-
-            
+        if(!$user = Auth::user()){
             return view('auth.reg-buy');
         }
+        
+        $product_id_array = Kart::where('user_id', $user->id)->orderBy('product_id')->pluck('product_id');
+        $additionalProducts = Products::getAdditionalProducts();
+
+        $_product_id_array = [];
+        foreach ($product_id_array as $product_id) {
+            if(!in_array($product_id,$additionalProducts)){
+                $_product_id_array[] = $product_id;
+            }
+        }
+
+        $totalPrice = Products::totalPrice($_product_id_array);
+        if($totalPrice < Products::ADDITIONAL_THRESHOLD){
+            Kart::where('user_id',$user->id)->whereIn('product_id',$additionalProducts)->delete();
+            $product_id_array = $_product_id_array;
+        }
+
+        $products = Products::whereIn('id', $product_id_array)->get();
+        $carriers = Bill::getAllCarriers();
+        
+        return view('kart.index',[
+            'products'=>$products,
+            'carriers'=>$carriers
+        ]);
 
     }
 

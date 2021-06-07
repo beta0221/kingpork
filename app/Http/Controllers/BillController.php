@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Bill;
 use App\BillItem;
+use App\FamilyStore;
 use App\Products;
 use App\Kart;
 use App\User;
@@ -12,9 +13,6 @@ use Session;
 use DB;
 use App\Helpers\ECPay;
 use Illuminate\Support\Facades\Auth;
-use GuzzleHttp\Client;
-use GuzzleHttp\Pool;
-use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Facades\Log;
 use Mail;
 
@@ -63,9 +61,13 @@ class BillController extends Controller
             'quantity.*'=>'required|integer|min:0',
             'ship_name'=>'required',
             'ship_phone'=>'required',
-            'ship_address'=>'required',
+            'ship_address'=>'required_if:carrier_id,0',
             'ship_email'=>'required|E-mail',
             'ship_pay_by'=>'required',
+            'carrier_id'=>'required',
+            'store_number'=>'required_if:carrier_id,1',
+            'store_name'=>'required_if:carrier_id,1',
+            'store_address'=>'required_if:carrier_id,1',
         ]);
 
         $additionalProducts = Products::getAdditionalProductSlug();
@@ -91,7 +93,6 @@ class BillController extends Controller
         $total = 0;
         $getBonus = 0;
         $products = [];
-        // $kart = [];
 
         foreach ($request->item as $index => $slug) {
             $quantity = $request->quantity[$index];
@@ -101,12 +102,6 @@ class BillController extends Controller
 
             $getBonus += ($product->bonus * (int)$quantity);
             $total += ($product->price * (int)$quantity);
-            
-            // $kart[] = [
-            //     'slug' => $slug,
-            //     'quantity' => $request->quantity[$index],
-            // ];
-            
         }
 
         if (!in_array('99999',$request->item) AND $total <= 499) { return('錯誤'); }
@@ -124,39 +119,14 @@ class BillController extends Controller
             $useBonus = $bonus / 50;
             $total = $total - $useBonus;          // }bonus    
         }
-
-        $bill = new Bill;
-        $bill->user_id = $user_id;
-        $bill->bill_id = $MerchantTradeNo;
-        $bill->user_name = $user_name;
-        $bill->item = null;
-        $bill->bonus_use = $useBonus;
-        $bill->price = $total;
-        $bill->get_bonus = $getBonus;
-        $bill->ship_name = $request->ship_name;
-        $bill->ship_gender = $request->ship_gender;
-        $bill->ship_phone = $request->ship_phone ;
-        $bill->ship_county = $request->ship_county ;
-        $bill->ship_district = $request->ship_district ;
-        $bill->ship_address = $request->ship_address ;
-        $bill->ship_email = $request->ship_email ;
-        $bill->ship_arrive = $request->ship_arrive ;
-        $bill->ship_arriveDate = $request->ship_arriveDate ;
-        $bill->ship_time = $request->ship_time ;
-        $bill->ship_receipt = $request->ship_receipt ;
-        $bill->ship_three_id = $request->ship_three_id ;
-        $bill->ship_three_company = $request->ship_three_company ;
-        $bill->ship_memo = $request->ship_memo ;
-        $bill->pay_by = $request->ship_pay_by;
-        if($request->ship_pay_by == 'cod'){
-            $bill->pay_by = '貨到付款';
-        }
-
-        $bill->save();
+        $bill = Bill::insert_row($user_id,$user_name,$MerchantTradeNo,$useBonus,$total,$getBonus,$request);
 
         foreach ($products as $product) {
             BillItem::insert_row($bill->id,$product);
         }
+        if($request->carrier_id == Bill::CARRIER_ID_FAMILY_MART){
+            FamilyStore::insert_row($bill->id,$request);
+        }        
 
         
         if($user){
@@ -167,18 +137,17 @@ class BillController extends Controller
         }
         
         //寄送信件
-
         switch ($request->ship_pay_by) {
-            case 'ATM':
-            case 'CREDIT':
+            case Bill::PAY_BY_CREDIT:
+            case Bill::PAY_BY_ATM:
                 return redirect()->route('payBill',['bill_id'=>$MerchantTradeNo]);
                 break;
             case 'cod':
+            case Bill::PAY_BY_FAMILY:
                 return redirect()->route('billThankyou',['bill_id'=>$MerchantTradeNo]);
             default:
                 break;
         }
-        
 
     }
 

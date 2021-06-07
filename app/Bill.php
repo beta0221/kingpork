@@ -4,14 +4,47 @@ namespace App;
 
 use App\Helpers\ECPay;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 
 class Bill extends Model
 {
 
+    /**可準備 */
     const SHIPMENT_READY = 0;
+    /**準備中 */
     const SHIPMENT_PENDING = 1;
+    /**已出貨 */
     const SHIPMENT_DELIVERED = 2;
+    /**結案 */
     const SHIPMENT_VOID = 3;
+
+    /**信用卡 */
+    const PAY_BY_CREDIT = 'CREDIT';
+    /**ATM轉帳 */
+    const PAY_BY_ATM = 'ATM';
+    /**貨到付款 */
+    const PAY_BY_COD = '貨到付款';
+    /**全家代收 */
+    const PAY_BY_FAMILY = 'FAMILY';
+
+    /**黑貓 */
+    const CARRIER_ID_BLACK_CAT = 0;
+    const CARRIER_BLACK_CAT = '黑貓宅配';
+    /**全家 */
+    const CARRIER_ID_FAMILY_MART = 1;
+    const CARRIER_FAMILY_MART = '全家冷凍超取';
+
+    public static function getAllCarriers(){
+        $carriers = [
+            static::CARRIER_ID_BLACK_CAT => static::CARRIER_BLACK_CAT,
+            static::CARRIER_ID_FAMILY_MART => static::CARRIER_FAMILY_MART,
+        ];
+        return $carriers;
+    }
+
+    public function familyStore(){
+        return $this->hasOne('App\FamilyStore','bill_id','id');
+    }
 
     public function paymentLogs(){
         return $this->hasMany('App\PaymentLog');
@@ -21,6 +54,44 @@ class Bill extends Model
         return $this->hasMany('App\BillItem','bill_id','id');
     }
     
+    public static function insert_row($user_id,$user_name,$bill_id,$useBonus,$total,$getBonus,Request $request){
+        $bill = new Bill;
+        $bill->user_id = $user_id;
+        $bill->bill_id = $bill_id;
+        $bill->user_name = $user_name;
+        $bill->item = null;
+        $bill->bonus_use = $useBonus;
+        $bill->price = $total;
+        $bill->get_bonus = $getBonus;
+        $bill->ship_name = $request->ship_name;
+        $bill->ship_gender = $request->ship_gender;
+        $bill->ship_phone = $request->ship_phone;
+
+        $bill->ship_county = $request->ship_county;
+        $bill->ship_district = $request->ship_district;
+        $bill->ship_address = $request->ship_address;
+        if($request->carrier_id == Bill::CARRIER_ID_FAMILY_MART){
+            $bill->ship_county = null;
+            $bill->ship_district = null;
+            $bill->ship_address = $request->store_address;
+        }
+        $bill->ship_email = $request->ship_email;
+        $bill->ship_arrive = $request->ship_arrive;
+        $bill->ship_arriveDate = $request->ship_arriveDate;
+        $bill->ship_time = $request->ship_time;
+        $bill->ship_receipt = $request->ship_receipt;
+        $bill->ship_three_id = $request->ship_three_id;
+        $bill->ship_three_company = $request->ship_three_company;
+        $bill->ship_memo = $request->ship_memo;
+        $bill->pay_by = $request->ship_pay_by;
+        $bill->carrier_id = $request->carrier_id;
+        if($request->ship_pay_by == 'cod'){
+            $bill->pay_by = '貨到付款';
+        }
+        $bill->save();
+        return $bill;
+    }
+
     public function products(){
         if(is_null($this->item)){ return $this->billItems()->get(); }
 

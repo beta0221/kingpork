@@ -7,8 +7,12 @@ use Illuminate\Support\Facades\DB;
 
 class Products extends Model
 {
+    /**禮盒slug */
     const GIFT_SLUG = "30007";
+    /**加價購類別id */
     const ADDITIONAL_CAT_ID = 12;
+    /**加價購門檻 */
+    const ADDITIONAL_THRESHOLD = 500;
 
     public $quantity = null;
 
@@ -18,27 +22,18 @@ class Products extends Model
     }
 
     public static function getAdditionalProducts(){
-        $idArray=[];
-        $result = DB::table('products')->select('id')->where('category_id',Products::ADDITIONAL_CAT_ID)->get();
-        foreach ($result as $id) {
-            $idArray[] = $id->id;
-        }
-        return $idArray;
+        $product_id_array = Products::where('category_id',Products::ADDITIONAL_CAT_ID)->pluck('id');
+        return (array)$product_id_array;
     }
 
     public static function getAdditionalProductSlug(){
-        $slugArray=[];
-        $result = DB::table('products')->select('slug')->where('category_id',Products::ADDITIONAL_CAT_ID)->get();
-        foreach ($result as $item) {
-            $slugArray[] = $item->slug;
-        }
-        return $slugArray;
+        $product_slug_array = Products::where('category_id',Products::ADDITIONAL_CAT_ID)->pluck('slug');
+        return (array)$product_slug_array;
     }
 
     public static function totalPrice($productIdArray,$additionalProducts=[]){
-        if(count($additionalProducts) <= 0){
-            $realProductIdArray = $productIdArray;
-        }else{
+        $realProductIdArray = $productIdArray;
+        if(!empty($additionalProducts)){
             $realProductIdArray = [];
             foreach ($productIdArray as $id) {
                 if(!in_array($id,$additionalProducts)){
@@ -47,18 +42,13 @@ class Products extends Model
             }
         }
         
-        $priceArray = DB::table('products')->select('price')->whereIn('id',$realProductIdArray)->get();
-        $totalPrice = 0;
-        foreach ($priceArray as $item) {
-            $totalPrice += $item->price;
-        }
+        $totalPrice = Products::whereIn('id',$realProductIdArray)->sum('price');
         return $totalPrice;
     }
 
     public static function totalPriceBySlug($productSlugArray,$additionalProductSlug=[]){
-        if(count($additionalProductSlug) <= 0){
-            $realProductSlugArray = $productSlugArray;
-        }else{
+        $realProductSlugArray = $productSlugArray;
+        if(!empty($additionalProductSlug)){
             $realProductSlugArray = [];
             foreach ($productSlugArray as $slug) {
                 if(!in_array($slug,$additionalProductSlug)){
@@ -67,11 +57,7 @@ class Products extends Model
             }
         }
         
-        $priceArray = DB::table('products')->select('price')->whereIn('slug',$realProductSlugArray)->get();
-        $totalPrice = 0;
-        foreach ($priceArray as $item) {
-            $totalPrice += $item->price;
-        }
+        $totalPrice = Products::whereIn('slug',$realProductSlugArray)->sum('price');
         return $totalPrice;
     }
 

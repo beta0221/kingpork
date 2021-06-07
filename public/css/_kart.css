@@ -194,7 +194,7 @@
 .shipping-ship_name{
 	width: 25%;
 }
-.shipping-ship_email{
+.shipping-ship_email,.shipping-store{
 	width: 40%;
 }
 .shipping-ship_phone{
@@ -209,6 +209,9 @@
 }
 .shipping-ship_receipt{
 	width: 12%; display: inline-block;
+}
+.shipping-carrier{
+	width: 20%; display: inline-block;
 }
 .shipping-ship_three_id{
 	width: 30%;
@@ -280,7 +283,7 @@
 		width: 25%;
 		margin-left: 4px;
 	}
-	.shipping-ship_email{
+	.shipping-ship_email,.shipping-store{
 		width: 70%;
 	}
 	.shipping-ship_phone{
@@ -295,6 +298,9 @@
 	}
 	.shipping-ship_receipt{
 		width: 24.5%; display: inline-block;
+	}
+	.shipping-carrier{
+		width: 50%; display: inline-block;
 	}
 	.shipping-ship_three_id{
 		width: 50%;
