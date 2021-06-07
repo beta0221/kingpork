@@ -59,14 +59,34 @@
                         {{-- <li>性別：{{$bill->ship_gender}}</li> --}}
                         <li>電話：{{$bill->ship_phone}}</li>
                         <li>信箱：{{$bill->ship_email}}</li>
+                        <li>物流：{{$carrierDict[$bill->carrier_id]}}</li>
                         <li>寄送地址：{{$bill->ship_county}}{{$bill->ship_district}}{{$bill->ship_address}}</li>
                     </ul>
                 </div>
 
+                @if (!empty($storeInfo))
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 mt-2 mb-2">
+                        <h5>配送門市</h5>
+                        <ul>
+                            <li>門市代碼：{{$storeInfo->number}}</li>
+                            <li>門市名稱：{{$storeInfo->name}}</li>
+                            <li>門市地址：{{$storeInfo->address}}</li>
+                        </ul>
+                    </div>
+                </div>
+                @endif
+
                 <div>
                     <h5>付款資訊：</h5>
                     <ul>
-                        <li>繳費方式：{{$bill->pay_by}}</li>
+                        <li>繳費方式：
+                            @if ($bill->pay_by == "FAMILY")
+                            超商付款
+                            @else
+                            {{$bill->pay_by}}
+                            @endif
+                        </li>
                         <li>
                             繳費狀態：
                             @if($bill->status==1)

@@ -211,16 +211,20 @@ $(document).ready(function(){
 			$('.alert-field').append('<strong><font color="red">＊</font>號處不可空白</strong><br>');
 			unFinished = 1;
 		}
-		if ($('#ship_county').val() == '') {
-			$('#ship_county').addClass('alerting');
-			$('.alert-field').append('<strong><font color="red">＊</font>號處不可空白</strong><br>');
-			unFinished = 1;
+
+		if($('#shipping-carrier').val() == 0){
+			if ($('#ship_county').val() == '') {
+				$('#ship_county').addClass('alerting');
+				$('.alert-field').append('<strong><font color="red">＊</font>號處不可空白</strong><br>');
+				unFinished = 1;
+			}
+			if ($('#ship_address').val() == '') {
+				$('#ship_address').addClass('alerting');
+				$('.alert-field').append('<strong><font color="red">＊</font>號處不可空白</strong><br>');
+				unFinished = 1;
+			}
 		}
-		if ($('#ship_address').val() == '') {
-			$('#ship_address').addClass('alerting');
-			$('.alert-field').append('<strong><font color="red">＊</font>號處不可空白</strong><br>');
-			unFinished = 1;
-		}
+		
 
 		if ($('.two-three').val() == '3') {
 			if ($('#ship_three_id').val()=='') {

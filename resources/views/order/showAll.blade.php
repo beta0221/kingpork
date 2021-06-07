@@ -152,15 +152,40 @@
 					<td>{{$bill->ship_email}}</td>
 				</tr>
 				<tr>
+					<td class="head">物流方式</td>
+					<td colspan="3">{{$carrierDict[$bill->carrier_id]}}</td>
+				</tr>
+				@if (!empty($storeInfo))
+                <tr>
+					<td class="head">門市</td>
+					<td colspan="3">門市代碼:{{$storeInfo->number}};門市名稱:{{$storeInfo->name}};門市地址:{{$storeInfo->address}};</td>
+                </tr>
+                @endif
+
+				@if ($bill->carrier_id == 0)
+				<tr>
 					<td class="head">寄送地址</td>
 					<td colspan="3">{{$bill->ship_county}}{{$bill->ship_district}}{{$bill->ship_address}}</td>
-				</tr>
+				</tr>	
+				@endif
+				
 				<tr>
 					<td class="head head-title" colspan="4">付款資訊</td>
 				</tr>
 				<tr>
 					<td class="head">繳費方式</td>
-					<td>{{$bill->pay_by}}-授權碼:{{$bill->auth_code}}{{(isset($cardInfo->AuthCode))?$cardInfo->AuthCode:''}}</td>
+					<td>
+						@if ($bill->pay_by == "FAMILY")
+                        超商付款
+                        @else
+                        {{$bill->pay_by}}
+                        @endif
+
+						@if ($bill->pay_by == 'CREDIT')
+						-授權碼:{{$bill->auth_code}}{{(isset($cardInfo->AuthCode))?$cardInfo->AuthCode:''}}	
+						@endif
+						
+					</td>
 					<td class="head">繳費狀態</td>
 					<td>
 						@if($bill->status==1)

@@ -174,7 +174,7 @@
 						<tr>
 							<td class="shipping-top-TD">
 								<label for=""><span class="required">*</span>收件人：</label>
-								<input id="ship_name" name="ship_name" type="text" class="shipping-ship_name orm-control" placeholder="收件人" value="{{Auth::user()->name}}" style="">		
+								<input id="ship_name" name="ship_name" type="text" class="shipping-ship_name form-control" placeholder="收件人" value="{{Auth::user()->name}}" style="">		
 							
 								<input id="radio1" class="radio" type="radio" name="ship_gender" value="1" checked>
 								<span>先生</span>

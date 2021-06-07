@@ -384,12 +384,19 @@ class OrderManagementController extends Controller
         if ($bill->user_id != null) {
             $user = User::find($bill->user_id);
         }
+
+        $storeInfo = null;
+        if($bill->carrier_id == Bill::CARRIER_ID_FAMILY_MART){
+            $storeInfo = $bill->familyStore;
+        }
         
         return view('order.showAll',[
+            'carrierDict' => Bill::getAllCarriers(),
             'bill'=>$bill,
             'items'=>$items,
             'user'=>$user,
-            'cardInfo' => $cardInfo
+            'cardInfo' => $cardInfo,
+            'storeInfo' => $storeInfo
         ]);
         
     }

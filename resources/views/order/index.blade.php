@@ -229,7 +229,7 @@
 					{{-- <th class="th-green">商品</th> --}}
 					<th class="th-yellow">總價</th>
 					<th class="th-yellow">付款方式</th>
-					<th class="th-yellow">授權碼</th>
+					<th class="th-yellow">物流</th>
 
 					<th class="th-red">付款狀態</th>
 
@@ -267,17 +267,15 @@
 
 					<td><a href="{{url('order/showAll').'/'.$order['bill_id']}}" target="_blank">{{$order['bill_id']}}</a></td>
 
-					{{-- <td>
-						@foreach($order['item'] as $item)
-						{{$item['name']}}*{{$item['quantity']}}<br>
-						@endforeach
-					</td> --}}
-
 					<td>{{$order['price']}}</td>
 
 					<td>{{$order['pay_by']}}</td>
 
-					<td>{{$order['auth_code']}}</td>
+					<td>
+						@if ($order->carrier_id == 1)
+							全家店取
+						@endif
+					</td>
 
 					<td>{{$order['status']}}</td>
 
@@ -294,16 +292,16 @@
 					</td>
 
 					<td>
-						@if(($order['pay_by'] == '貨到付款' AND $order['shipment'] == 0) OR ($order['status'] == 1 AND $order['shipment'] == 0))
+						@if($order->shipment == 0 AND ($order->pay_by == "貨到付款" OR $order->pay_by == "FAMILY" OR $order->status == 1))
 						<button class="btn btn-sm btn-danger shipmentBtn" id="{{$order['bill_id']}}" onclick="shipment('{{$order['bill_id']}}','{{$order['shipment']}}');">可準備</button>
 
-						@elseif(($order['pay_by'] == '貨到付款' AND $order['shipment'] == 1) OR ($order['status'] == 1 AND $order['shipment'] == 1))
+						@elseif($order->shipment == 1 AND ($order->pay_by == "貨到付款" OR $order->pay_by == "FAMILY" OR $order->status == 1))
 						<button class="btn btn-sm btn-warning shipmentBtn" id="{{$order['bill_id']}}" onclick="shipment('{{$order['bill_id']}}','{{$order['shipment']}}');">準備中</button>
 
-						@elseif($order['shipment']==2)
+						@elseif($order->shipment==2)
 						<button class="btn btn-sm btn-success shipmentBtn" id="{{$order['bill_id']}}" onclick="shipment('{{$order['bill_id']}}','{{$order['shipment']}}');">已出貨</button>
 
-						@elseif($order['shipment']==3)
+						@elseif($order->shipment==3)
 							<font class="btn-sm" style="background-color: green;" color="#fff">＊結案＊</font>
 
 						@else

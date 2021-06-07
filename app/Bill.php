@@ -73,7 +73,7 @@ class Bill extends Model
         if($request->carrier_id == Bill::CARRIER_ID_FAMILY_MART){
             $bill->ship_county = null;
             $bill->ship_district = null;
-            $bill->ship_address = $request->store_address;
+            $bill->ship_address = $request->store_name;
         }
         $bill->ship_email = $request->ship_email;
         $bill->ship_arrive = $request->ship_arrive;

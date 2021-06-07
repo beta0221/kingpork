@@ -223,6 +223,7 @@ class BillController extends Controller
         $products = $bill->products();
         $atmInfo = null;
         $cardInfo = null;
+        $storeInfo = null;
 
         if($data = $bill->getPaymentInfo()){
             switch ($bill->pay_by) {
@@ -241,11 +242,17 @@ class BillController extends Controller
             }
         }
 
+        if($bill->carrier_id == Bill::CARRIER_ID_FAMILY_MART){
+            $storeInfo = $bill->familyStore;
+        }
+
         return view('bill.detail',[
             'bill' => $bill,
+            'carrierDict' => Bill::getAllCarriers(),
             'products' => $products,
             'atmInfo' => $atmInfo,
-            'cardInfo' => $cardInfo
+            'cardInfo' => $cardInfo,
+            'storeInfo' => $storeInfo
         ]);
     }
 
