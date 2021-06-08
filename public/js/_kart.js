@@ -189,57 +189,66 @@ $(document).ready(function(){
 	});
 	function checkForm(){
 		var unFinished = 0;
+		var alertMsg = '';
 		$('.alert-field').empty()
 
 		if(!$('#pay_by_credit').is(':checked') && !$('#pay_by_atm').is(':checked') && !$('#pay_by_cod').is(':checked') && !$('#pay_by_family').is(':checked')){
 			$('.pay_by').addClass('alerting');
-			$('.alert-field').append('<strong>請選擇付款方式</strong><br>');
+			alertMsg = "請選擇付款方式";
 			unFinished = 1;
 		}
 		if ($('#ship_name').val() == '') {
 			$('#ship_name').addClass('alerting');
-			$('.alert-field').append('<strong><font color="red">＊</font>號處不可空白</strong><br>');
+			alertMsg = "＊號處不可空白";
 			unFinished = 1;
 		}
 		if ($('#ship_email').val() == '') {
 			$('#ship_email').addClass('alerting');
-			$('.alert-field').append('<strong><font color="red">＊</font>號處不可空白</strong><br>');
+			alertMsg = "＊號處不可空白";
 			unFinished = 1;
 		}
 		if ($('#ship_phone').val() == '') {
 			$('#ship_phone').addClass('alerting');
-			$('.alert-field').append('<strong><font color="red">＊</font>號處不可空白</strong><br>');
+			alertMsg = "＊號處不可空白";
 			unFinished = 1;
 		}
 
 		if($('#shipping-carrier').val() == 0){
 			if ($('#ship_county').val() == '') {
 				$('#ship_county').addClass('alerting');
-				$('.alert-field').append('<strong><font color="red">＊</font>號處不可空白</strong><br>');
+				alertMsg = "＊號處不可空白";
 				unFinished = 1;
 			}
 			if ($('#ship_address').val() == '') {
 				$('#ship_address').addClass('alerting');
-				$('.alert-field').append('<strong><font color="red">＊</font>號處不可空白</strong><br>');
+				alertMsg = "＊號處不可空白";
 				unFinished = 1;
 			}
+		}else if($('#shipping-carrier').val() == 1){
+
+			$('.shipping-store').each(function(i,element){
+				if($(element).val() == ''){
+					alertMsg = "＊號處不可空白";
+					unFinished = 1;
+				}
+			});
+			
 		}
 		
 
 		if ($('.two-three').val() == '3') {
 			if ($('#ship_three_id').val()=='') {
 				$('#ship_three_id').addClass('alerting');
-				$('.alert-field').append('<strong><font color="red">＊</font>號處不可空白</strong><br>');
+				alertMsg = "號處不可空白";
 				unFinished = 1;
 			}
 			if ($('#ship_three_company').val()=='') {
 				$('#ship_three_company').addClass('alerting');
-				$('.alert-field').append('<strong><font color="red">＊</font>號處不可空白</strong><br>');
+				alertMsg = "號處不可空白";
 				unFinished = 1;
 			}
 		}
-
-		// alert(unFinished);
+		$('.alert-field').append('<strong>'+alertMsg+'</strong><br>');
 		if(unFinished == 0){
 			$('.kartForm').submit();
 		}
@@ -327,27 +336,27 @@ $(document).ready(function(){
 	                $('#ship_name').val(response.ship_name);
 	                $('#ship_email').val(response.ship_email);
 	                $('#ship_phone').val(response.ship_phone);
-	                $('#ship_county').val(response.ship_county);
-	                $('.ship_district').empty().append('<option value="' + response.ship_district +'">' + response.ship_district + '</option>')
-	                $('#ship_address').val(response.ship_address);
+
+					if(response.carrier_id == 0){
+						$('#ship_county').val(response.ship_county);
+						$('.ship_district').empty().append('<option value="' + response.ship_district +'">' + response.ship_district + '</option>')
+						$('#ship_address').val(response.ship_address);
+					}
+
 	                if(response.ship_receipt == '3'){
 	                	$('.two-three').val(response.ship_receipt);
 	                	$('.ifThree').css('display','inline-block');
-	                	// $('#ship_three_name').val(response.ship_three_name);
 	                	$('#ship_three_id').val(response.ship_three_id);
 	                	$('#ship_three_company').val(response.ship_three_company);
 	                }
-	                $('#myBonus span').empty();
-	                $('#myBonus span').append(response.bonus);
-	                $('#bonus').attr('max',response.bonus);
-              	}else{
-              		$('#myBonus span').empty();
-              		$('#myBonus span').append(response.bonus);
-              		$('#bonus').attr('max',response.bonus);
+	                
               	}
+
+				$('#myBonus span').empty();
+	            $('#myBonus span').append(response.bonus);
+	            $('#bonus').attr('max',response.bonus);
             },
             error: function () {
-                alert('錯誤');
             }
 		});
 	}

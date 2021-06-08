@@ -1029,8 +1029,8 @@ class BillController extends Controller
 
     public function findMemory()
     {
-
-        $bill = Bill::where('user_id',Auth::user()->id)
+        $user = Auth::user();
+        $bill = Bill::where('user_id',$user->id)
             ->where('ship_name','!=','*')
             ->orderBy('id','desc')
             ->first();
@@ -1045,18 +1045,18 @@ class BillController extends Controller
                 'ship_district' => $bill->ship_district,
                 'ship_address' => $bill->ship_address,
                 'ship_email' => $bill->ship_email,
+                'carrier_id' => $bill->carrier_id,
                 'ship_receipt' => $bill->ship_receipt,
-                // 'ship_three_name' => $bill->ship_three_name,
                 'ship_three_id' => $bill->ship_three_id,
                 'ship_three_company' => $bill->ship_three_company,
-                'bonus' => Auth::user()->bonus,
-            ]);
-        }else{
-            return response()->json([
-                'ifMemory'=>0,
-                'bonus' => Auth::user()->bonus, 
+                'bonus' => $user->bonus,
             ]);
         }
+
+        return response()->json([
+            'ifMemory'=>0,
+            'bonus' => $user->bonus, 
+        ]);
     }
 
 

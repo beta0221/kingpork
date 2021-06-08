@@ -198,7 +198,7 @@
 							</td>
 						</tr>
 
-						<tr>
+						<tr style="display: none">
 							<td class="">
 								<label for=""><span class="required">*</span>運送方式：</label>
 								<select id="shipping-carrier" name="carrier_id" class="shipping-carrier form-control">

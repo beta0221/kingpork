@@ -17,12 +17,12 @@ function openwindow(url,name,iWidth,iHeight)
 //啟動視窗
 function call_windows()
 {
-    // let url = Map_url + "?k=" + API_key;
-	// openwindow(url,'',500,450)
+    let url = Map_url + "?k=" + API_key;
+	openwindow(url,'',500,450)
 
-    $("input[name='store_number']").val("017267");
-    $("input[name='store_name']").val("仁愛高山青店　Ｂ");
-    $("input[name='store_address']").val("南投縣仁愛鄉大同村信義巷34之6號");
+    // $("input[name='store_number']").val("017267");
+    // $("input[name='store_name']").val("仁愛高山青店　Ｂ");
+    // $("input[name='store_address']").val("南投縣仁愛鄉大同村信義巷34之6號");
 }
 
 //處理回傳資訊()
