@@ -132,5 +132,41 @@ class Bill extends Model
 
         return (object)$data[$type];
     }
+
+    /**是否為貨到收款的訂單 */
+    public function isCodGroup(){
+        if($this->pay_by == Bill::PAY_BY_COD || $this->pay_by == Bill::PAY_BY_FAMILY){
+            return true;
+        }
+        return false;
+    }
+
+    /**下階段出貨狀態 */
+    public function nextShipmentPhase(){
+
+        //不是貨到收款 又還沒付錢的話
+        if(!$this->isCodGroup() AND $this->status != 1){
+            return;
+        }
+
+        if ($this->shipment == 0) {
+            $this->shipment = 1;
+        }elseif ($this->shipment == 1) {
+            $this->shipment = 2;
+            if ($this->isCodGroup()) {//如果是貨到付款->累計紅利
+                if($user = User::find($this->user_id)){
+                    $user->updateBonus((int)$this->get_bonus,false);
+                }
+            }
+        }elseif ($this->shipment == 2) {
+            $this->shipment = 0;
+            if ($this->isCodGroup()) {//如果是貨到付款->扣除紅利
+                if($user = User::find($this->user_id)){
+                    $user->updateBonus((int)$this->get_bonus);
+                }
+            }
+        }
+        $this->save();
+    }
     
 }

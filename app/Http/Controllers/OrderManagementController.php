@@ -67,8 +67,15 @@ class OrderManagementController extends Controller
         if($request->has('pay_by_credit')){
             $pay_by[] = $request->pay_by_credit;
         }
+        if($request->has('pay_by_family')){
+            $pay_by[] = $request->pay_by_family;
+        }
         if(!empty($pay_by)){
             $query->whereIn('pay_by',$pay_by);
+        }
+
+        if($request->has('carrier_id')){
+            $query->where('carrier_id',$request->carrier_id);
         }
 
         if($request->has('ship_county')){
@@ -88,8 +95,8 @@ class OrderManagementController extends Controller
         $total = $query->count();
         $bills = $query->skip($data_from)->take($data_take)->get();
         $page_amount = ceil($total / $data_take);
-        
-        return view('order.index',['orders'=>$bills,'page_amount'=>$page_amount]);
+
+        return view('order.index',['orders'=>$bills,'page_amount'=>$page_amount,'carriers'=>Bill::getAllCarriers()]);
 
     }
 
@@ -230,6 +237,42 @@ class OrderManagementController extends Controller
             });
         })->download('xls');
 
+    }
+
+
+    public function ExportExcelForFamily(Request $request){
+        
+        $shopId = "099";
+
+        date_default_timezone_set('Asia/Taipei');
+        $now = date("Ymd");
+        $shipDate= date('n/j/y',strtotime('1 day'));
+        $defaultSize = 'S060';
+
+        $cellData = [
+            ['廠商訂單編號','商品價值','預約出貨日期','取件人姓名','取件人手機','材積代號','店名','取貨付款'],
+        ];
+
+        $bill_id_array = json_decode($request->bill_id);
+        if($bills = Bill::whereIn('bill_id',$bill_id_array)->orderBy('id','asc')->get()){
+
+            foreach ($bills as  $bill) {
+                if($bill->carrier_id != Bill::CARRIER_ID_FAMILY_MART){ continue; }
+                if(!$storeName = $bill->familyStore->name){ continue; }
+
+                $pay = "取貨不付款";
+                if($bill->pay_by == Bill::PAY_BY_FAMILY){
+                    $pay = "取貨付款";
+                }
+                $cellData[] = [$bill->bill_id,$bill->price,$shipDate,$bill->ship_name,$bill->ship_phone,$defaultSize,$storeName,$pay];
+            }
+        }
+
+        Excel::create($shopId.'-'.$now, function($excel)use($cellData) {
+            $excel->sheet('Sheet1', function($sheet)use($cellData) {
+                $sheet->rows($cellData);
+            });
+        })->download('xls');
     }
 
     private function getAccountantRow($bill,$product,$index,$quantity,$now,$receiver,$address,$phone){
@@ -422,91 +465,24 @@ class OrderManagementController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (isset($request->selectArray)) {
-
-            $bills = Bill::where(function($query){
-                $query->orWhere('pay_by','貨到付款')->orWhere([['status','=','1'],['pay_by','!=','貨到付款']]);  
-            })->whereIn('bill_id',$request->selectArray)->get();
-
-
-            foreach ($bills as $bill) {
-
-                if ($bill->shipment == 0) {
-                
-                    $bill->shipment = 1;
-                    $bill->save();
-
-
-                }elseif ($bill->shipment == 1) {
-
-                    $bill->shipment = 2;
-                    $bill->save();
-
-                    if ($bill->pay_by == '貨到付款' AND $bill->user_id !=null) {//如果是貨到付款->累計紅利
-                        $user = User::find($bill->user_id);
-                        $bonus = (int)$bill->get_bonus;
-                        $user->bonus = $user->bonus + $bonus;
-                        $user->save();
-                    }
-
-
-                }elseif ($bill->shipment == 2) {
-                    
-                    $bill->shipment = 0;
-                    $bill->save();
-
-                    if ($bill->pay_by == '貨到付款' AND $bill->user_id !=null) {//如果是貨到付款->扣除紅利
-                        $user = User::find($bill->user_id);
-                        $bonus = (int)$bill->get_bonus;
-                        $user->bonus = $user->bonus - $bonus;
-                        $user->save();
-                    }
-
-                }
-
-            }
-
-            return response()->json('success');
-
-        }else{
-            $bill = Bill::where('bill_id','=',$id)->firstOrFail();
+        $bill = Bill::where('bill_id','=',$id)->firstOrFail();
+        $bill->nextShipmentPhase();
+        return response()->json($bill->shipment);
         
-            if ($bill->shipment == 0) {
-                
-                $bill->shipment = 1;
-                $bill->save();
-                return response()->json(1);
+    }
 
-            }elseif ($bill->shipment == 1) {
 
-                $bill->shipment = 2;
-                $bill->save();
+    public function updateShipment(Request $request){
 
-                if ($bill->pay_by == '貨到付款' AND $bill->user_id !=null) {//如果是貨到付款->累計紅利
-                    $user = User::find($bill->user_id);
-                    $bonus = (int)$bill->get_bonus;
-                    $user->bonus = $user->bonus + $bonus;
-                    $user->save();
-                }
+        if(!$request->has('selectArray')){ return response()->json('error',400); }
 
-                return response()->json(2);
+        $bills = Bill::whereIn('bill_id',$request->selectArray)->get();
 
-            }elseif ($bill->shipment == 2) {
-                
-                $bill->shipment = 0;
-                $bill->save();
-
-                if ($bill->pay_by == '貨到付款' AND $bill->user_id !=null) {//如果是貨到付款->扣除紅利
-                    $user = User::find($bill->user_id);
-                    $bonus = (int)$bill->get_bonus;
-                    $user->bonus = $user->bonus - $bonus;
-                    $user->save();
-                }
-
-                return response()->json(0);
-            }    
+        foreach ($bills as $bill) {
+            $bill->nextShipmentPhase();
         }
-        
+
+        return response()->json('success');
     }
 
 

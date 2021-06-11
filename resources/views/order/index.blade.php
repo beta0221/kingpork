@@ -157,6 +157,8 @@
 				<input name="pay_by_cod" type="checkbox" value="貨到付款" {{isset($_GET['pay_by_cod'])?'checked':''}}>貨到付款
 				<span>/</span>
 				<input name="pay_by_credit" type="checkbox" value="CREDIT" {{isset($_GET['pay_by_credit'])?'checked':''}}>信用卡
+				<span>/</span>
+				<input name="pay_by_family" type="checkbox" value="FAMILY" {{isset($_GET['pay_by_family'])?'checked':''}}>全家代收
 				-
 				<input name="shipment_0" type="checkbox" value="0" {{isset($_GET['shipment_0'])?'checked':''}}>
 				<span style="color:#d9534f;">可準備</span>
@@ -170,8 +172,15 @@
 				<input name="shipment_3" type="checkbox" value="3"{{isset($_GET['shipment_3'])?'checked':''}}>
 				<span style="color: green;">已結案</span>
 
+				<span>-</span>
+				<select id="select_carrier" name="carrier_id">
+					<option value="">貨運方式</option>
+					@foreach ($carriers as $id => $name)
+						<option value="{{$id}}">{{$name}}</option>
+					@endforeach
+				</select>
 				
-				
+
 				<span> - 每頁比數:</span>
 				<select name="data_take" id="data_taker">
 					<option value="20">20</option>
@@ -189,7 +198,7 @@
 				</select>
 				<span>頁</span>
 				<div onclick="nextPage();" id="next" class="next-prev"><span>></span></div>
-				<span>　　-</span>
+				<span>-</span>
 				<button id="search-btn" class="btn btn-sm btn-primary" type="submit">搜尋</button>
 				
 
@@ -198,8 +207,9 @@
 
 			<div class="tool-box">
 				<button style="background-color: #000;color: #fff" onclick="selectAll();" class="btn btn-sm">全選</button>
-				<button style="background-color: steelblue;color: #fff" onclick="csv_download();" class="btn btn-sm">出貨CSV</button>
-				<button style="background-color: #d9534f;color: #fff" onclick="csv_accountant();" class="btn btn-sm">會計CSV</button>
+				<button style="background-color: #008000;color: #fff" onclick="excel_family();" class="btn btn-sm">全家</button>
+				<button style="background-color: steelblue;color: #fff" onclick="csv_download();" class="btn btn-sm">出貨</button>
+				<button style="background-color: #d9534f;color: #fff" onclick="excel_accountant();" class="btn btn-sm">會計</button>
 				<button style="background-color: #000;color: #fff" onclick="selectPush();" class="btn btn-sm">下階段</button>
 			</div>
 
@@ -209,9 +219,13 @@
 				<input id="selectArray" type="text" name="orders" value="">
 				{{-- <button id="csvGo" type="submit">go</button> --}}
 			</form>
-			<form id="csvForm_accountant" action="/order/ExportExcelForAccountant" target="_blank" method="POST" style="display:none ;">
+			<form id="excelForm_accountant" action="/order/ExportExcelForAccountant" target="_blank" method="POST" style="display:none ;">
 				{{ csrf_field() }}
 				<input id="selectArray_accountant" type="text" name="bill_id">
+			</form>
+			<form id="excelForm_family" action="/order/ExportExcelForFamily" target="_blank" method="POST" style="display:none ;">
+				{{ csrf_field() }}
+				<input id="selectArray_family" type="text" name="bill_id">
 			</form>
 
 		</div>
@@ -371,6 +385,10 @@
 		$('#pageSelecter').val('{{$_GET['page']}}');
 		@endif
 
+		@if (isset($_GET['carrier_id']))
+		$('#select_carrier').val('{{$_GET['carrier_id']}}');
+		@endif
+
 		if (parseInt($('#pageSelecter').val()) == {{$page_amount}}) {
 			$('#next').css('display','none');
 		}
@@ -477,58 +495,38 @@
 
 	function selectPush(){
 
-		var selected = [];
-		var i = 0;
-		$('.select-check-box:checked').each(function(){
-			selected[i] = $(this).val();
-			i++;
-		});
-
-		if (selected.length > 0) {
-
-
-			var r = confirm('確定送出');
-			if(r ==false){
-				return;
-			}
-
-			$.ajax({
-				type:'POST',
-				url:'order/1',
-				dataType:'json',
-				data: {
-					_method: 'PUT',
-					selectArray:selected,
-				},
-				success: function (response) {
-					location.reload();
-					
-				},
-				error: function () {
-		            alert('錯誤');
-		        },
-			});
-
-		}else{
+		var selected = getSelectedBillId();
+		if (selected.length <= 0) {
 			alert('請選取訂單');
+			return;
 		}
+		
+		var r = confirm('確定送出');
+		if(r ==false){ return; }
+
+		$.ajax({
+			type:'POST',
+			url:'/order/updateShipment',
+			dataType:'json',
+			data: {
+				selectArray:selected,
+			},
+			success: function (response) {
+				location.reload();
+			},
+			error: function () {
+		        alert('錯誤');
+	        },
+		});
 
 	}
 
 	function csv_download(){
 
-
-		var selected = [];
-		var i = 0;
-		$('.select-check-box:checked').each(function(){
-			selected[i] = $(this).val();
-			i++;
-		});
-
+		var selected = getSelectedBillId();
 		
 		if (selected.length > 0) {
 			
-		
 			$.ajax({
 				type:'POST',
 				url:'/order/get_csv',
@@ -560,48 +558,38 @@
 
 	}
 
-	function csv_accountant(){
+	function excel_accountant(){
 
-
-		var selected = [];
-		var i = 0;
-		$('.select-check-box:checked').each(function(){
-			selected[i] = $(this).val();
-			i++;
-		});
-
+		var selected = getSelectedBillId();
 		
 		if (selected.length > 0) {
 			$('#selectArray_accountant').val(JSON.stringify(selected));
-			$('#csvForm_accountant').submit();
-
-			// $.ajax({
-			// 	type:'POST',
-			// 	url:'/order/get_csv',
-			// 	dataType:'json',
-			// 	data: {
-			// 		type:1,
-			// 		selectArray:selected,
-			// 	},
-			// 	success: function (response) {
-					
-			// 		$('#selectArray_accountant').val(response);
-			// 		// alert(response);
-					
-			// 	},
-			// 	error: function () {
-		    //         alert('錯誤');
-		    //     },
-		    //     complete:function(){
-		    // 		$('#csvForm_accountant').submit();    	
-		    //     }
-			// });
-			
+			$('#excelForm_accountant').submit();
 		}else{
 			alert('請選取訂單');
 		}
 
+	}
 
+	function excel_family(){
+
+		var selected = getSelectedBillId();
+		
+		if (selected.length > 0) {
+			$('#selectArray_family').val(JSON.stringify(selected));
+			$('#excelForm_family').submit();
+		}else{
+			alert('請選取訂單');
+		}
+
+	}
+
+	function getSelectedBillId(){
+		var selected = [];
+		$('.select-check-box:checked').each(function(){
+			selected.push($(this).val());
+		});
+		return selected;
 	}
 
 	</script>

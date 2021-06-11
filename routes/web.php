@@ -78,10 +78,12 @@ Route::get('getRunner','RunnerController@getRunner');
 
 //Order Management
 Route::resource('order','OrderManagementController',['except'=>['create','store']]);
+Route::post('order/updateShipment','OrderManagementController@updateShipment');
 Route::get('order/showAll/{bill}','OrderManagementController@showAll');
 Route::post('order/get_csv','OrderManagementController@csv_download');
 Route::patch('order/marking/{id}','OrderManagementController@marking');
 Route::post('order/ExportExcelForAccountant','OrderManagementController@ExportExcelForAccountant');
+Route::post('order/ExportExcelForFamily','OrderManagementController@ExportExcelForFamily');
 Route::get('order/export/MonthlyReport/{date}','OrderManagementController@MonthlyReport');
 Route::get('order/export/DailyReport/{date}','OrderManagementController@DailyReport');
 Route::delete('order/cancel/{bill_id}','OrderManagementController@cancelBill');
