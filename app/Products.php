@@ -23,11 +23,13 @@ class Products extends Model
 
     public static function getAdditionalProducts(){
         $product_id_array = Products::where('category_id',Products::ADDITIONAL_CAT_ID)->pluck('id');
+        if(count($product_id_array) == 0){ return []; }
         return (array)$product_id_array;
     }
 
     public static function getAdditionalProductSlug(){
         $product_slug_array = Products::where('category_id',Products::ADDITIONAL_CAT_ID)->pluck('slug');
+        if(count($product_slug_array) == 0){ return []; }
         return (array)$product_slug_array;
     }
 
