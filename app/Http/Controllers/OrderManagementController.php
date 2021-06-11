@@ -111,7 +111,11 @@ class OrderManagementController extends Controller
             if(!is_null($quantity)){
                 $_quantity = $quantity;
             }
-            $itemsInShort .= ($item->short . '*' . $_quantity . ';');
+            if($_quantity == 1){
+                $itemsInShort .= $item->short;
+            }else{
+                $itemsInShort .= ($item->short . '*' . $_quantity);
+            }
         }
 
         $ship_time = '1';
