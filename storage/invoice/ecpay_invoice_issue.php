@@ -27,13 +27,13 @@ try
 	$ecpay_invoice->Send['Items'] = $data['Items'];
 	$ecpay_invoice->Send['RelateNumber'] = $data['RelateNumber'] ;
 	$ecpay_invoice->Send['CustomerID'] = '' ;
-	$ecpay_invoice->Send['CustomerIdentifier'] = '' ;
-	$ecpay_invoice->Send['CustomerName'] ='' ;
-	$ecpay_invoice->Send['CustomerAddr'] = '' ;
+	$ecpay_invoice->Send['CustomerIdentifier'] = $data['CustomerIdentifier'];
+	$ecpay_invoice->Send['CustomerName'] = $data['CustomerName'];
+	$ecpay_invoice->Send['CustomerAddr'] = $data['CustomerAddr'];
 	$ecpay_invoice->Send['CustomerPhone'] = '' ;
 	$ecpay_invoice->Send['CustomerEmail'] = $data['CustomerEmail'] ;
 	$ecpay_invoice->Send['ClearanceMark'] = '' ;
-	$ecpay_invoice->Send['Print'] = '0' ;
+	$ecpay_invoice->Send['Print'] = $data['Print'];
 	$ecpay_invoice->Send['Donation'] = '0' ;
 	$ecpay_invoice->Send['LoveCode'] = '' ;
 	$ecpay_invoice->Send['CarruerType'] = '' ;

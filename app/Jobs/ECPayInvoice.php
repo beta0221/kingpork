@@ -53,12 +53,27 @@ class ECPayInvoice implements ShouldQueue
                 'ItemAmount' => $ItemAmount,
             ];
         }
-        
+
+        $CustomerIdentifier = '';
+        $CustomerName = '';
+        $Print = '0';
+        $CustomerAddr = '';
+        if($this->bill->ship_receipt == 3){ //三聯式發票
+            $CustomerIdentifier = $this->bill->ship_three_id;
+            $CustomerName = $this->bill->ship_three_company;
+            $CustomerAddr = $this->bill->ship_county . $this->bill->ship_district . $this->bill->ship_address;
+            $Print = '1';
+        }
+
         $data = [
             'RelateNumber'=>$this->bill->bill_id,
             'Items'=>$Items,
             'CustomerEmail'=>$this->bill->ship_email,
-            'SalesAmount'=>$this->bill->price
+            'SalesAmount'=>$this->bill->price,
+            'CustomerIdentifier'=>$CustomerIdentifier,
+            'CustomerName'=>$CustomerName,
+            'CustomerAddr'=>$CustomerAddr,
+            'Print'=>$Print
         ];
         $data = escapeshellarg(json_encode($data));
 
