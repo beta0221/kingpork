@@ -116,9 +116,8 @@ class OrderManagementController extends Controller
             }else{
                 $itemsInShort .= ($item->short . '*' . $_quantity);
             }
-            $amount = $_quantity * $item->price;
-            $itemsInShort .= "($amount)";
         }
+        $itemsInShort .= "($bill->price)";
 
         $ship_time = '1';
         if ($bill->ship_time == '14:00-18:00') {
