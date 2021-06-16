@@ -12,6 +12,7 @@ use App\User;
 use Session;
 use DB;
 use App\Helpers\ECPay;
+use App\Jobs\ECPayInvoice;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Mail;
@@ -196,9 +197,14 @@ class BillController extends Controller
             $bill->sendBonusToBuyer();
         }
 
-        Log::info("收到綠界回傳的api了！");
+        Log::info("-----綠界回傳-----");
         Log::info("訂單編號：" . $bill_id);
         Log::info(json_encode($request->all()));
+        Log::info("-----------------");
+
+        // if($isSuccess){
+        //     dispatch(new ECPayInvoice($bill,ECPayInvoice::TYPE_ISSUE)); //開立發票
+        // }
 
         return "1|OK";
     }
@@ -717,93 +723,6 @@ class BillController extends Controller
         return('1|OK');
     }
 
-    // public function creditPaied(Request $request)
-    // {
-        
-    //     if ($request->status == 0) {
-    //         $the = Bill::where('bill_id',$request->lidm)->firstOrFail();
-    //         $the->status = 1;
-    //         $allReturn = 
-    //         'status='.$request->status.'|'.
-    //         'errcode='.$request->errcode.'|'.
-    //         'authCode='.$request->authCode.'|'.
-    //         'authAmt='.$request->authAmt.'|'.
-    //         'lidm='.$request->lidm.'|'.
-    //         'xid='.$request->xid.'|'.
-    //         'merID='.$request->merID.'|'.
-    //         'Last4digitPAN='.$request->Last4digitPAN.'|'.
-    //         'errDesc='.$request->errDesc.'|'.
-    //         'checkValue='.$request->checkValue;
-    //         $the->allReturn = $allReturn;
-    //         $the->save();
-
-    //         $user = User::where('name',$the->user_name)->firstOrFail();//紅利回算機制{
-    //         $authAmt = (int)$request->authAmt;
-    //         $user->bonus = $user->bonus+$authAmt;
-    //         $user->save();                                          // }紅利回算機制
-
-    //         return redirect()->route('bill.show', $request->lidm);
-    //     }else{
-    //         return redirect()->route('bill.show', $request->lidm);
-    //     }
-        
-    // }                                              // }!!! API !!!
-
-
-
-
-    public function checkBill($id)
-    {
-        //test
-        // $HashKey = '5294y06JbISpM5x9';
-        // $HashIV = 'v77hoKGq4kWxNNIS';
-        // $MerchantID = '2000132';
-        //kingPork
-        $HashKey = '6HWkOeX5RsDZnDFn';
-        $HashIV = 'Zfo3Ml2OQXRmnjha';
-        $MerchantID = '1044372';
-
-        $MerchantTradeNo = $id;
-        $PlatformID = '';
-        $TimeStamp = time();
-        $all = 'HashKey=' . $HashKey . '&' .
-                'MerchantID=' . $MerchantID . '&' .
-                'MerchantTradeNo=' . $MerchantTradeNo . '&' .
-                'PlatformID=' . '' . '&' .
-                'TimeStamp=' . $TimeStamp . '&' .
-                'HashIV='.$HashIV;
-
-        $CheckMacValue = strtolower(urlencode($all));
-        $CheckMacValue = str_replace('%2d', '-', $CheckMacValue);
-        $CheckMacValue = str_replace('%5f', '_', $CheckMacValue);
-        $CheckMacValue = str_replace('%2e', '.', $CheckMacValue);
-        $CheckMacValue = str_replace('%21', '!', $CheckMacValue);
-        $CheckMacValue = str_replace('%2a', '*', $CheckMacValue);
-        $CheckMacValue = str_replace('%28', '(', $CheckMacValue);
-        $CheckMacValue = str_replace('%29', ')', $CheckMacValue);
-        $CheckMacValue = hash('sha256',$CheckMacValue);
-        $CheckMacValue = strtoupper($CheckMacValue);
-
-
-
-        $client = new \GuzzleHttp\Client();
-        $response = $client->post(
-            // 'https://payment-stage.ecpay.com.tw/Cashier/QueryTradeInfo/V5',
-            'https://payment.ecpay.com.tw/Cashier/QueryTradeInfo/V5',
-            [
-                'form_params' => [
-                    'MerchantID' => $MerchantID,
-                    'MerchantTradeNo' => $MerchantTradeNo,
-                    'TimeStamp' => $TimeStamp,
-                    'PlatformID' => $PlatformID,
-                    'CheckMacValue' => $CheckMacValue
-                ]
-            ]
-        );
-        $body = $response->getBody();
-        $phpBody = json_decode($body);
-        return($body);
-    }
 
 
 

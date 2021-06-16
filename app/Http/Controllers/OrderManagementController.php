@@ -116,6 +116,8 @@ class OrderManagementController extends Controller
             }else{
                 $itemsInShort .= ($item->short . '*' . $_quantity);
             }
+            $amount = $_quantity * $item->price;
+            $itemsInShort .= "($amount)";
         }
 
         $ship_time = '1';
@@ -165,6 +167,9 @@ class OrderManagementController extends Controller
         $orders = [];
         foreach($bills as $bill)
         {   
+            //全家冷凍超取防呆
+            if($bill->carrier_id == Bill::CARRIER_ID_FAMILY_MART){ continue; }
+
             //代客送禮
             if ($bill->ship_name == '*' && $bill->ship_phone == '*') {
                 $gifts = json_decode($bill->ship_address,true);
