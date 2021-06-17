@@ -26,7 +26,11 @@ Route::get('/about-line','PageController@aboutLine');
 
 // product routes
 Route::resource('products','ProductController');
-Route::patch('products/public/{id}','ProductController@publicProduct');
+Route::group(['prefix'=>'product'],function(){
+    Route::patch('/public/{id}','ProductController@publicProduct');
+    Route::get('/{id}/inventory','ProductController@inventory');
+    Route::put('/{id}/updateInventory','ProductController@updateInventory');
+});
 
 // productCategory routes
 Route::resource('productCategory','ProductCategoryController');
@@ -46,6 +50,8 @@ Route::group(['prefix' => 'kart'],function(){
 });
 Route::get('ajaxShowIndex','kartController@ajaxShowIndex');//
 
+//Inventory routes
+Route::resource('inventory','InventoryController');
 
 //Bill routes
 Route::resource('bill','BillController');

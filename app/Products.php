@@ -21,6 +21,10 @@ class Products extends Model
     	return $this->belongsTo('App\ProductCategory','category_id');
     }
 
+    public function inventory(){
+        return $this->belongsToMany('App\Inventory','inventory_product','product_id','inventory_id')->withPivot('quantity');
+    }
+
     public static function getAdditionalProducts(){
         $product_id_array = Products::where('category_id',Products::ADDITIONAL_CAT_ID)->pluck('id');
         if(count($product_id_array) == 0){ return []; }

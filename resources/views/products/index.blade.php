@@ -81,7 +81,6 @@
 			<th scope="col">價格</th>
 			<th scope="col">紅利</th>
 			<th scope="col">-</th>
-			<th scope="col">-</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -101,13 +100,12 @@
 			<td>{{$product->price}}</td>
 			<td>{{$product->bonus}}</td>
 			<td>
+				<div onclick="editInventory({{$product->id}})" class="btn btn-sm btn-primary">庫存</div>
 				<a class="btn btn-sm btn-warning" href="{{ route('products.edit', $product->id)}}">編輯</a>
-			</td>
-			<td>
 				@if($product->public == 1)
-					<div class="public-btn btn btn-sm btn-success ml-1 mr-1" onclick="publicProduct({{$product->id}});">已上架</div>
+					<div class="public-btn btn btn-sm btn-success ml-2" onclick="publicProduct({{$product->id}});">已上架</div>
 				@else
-					<div class="public-btn btn btn-sm btn-warning ml-1 mr-1" onclick="publicProduct({{$product->id}});">已下架</div>
+					<div class="public-btn btn btn-sm btn-warning ml-2" onclick="publicProduct({{$product->id}});">已下架</div>
 				@endif
 			</td>
 		</tr>
@@ -115,6 +113,30 @@
 	</tbody>
 </table>
 
+
+<div class="modal fade" id="inventoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h5 class="modal-title" id="exampleModalLabel">庫存關聯</h5>
+		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
+		<div class="modal-body">
+			@foreach ($inventories as $inventory)
+				<input id="inventory-check-{{$inventory->id}}" data-inventory-id="{{$inventory->id}}" class="inventory-check" type="checkbox">
+				<span>{{$inventory->name}}</span>
+				<input id="inventory-quantity-{{$inventory->id}}" class="inventory-quantity" type="number"><br>
+			@endforeach
+		</div>
+		<div class="modal-footer">
+			<button onclick="updateInventory();" type="button" class="btn btn-primary">更新</button>
+		  <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
+		</div>
+	  </div>
+	</div>
+</div>
 @endsection
 
 
@@ -171,6 +193,65 @@ function prev(){
 	if(current_page <= 1){ return; }
 	$('input#page').val(current_page - 1);
 	$('#catForm').submit();
+}
+var edit_product_id;
+function editInventory(product_id){
+	edit_product_id = product_id;
+	$('.inventory-check').each(function(){
+		$(this).prop('checked',false);
+	});
+	$('.inventory-quantity').each(function(){
+		$(this).val('');
+	});
+	$.ajax({
+		type:'GET',
+		url:'/product/'+product_id+'/inventory',
+		dataType:'json',
+		success:function(res){
+			console.log(res);
+			Object.keys(res).forEach(function(key){
+				$('#inventory-check-'+key).prop('checked',true);
+				$('#inventory-quantity-'+key).val(res[key]);
+			});
+			$('#inventoryModal').modal('show');
+		},
+		error:function(error){
+			console.log(error);
+			alert('錯誤');
+		}
+	});
+
+}
+
+function updateInventory(){
+
+	var inventory = {};
+	$('.inventory-check').each(function(){
+		if($(this).prop('checked') == true){
+			let id = $(this).data('inventory-id');
+			let quantity = $('#inventory-quantity-'+id).val();
+			if (quantity == ''){ return false; }
+			inventory[id] = parseInt(quantity);
+		}
+	});
+	console.log(inventory);
+	$.ajax({
+		type:'POST',
+		url:'/product/'+edit_product_id+'/updateInventory',
+		dataType:'json',
+		data:{
+			_method:'PUT',
+			inventory:inventory
+		},
+		success:function(res){
+			console.log(res);
+			$('#inventoryModal').modal('hide');
+		},
+		error:function(error){
+			console.log(error);
+			alert('錯誤');
+		}
+	});
 }
 
 </script>

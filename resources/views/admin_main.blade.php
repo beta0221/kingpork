@@ -161,6 +161,9 @@
   <li class="sideBar_item {{Request::is('admin*') ? 'sideBar_now' : ''}}">
     <a href="/admin"><img src="{{asset('images/admin_dashboard.png')}}" alt="">儀表板</a>
   </li>
+  <li class="sideBar_item {{Request::is('inventory*') ? 'sideBar_now' : ''}}">
+    <a href="{{route('inventory.index')}}"><img src="{{asset('images/admin_category.png')}}" alt="">庫存清單</a>
+  </li>
   <li class="sideBar_item {{Request::is('productCategory*') ? 'sideBar_now' : ''}}">
     <a href="{{route('productCategory.index')}}"><img src="{{asset('images/admin_category.png')}}" alt="">產品類別</a>
   </li>

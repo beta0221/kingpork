@@ -3,15 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Pagination;
+use App\Inventory;
 use Illuminate\Http\Request;
 use App\Products;
 use App\ProductCategory;
 use App\Kart;
-use App\Model\Product;
 use Image;
 use Storage;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Response;
 
 class ProductController extends Controller
 {
@@ -51,13 +50,42 @@ class ProductController extends Controller
         $products = $query->skip($p->skip)->take($p->rows)->get();
 
         $cats = ProductCategory::all();
+        $inventories = Inventory::all();
 
         return view('products.index', [
             'products' => $products,
             'cats'=>$cats,
             'totalPage'=>$totalPage,
-            'request'=>$request
+            'request'=>$request,
+            'inventories'=>$inventories
         ]);
+    }
+
+    /**取得產品的庫存關聯 */
+    public function inventory($id){
+        $product = Products::findOrFail($id);
+        $inventories = $product->inventory()->get();
+        $data = [];
+        foreach ($inventories as $inventory) {
+            $data[$inventory->pivot->inventory_id] = $inventory->pivot->quantity;
+        }
+        return response()->json($data);
+    }
+
+    /**更新產品庫存關聯 */
+    public function updateInventory(Request $request,$id){
+        $product = Products::findOrFail($id);
+
+        $sync = [];
+        if($request->has('inventory')){
+            foreach ($request->inventory as $inventory_id => $quantity) {
+                if(!$quantity){ continue; }
+                $sync[$inventory_id] = ['quantity'=>$quantity];
+            }
+        }
+        
+        $product->inventory()->sync($sync);
+        return response()->json(['m'=>'success']);
     }
 
     /**
