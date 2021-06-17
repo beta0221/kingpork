@@ -289,7 +289,10 @@ class ProductController extends Controller
         }
 
         $product->save();
-
+        
+        if($request->has('previous_url')){
+            return redirect($request->previous_url);
+        }
         return redirect()->route('products.index');
 
 

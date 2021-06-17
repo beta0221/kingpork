@@ -22,7 +22,7 @@
 
 				{!! Form::model($product,['route'=>['products.update',$product->id],'method'=>'PUT','files'=>'true']) !!}
 				
-				
+				<input name="previous_url" type="hidden" value="{{url()->previous()}}">
 				{{Form::label('name','品名：(必填)')}}
 				{{ Form::text('name',null,['class'=>'form-control']) }}<br>
 
