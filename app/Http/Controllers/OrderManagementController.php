@@ -254,7 +254,7 @@ class OrderManagementController extends Controller
 
         date_default_timezone_set('Asia/Taipei');
         $now = date("Ymd");
-        $shipDate= date('n/j/y',strtotime('1 day'));
+        $shipDate= date('Y/m/d',strtotime('1 day'));
         $defaultSize = 'S060';
 
         $cellData = [

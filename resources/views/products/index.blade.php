@@ -169,7 +169,7 @@ $(document).ready(function(){
 function publicProduct(id){
 	$.ajax({
 		type:'POST',
-		url:'/products/public/' + id,
+		url:'/product/public/' + id,
 		dataType:'json',
 		data:{
 			_method:'patch',
