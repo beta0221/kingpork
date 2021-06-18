@@ -24,7 +24,8 @@ class RetailerController extends Controller
         return view('crud.index',[
             'title'=>'通路清單',
             'dataList'=>$retailers,
-            'createRoute'=>route('retailer.store')
+            'createRoute'=>route('retailer.store'),
+            'columns'=>['name'=>'名稱'],
         ]);
     }
 

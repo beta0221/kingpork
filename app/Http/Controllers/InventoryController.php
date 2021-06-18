@@ -25,7 +25,8 @@ class InventoryController extends Controller
         return view('crud.index',[
             'title'=>'庫存清單',
             'dataList'=>$inventories,
-            'createRoute'=>route('inventory.store')
+            'createRoute'=>route('inventory.store'),
+            'columns'=>['name'=>'名稱','slug'=>'代號'],
         ]);
     }
 
@@ -49,6 +50,7 @@ class InventoryController extends Controller
     {
         $inventory = new Inventory();
         $inventory->name = $request->name;
+        $inventory->slug = $request->slug;
         $inventory->save();
         return redirect()->route('inventory.index');
     }

@@ -179,13 +179,13 @@ class OrderManagementController extends Controller
             $ship_time.",".
             $bill->ship_name.",".
             $bill->ship_phone.",".
-            $itemsInShort.",".
+            $materialListText.",".
             $bill->ship_county.$bill->ship_district.$bill->ship_address.",".
             $now.",".
             $arrive.",".
             $bill->price.",".
             $bill->ship_memo . ",".
-            $materialListText;
+            $itemsInShort;
 
         return $row;
 

@@ -29,7 +29,7 @@ class Products extends Model
         $inventories = $this->inventory()->get();
         $sum = [];
         foreach ($inventories as $inventory) {
-            $key = $inventory->name;
+            $key = $inventory->slug;
             $value = $inventory->pivot->quantity * $quantity;
             if(!isset($sum[$key])){
                 $sum[$key] = $value;
