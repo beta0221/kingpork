@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Bill;
 use App\BillItem;
 use App\Helpers\ECPay;
+use App\Inventory;
 use App\User;
 use App\Products;
 use Excel;
@@ -109,6 +110,11 @@ class OrderManagementController extends Controller
                 }else{
                     $materialList[$key] += $value;
                 }
+                if(!isset($this->totalMaterialList[$key])){
+                    $this->totalMaterialList[$key] = $value;
+                }else{
+                    $this->totalMaterialList[$key] += $value;
+                }
             }
         }
         $text = '';
@@ -184,7 +190,7 @@ class OrderManagementController extends Controller
         return $row;
 
     }
-
+    private $totalMaterialList = [];
     public function csv_download(Request $request)
     {
 
@@ -215,6 +221,10 @@ class OrderManagementController extends Controller
             $orders[] = $this->getRow($bill,$now);
 
         }
+        foreach ($this->totalMaterialList as $key => $value) {
+            $orders[] = $key . "," . $value;
+        }
+
         $orders = json_encode($orders);
         return response()->json($orders);
 
