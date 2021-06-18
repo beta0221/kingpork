@@ -100,17 +100,43 @@ class OrderManagementController extends Controller
 
     }
 
+    private function materialListText(array $inventoryAmountArray){
+        $materialList = [];
+        foreach ($inventoryAmountArray as $inventoryAmount) {
+            foreach ($inventoryAmount as $key => $value) {
+                if(!isset($materialList[$key])){
+                    $materialList[$key] = $value;
+                }else{
+                    $materialList[$key] += $value;
+                }
+            }
+        }
+        $text = '';
+        foreach ($materialList as $key => $value) {
+            $text .= '(' . $key . '*' . $value . ')';
+        }
+        return $text;
+    }
+
     private function getRow(Bill $bill,$now,$quantity = null){
 
         $row = "";
         $items = $bill->products();
         $itemsInShort = "";
+        $inventoryAmountArray = [];
         foreach($items as $item)       
         {
             $_quantity = $item->quantity;
             if(!is_null($quantity)){
                 $_quantity = $quantity;
             }
+
+            if($item instanceof BillItem){
+                $inventoryAmountArray[] = $item->sumInventoryAmount();
+            }else{
+                $inventoryAmountArray[] = $item->sumInventoryAmount($_quantity);
+            }
+
             if($_quantity == 1){
                 $itemsInShort .= $item->short;
             }else{
@@ -118,6 +144,7 @@ class OrderManagementController extends Controller
             }
         }
         $itemsInShort .= "($bill->price)";
+        $materialListText = $this->materialListText($inventoryAmountArray);
 
         $ship_time = '1';
         if ($bill->ship_time == '14:00-18:00') {
@@ -151,7 +178,8 @@ class OrderManagementController extends Controller
             $now.",".
             $arrive.",".
             $bill->price.",".
-            $bill->ship_memo;
+            $bill->ship_memo . ",".
+            $materialListText;
 
         return $row;
 

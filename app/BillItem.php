@@ -9,6 +9,10 @@ class BillItem extends Model
     
     public $timestamps = false;
 
+    public function product(){
+        return $this->hasOne('App\Products','id','product_id');
+    }
+
     public static function insert_row(int $bill_id,Products $product){
         $billItem = new BillItem();
         $billItem->bill_id = $bill_id;
@@ -21,5 +25,9 @@ class BillItem extends Model
         $billItem->save();
     }
 
+
+    public function sumInventoryAmount(){
+        return $this->product->sumInventoryAmount($this->quantity);
+    }
 
 }
