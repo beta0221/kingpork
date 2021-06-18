@@ -155,8 +155,10 @@
 
 
 						<div class="productBox">
+						<?php $isEmpty = true; ?>
 						@foreach($productCategory->products as $product)
 							@if($product->public == 1)
+							<?php $isEmpty = false; ?>
 							<div class="productItem">
 								<div class="left-name-box">
 									<div class="left-top-box">
@@ -184,6 +186,15 @@
 							</div>
 							@endif
 						@endforeach
+						
+						@if ($isEmpty == true)
+						<div class="text-center mt-4">
+							<h3>非常抱歉！</h3>
+							<h3>售完補貨中...</h3>
+						</div>	
+						@endif
+						
+
 						</div>
 							
 							
