@@ -128,6 +128,29 @@
     left: 12px;
     top: 9px;
   }
+  ul.pagination a,ul.pagination span{
+    position: relative;
+    float: left;
+    padding: 6px 12px;
+    margin-left: -1px;
+    line-height: 1.42857143;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #ddd;
+  }
+  ul.pagination a{
+    color: #337ab7;
+  }
+  ul.pagination span{
+    color: gray;
+  }
+  ul.pagination li.active span{
+    z-index: 3;
+    color: #fff;
+    cursor: default;
+    background-color: #337ab7;
+    border-color: #337ab7;
+  }
 </style>
 @yield('stylesheets')
 </head>
@@ -163,6 +186,12 @@
   </li>
   <li class="sideBar_item {{Request::is('inventory*') ? 'sideBar_now' : ''}}">
     <a href="{{route('inventory.index')}}"><img src="{{asset('images/admin_category.png')}}" alt="">庫存清單</a>
+  </li>
+  <li class="sideBar_item {{Request::is('psi*') ? 'sideBar_now' : ''}}">
+    <a href="{{route('psi.index')}}"><img src="{{asset('images/admin_category.png')}}" alt="">進銷存</a>
+  </li>
+  <li class="sideBar_item {{Request::is('retailer*') ? 'sideBar_now' : ''}}">
+    <a href="{{route('retailer.index')}}"><img src="{{asset('images/admin_category.png')}}" alt="">通路清單</a>
   </li>
   <li class="sideBar_item {{Request::is('productCategory*') ? 'sideBar_now' : ''}}">
     <a href="{{route('productCategory.index')}}"><img src="{{asset('images/admin_category.png')}}" alt="">產品類別</a>

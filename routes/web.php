@@ -53,6 +53,16 @@ Route::get('ajaxShowIndex','kartController@ajaxShowIndex');//
 //Inventory routes
 Route::resource('inventory','InventoryController');
 
+//Retailer routes
+Route::resource('retailer','RetailerController');
+
+//PSI routes
+Route::group(['prefix'=>'psi'],function(){
+    Route::get('/','PSIController@index')->name('psi.index');
+    Route::post('/','PSIController@store')->name('psi.store');
+    Route::get('/show/{id}','PSIController@show')->name('psi.show');
+});
+
 //Bill routes
 Route::resource('bill','BillController');
 Route::get('purchaseComplete/{bill_id}','BillController@purchaseComplete')->name('bill.purchaseComplete');

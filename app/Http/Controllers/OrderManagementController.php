@@ -272,7 +272,8 @@ class OrderManagementController extends Controller
                 if($bill->pay_by == Bill::PAY_BY_FAMILY){
                     $pay = "取貨付款";
                 }
-                $cellData[] = [$bill->bill_id,$bill->price,$shipDate,$bill->ship_name,$bill->ship_phone,$defaultSize,$storeName,$pay];
+                $ship_phone = str_replace('-','',$request->ship_phone);
+                $cellData[] = [$bill->bill_id,$bill->price,$shipDate,$bill->ship_name,$ship_phone,$defaultSize,$storeName,$pay];
             }
         }
 

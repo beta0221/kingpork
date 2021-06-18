@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Inventory;
+use App\Retailer;
 use Illuminate\Http\Request;
 
-class InventoryController extends Controller
+class RetailerController extends Controller
 {
-
 
     public function __construct()
     {
@@ -21,11 +20,11 @@ class InventoryController extends Controller
      */
     public function index()
     {
-        $inventories = Inventory::all();
+        $retailers = Retailer::all();
         return view('crud.index',[
-            'title'=>'庫存清單',
-            'dataList'=>$inventories,
-            'createRoute'=>route('inventory.store')
+            'title'=>'通路清單',
+            'dataList'=>$retailers,
+            'createRoute'=>route('retailer.store')
         ]);
     }
 
@@ -47,19 +46,19 @@ class InventoryController extends Controller
      */
     public function store(Request $request)
     {
-        $inventory = new Inventory();
-        $inventory->name = $request->name;
-        $inventory->save();
-        return redirect()->route('inventory.index');
+        $retailer = new Retailer();
+        $retailer->name = $request->name;
+        $retailer->save();
+        return redirect()->route('retailer.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Inventory  $inventory
+     * @param  \App\Retailer  $retailer
      * @return \Illuminate\Http\Response
      */
-    public function show(Inventory $inventory)
+    public function show(Retailer $retailer)
     {
         //
     }
@@ -67,10 +66,10 @@ class InventoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Inventory  $inventory
+     * @param  \App\Retailer  $retailer
      * @return \Illuminate\Http\Response
      */
-    public function edit(Inventory $inventory)
+    public function edit(Retailer $retailer)
     {
         //
     }
@@ -79,10 +78,10 @@ class InventoryController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Inventory  $inventory
+     * @param  \App\Retailer  $retailer
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Inventory $inventory)
+    public function update(Request $request, Retailer $retailer)
     {
         //
     }
@@ -90,10 +89,10 @@ class InventoryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Inventory  $inventory
+     * @param  \App\Retailer  $retailer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Inventory $inventory)
+    public function destroy(Retailer $retailer)
     {
         //
     }
