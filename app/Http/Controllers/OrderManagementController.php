@@ -222,7 +222,7 @@ class OrderManagementController extends Controller
 
         }
         foreach ($this->totalMaterialList as $key => $value) {
-            $orders[] = $key . "," . $value;
+            $orders[] = ",,,,,,,,,,,,,".$key . "*" . $value;
         }
 
         $orders = json_encode($orders);
