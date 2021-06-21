@@ -603,17 +603,20 @@ class OrderManagementController extends Controller
         $bonus = 5000;
         foreach ($bills as $bill) {
 
-            if($bill->shipment != 3){
+            if($bill->shipment != Bill::SHIPMENT_VOID){
                 $bonus -= $bill->bonus_use * 50;
             }
 
-            if($bill->status == 1){
-                $bonus += $bill->get_bonus;
-            }else if($bill->pay_by == '貨到付款' && $bill->shipment == 2){
-                $bonus += $bill->get_bonus;
+            if($bill->shipment != Bill::SHIPMENT_VOID){
+                
+                if($bill->status == 1){
+                    $bonus += $bill->get_bonus;
+                }else if($bill->isCodGroup() && $bill->shipment == Bill::SHIPMENT_DELIVERED){
+                    $bonus += $bill->get_bonus;
+                }
             }
-        }
 
+        }
         return view('order.history',[
             'user' => $user,
             'bills' => $bills,
@@ -626,18 +629,13 @@ class OrderManagementController extends Controller
         if($request->has('bonus')){
             
             $correct_bonus = (int)$request->bonus;
-            
-            if ($user->bonus > $correct_bonus){
+            $user->bonus = $correct_bonus;
                 
-                $user->bonus = $correct_bonus;
-                
-                if($correct_bonus < 0){
-                    $user->bonus = 0;
-                }
-
-                $user->save();
-
+            if($correct_bonus < 0){
+                $user->bonus = 0;
             }
+
+            $user->save();
             
         }
 
