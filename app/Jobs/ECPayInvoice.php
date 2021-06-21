@@ -54,6 +54,18 @@ class ECPayInvoice implements ShouldQueue
             ];
         }
 
+        //紅利折抵
+        if($this->bill->bonus_use > 0){
+            $Items[] = [
+                'ItemName' => '紅利折扣',
+                'ItemCount' => 1,
+                'ItemWord' => '組',
+                'ItemPrice' => (0 - $this->bill->bonus_use),
+                'ItemTaxType' => 1,
+                'ItemAmount' => (0 - $this->bill->bonus_use),
+            ];
+        }
+
         $CustomerIdentifier = '';
         $CustomerName = '';
         $Print = '0';
