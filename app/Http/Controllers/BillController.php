@@ -202,9 +202,9 @@ class BillController extends Controller
         Log::info(json_encode($request->all()));
         Log::info("-----------------");
 
-        // if($isSuccess){
-        //     dispatch(new ECPayInvoice($bill,ECPayInvoice::TYPE_ISSUE)); //開立發票
-        // }
+        if($isSuccess){
+            dispatch(new ECPayInvoice($bill,ECPayInvoice::TYPE_ISSUE)); //開立發票
+        }
 
         return "1|OK";
     }
