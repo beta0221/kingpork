@@ -11,6 +11,7 @@ use App\User;
 use App\Products;
 use Excel;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Session;
 
 class OrderManagementController extends Controller
@@ -513,6 +514,11 @@ class OrderManagementController extends Controller
     public function update(Request $request, $id)
     {
         $bill = Bill::where('bill_id','=',$id)->firstOrFail();
+
+        Log::notice('<變更訂單狀態>');
+        Log::notice($id);
+        Log::notice('</變更訂單狀態>');
+
         $bill->nextShipmentPhase();
         return response()->json($bill->shipment);
         
@@ -524,6 +530,10 @@ class OrderManagementController extends Controller
         if(!$request->has('selectArray')){ return response()->json('error',400); }
 
         $bills = Bill::whereIn('bill_id',$request->selectArray)->get();
+
+        Log::notice('<變更訂單狀態>');
+        Log::notice(json_encode($request->selectArray));
+        Log::notice('</變更訂單狀態>');
 
         foreach ($bills as $bill) {
             $bill->nextShipmentPhase();
