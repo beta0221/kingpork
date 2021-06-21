@@ -155,20 +155,20 @@ class Bill extends Model
         }elseif ($this->shipment == 1) {
             $this->shipment = 2;
             if ($this->isCodGroup()) {//如果是貨到付款->累計紅利    
-                //dispatch(new ECPayInvoice($this,ECPayInvoice::TYPE_ISSUE)); //開立發票
+                dispatch(new ECPayInvoice($this,ECPayInvoice::TYPE_ISSUE)); //開立發票
                 if($user = User::find($this->user_id)){
                     $user->updateBonus((int)$this->get_bonus,false);
                 }
             }
         }
-        elseif ($this->shipment == 2) { //由於出貨即時開立發票所以這段先註解
-            $this->shipment = 0;
-            if ($this->isCodGroup()) {//如果是貨到付款->扣除紅利
-                if($user = User::find($this->user_id)){
-                    $user->updateBonus((int)$this->get_bonus);
-                }
-            }
-        }
+        // elseif ($this->shipment == 2) { //由於出貨即時開立發票所以這段先註解
+        //     $this->shipment = 0;
+        //     if ($this->isCodGroup()) {//如果是貨到付款->扣除紅利
+        //         if($user = User::find($this->user_id)){
+        //             $user->updateBonus((int)$this->get_bonus);
+        //         }
+        //     }
+        // }
         $this->save();
     }
 
