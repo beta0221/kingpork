@@ -22,7 +22,7 @@
     <h3>目前紅利：{{$user->bonus}}</h3>
     <h3>正確紅利：<font color="red">{{$bonus}}</font></h3>
 
-    @if ($user->bonus != $bonus && $bonus >= 0)
+    @if ($user->bonus != $bonus)
         <form method="POST" action="/regulate/bonus/{{$user->id}}">
             {{ csrf_field() }}
             <input type="hidden" value="{{$bonus}}" name="bonus">
