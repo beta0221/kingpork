@@ -184,12 +184,12 @@
 							</td>
 						</tr>
 
-						{{-- <tr>
+						<tr>
 							<td>
 								<label for=""></label>
 								<span style="font-size: 14px;" class="shipping-ship_email">(電子發票將寄送至此信箱)</span>
 							</td>
-						</tr> --}}
+						</tr>
 						<tr>
 							<td>
 								<label for=""><span class="required">*</span>E-mail：</label>
