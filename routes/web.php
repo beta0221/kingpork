@@ -95,6 +95,7 @@ Route::get('getRunner','RunnerController@getRunner');
 Route::resource('order','OrderManagementController',['except'=>['create','store']]);
 Route::post('order/updateShipment','OrderManagementController@updateShipment');
 Route::get('order/showAll/{bill}','OrderManagementController@showAll');
+Route::post('order/void/{bill_id}','OrderManagementController@voidBill');
 Route::post('order/get_csv','OrderManagementController@csv_download');
 Route::patch('order/marking/{id}','OrderManagementController@marking');
 Route::post('order/ExportExcelForAccountant','OrderManagementController@ExportExcelForAccountant');

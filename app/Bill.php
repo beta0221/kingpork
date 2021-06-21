@@ -161,15 +161,39 @@ class Bill extends Model
                 }
             }
         }
-        // elseif ($this->shipment == 2) { //由於出貨即時開立發票所以這段先註解
-        //     $this->shipment = 0;
-        //     if ($this->isCodGroup()) {//如果是貨到付款->扣除紅利
-        //         if($user = User::find($this->user_id)){
-        //             $user->updateBonus((int)$this->get_bonus);
-        //         }
-        //     }
-        // }
+        elseif ($this->shipment == 2) { //由於出貨即時開立發票所以這段先註解
+            $this->shipment = 0;
+            if ($this->isCodGroup()) {//如果是貨到付款->扣除紅利
+                if($user = User::find($this->user_id)){
+                    $user->updateBonus((int)$this->get_bonus);
+                }
+            }
+        }
         $this->save();
     }
+
+    /**訂單作廢（結案） */
+    public function voidBill(){
+
+        //扣除紅利
+        if($this->get_bonus != 0){
+            if(($this->isCodGroup() && $this->shipment == 2) || $this->status == 1){
+                if($user = User::find($this->user_id)){
+                    $user->updateBonus((int)$this->get_bonus);
+                }
+            }
+        }
+
+        //回補紅利
+        if($this->bonus_use != 0){
+            $amount = $this->bonus_use * 50;
+            if($user = User::find($this->user_id)){
+                $user->updateBonus($amount,false);
+            }
+        }
+
+        $this->updateShipment(Bill::SHIPMENT_VOID);
+    }
+
     
 }

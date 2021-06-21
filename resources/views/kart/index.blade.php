@@ -184,6 +184,12 @@
 							</td>
 						</tr>
 
+						{{-- <tr>
+							<td>
+								<label for=""></label>
+								<span style="font-size: 14px;" class="shipping-ship_email">(電子發票將寄送至此信箱)</span>
+							</td>
+						</tr> --}}
 						<tr>
 							<td>
 								<label for=""><span class="required">*</span>E-mail：</label>
@@ -198,6 +204,12 @@
 							</td>
 						</tr>
 
+						{{-- <tr>
+							<td>
+								<label for=""></label>
+								<span style="color:#ec971f" class="shipping-ship_email">全家取貨新上線～！</span>
+							</td>
+						</tr> --}}
 						<tr style="display: none">
 							<td class="">
 								<label for=""><span class="required">*</span>運送方式：</label>
@@ -312,12 +324,11 @@
 						<tr>
 							<td>
 								<label for="">　發票：</label>
-								<select name="ship_receipt" class="shipping-ship_receipt two-three form-control">
+								<select id="ship_ship_receipt" name="ship_receipt" class="shipping-ship_receipt two-three form-control">
 									<option id="two" value="2">二聯</option>
 									<option id="three" value="3">三聯</option>
 								</select>
 								<div class="ifThree">
-									{{-- <input id="ship_three_name" name="ship_three_name" type="text" class="form-control ship_three" placeholder="購買人" style="width: 30%;">	 --}}
 									<input id="ship_three_id" name="ship_three_id" type="text" class="shipping-ship_three_id form-control ship_three" placeholder="統一編號">
 									<input id="ship_three_company" name="ship_three_company" type="text" class="shipping-ship_three_company form-control ship_three" placeholder="公司名稱">	
 								</div>
@@ -346,7 +357,7 @@
 									<input id="pay_by_credit" class="radio" type="radio" name="ship_pay_by" value="CREDIT"><span>信用卡</span>
 	  								<input id="pay_by_atm" class="radio" type="radio" name="ship_pay_by" value="ATM"><span>ATM</span>
 	  								<input id="pay_by_cod" class="radio blackcat-column" type="radio" name="ship_pay_by" value="cod"><span class="blackcat-column">貨到付款</span>
-									<input id="pay_by_family" class="radio family-column" type="radio" name="ship_pay_by" value="FAMILY" style="display: none"><span class="family-column" style="display: none">全家取貨付款</span>
+									{{-- <input id="pay_by_family" class="radio family-column" type="radio" name="ship_pay_by" value="FAMILY" style="display: none"><span class="family-column" style="display: none">全家取貨付款</span> --}}
 								</div>
 							</td>
 						</tr>

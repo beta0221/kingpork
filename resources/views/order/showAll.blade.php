@@ -214,7 +214,18 @@
 				</tr>
 				
 			</table>
+
+			@if ($bill->shipment != 3)
+				
+			<form action="/order/void/{{$bill->bill_id}}" method="POST">
+				{{ csrf_field() }}
+				<button style="background:red;color:#fff;margin-top:80px">作廢</button>
+			</form>
+			@endif
+			
 		</div>
+
+		
 		
 	</body>
 </html>

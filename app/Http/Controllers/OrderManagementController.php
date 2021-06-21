@@ -493,6 +493,13 @@ class OrderManagementController extends Controller
         
     }
 
+    /**結案訂單 */
+    public function voidBill($bill_id){
+        $bill = Bill::where('bill_id',$bill_id)->firstOrFail();
+        $bill->voidBill();
+        return redirect('/order/showAll/'.$bill_id);
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

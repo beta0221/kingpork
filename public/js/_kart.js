@@ -187,65 +187,69 @@ $(document).ready(function(){
 		});
 
 	});
+
+	var unFinished = 0;
+	var alertMsg = '';
+
+	function errorMessage(selector,msg){
+		$(selector).addClass('alerting');
+		alertMsg = msg;
+		unFinished = 1;
+	}
 	function checkForm(){
-		var unFinished = 0;
-		var alertMsg = '';
+		unFinished = 0;
+		alertMsg = '';
 		$('.alert-field').empty()
 
 		if(!$('#pay_by_credit').is(':checked') && !$('#pay_by_atm').is(':checked') && !$('#pay_by_cod').is(':checked') && !$('#pay_by_family').is(':checked')){
-			$('.pay_by').addClass('alerting');
-			alertMsg = "請選擇付款方式";
-			unFinished = 1;
+			errorMessage('.pay_by','請選擇付款方式');
 		}
 		if ($('#ship_name').val() == '') {
-			$('#ship_name').addClass('alerting');
-			alertMsg = "＊號處不可空白";
-			unFinished = 1;
+			errorMessage('#ship_name','＊號處不可空白');
 		}
 		if ($('#ship_email').val() == '') {
-			$('#ship_email').addClass('alerting');
-			alertMsg = "＊號處不可空白";
-			unFinished = 1;
+			errorMessage('#ship_email','＊號處不可空白');
 		}
-		if ($('#ship_phone').val() == '') {
-			$('#ship_phone').addClass('alerting');
-			alertMsg = "＊號處不可空白";
-			unFinished = 1;
+
+		var format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+		var ship_phone = $('#ship_phone').val();
+		if (ship_phone == '') {
+			errorMessage('#ship_phone','＊號處不可空白');
+		}else if(format.test(ship_phone)){
+			errorMessage('#ship_phone','格式錯誤');
+		}
+
+		if($('#shipping-carrier').val() == '1'){	//全家
+			if(ship_phone.length != 10 || ship_phone.substring(0,2) != '09'){
+				errorMessage('#ship_phone','請使用手機號碼以便接收到店簡訊通知');
+			}
 		}
 
 		if($('#shipping-carrier').val() == 0){
 			if ($('#ship_county').val() == '') {
-				$('#ship_county').addClass('alerting');
-				alertMsg = "＊號處不可空白";
-				unFinished = 1;
+				errorMessage('#ship_county','＊號處不可空白');
 			}
 			if ($('#ship_address').val() == '') {
-				$('#ship_address').addClass('alerting');
-				alertMsg = "＊號處不可空白";
-				unFinished = 1;
+				errorMessage('#ship_address','＊號處不可空白');
 			}
 		}else if($('#shipping-carrier').val() == 1){
-
 			$('.shipping-store').each(function(i,element){
 				if($(element).val() == ''){
 					alertMsg = "＊號處不可空白";
 					unFinished = 1;
 				}
 			});
-			
 		}
-		
 
-		if ($('.two-three').val() == '3') {
-			if ($('#ship_three_id').val()=='') {
-				$('#ship_three_id').addClass('alerting');
-				alertMsg = "號處不可空白";
-				unFinished = 1;
+		if ($('#ship_ship_receipt').val() == '3') {
+			var ship_three_id = $('#ship_three_id').val();
+			if (ship_three_id=='') {
+				errorMessage('#ship_three_id','＊號處不可空白');
+			}else if(ship_three_id.length != 8){
+				errorMessage('#ship_three_id','＊號處不可空白');
 			}
 			if ($('#ship_three_company').val()=='') {
-				$('#ship_three_company').addClass('alerting');
-				alertMsg = "號處不可空白";
-				unFinished = 1;
+				errorMessage('#ship_three_company','＊號處不可空白');
 			}
 		}
 		$('.alert-field').append('<strong>'+alertMsg+'</strong><br>');
