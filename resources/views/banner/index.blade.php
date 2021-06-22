@@ -44,22 +44,25 @@
 	<table class="table">
 		<thead>
 			<tr>
-				<th>-</th>
-				<th style="width: 40%;" scope="col">圖片</th>
+				<th>#</th>
+				<th style="width: 100px" scope="col">排序</th>
+				<th style="width: 30%;" scope="col">圖片</th>
 				<th style="width: 25%;" scope="col">超連結</th>
 				<th style="width: 25%;" scope="col">關鍵字</th>
-				<th style="width: ;" scope="col">-</th>
-				<th style="width: ;" scope="col">-</th>
-				<th style="width: ;" scope="col">-</th>
+				<th scope="col">-</th>
+				<th scope="col">-</th>
+				<th scope="col">-</th>
 			</tr>
 		</thead>
-		@foreach($banners as $banner)
+		@foreach($banners as $index => $banner)
 		<tr class="{{($banner->public == 0)?'unpublic':''}}">
 			<td>
 				<div class="switch-box">
-					<div onclick="switchIt({{$banner->id}},0);" class="switch switch-up">v</div>
-					<div onclick="switchIt({{$banner->id}},1);" class="switch switch-down">v</div>
+					{{$index + 1}}
 				</div>
+			</td>
+			<td style="width: 100px">
+				<input type="number" value="{{$banner->sort}}" class="form-control banner-sort-input" data-id="{{$banner->id}}">
 			</td>
 			<td><img style="width: 100%;" src="{{asset('images/banner') .'/' . $banner->image}}"></td>
 			<td>{{$banner->link}}</td>
@@ -94,6 +97,29 @@
     				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
   				}
 			});
+
+			$('.banner-sort-input').on('change',function(){
+
+				let banner_id = $(this).data('id');
+				let sort = $(this).val();
+
+				$.ajax({
+					type:'POST',
+					url:'/banner/sort/' + banner_id,
+					dataType:'json',
+					data:{
+						_method:'patch',
+						sort:sort,
+					},
+					success:function(response){
+						location.reload();
+					},
+					error:function(){
+						alert('錯誤');
+					}
+				});
+				
+			});
 		});
 		function deleteBanner(id){
 			
@@ -113,28 +139,6 @@
 			});
 		}
 
-		function switchIt(id,go){
-
-
-			$.ajax({
-				type:'POST',
-				url:'/banner/switch',
-				dataType:'json',
-				data:{
-					_method:'POST',
-					switch:go,
-					banner:id,
-				},
-				success:function(response){
-					location.reload();
-
-				},
-				error:function(){
-
-				}
-			});
-
-		}
 
 		function publicBanner(id){
 

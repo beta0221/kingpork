@@ -27,7 +27,7 @@ class BannerController extends Controller
      */
     public function index()
     {
-        $banners = Banner::all();
+        $banners = Banner::orderBy('sort','desc')->get();
         return view('banner.index',['banners' => $banners]);
     }
 
@@ -54,6 +54,7 @@ class BannerController extends Controller
         ]);
 
         $banner = new Banner;
+        $banner->public = 0;
         $banner->link = $request->link;
         $banner->alt = $request->alt;
 
@@ -118,36 +119,13 @@ class BannerController extends Controller
 
     }
 
-    public function switch(Request $request)
-    {
+    public function sortBanner(Request $request,$id){
+        $banner = Banner::findOrFail($id);
+        $banner->sort = (int)$request->sort;
+        $banner->save();
+        return response()->json(['m'=>'success']);
 
-       
-        if ($request->switch == 0) {
-            $from = $request->banner;
-            $to = $from - 1;
-        }
-        if ($request->switch == 1) {
-            $from = $request->banner;
-            $to = $from + 1;
-        }
-
-        $bannerTo = Banner::findOrFail($to);
-        $bannerTo->id = 0;
-        $bannerTo->save();
-
-        $bannerFrom = Banner::findOrFail($from);
-        $bannerFrom->id = $to;
-        $bannerFrom->save();
-
-        $return = Banner::findOrFail(0);
-        $return->id = $from;
-        $return->save();
-
-
-        return response()->json('success');
-        
     }
-
 
     public function publicBanner($id)
     {

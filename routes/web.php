@@ -78,8 +78,8 @@ Route::post('bill/{bill_id}/pay','BillController@payBill');
 
 //Banner routes
 Route::resource('banner','BannerController');
-Route::post('banner/switch','BannerController@switch');
 Route::patch('banner/public/{id}','BannerController@publicBanner');
+Route::patch('banner/sort/{id}','BannerController@sortBanner');
 
 //Contact routes
 Route::post('toggleStatus/{id}','ContactController@toggleStatus');

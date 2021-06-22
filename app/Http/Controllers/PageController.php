@@ -23,10 +23,7 @@ class PageController extends Controller
 
     public function getLanding(){
 
-    	$banners = Banner::where('public',1)->get();
-        if ($banners == null) {
-            return view('pages.landingPage',['banners'=>'default.png']);
-        }
+    	$banners = Banner::where('public',1)->orderBy('sort','desc')->get();
 	    return view('pages.landingPage',['banners'=>$banners]);
     	
     }
