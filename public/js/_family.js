@@ -23,6 +23,7 @@ function call_windows()
     // $("input[name='store_number']").val("017267");
     // $("input[name='store_name']").val("仁愛高山青店　Ｂ");
     // $("input[name='store_address']").val("南投縣仁愛鄉大同村信義巷34之6號");
+	// $('.shipping-store').removeClass('alerting');
 }
 
 //處理回傳資訊()
@@ -37,6 +38,7 @@ var myMsg = function(e) {
     $("input[name='store_name']").val(data.StoreName);
     $("input[name='store_address']").val(data.StoreAdd);
 
+	$('.shipping-store').removeClass('alerting');
 };
 
 //監聽message事件
