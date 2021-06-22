@@ -152,10 +152,12 @@ class Bill extends Model
 
         if ($this->shipment == 0) {
             $this->shipment = 1;
+            if ($this->isCodGroup()) {//如果是貨到付款
+                dispatch(new ECPayInvoice($this,ECPayInvoice::TYPE_ISSUE)); //開立發票
+            }  
         }elseif ($this->shipment == 1) {
             $this->shipment = 2;
             if ($this->isCodGroup()) {//如果是貨到付款->累計紅利    
-                dispatch(new ECPayInvoice($this,ECPayInvoice::TYPE_ISSUE)); //開立發票
                 if($user = User::find($this->user_id)){
                     $user->updateBonus((int)$this->get_bonus,false);
                 }
