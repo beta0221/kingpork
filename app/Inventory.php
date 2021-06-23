@@ -9,6 +9,10 @@ class Inventory extends Model
     const INCREASE = 1;
     const DECREASE = 0;
 
+    protected $fillable = [
+        'name','slug',
+    ];
+
     /**字典 */
     public static function nameDict(){
         $inventories = Inventory::all();

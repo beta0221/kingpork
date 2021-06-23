@@ -86,7 +86,8 @@ class InventoryController extends Controller
      */
     public function update(Request $request, Inventory $inventory)
     {
-        //
+        $inventory->update($request->all());
+        return redirect()->route('inventory.index');
     }
 
     /**

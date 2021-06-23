@@ -84,7 +84,8 @@ class RetailerController extends Controller
      */
     public function update(Request $request, Retailer $retailer)
     {
-        //
+        $retailer->update($request->all());
+        return redirect()->route('retailer.index');
     }
 
     /**
