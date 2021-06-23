@@ -20,6 +20,17 @@
     <button class="mt-2 btn btn-primary" onclick="dailyReport()">日報表</button>
 </div>
 
+<div class="mt-2 p-2">
+    <h3>發票記錄</h3>
+    {{$invoiceLogs->links()}}
+    @foreach ($invoiceLogs as $log)
+        <span>訂單編號：{{$log->bill_id}}</span><br>
+        <span>{{$log->info}}</span><br>
+    @endforeach
+
+    {{$invoiceLogs->links()}}
+</div>
+
 
 
 

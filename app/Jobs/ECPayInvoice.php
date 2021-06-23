@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Bill;
+use App\InvoiceLog;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -92,10 +93,10 @@ class ECPayInvoice implements ShouldQueue
         $file_path = storage_path() . $this->type;
         $output = shell_exec("php $file_path $data");
 
-        // Log::useDailyFiles(storage_path().'/logs/invoice.log');
-        Log::notice('訂單編號：' . $this->bill->bill_id);
+        Log::notice('<發票紀錄：' . $this->bill->bill_id . '>');
         Log::notice($output);
-        Log::notice('-----------');
+        Log::notice('</發票紀錄：' . $this->bill->bill_id . '>');
+        InvoiceLog::log($this->bill->bill_id,$output);
 
     }
 }

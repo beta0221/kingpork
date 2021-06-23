@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\InvoiceLog;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -23,7 +24,9 @@ class AdminController extends Controller
      */
     public function index()
     {
-        // return view('/home');
-        return view('admin.index');
+        $invoiceLogs = InvoiceLog::orderBy('id','desc')->paginate(15);
+        return view('admin.index',[
+            'invoiceLogs'=>$invoiceLogs
+        ]);
     }
 }
