@@ -297,7 +297,7 @@ class OrderManagementController extends Controller
         $defaultSize = 'S060';
 
         $cellData = [
-            ['廠商訂單編號','商品價值','預約出貨日期','取件人姓名','取件人手機','材積代號','店名','取貨付款'],
+            ['廠商訂單編號','商品價值','預約出貨日期','取件人姓名','取件人手機','材積代號','店名','取貨付款','物料清單','品項'],
         ];
 
         $bill_id_array = json_decode($request->bill_id);
@@ -307,12 +307,25 @@ class OrderManagementController extends Controller
                 if($bill->carrier_id != Bill::CARRIER_ID_FAMILY_MART){ continue; }
                 if(!$storeName = $bill->familyStore->name){ continue; }
 
+                $items = $bill->products();
+                $inventoryAmountArray = [];
+                $itemsInShort = "";
+                foreach ($items as $item) {
+                    $inventoryAmountArray[] = $item->sumInventoryAmount();
+                    if($item->quantity == 1){
+                        $itemsInShort .= $item->short;
+                    }else{
+                        $itemsInShort .= ($item->short . '*' . $item->quantity);
+                    }
+                }
+                $materialListText = $this->materialListText($inventoryAmountArray);
+
                 $pay = "取貨不付款";
                 if($bill->pay_by == Bill::PAY_BY_FAMILY){
                     $pay = "取貨付款";
                 }
                 $ship_phone = str_replace('-','',$bill->ship_phone);
-                $cellData[] = [$bill->bill_id,$bill->price,$shipDate,$bill->ship_name,$ship_phone,$defaultSize,$storeName,$pay];
+                $cellData[] = [$bill->bill_id,$bill->price,$shipDate,$bill->ship_name,$ship_phone,$defaultSize,$storeName,$pay,$materialListText,$itemsInShort];
             }
         }
 
