@@ -71,6 +71,10 @@ class BillController extends Controller
             'store_address'=>'required_if:carrier_id,1',
         ]);
 
+        if($request->carrier_id == Bill::CARRIER_ID_FAMILY_MART && $request->ship_pay_by == 'cod'){
+            return ('錯誤');
+        }
+
         $additionalProducts = Products::getAdditionalProductSlug();
         $hasAdditionalProduct = false;
         foreach ($request->item as $slug) {
