@@ -61,6 +61,7 @@ Route::group(['prefix'=>'psi'],function(){
     Route::get('/','PSIController@index')->name('psi.index');
     Route::post('/','PSIController@store')->name('psi.store');
     Route::get('/show/{id}','PSIController@show')->name('psi.show');
+    Route::delete('/reverse/{id}','PSIController@reverseInventoryLog');
 });
 
 //Bill routes

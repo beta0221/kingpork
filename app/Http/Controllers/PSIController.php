@@ -84,5 +84,38 @@ class PSIController extends Controller
         return response()->json($data);
     }
 
+    /**回朔紀錄 */
+    public function reverseInventoryLog(Request $request,$id){
+        $log = InventoryLog::findOrFail($id);
+        $inventories = $log->inventories()->get();
+
+        $action = null;
+        switch ($log->action) {
+            case 'sale':
+                $action = Inventory::INCREASE;
+                break;
+            case 'purchase':
+                $action = Inventory::DECREASE; 
+                break;
+            default:
+                return response('error',500);
+                break;
+        }
+
+        foreach ($inventories as $inventory) {
+            //更新 inventories
+            Inventory::updateAmount($inventory->pivot->inventory_id,$inventory->pivot->quantity,$action);
+        }
+
+        //刪除 inventory_logs_inventory
+        $log->inventories()->detach();
+
+        //刪除 inventoryLog
+        $log->delete();
+
+        return response()->json(['m'=>'success']);
+
+    }
+
 
 }

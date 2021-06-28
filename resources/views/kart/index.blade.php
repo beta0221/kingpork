@@ -171,6 +171,14 @@
 					</table>	
 					
 					<table class="shipping">
+
+						<tr class="family-column" style="display: none">
+							<td>
+								<label for=""></label>
+								<span style="font-size: 14px;" class="shipping-ship_email">(全家取貨需出示身份證核對資料)</span>
+							</td>
+						</tr>
+
 						<tr>
 							<td class="shipping-top-TD">
 								<label for=""><span class="required">*</span>收件人：</label>

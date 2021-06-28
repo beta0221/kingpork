@@ -47,15 +47,21 @@
                 <td>日期</td>
                 <td>事件</td>
                 <td>通路</td>
+                <td>-</td>
             </tr>
             @foreach ($inventoryLogs as $log)
-            <tr style="color: {{($log->action=='sale')?"red":"green"}};cursor:pointer" onclick="showDetail({{$log->id}},this)">
+            <tr style="color: {{($log->action=='sale')?"red":"green"}};cursor:pointer" class="log-row" data-id="{{$log->id}}">
                 <td>{{$log->date}}</td>
                 <td>{{$log->event}}</td>
                 <td>
                     @if (isset($retailerDict[$log->retailer_id]))
                     {{$retailerDict[$log->retailer_id]}}    
                     @endif
+                </td>
+                <td>
+                    <button class="btn btn-sm btn-danger btn-reverse" data-id="{{$log->id}}">
+                        回朔
+                    </button>
                 </td>
             </tr>
             @endforeach
@@ -148,6 +154,24 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+
+        $('.log-row').on('click',function(event){
+            event.stopPropagation();
+            let id = $(this).data('id');
+
+            $('.cell').remove();
+            $('.selected-row').removeClass('selected-row');
+            $(this).addClass('selected-row');
+
+            showDetail(id);
+        })
+
+        $('.btn-reverse').on('click',function(event){
+            event.stopPropagation();
+            let id = $(this).data('id');
+            reverseInventoryLog(id);
+        })
+
     });
 
 
@@ -186,10 +210,8 @@
             }
         });
     }
-    function showDetail(id,target){
-        $('.cell').remove();
-        $('.selected-row').removeClass('selected-row');
-        $(target).addClass('selected-row');
+    function showDetail(id){
+        
         $.ajax({
             type:'GET',
             url:'/psi/show/' + id,
@@ -221,5 +243,29 @@
         });
         return inventory;
     }
+
+    function reverseInventoryLog(id){
+        
+        if(!confirm('是否確定回朔？')){ return false; }
+
+        $.ajax({
+            type:'POST',
+            url:'/psi/reverse/'+id,
+            dataType:'json',
+            data:{
+                _method:'DELETE', 
+            },
+            success:function(res){
+                console.log(res);
+                window.location.reload();
+            },
+            error:function(error){
+                console.log(error);
+                alert('錯誤');
+            }
+        });
+
+    }
+
 </script>
 @endsection
