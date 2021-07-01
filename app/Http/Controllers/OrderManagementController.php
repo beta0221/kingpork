@@ -333,7 +333,7 @@ class OrderManagementController extends Controller
             $excel->sheet('Sheet1', function($sheet)use($cellData) {
                 $sheet->rows($cellData);
             });
-        })->download('xls');
+        })->download('xlsx');
     }
 
     private function getAccountantRow($bill,$product,$index,$quantity,$now,$receiver,$address,$phone){
