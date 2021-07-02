@@ -134,7 +134,7 @@ foreach ($groups as $group) {
 				<form id="submit_form" action="{{route('bill.store')}}" method="POST">
 					{{csrf_field()}}
 					<input type="hidden" name="ship_email" value="{{Auth::user()->email}}">
-
+					<input type="hidden" value="0" name="carrier_id">
 					<label>收件人</label>
 					<div class="form-group">
 						<input class="form-control" type="text" name="ship_name" value="{{Auth::user()->name}}">

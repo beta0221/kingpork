@@ -77,6 +77,7 @@
 			
 			<form class="kartForm" action="{{route('bill.store')}}" method="POST">
 				{{csrf_field()}}
+				<input type="hidden" value="0" name="carrier_id">
 				<input id="itemSlug" style="display: none;" type="text" name="item[]" value="">
 				<input style="display:none;" class="quantity" type="number" value="1" name="quantity[]">
 					
