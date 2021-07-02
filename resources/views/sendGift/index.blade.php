@@ -87,6 +87,7 @@
 							<div class="price-sum btn btn-block mb-2">總額：＄<span id="price-sum"></span></div>
 							<form id="billing-form" action="{{route('bill.store')}}" method="POST">
 								{{csrf_field()}}
+								<input type="hidden" value="0" name="carrier_id">
 								<input type="text" name="item[]" value="{{$giftProduct->slug}}" style="display: none;">
 								<input id="quantity" type="number" name="quantity[]" style="display: none;">
 								<input type="text" name="ship_name" value="*" style="display: none;">
