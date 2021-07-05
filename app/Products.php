@@ -25,6 +25,26 @@ class Products extends Model
         return $this->belongsToMany('App\Inventory','inventory_product','product_id','inventory_id')->withPivot('quantity');
     }
 
+
+    /**物流限制 */
+    public function carrierRestriction(){
+        $rows = DB::table('product_carrier')->where('product_id',$this->id)->get();
+        $carrierRestriction = [];
+        foreach ($rows as $row) {
+            $carrierRestriction[] = $row->carrier_id;
+        }
+        return $carrierRestriction;
+    }
+
+    /**更新物流限制 */
+    public function updateCarrierRestriction(array $carrier_id_array){
+        DB::table('product_carrier')->where('product_id',$this->id)->delete();
+        
+        foreach ($carrier_id_array as $carrier_id) {
+            DB::table('product_carrier')->insert(['product_id'=>$this->id,'carrier_id'=>$carrier_id]);
+        }
+    }
+
     public function sumInventoryAmount(int $quantity){
         $inventories = $this->inventory()->get();
         $sum = [];

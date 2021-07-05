@@ -26,6 +26,14 @@
 				{{Form::label('name','品名：(必填)')}}
 				{{ Form::text('name',null,['class'=>'form-control']) }}<br>
 
+				{{Form::label('','物流限制：')}}<br>
+				<div class="mb-4">
+					@foreach ($carriers as $id => $name)
+						<span><input name="carrier_id[]" value="{{$id}}" type="checkbox" {{ (in_array($id,$carrierRestriction))?'checked':'' }}>{{$name}}</span>
+					@endforeach
+				</div>
+				
+
 				{{Form::label('short','物流用縮寫：(必填)')}}
 				{{ Form::text('short',null,['class'=>'form-control']) }}<br>
 

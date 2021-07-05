@@ -213,12 +213,6 @@
 						</tr>
 
 						<tr>
-							<td>
-								<label for=""></label>
-								<span style="color:#ec971f" class="shipping-ship_email">全家取貨新上線～！</span>
-							</td>
-						</tr>
-						<tr>
 							<td class="">
 								<label for=""><span class="required">*</span>運送方式：</label>
 								<select id="shipping-carrier" name="carrier_id" class="shipping-carrier form-control">

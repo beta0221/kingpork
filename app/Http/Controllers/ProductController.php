@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Bill;
 use App\Helpers\Pagination;
 use App\Inventory;
 use Illuminate\Http\Request;
@@ -217,9 +218,13 @@ class ProductController extends Controller
         foreach($productCategorys as $productCategory){
             $shit[$productCategory->id] = $productCategory->name;
         }
-
-
-        return view('products.edit',['product'=>$product,'productCategorys'=>$shit]);
+        
+        return view('products.edit',[
+            'product'=>$product,
+            'productCategorys'=>$shit,
+            'carriers'=>[Bill::CARRIER_ID_BLACK_CAT=>Bill::CARRIER_BLACK_CAT],
+            'carrierRestriction'=>$product->carrierRestriction(),
+        ]);
 
     }
 
@@ -289,6 +294,12 @@ class ProductController extends Controller
         }
 
         $product->save();
+
+        $carrier_id_array = [];
+        if($request->has('carrier_id')){
+            $carrier_id_array = $request->carrier_id;
+        }
+        $product->updateCarrierRestriction($carrier_id_array);
         
         if($request->has('previous_url')){
             return redirect($request->previous_url);

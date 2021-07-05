@@ -121,13 +121,27 @@ class kartController extends Controller
             Kart::where('user_id',$user->id)->whereIn('product_id',$additionalProducts)->delete();
             $product_id_array = $_product_id_array;
         }
-
-        $products = Products::whereIn('id', $product_id_array)->get();
+        
         $carriers = Bill::getAllCarriers();
+        $products = Products::whereIn('id', $product_id_array)->get();
+        $carrierRestriction = [];
+
+        foreach ($products as $product) {
+            $carrierRestriction = $product->carrierRestriction();
+            if(!empty($carrierRestriction)){
+                foreach ($carrierRestriction as $carrier_id) {
+                    $carrierRestriction[$carrier_id] = $carriers[$carrier_id];
+                }
+            }
+        }
+
+        if(empty($carrierRestriction)){
+            $carrierRestriction = $carriers;
+        }        
         
         return view('kart.index',[
             'products'=>$products,
-            'carriers'=>$carriers
+            'carriers'=>$carrierRestriction
         ]);
 
     }
