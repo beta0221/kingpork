@@ -127,9 +127,9 @@ class kartController extends Controller
         $carrierRestriction = [];
 
         foreach ($products as $product) {
-            $carrierRestriction = $product->carrierRestriction();
-            if(!empty($carrierRestriction)){
-                foreach ($carrierRestriction as $carrier_id) {
+            $carrier_id_array = $product->carrierRestriction();
+            if(!empty($carrier_id_array)){
+                foreach ($carrier_id_array as $carrier_id) {
                     $carrierRestriction[$carrier_id] = $carriers[$carrier_id];
                 }
             }
