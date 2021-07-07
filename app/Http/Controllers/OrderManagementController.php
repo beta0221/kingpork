@@ -125,6 +125,7 @@ class OrderManagementController extends Controller
         return $text;
     }
 
+    /**黑貓 Row */
     private function getRow(Bill $bill,$now,$quantity = null){
 
         $row = "";
@@ -150,8 +151,8 @@ class OrderManagementController extends Controller
                 $itemsInShort .= ($item->short . '*' . $_quantity);
             }
         }
-        $itemsInShort .= "($bill->price)";
         $materialListText = $this->materialListText($inventoryAmountArray);
+        $materialListText .= "[$bill->price]";
 
         $ship_time = '1';
         if ($bill->ship_time == '14:00-18:00') {

@@ -117,5 +117,41 @@ class PSIController extends Controller
 
     }
 
+    /**產出報表 */
+    public function report(Request $request){
+
+        $dateArray = InventoryLog::where('action','sale')
+            ->select('date')
+            ->groupBy('date')
+            ->whereBetween('date',[$request->from_date,$request->to_date])
+            ->pluck('date');
+
+        $logs = InventoryLog::where('action','sale')
+            ->whereIn('date',$dateArray)
+            ->get();
+
+
+        $data = [];
+        foreach ($logs as $log) {
+            
+            if(!isset($data[$log->date][$log->retailer_id])){
+                $data[$log->date][$log->retailer_id] = [];
+            }
+
+            $data[$log->date][$log->retailer_id][] = $log;
+        }
+
+        $retailers = Retailer::all();
+
+        return view('psi.report',[
+            'from_date'=>$request->from_date,
+            'to_date'=>$request->to_date,
+            'data'=>$data,
+            'dateArray'=>$dateArray,
+            'logs'=>$logs,
+            'retailers'=>$retailers,
+        ]);
+    }
+
 
 }

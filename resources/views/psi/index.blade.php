@@ -40,6 +40,7 @@
         <div class="mb-2">
             <h3 class="d-inline-block m-0">進銷貨紀錄</h3>
             <button  class="btn btn-sm btn-success align-top" data-toggle="modal" data-target="#inventoryModal">新增</button>
+            <button  class="btn btn-sm btn-primary align-top" data-toggle="modal" data-target="#reportModal">匯出報表</button>
         </div>
         
         <table class="table inventory-log-table">
@@ -141,6 +142,39 @@
 	  </div>
 	</div>
 </div>
+
+
+<div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="reportModal" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h5 class="modal-title" id="reportModal">匯出報表</h5>
+		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
+        <form action="/psi/report" target="_blank">
+            <div class="modal-body">
+                <div class="mb-2">
+                    <span>日期區間</span>
+                    <input class="form-control" type="date" name="from_date">
+                </div>
+
+                <div class="mb-2">
+                    <span>至</span>
+                    <input class="form-control" type="date" name="to_date">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">匯出</button>
+                <div type="button" class="btn btn-secondary" data-dismiss="modal">關閉</div>
+            </div>
+        </form>
+
+	  </div>
+	</div>
+</div>
+
 
 @endsection
 
