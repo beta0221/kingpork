@@ -123,25 +123,23 @@ class PSIController extends Controller
         $dateArray = InventoryLog::where('action','sale')
             ->select('date')
             ->groupBy('date')
+            ->orderBy('date','asc')
             ->whereBetween('date',[$request->from_date,$request->to_date])
             ->pluck('date');
 
         $logs = InventoryLog::where('action','sale')
             ->whereIn('date',$dateArray)
+            ->orderBy('date','asc')
             ->get();
 
 
         $data = [];
         foreach ($logs as $log) {
-            
             if(!isset($data[$log->date][$log->retailer_id])){
                 $data[$log->date][$log->retailer_id] = [];
             }
-
             $data[$log->date][$log->retailer_id][] = $log;
         }
-
-        $retailers = Retailer::all();
 
         return view('psi.report',[
             'from_date'=>$request->from_date,
@@ -149,7 +147,7 @@ class PSIController extends Controller
             'data'=>$data,
             'dateArray'=>$dateArray,
             'logs'=>$logs,
-            'retailers'=>$retailers,
+            'retailers'=>Retailer::all(),
         ]);
     }
 
