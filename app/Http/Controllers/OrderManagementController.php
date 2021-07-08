@@ -200,6 +200,7 @@ class OrderManagementController extends Controller
         
         $now = date("Y-m-d");
         $orders = [];
+        $count = 0;
         foreach($bills as $bill)
         {   
             //全家冷凍超取防呆
@@ -216,16 +217,19 @@ class OrderManagementController extends Controller
                     $_bill->ship_address = $gift['address'];
                     $orders[] = $this->getRow($_bill,$now,(int)$gift['quantity']);
                 }
+                $count += count($gifts);
                 continue;
             }
 
             //一般訂單
             $orders[] = $this->getRow($bill,$now);
+            $count += 1;
 
         }
         foreach ($this->totalMaterialList as $key => $value) {
             $orders[] = ",,,,,,,,,,,,,".$key . "*" . $value;
         }
+        $orders[] = ",,,,,,,,,,,,,"."總比數：" . $count;
 
         $orders = json_encode($orders);
         return response()->json($orders);
