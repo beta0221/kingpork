@@ -159,7 +159,7 @@
 						@foreach($productCategory->products as $product)
 							@if($product->public == 1)
 							<?php $isEmpty = false; ?>
-							<div class="productItem">
+							<div class="productItem" onclick="showProductImg('{{$product->image}}')">
 								<div class="left-name-box">
 									<div class="left-top-box">
 										<span>{{$product->name}}</span>
@@ -318,20 +318,8 @@
 
 	}
 
-	function showProduct(id){
-
-		$.ajax({
-			type:'GET',
-			url:'{{url('products')}}' +'/' + id,
-			dataType:'json',
-			success: function (response) {
-                $('#productIMG').attr('src','{{asset('images/productsIMG') . '/'}}'+response.image);
-            },
-            error: function () {
-                // alert('錯誤');
-            },
-		});
-
+	function showProductImg(img){
+		$('#productIMG').attr('src','{{asset('images/productsIMG') . '/'}}' + img);
 	}
 
 	function addToKart(id){
