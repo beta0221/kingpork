@@ -99,6 +99,7 @@ class ProductCategoryController extends Controller
             'cgmh_emba' => 25,//長庚EMBA
             'tcesia' => 25,//桃園仲介公會
             'chaoyang_rotary' => 25,//朝陽扶輪社
+            'phone' => 26
         ];
         if(!isset($vipCat[$vip])){ abort(404); }
 
