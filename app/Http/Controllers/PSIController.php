@@ -16,16 +16,19 @@ class PSIController extends Controller
 
     /**index頁面 */
     public function index(){
-        $inventories = Inventory::all();
-        $inventoryLogs = InventoryLog::orderBy('id','desc')->paginate(10);
+        $inventories = Inventory::allGroupByCat();
+        $inventoryLogs = InventoryLog::orderBy('date','desc')->orderBy('id','desc')->paginate(15);
         $retailers = Retailer::all();
 
         return view('psi.index',[
             'retailers'=>$retailers,
             'inventories'=>$inventories,
             'inventoryLogs'=>$inventoryLogs,
+            'inventoryCats'=>Inventory::getAllCats(),
             'inventoryDict'=>Inventory::nameDict(),
-            'retailerDict'=>Retailer::nameDict()
+            'retailerDict'=>Retailer::nameDict(),
+            'actions'=>InventoryLog::getAllActions(),
+            'actionMap'=>InventoryLog::getActionMap(),
         ]);
     }
 
@@ -34,7 +37,6 @@ class PSIController extends Controller
         
         $this->validate($request,[
             'inventory'=>'required',
-            'event'=>'required',
             'date'=>'required',
             'action'=>'required',
             'retailer_id'=>'required_if:action,sale'
@@ -52,21 +54,8 @@ class PSIController extends Controller
         }
         $inventoryLog->inventories()->sync($sync);
 
-        $action = null;
-        switch ($request->action) {
-            case 'sale':
-                $action = Inventory::DECREASE; 
-                break;
-            case 'purchase':
-                $action = Inventory::INCREASE;
-                break;
-            default:
-                return response('error',500);
-                break;
-        }
-
         foreach ($request->inventory as $id => $quantity) {
-            Inventory::updateAmount($id,$quantity,$action);
+            Inventory::updateAmount($id,$quantity);
         }
 
         return response()->json(['m'=>'success']);
@@ -89,22 +78,10 @@ class PSIController extends Controller
         $log = InventoryLog::findOrFail($id);
         $inventories = $log->inventories()->get();
 
-        $action = null;
-        switch ($log->action) {
-            case 'sale':
-                $action = Inventory::INCREASE;
-                break;
-            case 'purchase':
-                $action = Inventory::DECREASE; 
-                break;
-            default:
-                return response('error',500);
-                break;
-        }
-
         foreach ($inventories as $inventory) {
             //更新 inventories
-            Inventory::updateAmount($inventory->pivot->inventory_id,$inventory->pivot->quantity,$action);
+            $quantity = 0 - $inventory->pivot->quantity;
+            Inventory::updateAmount($inventory->pivot->inventory_id,$quantity);
         }
 
         //刪除 inventory_logs_inventory

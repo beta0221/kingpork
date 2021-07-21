@@ -27,12 +27,23 @@
                 <th>庫存</th>
                 <td>數量</td>
             </tr>
-            @foreach ($inventories as $i => $inventory)
-            <tr>
-                <td>{{$i+1}}.{{$inventory->name}}</td>
-                <td>{{$inventory->amount}}</td>
-            </tr>
+
+            @foreach ($inventoryCats as $cat)
+                <?php if(!isset($inventories[$cat])){ continue; } ?>
+                <tr>
+                    <td colspan="2" style="background-color: gray">
+                        <h5 class="m-0">{{$cat}}</h5>
+                    </td>
+                </tr>
+                @foreach ($inventories[$cat] as $inventory)
+                    <tr>
+                        <td>{{$inventory->name}}</td>
+                        <td>{{$inventory->amount}}</td>
+                    </tr>
+                @endforeach
+
             @endforeach
+            
         </table>
     </div>
 
@@ -47,12 +58,23 @@
             <tr style="font-weight: 800">
                 <td>日期</td>
                 <td>事件</td>
+                <td>備註</td>
                 <td>通路</td>
                 <td>-</td>
             </tr>
+
+            <?php 
+                $color = [
+                    'purchase'=>'green',
+                    'produce'=>'#276ecc',
+                    'pack'=>'orange',
+                    'sale'=>'red',
+                ];
+            ?>
             @foreach ($inventoryLogs as $log)
-            <tr style="color: {{($log->action=='sale')?"red":"green"}};cursor:pointer" class="log-row" data-id="{{$log->id}}">
+            <tr style="color: {{$color[$log->action]}};cursor:pointer" class="log-row" data-id="{{$log->id}}">
                 <td>{{$log->date}}</td>
+                <td>{{$actions[$log->action]}}</td>
                 <td>{{$log->event}}</td>
                 <td>
                     @if (isset($retailerDict[$log->retailer_id]))
@@ -105,14 +127,12 @@
 
             <div class="mb-2">
                 <span>事件</span>
-                <input class="form-control" type="text" name="event" placeholder="事件">
-            </div>
-
-            <div class="mb-2">
-                <span class="mr-2">銷貨(-)</span>
-                <input class="radio-input mr-2" type="radio" name="action" value="sale" onclick="showRetailerRow()">
-                <span class="mr-2">進貨(+)</span>
-                <input class="radio-input mr-2" type="radio" name="action" value="purchase" onclick="hideRetailerRow()">
+                <select class="form-control" name="action" id="action-selector">
+                    <option value="">請選擇</option>
+                    @foreach ($actions as $value => $name)
+                        <option value="{{$value}}">{{$name}}</option>
+                    @endforeach
+                </select>
             </div>
 
             <div class="retailer-row" class="mb-2" style="display: none">
@@ -124,13 +144,24 @@
                 </select>
             </div>
 
+            <div class="mb-2">
+                <span>備註</span>
+                <input class="form-control" type="text" name="event" placeholder="備註">
+            </div>
+
             <hr>
             
             <div>
-                @foreach ($inventories as $inventory)
-                    <input id="inventory-check-{{$inventory->id}}" data-inventory-id="{{$inventory->id}}" class="inventory-check" type="checkbox">
-                    <span>{{$inventory->name}}</span>
-                    <input id="inventory-quantity-{{$inventory->id}}" class="inventory-quantity" type="number"><br>
+                @foreach ($inventoryCats as $cat)
+                    <?php if(!isset($inventories[$cat])){ continue; } ?>
+                    <div class="cat cat-{{$cat}}">
+                        <h6 class="mt-2">{{$cat}}<span id="{{$cat}}"></span></h6>
+                        @foreach ($inventories[$cat] as $inventory)
+                            <input id="inventory-check-{{$inventory->id}}" data-inventory-id="{{$inventory->id}}" class="inventory-check ml-2" type="checkbox">
+                            <span>{{$inventory->name}}</span>
+                            <input id="inventory-quantity-{{$inventory->id}}" class="inventory-quantity" type="number"><br>
+                        @endforeach
+                    </div>
                 @endforeach
             </div>
 			
@@ -181,6 +212,7 @@
 @section('scripts')
 <script>
     const inventoryDict = {!!json_encode($inventoryDict)!!};
+    const actionMap = {!!json_encode($actionMap)!!};
 
     $(document).ready(function(){
         $.ajaxSetup({
@@ -206,6 +238,28 @@
             reverseInventoryLog(id);
         })
 
+        $('#action-selector').on('change',function(){
+            $('.cat').show();
+            let value = $(this).val();
+            if(value == ''){ return; }
+
+            let map = actionMap[value];
+            Object.keys(map).forEach(function(key){
+                let v = map[key];
+                if(v != null){
+                    $('span#' + key).html('('+ v +')');
+                }else{
+                    $('.cat-' + key).hide();
+                }
+            })
+
+            hideRetailerRow();
+            if(value == 'sale'){
+                showRetailerRow();
+            }
+            
+        });
+
     });
 
 
@@ -220,7 +274,7 @@
         let inventory = getInventory();
         let event = $('input[name="event"]').val();
         let date = $('input[name="date"]').val();
-        let action = $('input[name="action"]:checked').val();
+        let action = $('select[name="action"]').val();
         let retailer_id = $('select[name="retailer_id"]').val();
 
         $.ajax({
@@ -235,7 +289,7 @@
                 retailer_id:retailer_id
             },
             success:function(res){
-                console.log(res);
+                // console.log(res);
                 window.location.reload();
             },
             error:function(error){
@@ -251,7 +305,7 @@
             url:'/psi/show/' + id,
             dataType:'json',
             success:function(res){
-                console.log(res);
+                // console.log(res);
                 Object.keys(res).forEach(key => {
                     let quantity = res[key];
                     let name = inventoryDict[key];
@@ -290,7 +344,7 @@
                 _method:'DELETE', 
             },
             success:function(res){
-                console.log(res);
+                // console.log(res);
                 window.location.reload();
             },
             error:function(error){

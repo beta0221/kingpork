@@ -16,9 +16,9 @@ class CreateInventoryLogsTable extends Migration
         Schema::create('inventory_logs', function (Blueprint $table) {
             $table->increments('id');
             $table->date('date');
-            $table->enum('action',['purchase','sale']);
+            $table->enum('action',['purchase','sale','produce','pack']);
             $table->integer('retailer_id')->nullable();
-            $table->string('event',50);
+            $table->string('event',50)->nullable();
         });
     }
 

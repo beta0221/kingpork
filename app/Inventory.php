@@ -6,8 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Inventory extends Model
 {
-    const INCREASE = 1;
-    const DECREASE = 0;
 
     const CAT_RAW_MATERIAL = "生產原料";
     const CAT_INNER_WRAP = "外包裝";
@@ -23,11 +21,11 @@ class Inventory extends Model
     /**全部類別 */
     public static function getAllCats(){
         return [
+            static::CAT_PRODUCT,
+            static::CAT_SEMI_PRODUCT,
             static::CAT_RAW_MATERIAL,
             static::CAT_INNER_WRAP,
             static::CAT_OTTER_WRAP,
-            static::CAT_SEMI_PRODUCT,
-            static::CAT_PRODUCT,
         ];
     }
 
@@ -53,20 +51,10 @@ class Inventory extends Model
         return $dict;
     }
 
-    public static function updateAmount($id,$quantity,$action){
+    /**變更數量 */
+    public static function updateAmount($id,$quantity){
         if($inventory = Inventory::find($id)){
-            
-            switch ($action) {
-                case 1:
-                    $inventory->amount += $quantity;
-                    break;
-                case 0:
-                    $inventory->amount -= $quantity;
-                        break;
-                default:
-                    break;
-            }
-            
+            $inventory->amount += $quantity;
             $inventory->save();
         }
     }
