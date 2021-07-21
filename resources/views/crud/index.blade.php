@@ -15,24 +15,50 @@
         <form action="{{$createRoute}}" method="POST">
             {{ csrf_field() }}
 			@foreach ($columns as $name=>$title)
-			<input name="{{$name}}" style="display: inline-block;width:160px" type="text" class="form-control" placeholder="{{$title}}">	
+
+				@if ($name=="selector")
+					@foreach ($columns['selector'] as $_name => $options)
+						<select name="{{$_name}}" class="form-control d-inline-block" style="width: 160px">
+							@foreach ($options as $option)
+								<option value="{{$option}}">{{$option}}</option>
+							@endforeach
+						</select>	
+					@endforeach
+					
+				@else
+				<input name="{{$name}}" style="display: inline-block;width:160px" type="text" class="form-control" placeholder="{{$title}}">
+				@endif
+
+			
 			@endforeach
             <button style="display: inline-block" class="btn btn-success btn-sm">新增</button>
         </form>
 	</div>
 	<hr class="m-0">
 	<div class="p-2">
-		@foreach($dataList as $i => $data)
-			@foreach ($columns as $name=>$title)
-			<span class="span-row span-row-{{$data->id}} btn btn-sm mb-2">{{$data->$name}}</span>
-			<input class="input-row input-row-{{$data->id}}" type="text" value="{{$data->$name}}" name="{{$name}}" style="display:none;">
+
+		
+		@if (isset($group))
 			
+			@foreach($group as $item)
+				<h5>{{$item}}</h5>
+				<?php if(!isset($dataList[$item])){ continue; } ?>
+
+				@include('crud.dataList',[
+					'dataList'=>$dataList[$item],
+					'columns'=>$columns,
+				])
+
 			@endforeach
-			<button data-id="{{$data->id}}" class="button-edit button-edit-{{$data->id}} btn btn-sm btn-warning">編輯</button>
-			<button data-id="{{$data->id}}" class="button-cancel button-cancel-{{$data->id}} btn btn-sm btn-dark" style="display: none">取消</button>
-			<button data-id="{{$data->id}}" class="button-submit button-submit-{{$data->id}} btn btn-sm btn-success" style="display: none">送出</button>
-            <br>
-		@endforeach
+
+		@else
+
+			@include('crud.dataList',[
+				'dataList'=>$dataList,
+				'columns'=>$columns
+			])
+
+		@endif
 	</div>
 
 	<form id="form-update-data" action="" method="POST" style="display: none">
@@ -55,6 +81,7 @@
 			init();
 			let id = $(this).data('id');
 			$(this).hide();
+			$('.select-row-'+id).show();
 			$('.span-row-'+id).hide();
 			$('.input-row-'+id).show();
 			$('.button-cancel-'+id).show();
@@ -65,6 +92,7 @@
 			init();
 			let id = $(this).data('id');
 			$(this).hide();
+			$('.select-row-'+id).hide();
 			$('.input-row-'+id).hide();
 			$('.span-row-'+id).show();
 			$('.button-edit-'+id).show();
@@ -75,12 +103,18 @@
 			let id = $(this).data('id');
 			$('#form-update-data').prop('action',window.location.pathname+'/'+id);
 			$( ".input-row-"+id).clone().appendTo("#form-update-data");
+			$( ".select-row-"+id).each(function(index){
+				let value = $(this).val();
+				let name = $(this).prop('name');
+				$("#form-update-data").append(`<input name='${name}' value='${value}'/>`)
+			});
 			$('#form-update-data').submit();
 		});
 
 	});
 
 	function init(){
+		$('.select-row').hide();
 		$('.span-row').show();
 		$('.input-row').hide();
 		$('.button-edit').show();
