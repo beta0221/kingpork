@@ -260,6 +260,14 @@
             
         });
 
+        $('.inventory-quantity').on('change',function(){
+            let value = $(this).val();
+            if(value < 0){
+                value = 0 - value;
+                $(this).val(value);
+            }
+        });
+
     });
 
 

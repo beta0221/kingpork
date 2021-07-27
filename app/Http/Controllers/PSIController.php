@@ -44,19 +44,25 @@ class PSIController extends Controller
 
 
         $inventoryLog = InventoryLog::insert_row($request);
-        
+        $actionMap = InventoryLog::getActionMap();
+
         $sync = [];
         if($request->has('inventory')){
-            foreach ($request->inventory as $inventory_id => $quantity) {
-                if(!$quantity){ continue; }
-                $sync[$inventory_id] = ['quantity'=>$quantity];
+
+            $inventories = Inventory::whereIn('id',array_keys($request->inventory))->get();
+
+            foreach ($inventories as $inventory) {
+                if(!$quantity = $request->inventory[$inventory->id]){ continue; }
+                if(!$action = $actionMap[$request->action][$inventory->category]){ continue; }
+                if($action == '-'){
+                    $quantity = 0 - $quantity;
+                }
+                $sync[$inventory->id] = ['quantity'=>$quantity];
+                $inventory->updateAmount($quantity);
             }
+
         }
         $inventoryLog->inventories()->sync($sync);
-
-        foreach ($request->inventory as $id => $quantity) {
-            Inventory::updateAmount($id,$quantity);
-        }
 
         return response()->json(['m'=>'success']);
 
@@ -81,7 +87,7 @@ class PSIController extends Controller
         foreach ($inventories as $inventory) {
             //更新 inventories
             $quantity = 0 - $inventory->pivot->quantity;
-            Inventory::updateAmount($inventory->pivot->inventory_id,$quantity);
+            $inventory->updateAmount($quantity);
         }
 
         //刪除 inventory_logs_inventory

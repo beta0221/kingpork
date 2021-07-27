@@ -8,14 +8,14 @@ class Inventory extends Model
 {
 
     const CAT_RAW_MATERIAL = "生產原料";
-    const CAT_INNER_WRAP = "外包裝";
-    const CAT_OTTER_WRAP = "內包裝";
+    const CAT_INNER_WRAP = "內包裝";
+    const CAT_OTTER_WRAP = "外包裝";
     const CAT_SEMI_PRODUCT = "半成品";
     const CAT_PRODUCT = "成品";
 
 
     protected $fillable = [
-        'name','slug','category'
+        'name','slug','category','amount'
     ];
 
     /**全部類別 */
@@ -52,11 +52,9 @@ class Inventory extends Model
     }
 
     /**變更數量 */
-    public static function updateAmount($id,$quantity){
-        if($inventory = Inventory::find($id)){
-            $inventory->amount += $quantity;
-            $inventory->save();
-        }
+    public function updateAmount($quantity){
+        $this->amount += $quantity;
+        $this->save();
     }
 
 }
