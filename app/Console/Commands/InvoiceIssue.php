@@ -41,6 +41,18 @@ class InvoiceIssue extends Command
     public function handle()
     {
         $bill_id = $this->argument('bill_id');
+
+        //多組
+        if(strpos($bill_id, ',')){
+            $bill_id_array = explode(',', $bill_id);
+            $bills = Bill::whereIn('bill_id',$bill_id_array)->get();
+            foreach ($bills as $bill) {
+                dispatch(new ECPayInvoice($bill,ECPayInvoice::TYPE_ISSUE));        
+            }
+            return;
+        }
+
+        //單組
         if(!$bill = Bill::where('bill_id',$bill_id)->first()){ return; }
         dispatch(new ECPayInvoice($bill,ECPayInvoice::TYPE_ISSUE));
 
