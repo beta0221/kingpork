@@ -68,7 +68,7 @@ class ECPayInvoice implements ShouldQueue
         }
 
         $CustomerIdentifier = '';
-        $CustomerName = '';
+        $CustomerName = $this->bill->ship_name;
         $Print = '1';       //一律列印
         $CustomerAddr = '';
         $CustomerAddr = $this->bill->ship_county . $this->bill->ship_district . $this->bill->ship_address;
