@@ -183,6 +183,7 @@ class BillController extends Controller
             $bill->status = 1;
             $bill->save();
             $bill->sendBonusToBuyer();
+            dispatch(new ECPayInvoice($bill,ECPayInvoice::TYPE_ISSUE)); //開立發票
         }
 
         if(!$resultUrl){ return '錯誤頁面'; }
@@ -199,6 +200,7 @@ class BillController extends Controller
             $bill->status = 1;
             $bill->save();
             $bill->sendBonusToBuyer();
+            dispatch(new ECPayInvoice($bill,ECPayInvoice::TYPE_ISSUE)); //開立發票
         }
 
         Log::info("-----綠界回傳-----");
@@ -206,9 +208,6 @@ class BillController extends Controller
         Log::info(json_encode($request->all()));
         Log::info("-----------------");
 
-        if($isSuccess){
-            dispatch(new ECPayInvoice($bill,ECPayInvoice::TYPE_ISSUE)); //開立發票
-        }
 
         return "1|OK";
     }
