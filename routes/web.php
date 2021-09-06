@@ -36,7 +36,7 @@ Route::group(['prefix'=>'product'],function(){
 Route::resource('productCategory','ProductCategoryController');
 Route::get('/vip/products/{code}','ProductCategoryController@view_vipProducts');
 // singleCategory routes
-Route::resource('/buynow','SingleController');
+// Route::resource('/buynow','SingleController');
 Route::get('/buynow/form/{id}','SingleController@showToBuy')->name('showToBuy');
 Route::get('/thankYou/{id}','SingleController@thankYou')->name('thankYou');
 Route::get('/searchOrder','SingleController@searchOrder');
