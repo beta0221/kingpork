@@ -33,6 +33,7 @@
     <table style="text-align: center;margin-top:12px">
         <tr>
            <td>訂單編號</td> 
+           <td>收件人</td>
            <td>折抵</td> 
            <td>總額</td> 
            <td>回饋紅利</td> 
@@ -45,6 +46,7 @@
         @foreach ($bills as $bill)
             <tr>
                 <td>{{$bill->bill_id}}</td> 
+                <td>{{$bill->ship_name}}</td>
                 <td>{{$bill->bonus_use}}</td> 
                 <td>{{$bill->price}}</td> 
                 <td>{{$bill->get_bonus}}</td> 
