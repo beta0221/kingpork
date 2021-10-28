@@ -34,6 +34,7 @@ Route::group(['prefix'=>'product'],function(){
 
 // productCategory routes
 Route::resource('productCategory','ProductCategoryController');
+Route::get('category/{id}','ProductCategoryController@show');//簡化url
 Route::get('/vip/products/{code}','ProductCategoryController@view_vipProducts');
 // singleCategory routes
 // Route::resource('/buynow','SingleController');

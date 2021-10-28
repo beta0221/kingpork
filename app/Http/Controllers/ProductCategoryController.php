@@ -70,9 +70,13 @@ class ProductCategoryController extends Controller
     {
         $additionalCategory = null;
         $addableCat = [1,2,3,9];
-        $productCategory = ProductCategory::find($id);
+        if(is_numeric($id)){
+            $productCategory = ProductCategory::findOrFail($id);
+        }else{
+            $productCategory = ProductCategory::where('slug',$id)->firstOrFail();
+        }
         
-        if(in_array($id,$addableCat)){
+        if(in_array($productCategory->id,$addableCat)){
             $additionalCategory = ProductCategory::find(12);
         }
 
