@@ -116,9 +116,9 @@
 		<div class="product-cell">
 			<div>
 				<div>
-					<div class="catImg P-soup-6" id="{{Request::is('productCategory/21') ? 'currentCat' : ''}}" onclick="location.href='/productCategory/21'">
-						<a href="{{route('productCategory.show',21)}}">
-							<img src="{{asset('images/cat/menu/21.png')}}" alt="活凍Q麵">	
+					<div class="catImg P-soup-6" id="{{Request::is('category/event_1111') ? 'currentCat' : ''}}" onclick="location.href='/category/event_1111'">
+						<a href="/category/event_1111">
+							<img src="{{asset('images/cat/menu/event_1111.png')}}" alt="雙十一">	
 						</a>
 					</div>
 				</div>
