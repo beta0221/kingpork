@@ -24,7 +24,7 @@
 {{-- products start --}}
 <div style="height:20px"></div>
 <div class="new-product-bar">
-	<div class="product-cell">
+	{{-- <div class="product-cell">
 		<div>
 			<div>
 				<div class="catImg">
@@ -35,7 +35,7 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> --}}
 		<div class="product-cell">
 			<div>
 				<div>
@@ -84,8 +84,6 @@
 				</div>
 			</div>
 		</div>
-	</div>
-	<div class="new-product-bar">
 		<div class="product-cell">
 			<div>
 				<div>
@@ -98,6 +96,8 @@
 				</div>
 			</div>
 		</div>
+	</div>
+	<div class="new-product-bar">
 		<div class="product-cell">
 			<div>
 				<div>
@@ -142,6 +142,18 @@
 							<img src="{{asset('images/cat/landing/16.png')}}" alt="特級麻辣養生鍋底">
 						</a>
 						<div onclick="location.href='{{route('productCategory.show',16)}}';" class="P-buy">我要買</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="product-cell">
+			<div>
+				<div>
+					<div class="catImg">
+						<a href="{{route('productCategory.show',21)}}">
+							<img src="{{asset('images/cat/landing/21.png')}}" alt="活凍Q麵">
+						</a>
+						<div onclick="location.href='{{route('productCategory.show',21)}}';" class="P-buy">我要買</div>
 					</div>
 				</div>
 			</div>
