@@ -61,15 +61,21 @@ class Products extends Model
     }
 
     public static function getAdditionalProducts(){
-        $product_id_array = Products::where('category_id',Products::ADDITIONAL_CAT_ID)->pluck('id');
-        if(count($product_id_array) == 0){ return []; }
-        return (array)$product_id_array;
+        $products = Products::where('category_id',Products::ADDITIONAL_CAT_ID)->select('id')->get();
+        $idArray = [];
+        foreach ($products as $product) {
+            $idArray[] = $product->id;
+        }
+        return $idArray;
     }
 
     public static function getAdditionalProductSlug(){
-        $product_slug_array = Products::where('category_id',Products::ADDITIONAL_CAT_ID)->pluck('slug');
-        if(count($product_slug_array) == 0){ return []; }
-        return (array)$product_slug_array;
+        $products = Products::where('category_id',Products::ADDITIONAL_CAT_ID)->select('slug')->get();
+        $slugArray = [];
+        foreach ($products as $product) {
+            $slugArray[] = $product->slug;
+        }
+        return $slugArray;
     }
 
     public static function totalPrice($productIdArray,$additionalProducts=[]){

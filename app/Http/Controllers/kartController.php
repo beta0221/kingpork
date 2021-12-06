@@ -165,17 +165,17 @@ class kartController extends Controller
     public function store(Request $request)
     {
 
-        $additionalProducts = Products::getAdditionalProducts();
+        // $additionalProducts = Products::getAdditionalProducts();
         
 
         if (Auth::user()) {
 
-            if(in_array($request->product_id,$additionalProducts)){
-                $totalPrice =Kart::getKartTotalPrice(Auth::user()->id,$additionalProducts);
-                if($totalPrice < 500){
-                    return response('403');
-                }
-            }
+            // if(in_array($request->product_id,$additionalProducts)){
+            //     $totalPrice =Kart::getKartTotalPrice(Auth::user()->id,$additionalProducts);
+            //     if($totalPrice < 500){
+            //         return response('403');
+            //     }
+            // }
             
             $kart = Kart::where('product_id',$request->product_id)
                 ->where('user_id', Auth::user()->id)
@@ -193,17 +193,17 @@ class kartController extends Controller
             $ip_address = request()->ip();
             $sessionCart = sessionCart::where('ip_address',$ip_address)->first();
 
-            if(in_array($request->product_id,$additionalProducts)){
-                if($sessionCart){
-                    $productIdArray = json_decode($sessionCart->item);
-                    $totalPrice = Products::totalPrice($productIdArray,$additionalProducts);
-                    if($totalPrice < 500){
-                        return response('403');
-                    }
-                }else{
-                    return response('403');
-                }
-            }
+            // if(in_array($request->product_id,$additionalProducts)){
+            //     if($sessionCart){
+            //         $productIdArray = json_decode($sessionCart->item);
+            //         $totalPrice = Products::totalPrice($productIdArray,$additionalProducts);
+            //         if($totalPrice < 500){
+            //             return response('403');
+            //         }
+            //     }else{
+            //         return response('403');
+            //     }
+            // }
 
 
             if ($sessionCart) {
@@ -269,26 +269,29 @@ class kartController extends Controller
      */
     public function destroy(Request $request,$id)
     {
-        $additionalProducts = Products::getAdditionalProducts();
+        // $additionalProducts = Products::getAdditionalProducts();
+
         if (Auth::user()) {
             
             $kart = Kart::where('user_id',Auth::user()->id)->where('product_id',$id)->delete();
 
-            if($kart)
-            {
-
-                $totalPrice = Kart::getKartTotalPrice(Auth::user()->id,$additionalProducts);
-                if($totalPrice < 500 && Kart::hasProduct(Auth::user()->id,$additionalProducts)){
-                    Kart::where('user_id',Auth::user()->id)->whereIn('product_id',$additionalProducts)->delete();
-                    return response()->json(['msg'=>'403','status'=>1]);
-                }
-
-                return response()->json(['msg'=>'成功刪除','status'=>1]);
-            }
-            else
-            {
+            if(!$kart){
                 return response()->json(['msg'=>'錯誤','status'=>0]);
             }
+
+            // $totalPrice = Kart::getKartTotalPrice(Auth::user()->id,$additionalProducts);
+
+            // if($totalPrice < 500 && Kart::hasProduct(Auth::user()->id,$additionalProducts)){
+
+            //     Kart::where('user_id',Auth::user()->id)->whereIn('product_id',$additionalProducts)->delete();
+            //     return response()->json(['msg'=>'403','status'=>1]);
+
+            // }
+
+            return response()->json(['msg'=>'成功刪除','status'=>1]);
+
+
+
         }else{
             $ip_address = request()->ip();
             $sessionCart = sessionCart::where('ip_address',$ip_address)->firstOrFail();
