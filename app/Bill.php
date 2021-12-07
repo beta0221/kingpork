@@ -64,8 +64,8 @@ class Bill extends Model
         $bill->bonus_use = $useBonus;
         $bill->price = $total;
         //現時紅利加碼
-        // $bill->get_bonus = $getBonus * 3;
-        $bill->get_bonus = $getBonus;
+        $bill->get_bonus = $getBonus * 2;
+        // $bill->get_bonus = $getBonus;
         $bill->ship_name = $request->ship_name;
         $bill->ship_gender = $request->ship_gender;
         $bill->ship_phone = $request->ship_phone;
