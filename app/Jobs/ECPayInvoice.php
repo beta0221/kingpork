@@ -44,6 +44,7 @@ class ECPayInvoice implements ShouldQueue
         $products = $this->bill->products();
         $Items = [];
         foreach ($products as $product) {
+            if($product->quantity == 0){ continue; }
             $ItemAmount = $product->quantity * $product->price;
             $Items[] = [
                 'ItemName' => $product->name,
