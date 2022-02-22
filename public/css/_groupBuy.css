@@ -129,6 +129,10 @@
 	height: 100%;
 	float: right;
 }
+.isSelected > .product-cell-select{
+	background-color: gray;
+}
+
 @media(max-width: 1200px){
 
 }

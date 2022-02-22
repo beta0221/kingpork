@@ -29,11 +29,25 @@
 
 
 <div class="contentPage">
+	
 	<div class="container">
+			@if (count($errors) > 0)
+			<div class="alert alert-danger">
+				<ul>
+					@foreach ($errors->all() as $error)
+						<li>{{ $error }}</li>
+					@endforeach
+				</ul>
+			</div>
+			@endif
 		<div class="row">
+
 			<div class="col-lg-10 offset-lg-1 col-12 mt-3 mb-3">
 				<div class="alert-field"></div>
 				<div class="product-displayDiv">
+
+					
+
 					<div class="product-display-title">
 						<h2>團購王VIP專區</h2>
 					</div>
@@ -41,16 +55,20 @@
 
 					@foreach($products as $product)
 					
-					<div class="product-cell" data-toggle="modal" data-target="#orderModal" onclick="selectItem('{{$product->slug}}',{{$product->price}})">
+					<div class="product-cell" data-name="{{$product->name}}" data-slug="{{$product->slug}}" data-price="{{$product->price}}">
 
 						<span class="product-cell-name">{{$product->name}}</span>
 						<span class="product-cell-des">{{$product->discription}}</span>
 						
 						<span class="product-cell-select">選擇</span>
-						<span class="product-cell-price" data-toggle="modal" data-target="#orderModal" onclick="selectItem('{{$product->slug}}',{{$product->price}})">${{$product->price}}</span>
+						<span class="product-cell-price">${{$product->price}}</span>
 					</div>
 
 					@endforeach
+
+					<div class="p-2">
+						<div class="btn btn-block btn-warning" onclick="nextStep()">下一步</div>
+					</div>
 
 				</div>
 				
@@ -76,10 +94,20 @@
 		{{-- form start --}}
 			
 			<form class="kartForm" action="{{route('bill.store')}}" method="POST">
+
+				<h5 class="p-3 m-0">購買商品：</h5>
+				<div class="items-container" style="padding: 16px">
+
+					{{-- <span>排骨</span>
+					<input id="itemSlug" style="display: none;" type="text" name="item[]" value="">
+					<input class="quantity" type="number" value="1" name="quantity[]">
+					<div class="btn btn-danger btn-sm d-inline-block">刪除</div> --}}
+
+				</div>
+				<hr class="p-2">
+
 				{{csrf_field()}}
 				<input type="hidden" value="0" name="carrier_id">
-				<input id="itemSlug" style="display: none;" type="text" name="item[]" value="">
-				<input style="display:none;" class="quantity" type="number" value="1" name="quantity[]">
 					
 					<table class="shipping">
 						<tr>
