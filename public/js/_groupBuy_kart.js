@@ -81,7 +81,7 @@ function nextStep(){
 		alert('請選擇商品。')
 		return;	
 	}
-	
+	caculateTotalPrice();
 	$('#orderModal').modal('show');
 }
 
