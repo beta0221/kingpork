@@ -67,7 +67,7 @@
 					@endforeach
 
 					<div class="p-2">
-						<div class="btn btn-block btn-warning" onclick="nextStep()">下一步</div>
+						<div class="btn btn-block btn-lg btn-warning" onclick="nextStep()">下一步</div>
 					</div>
 
 				</div>
@@ -237,7 +237,7 @@
 							<td>
 								<label for="">　使用紅利：</label>
 								<input id="bonus" max="" name="bonus" type="number" class="shipping-bonus form-control" value="0">
-								<label id="myBonus" for="">　累積紅利：<span></span></label>
+								<label id="myBonus" for="">　累積紅利：<span>{{Auth::user()->bonus}}</span></label>
 							</td>
 						</tr>
 

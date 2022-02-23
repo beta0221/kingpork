@@ -30,12 +30,8 @@ $(document).ready(function(){
 	                	$('#ship_three_id').val(response.ship_three_id);
 	                	$('#ship_three_company').val(response.ship_three_company);
 	                }
-	                $('#myBonus span').empty();
-	                $('#myBonus span').append(response.bonus);
 	                $('#bonus').attr('max',response.bonus);
               	}else{
-              		$('#myBonus span').empty();
-              		$('#myBonus span').append(response.bonus);
               		$('#bonus').attr('max',response.bonus);
               	}
             },
@@ -91,7 +87,7 @@ function updateFormItems(){
 	Object.keys(items).forEach(slug => {
 		var name = items[slug]['name'];
 		var price = items[slug]['price'];
-		$('.items-container').append("<div class='mb-2'><span>" + name + "</span><input id='itemSlug' style='display: none;' name='item[]' value='" + slug + "'><input min='1' class='quantity ml-2 mr-2' data-price='" + price + "' type='number' value='1' name='quantity[]'></div>");
+		$('.items-container').append("<div class='mb-2'><span>" + name + "</span><input id='itemSlug' style='display: none;' name='item[]' value='" + slug + "'><input min='1' class='form-control d-inline-block w-25 quantity ml-2 mr-2' data-price='" + price + "' type='number' value='1' name='quantity[]'></div>");
 	});
 	caculateTotalPrice();
 }
