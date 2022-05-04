@@ -177,7 +177,15 @@ class Bill extends Model
     }
 
     /**訂單作廢（結案） */
-    public function voidBill(){
+    public function voidBill(){        
+        
+        //回補紅利
+        if($this->bonus_use != 0){
+            $amount = $this->bonus_use * 50;
+            if($user = User::find($this->user_id)){
+                $user->updateBonus($amount,false);
+            }
+        }
 
         //扣除紅利
         if($this->get_bonus != 0){
@@ -185,14 +193,6 @@ class Bill extends Model
                 if($user = User::find($this->user_id)){
                     $user->updateBonus((int)$this->get_bonus);
                 }
-            }
-        }
-
-        //回補紅利
-        if($this->bonus_use != 0){
-            $amount = $this->bonus_use * 50;
-            if($user = User::find($this->user_id)){
-                $user->updateBonus($amount,false);
             }
         }
 
