@@ -183,12 +183,12 @@ class BillController extends Controller
 
         $resultUrl = $ecpay->createPayment($request->PayToken);
 
-        if(!is_null($resultUrl) && $bill->pay_by == 'CREDIT'){
-            $bill->status = 1;
-            $bill->save();
-            $bill->sendBonusToBuyer();
-            dispatch(new ECPayInvoice($bill,ECPayInvoice::TYPE_ISSUE)); //開立發票
-        }
+        // if(!is_null($resultUrl) && $bill->pay_by == 'CREDIT'){
+        //     $bill->status = 1;
+        //     $bill->save();
+        //     $bill->sendBonusToBuyer();
+        //     dispatch(new ECPayInvoice($bill,ECPayInvoice::TYPE_ISSUE)); //開立發票
+        // }
 
         if(!$resultUrl){ return '錯誤頁面'; }
         return redirect($resultUrl);
@@ -200,7 +200,7 @@ class BillController extends Controller
         $ecpay = new ECPay($bill);
         $isSuccess = $ecpay->handlePayRequest($request);
 
-        if($isSuccess && $bill->pay_by == 'ATM'){
+        if($isSuccess){
             $bill->status = 1;
             $bill->save();
             $bill->sendBonusToBuyer();
