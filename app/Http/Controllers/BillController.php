@@ -166,7 +166,7 @@ class BillController extends Controller
         $ecpay = new ECPay($bill);
 
         if(!$token = $ecpay->getToken()){
-            return '錯誤頁面';
+            return '系統錯誤';
         }
 
         return view('bill.payBill_v2',[
@@ -178,7 +178,7 @@ class BillController extends Controller
 
     public function payBill(Request $request,$bill_id){
         $bill = Bill::where('bill_id',$bill_id)->firstOrFail();
-        if(!$request->has('PayToken')){ return '錯誤頁面'; }
+        if(!$request->has('PayToken')){ return '錯誤頁面。'; }
         $ecpay = new ECPay($bill);
 
         $resultUrl = $ecpay->createPayment($request->PayToken);
