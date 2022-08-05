@@ -296,6 +296,12 @@ class ECPay{
 
         Log::info("createPayment:" . $this->bill->bill_id);
         Log::info(json_encode($Data));
+
+        //如果有3D驗證url
+        if(!is_null($Data['ThreeDInfo']['ThreeDURL'])){
+            return $Data['ThreeDInfo']['ThreeDURL'];
+        }        
+
         if(!isset($Data['OrderInfo']['PaymentType'])){ return null; }
         switch ($Data['OrderInfo']['PaymentType']) {
             case 'Credit':
