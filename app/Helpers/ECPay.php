@@ -348,6 +348,15 @@ class ECPay{
         $data = $this->string2DecryptedArray($log->Data);
         return $data;
     }
+    /**
+     * 取得綠界付款資訊
+     * @return array
+     */
+    public function getPayRequestInfo() {
+        if(!$log = $this->bill->paymentLogs()->where('type',PaymentLog::TYPE_PAY_REQUEST)->first()){ return null; }
+        $data = $this->string2DecryptedArray($log->Data);
+        return $data;
+    }
 
 
     /** 

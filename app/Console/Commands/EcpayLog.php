@@ -44,12 +44,15 @@ class EcpayLog extends Command
         if(!$bill = Bill::where('bill_id',$bill_id)->first()){ return; }
 
         $ecpay = new ECPay($bill);
-        $info = $ecpay->getPaymentInfo();
+        $paymentInfo = $ecpay->getPaymentInfo();
+        $payRequestInfo = $ecpay->getPayRequestInfo();
 
-        $json = json_encode($info);
-
-        $this->info("-----------------------------------------------");
-        $this->info($json);
-
+        $this->info("----------------CreatePayment----------------");
+        $this->info(json_encode($paymentInfo));
+        $this->info("------------------PayRequest-----------------");
+        $this->info(json_encode($$payRequestInfo));
+        $this->info("*");
+        $this->info("*");
+        $this->info("/------");
     }
 }
