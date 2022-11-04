@@ -53,9 +53,10 @@ class CheckBill extends Command
             
             $ecpay = new ECPay($bill);
             $info = $ecpay->getPayRequestInfo();
-            if(!isset($info['RtnCode'])){ continue; }
-
-            if($info['RtnCode'] != 1){
+            
+            if(!isset($info['RtnCode'])){ 
+                $this->info("!! ***** 錯誤訂單 ***** !!");
+            }else if($info['RtnCode'] != 1){
                 $this->info("!! ***** 錯誤訂單 ***** !!");
             }
 
