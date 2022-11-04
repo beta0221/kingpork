@@ -50,7 +50,7 @@ class EcpayLog extends Command
         $this->info("----------------CreatePayment----------------");
         $this->info(json_encode($paymentInfo));
         $this->info("------------------PayRequest-----------------");
-        $this->info(json_encode($$payRequestInfo));
+        $this->info(json_encode($payRequestInfo));
         $this->info("*");
         $this->info("*");
         $this->info("/------");
