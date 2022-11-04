@@ -138,7 +138,7 @@ class ECPay{
      * @param string $string
      * @return array
      */
-    private function string2DecryptedArray(string $string){
+    function string2DecryptedArray(string $string){
         $string = openssl_decrypt($string,"AES-128-CBC",$this->HashKey,0,$this->HashIV);
         $array = json_decode(urldecode($string),true);
         return $array;
