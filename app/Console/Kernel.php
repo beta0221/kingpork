@@ -17,6 +17,7 @@ class Kernel extends ConsoleKernel
         Commands\TestJob::class,
         Commands\InvoiceIssue::class,
         Commands\EcpayLog::class,
+        Commands\CheckBill::class
     ];
 
     /**

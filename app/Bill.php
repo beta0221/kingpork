@@ -35,6 +35,21 @@ class Bill extends Model
     const CARRIER_ID_FAMILY_MART = 1;
     const CARRIER_FAMILY_MART = '全家冷凍超取';
 
+    public function shipmentName() {
+        switch ($this->shipment) {
+            case static::SHIPMENT_READY:
+                return "可準備";
+            case static::SHIPMENT_PENDING:
+                return "準備中";
+            case static::SHIPMENT_DELIVERED:
+                return "已出貨";
+            case static::SHIPMENT_VOID:
+                return "結案";
+            default:
+                return null;
+        }
+    }
+
     public static function getAllCarriers(){
         $carriers = [
             static::CARRIER_ID_BLACK_CAT => static::CARRIER_BLACK_CAT,
