@@ -331,8 +331,11 @@ class ECPay{
             $res['TransMsg'],
             $res['Data']
         );
-        //$this->string2DecryptedArray($res['Data']);
-        if($res['TransCode'] == 1){
+        
+        $data = $this->string2DecryptedArray($res['Data']);
+        if(!isset($data['RtnCode'])){ return false; }
+
+        if($data['RtnCode'] == 1){
             return true;
         }
 
