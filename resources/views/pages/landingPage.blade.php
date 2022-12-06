@@ -23,141 +23,59 @@
 
 {{-- products start --}}
 <div style="height:20px"></div>
-<div class="new-product-bar">
-	{{-- <div class="product-cell">
-		<div>
-			<div>
-				<div class="catImg">
-					<a href="/category/event_1111">
-						<img src="{{asset('images/cat/landing/event_1111.png')}}" alt="雙十一">
-					</a>
-					<div onclick="location.href='/category/event_1111';" class="P-buy">我要買</div>
-				</div>
-			</div>
-		</div>
-	</div> --}}
-		<div class="product-cell">
-			<div>
-				<div>
-					<div class="catImg">
-						<a href="{{route('productCategory.show',1)}}">		
-							<img src="{{asset('images/cat/landing/1.png')}}" alt="金園排骨">
-						</a>
-						<div onclick="location.href='{{route('productCategory.show',1)}}';" class="P-buy">我要買</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="product-cell">
-			<div>
-				<div>
-					<div class="catImg">
-						<a href="{{route('productCategory.show',3)}}">
-							<img src="{{asset('images/cat/landing/3.png')}}" alt="幸福雙響組合">
-						</a>
-						<div onclick="location.href='{{route('productCategory.show',3)}}';" class="P-buy">我要買</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="product-cell">
-			<div>
-				<div>
-					<div class="catImg">
-						<a href="{{route('productCategory.show',2)}}">
-							<img src="{{asset('images/cat/landing/2.png')}}" alt="金園排骨厚切雞腿排">
-						</a>
-						<div onclick="location.href='{{route('productCategory.show',2)}}';" class="P-buy">我要買</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="product-cell">
-			<div>
-				<div>
-					<div class="catImg">
-						<a href="{{route('productCategory.show',9)}}">
-							<img src="{{asset('images/cat/landing/9.png')}}" alt="鯖魚">	
-						</a>
-						<div onclick="location.href='{{route('productCategory.show',9)}}';" class="P-buy">我要買</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="product-cell">
-			<div>
-				<div>
-					<div class="catImg">
-						<a href="{{route('productCategory.show',20)}}">
-							<img src="{{asset('images/cat/landing/20.png')}}" alt="活凍金鑽蝦">	
-						</a>
-						<div onclick="location.href='{{route('productCategory.show',20)}}';" class="P-buy">我要買</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+<?php 
+	$rowA = [
+		1=>'金園排骨',
+		3=>'幸福雙響組合',
+		2=>'厚切雞腿排',
+		9=>'鯖魚',
+		20=>'活凍金鑽蝦',
+	];
+?>
 	<div class="new-product-bar">
-		<div class="product-cell">
-			<div>
-				<div>
-					<div class="catImg P-fish">
-						<a href="{{route('productCategory.show',13)}}">
-							<img src="{{asset('images/cat/landing/13.png')}}" alt="義式蕃茄鍋底">	
-						</a>
-						<div onclick="location.href='{{route('productCategory.show',13)}}';" class="P-buy">我要買</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="product-cell">
-			<div>
-				<div>
-					<div class="catImg P-fish">
-						<a href="{{route('productCategory.show',14)}}">
-							<img src="{{asset('images/cat/landing/14.png')}}" alt="泰式酸辣湯底">	
-						</a>
-						<div onclick="location.href='{{route('productCategory.show',14)}}';" class="P-buy">我要買</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="product-cell">
-			<div>
-				<div>
-					<div class="catImg P-fish">
-						<a href="{{route('productCategory.show',15)}}">
-							<img src="{{asset('images/cat/landing/15.png')}}" alt="養生麻油酒香鍋底">	
-						</a>
-						<div onclick="location.href='{{route('productCategory.show',15)}}';" class="P-buy">我要買</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="product-cell">
-			<div>
-				<div>
-					<div class="catImg P-fish">
-						<a href="{{route('productCategory.show',16)}}">
-							<img src="{{asset('images/cat/landing/16.png')}}" alt="特級麻辣養生鍋底">
-						</a>
-						<div onclick="location.href='{{route('productCategory.show',16)}}';" class="P-buy">我要買</div>
-					</div>
-				</div>
-			</div>
-		</div>
+
+		@foreach ($rowA as $key => $item)
 		<div class="product-cell">
 			<div>
 				<div>
 					<div class="catImg">
-						<a href="{{route('productCategory.show',21)}}">
-							<img src="{{asset('images/cat/landing/21.png')}}" alt="活凍Q麵">
+						<a href="{{route('productCategory.show',$key)}}">		
+							<img src="{{asset('images/cat/landing/'.$key.'.png')}}" alt="{{$item}}">
 						</a>
-						<div onclick="location.href='{{route('productCategory.show',21)}}';" class="P-buy">我要買</div>
+						<div onclick="location.href='{{route('productCategory.show',$key)}}';" class="P-buy">我要買</div>
 					</div>
 				</div>
 			</div>
 		</div>
+		@endforeach
+
+	</div>
+<?php 
+	$rowB = [
+		13=>'義式蕃茄鍋底',
+		14=>'泰式酸辣湯底',
+		15=>'養生麻油酒香鍋底',
+		16=>'特級麻辣養生鍋底',
+		30=>'厚切里肌',
+	];
+?>
+	<div class="new-product-bar">
+		
+		@foreach ($rowB as $key => $item)
+		<div class="product-cell">
+			<div>
+				<div>
+					<div class="catImg">
+						<a href="{{route('productCategory.show',$key)}}">		
+							<img src="{{asset('images/cat/landing/'.$key.'.png')}}" alt="{{$item}}">
+						</a>
+						<div onclick="location.href='{{route('productCategory.show',$key)}}';" class="P-buy">我要買</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		@endforeach
+
 	</div>
 
 <div class="productArea container">
@@ -278,69 +196,8 @@
 		</div>
 	</div>
 
-	
-
 </div> {{-- end of shop intro --}}
 
-
-{{-- shop intro end --}}
-
-{{-- posts start --}}
-{{-- <div class="posts">
-	<div class="container">
-		<div class="row">
-			<div class="pp1 post col-md-4">
-				<div class="post1 blog-post"></div>
-			</div>
-			<div class="pp2 post col-md-4">
-				<div class="post2 blog-post"></div>
-			</div>
-			<div class="pp3 post col-md-4">
-				<div class="post3 blog-post"></div>
-			</div>
-		</div>
-	</div>
-</div> --}}
-{{-- posts end --}}
-
-{{-- process start --}}
-{{-- <div class="process" id="process">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12">
-				
-				<div class="howtoOrder">
-					<h2>如何購買<span>/</span>HOW TO ORDER</h2>
-					<div class="orderBar">
-						<div class="stepsBox">
-							<div class="steps" id="step1">
-								<img src="{{asset('images/step1.png')}}" alt="">
-								<div>線上選購</div>
-							</div>
-							<div class="glip"></div>
-							<div class="steps" id="step2">
-								<img src="{{asset('images/step2.png')}}" alt="">
-								<div>放入購物車</div>
-							</div>
-							<div class="glip"></div>
-							<div class="steps" id="step3">
-								<img src="{{asset('images/step3.png')}}" alt="">
-								<div>送出訂單</div>
-							</div>
-							<div class="glip"></div>
-							<div class="steps" id="step4">
-								<img src="{{asset('images/step4.png')}}" alt="">
-								<div>宅配到府</div>
-							</div>
-						</div>	
-					</div>
-				</div>
-
-			</div>
-		</div>
-	</div>
-</div> --}}
-{{-- process end --}}
 
 @endsection
 
