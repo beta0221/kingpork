@@ -283,10 +283,10 @@
 .P-soup-5:before{
 	content: '特級麻辣';
 }
-.P-soup-6:before{
-	content: '熟凍Q麵';
+.P-tenderloin:before{
+	content: '厚切里肌';
 }
-.P-pork:before,.P-both:before,.P-chicken:before,.P-fish:before,.P-soup:before,.P-soup-2:before,.P-soup-3:before,.P-soup-4:before,.P-soup-5:before,.P-soup-6:before{
+.P-pork:before,.P-both:before,.P-chicken:before,.P-fish:before,.P-soup:before,.P-soup-2:before,.P-soup-3:before,.P-soup-4:before,.P-soup-5:before,.P-tenderloin:before{
 	background: linear-gradient(to right, rgba(0,0,0,0) 0%,rgba(0,0,0,.3) 20%,rgba(0,0,0,.3) 80%,rgba(0,0,0,0) 100%);
 	font-family: cwTeXKai , serif;
 	font-weight: 900;
@@ -435,7 +435,7 @@
 		line-height: 60px;
 	}
 	
-	.P-pork:before,.P-both:before,.P-chicken:before,.P-fish:before,.P-soup:before,.P-soup-2:before,.P-soup-3:before,.P-soup-4:before,.P-soup-5:before,.P-soup-6:before{
+	.P-pork:before,.P-both:before,.P-chicken:before,.P-fish:before,.P-soup:before,.P-soup-2:before,.P-soup-3:before,.P-soup-4:before,.P-soup-5:before,.P-tenderloin:before{
 		font-size: 20px;
 		letter-spacing: 2px;
 		top: 5%;
@@ -600,7 +600,7 @@
 	.hr{
 		margin: 30px 0 30px 0;
 	}
-	.P-pork:before,.P-both:before,.P-chicken:before,.P-fish:before,.P-soup:before,.P-soup-2:before,.P-soup-3:before,.P-soup-4:before,.P-soup-5:before,.P-soup-6:before{
+	.P-pork:before,.P-both:before,.P-chicken:before,.P-fish:before,.P-soup:before,.P-soup-2:before,.P-soup-3:before,.P-soup-4:before,.P-soup-5:before,.P-tenderloin:before{
 		font-size: 22px;
 		letter-spacing: 0px;
 		top: 5%;
@@ -722,7 +722,7 @@
 	
 }
 @media(max-width: 330px){
-	.P-pork:before,.P-both:before,.P-chicken:before,.P-fish:before,.P-soup:before,.P-soup-2:before,.P-soup-3:before,.P-soup-4:before,.P-soup-5:before,.P-soup-6:before{
+	.P-pork:before,.P-both:before,.P-chicken:before,.P-fish:before,.P-soup:before,.P-soup-2:before,.P-soup-3:before,.P-soup-4:before,.P-soup-5:before,.P-tenderloin:before{
 		font-size: 14px;
 		letter-spacing: 0px;
 		top: 5%;

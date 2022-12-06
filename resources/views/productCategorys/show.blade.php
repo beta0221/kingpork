@@ -116,7 +116,7 @@
 		<div class="product-cell">
 			<div>
 				<div>
-					<div class="catImg P-soup-6" id="{{Request::is('productCategory/30') ? 'currentCat' : ''}}" onclick="location.href='/productCategory/30'">
+					<div class="catImg P-tenderloin" id="{{Request::is('productCategory/30') ? 'currentCat' : ''}}" onclick="location.href='/productCategory/30'">
 						<a href="{{route('productCategory.show',30)}}">
 							<img src="{{asset('images/cat/menu/30.png')}}" alt="厚切里肌">
 						</a>
