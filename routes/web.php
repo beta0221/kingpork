@@ -38,9 +38,12 @@ Route::get('category/{id}','ProductCategoryController@show');//簡化url
 Route::get('/vip/products/{code}','ProductCategoryController@view_vipProducts');
 // singleCategory routes
 // Route::resource('/buynow','SingleController');
-Route::get('/buynow/form/{id}','SingleController@showToBuy')->name('showToBuy');
+Route::get('/kol666','SingleController@show')->name('kol666');
+Route::get('/buynow/form','SingleController@showToBuy')->name('showToBuy');
+Route::post('/buynow/form','SingleController@store');
 Route::get('/thankYou/{id}','SingleController@thankYou')->name('thankYou');
 Route::get('/searchOrder','SingleController@searchOrder');
+
 
 // kart routes
 Route::resource('kart','kartController',['only'=>['index','store','destroy']]);

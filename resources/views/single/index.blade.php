@@ -49,7 +49,7 @@
 					<span style="color: #000">訂單查詢</span>
 				</span>
 			</a>	
-			<a style="text-decoration: none;color: #fff;" href="/buynow/form/{{$productCategory->id}}">
+			<a style="text-decoration: none;color: #fff;" href="{{route('showToBuy')}}">
 				<span class="purchase">
 					<span>
 						立即下單
@@ -134,7 +134,7 @@
 			</div>
 			
 			
-			<div class="introduce-stack">
+			{{-- <div class="introduce-stack">
 				<span>已搶購</span><span>{{$count}}</span><span>件</span>
 
 				<span class="progress-bar-outter">
@@ -142,19 +142,8 @@
 				</span>
 
 				<span id="target-progress">{{floor($count/$target*100)}}%</span>
-			</div>
-			<div class="introduce-stack">
-				<span>限時搶購</span>
-				<span id="timer_H" class="timmer">{{$countDown['from_H']}}</span>
-				<span>時</span>
-				<span id="timer_i" class="timmer">{{$countDown['from_i']}}</span>
-				<span>分</span>
-				<span id="timer_s" class="timmer">{{$countDown['from_s']}}</span>
-				<span>秒</span>
-			</div>
+			</div> --}}
 			
-
-
 
 		</div>
 		

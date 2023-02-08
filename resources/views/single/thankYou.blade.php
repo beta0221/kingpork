@@ -168,11 +168,11 @@
 				<td class="TDproduct">
 					<table style="width: 100%;">
 						
-						@foreach($finalBill['itemArray'] as $item)
+						@foreach($finalBill['billItems'] as $item)
 							<tr class="product-TR">
-								<td width="60%" class="TNT1">{{$item['name']}}</td>
-								<td width="20%" class="TNT2">{{$item['price']}}</td>
-								<td width="20%" class="TNT3">{{$item['quantity']}}</td>
+								<td width="60%" class="TNT1">{{$item->name}}</td>
+								<td width="20%" class="TNT2">{{$item->price}}</td>
+								<td width="20%" class="TNT3">{{$item->quantity}}</td>
 							</tr>
 						@endforeach
 						
@@ -184,7 +184,7 @@
 	</div>
 
 	<div class="goTo">
-		<a href="/buynow/4" class="">繼續購物</a>
+		<a href="/kol666" class="">繼續購物</a>
 	</div>
 	
 	<div class="footer">

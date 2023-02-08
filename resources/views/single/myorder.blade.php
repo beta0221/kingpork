@@ -146,7 +146,7 @@
 	</div>
 
 	<div class="title-bar">
-		<a href="/buynow/4"><span><</span></a><span>訂單查詢</span>
+		<a href="{{route('kol666')}}"><span><</span></a><span>訂單查詢</span>
 	</div>
 
 	<div class="content">
@@ -190,11 +190,11 @@
 					{{-- <td>{{$bill->bill_id}}</td> --}}
 					<td width="60%">
 						<table width="100%">
-							@foreach($items[$i] as $item)
+							@foreach($bill->billItems()->get() as $billItem)
 							<tr>
-								<td width="60%">{{$item['name']}}</td>
-								<td width="20%">{{$item['price']}}</td>
-								<td width="20%">{{$item['quantity']}}</td>
+								<td width="60%">{{$billItem->name}}</td>
+								<td width="20%">{{$billItem->price}}</td>
+								<td width="20%">{{$billItem->quantity}}</td>
 							</tr>
 							@endforeach
 						</table>

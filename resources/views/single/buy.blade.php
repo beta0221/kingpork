@@ -27,16 +27,16 @@
 <body>
 	<div class="background"></div>
 
-	<div onclick="document.getElementById('use-chrome-bg').style.display='none';" id="use-chrome-bg" class="use-chrome-bg">
+	{{-- <div onclick="document.getElementById('use-chrome-bg').style.display='none';" id="use-chrome-bg" class="use-chrome-bg">
 		<img src="{{asset('images/use_chrome.png')}}">
-	</div>
+	</div> --}}
 
 	<div class="U-logo">
 		<img src="{{asset('images/logo.png')}}" alt="金園排骨">
 	</div>
 	<div class="content">
 		<div class="title-bar">
-			<a href="/buynow/4"><span><</span></a><span>確認訂單</span>
+			<a href="{{route('kol666')}}"><span><</span></a><span>確認訂單</span>
 		</div>
 
 		<div class="slider">{{-- 1920 x 1080 --}}
@@ -106,7 +106,7 @@
 		<div class="clear"></div>
 
 		<div class="buynow-form">
-			<form id="form-buynow" action="{{route('buynow.store')}}" method="POST">
+			<form id="form-buynow" action="/buynow/form" method="POST">
 				{{csrf_field()}}
 				<div class="form-stack">
 					<input id="input-item" style="display: none;" value="" name="item[]" type="text">
