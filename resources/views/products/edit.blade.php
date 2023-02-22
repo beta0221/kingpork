@@ -12,7 +12,15 @@
 @endsection
 
 @section('content')
-
+@if (count($errors) > 0)
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 <div class="contentPage">
 	<div class="container">
 		<div class="row">
@@ -31,6 +39,18 @@
 					@foreach ($carriers as $id => $name)
 						<span><input name="carrier_id[]" value="{{$id}}" type="checkbox" {{ (in_array($id,$carrierRestriction))?'checked':'' }}>{{$name}}</span>
 					@endforeach
+				</div>
+
+				<?php $display = !is_null($product->item_amount) ?>
+
+				{{Form::label('is_package','套組產品：')}}<br>
+				<div class="mb-4">
+					<span><input name="is_package" value="1" type="checkbox" {{ ($display) ? "checked" : "" }}>是否為套組</span>
+				</div>
+
+				<div class="item-amount-div" style="display:{{ ($display) ? "" : "none" }}">
+					{{Form::label('item_amount','套組數')}}
+					{{ Form::text('item_amount',null,['class'=>'form-control']) }}<br>
 				</div>
 				
 
@@ -87,6 +107,17 @@
 		$('#image-size').html(this.width + '*' + this.height);
 	}
 	img.src = '/images/productsIMG/{{$product->image}}';
+
+	$(function() {
+		$('input[name="is_package"]').change(function(){
+			let div = $('.item-amount-div');
+			if(this.checked) {
+				div.show();
+			} else {
+				div.hide();
+			}
+		});
+	});
 </script>
 
 

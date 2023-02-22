@@ -142,6 +142,13 @@ Route::post('/join-group','GroupController@join');
 Route::get('/group-excel/{group_code}','GroupController@export');
 
 
+/** 組合型產品 */
+Route::group(['middleware'=>'auth:admin'], function(){
+    Route::resource('/packageItem','PackageItemController');
+    Route::group(['prefix'=>'packageItem'], function(){
+    
+    }); 
+});
 
 
 

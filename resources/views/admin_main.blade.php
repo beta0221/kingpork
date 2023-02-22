@@ -199,6 +199,9 @@
   <li class="sideBar_item {{Request::is('products*') ? 'sideBar_now' : ''}}">
     <a href="{{route('products.index')}}"><img src="{{asset('images/admin_product.png')}}" alt="">產品管理</a>
   </li>
+  <li class="sideBar_item {{Request::is('packageItem*') ? 'sideBar_now' : ''}}">
+    <a href="{{route('packageItem.index')}}"><img src="{{asset('images/admin_product.png')}}" alt="">子產品</a>
+  </li>
   <li class="sideBar_item {{Request::is('banner*') ? 'sideBar_now' : ''}}">
     <a href="{{route('banner.index')}}"><img src="{{asset('images/admin_wall.png')}}" alt="">轉撥牆管理</a>
   </li>
