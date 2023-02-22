@@ -173,7 +173,7 @@ class kartController extends Controller
             
         $kartItems = [];
         foreach ($request->kartItems as $itemId => $quantity) {
-            if($quantity < 0) { continue; }
+            if($quantity <= 0) { continue; }
             $kartItems[] = KartItem::instance($itemId, $quantity);
         }
 
