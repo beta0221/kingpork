@@ -6,6 +6,7 @@ use App\Bill;
 use Illuminate\Http\Request;
 use App\User;
 use App\Kart;
+use App\KartItem;
 use App\Products;
 use App\sessionCart;
 use DB;
@@ -155,6 +156,34 @@ class kartController extends Controller
     {
         //
     }
+
+    /**
+     * 加入組合型商品到購物車
+     */
+    public function addPackage(Request $request) {
+
+        $this->validate($request,[
+            'product_id'=>'required',
+            'kartItems'=>'required'
+        ]);
+        
+        $user = $request->user();
+
+        $kart = $user->kart()->create($request->only('product_id'));
+            
+        $kartItems = [];
+        foreach ($request->kartItems as $itemId => $quantity) {
+            if($quantity < 0) { continue; }
+            $kartItems[] = KartItem::instance($itemId, $quantity);
+        }
+
+        $kart->KartItems()->saveMany($kartItems);
+        
+
+        Session::flash('success','成功加入購物車。');
+        return redirect()->route('packageProductIndex');
+    }
+
 
     /**
      * Store a newly created resource in storage.

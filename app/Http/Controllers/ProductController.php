@@ -8,6 +8,7 @@ use App\Inventory;
 use Illuminate\Http\Request;
 use App\Products;
 use App\ProductCategory;
+use App\PackageItem;
 use App\Kart;
 use Image;
 use Storage;
@@ -22,7 +23,7 @@ class ProductController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:admin',['except'=>['show']]);
+        $this->middleware('auth:admin',['except'=>['show','allPackage']]);
     }
     
     /**
@@ -321,5 +322,16 @@ class ProductController extends Controller
         $product->delete();
 
         return redirect()->route('products.index');
+    }
+
+    public function allPackage() {
+
+        $products = Products::whereNotNull('item_amount')->get();
+        $packageItems = PackageItem::all();
+        
+        return view('package.index',[
+            'products' => $products,
+            'packageItems' => $packageItems
+        ]);
     }
 }

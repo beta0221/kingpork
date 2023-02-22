@@ -150,6 +150,10 @@ Route::group(['middleware'=>'auth:admin'], function(){
     }); 
 });
 
+Route::group(['prefix' => 'package'], function() {
+    Route::get('/','ProductController@allPackage')->name('packageProductIndex');
+    Route::post('add', 'kartController@addPackage')->name('addPackageToKart');
+});
 
 
 Route::get('/facebook/product/csv','PageController@productFeed');

@@ -9,9 +9,15 @@ class Kart extends Model
 {
     public $table = "kart";
 
+    protected $guarded = [];
+
     public function user()
     {
     	return $this->belongsTo('App\User','user_id');
+    }
+
+    public function kartItems() {
+        return $this->hasMany('App\KartItem','kart_id');
     }
 
     public static function getKartTotalPrice($user_id,$additionalProducts=[]){
