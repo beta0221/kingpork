@@ -1,23 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-	<!-- Google Tag Manager -->
-	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-	'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-	})(window,document,'script','dataLayer',"{{config('app.gtm_id')}}");</script>
-	<!-- End Google Tag Manager -->
-
-	<!-- Global site tag (gtag.js) - Google Analytics -->
-	{{-- <script async src="https://www.googletagmanager.com/gtag/js?id={{config('app.ga_id')}}"></script>
-	<script>
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', '{{config('app.ga_id')}}');
-	</script> --}}
-
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>【金園排骨】西門町傳承一甲子的古早味</title>
@@ -36,25 +19,25 @@
 	</div>
 	<div class="content">
 		<div class="title-bar">
-			<a href="{{route('kol666')}}"><span><</span></a><span>確認訂單</span>
+			<a href="{{route('menustudy')}}"><span><</span></a><span>確認訂單</span>
 		</div>
 
-		<div class="slider">{{-- 1920 x 1080 --}}
+		<div class="slider" style="background-color: gray">{{-- 1920 x 1080 --}}
 			{{-- <video autoplay muted loop class="slider-group" >
   				<source src="{{asset('vedios/head.mp4')}}" type="video/mp4">
   			您的瀏覽器不支援此影片
 			</video> --}}
-			<img style="position: absolute;top:0;left:0;width:100%" src="/images/moon_fast.jpg">
+			<img style="position: absolute;top:0;left:0;width:100%" src="/images/moon_fast123.jpg" alt="圖片">
 		</div>
 
 		<div class="product-outter">
 			<div class="product-title">
-				<h1>中秋烤肉套組</h1>
+				<h1><大標題></h1>
 			</div>
 			<div class="product-content">
 				@foreach($productCategory->products as $index => $product)
 				@if($product->public == 1)
-				<div class="product-row {{($index == 0)?'product-select':''}}" price="{{$product->price}}" onclick="product_select('{{$product->slug}}',{{$product->price}});">
+				<div class="product-row" price="{{$product->price}}" onclick="product_select('{{$product->slug}}',{{$product->price}});">
 
 					<div class="left-name-box">
 
@@ -199,8 +182,12 @@
 </body>
 <script src="{{asset('js/jquery/jquery-3.2.1.min.js')}}"></script>
 <script>
+
+// let firstSlug = "";
+// let firstPrice = 0;
+
 $(document).ready(function(){
-	product_select('{{$productCategory->products[0]->slug}}',{{$productCategory->products[0]->price}});
+	// product_select(firstSlug, firstPrice);
 });
 </script>
 <script src="{{asset('js/_singleBuy.js')}}"></script>

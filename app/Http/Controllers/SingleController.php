@@ -124,11 +124,27 @@ class SingleController extends Controller
         ]);
     }
 
-    public function showToBuy() {
+    /**
+     * 菜單研究所
+     */
+    public function showMenustudy() {
+        $productCategory = ProductCategory::findOrFail(17);
+
+        return view('single.index',[
+            'productCategory'=>$productCategory,
+            'kol' => 'menustudy'
+        ]);
+    }
+
+
+    public function showToBuyMenuStudy() {
         
-        $id = 1;
-        $productCategory = ProductCategory::find($id);
-        return view('single.buy',['productCategory'=>$productCategory]);   
+        $productCategory = ProductCategory::findOrFail(17);
+
+        return view('single.buy',[
+            'productCategory'=>$productCategory
+        ]);   
+
     }
 
     public function thankYou($id)

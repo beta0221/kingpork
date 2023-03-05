@@ -184,7 +184,7 @@
 	</div>
 
 	<div class="goTo">
-		<a href="/kol666" class="">繼續購物</a>
+		<a href="/menustudy" class="">繼續購物</a>
 	</div>
 	
 	<div class="footer">

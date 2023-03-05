@@ -17,6 +17,10 @@
 
 //page routes
 Route::get('/','PageController@getLanding');
+
+//Kol用連結暫時放這
+Route::get('/menustudy','SingleController@showMenustudy')->name('menustudy');
+
 Route::get('/contact','PageController@getContact')->name('contact');
 Route::get('/productPage','PageController@showProductPage')->name('showProductPage');
 Route::get('/guide','PageController@guide')->name('guide');
@@ -38,8 +42,7 @@ Route::get('category/{id}','ProductCategoryController@show');//簡化url
 Route::get('/vip/products/{code}','ProductCategoryController@view_vipProducts');
 // singleCategory routes
 // Route::resource('/buynow','SingleController');
-Route::get('/kol666','SingleController@show')->name('kol666');
-Route::get('/buynow/form','SingleController@showToBuy')->name('showToBuy');
+Route::get('/buynow/menustudy/form','SingleController@showToBuyMenuStudy');
 Route::post('/buynow/form','SingleController@store');
 Route::get('/thankYou/{id}','SingleController@thankYou')->name('thankYou');
 Route::get('/searchOrder','SingleController@searchOrder');

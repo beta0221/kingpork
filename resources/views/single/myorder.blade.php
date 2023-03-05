@@ -146,7 +146,7 @@
 	</div>
 
 	<div class="title-bar">
-		<a href="{{route('kol666')}}"><span><</span></a><span>訂單查詢</span>
+		<a href="{{route('menustudy')}}"><span><</span></a><span>訂單查詢</span>
 	</div>
 
 	<div class="content">

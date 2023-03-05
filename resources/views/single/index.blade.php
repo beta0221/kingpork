@@ -49,7 +49,7 @@
 					<span style="color: #000">訂單查詢</span>
 				</span>
 			</a>	
-			<a style="text-decoration: none;color: #fff;" href="{{route('showToBuy')}}">
+			<a style="text-decoration: none;color: #fff;" href="/buynow/{{$kol}}/form">
 				<span class="purchase">
 					<span>
 						立即下單
@@ -66,12 +66,13 @@
 	<div class="content">
 
 		{{-- 1920 x 1080 --}}
-		<div class="slider">
+		<div class="slider" style="background-color:gray">
 			{{-- <video playsinline autoplay muted loop class="slider-group" >
   				<source src="{{asset('vedios/head.mp4')}}" type="video/mp4">
   			您的瀏覽器不支援此影片
 			</video> --}}
-			<img style="position: absolute;top:0;left:0;width:100%" src="/images/moon_fast.jpg">
+			<span></span>
+			<img style="position: absolute;top:0;left:0;width:100%;" src="/images/moon_fast2.jpg" alt="首頁圖片">
 		</div>
 
 		<div class="clear"></div>
@@ -101,20 +102,20 @@
 
 		<div class="introduce">
 			<div class="introduce-stack">
-				<h2 style="font-size: 18px;margin-left: -10px">【金園排骨】中秋烤肉在你家</h2>
+				<h1 style="margin-left: -10px"><大標題></h1>
 			</div>
 			<div >
-				<h1 style="font-size: 24px;margin-bottom:8px">粉絲專屬組合</h1>
-				<h3 style="margin-left:16px">＊至尊金鑽蝦1盒600g</h3>
-				<h3 style="margin-left:16px">＊金園厚切排骨2片</h3>
-				<h3 style="margin-left:16px">＊金園無骨雞腿排2隻</h3>
-				<h3 style="margin-left:16px">＊挪威鯖魚2片</h3>
+				<h2 style="margin-bottom:8px"><中標題></h2>
+				<h3 style="margin-left:16px">＊<敘述...></h3>
+				<h3 style="margin-left:16px">＊<敘述...></h3>
+				<h3 style="margin-left:16px">＊<敘述...></h3>
+				<h3 style="margin-left:16px">＊<敘述...></h3>
 			</div>
 			<div class="introduce-stack">
 
 				<span>
-					<font style="font-size: 18px;color:red;font-weight: 800">NT$ 1,200 </font>
-					<font style="font-size: 12px;text-decoration: line-through;">(NT$ 1,500)</font>
+					<font style="font-size: 18px;color:red;font-weight: 800">NT$ <菜單研究所特惠價> </font>
+					<font style="font-size: 12px;text-decoration: line-through;">(NT$ <官網原價>)</font>
 				</span>
 
 				<span class="flag">免運費</span>
@@ -124,9 +125,9 @@
 
 
 			
-			<div class="introduce-stack">
+			{{-- <div class="introduce-stack">
 				<span style="font-size: 16px;font-weight: 600">加購第二組只要</span><font style="font-size: 18px;color:red;font-weight: 800">NT$ 799</font><font style="font-size: 16px;font-weight: 600"> ～！</font>
-			</div>
+			</div> --}}
 			
 
 			<div class="introduce-stack">
