@@ -65,7 +65,7 @@
 		<div class="row">
 			<div class="col-lg-10 offset-lg-1 col-12 outter">
 				
-				@if(count($products) == 0)
+				@if(count($karts) == 0)
 					<div style="position: absolute;top: 50%;transform: translateY(-50%);width: calc(100% - 30px);text-align: center;">
 						<h1 style="">您的購物車中目前沒有商品</h1>	
 					</div>
@@ -120,7 +120,8 @@
 							<th>價格</th>
 							<th></th>
 						</tr>
-						@foreach($products as $product)
+						@foreach($karts as $kart)
+						<?php $product = $kart->product; ?>
 						<tr class="product-TR" id="item{{$product->id}}">
 							<td class="product-img-TD">
 								<div>
@@ -135,7 +136,7 @@
 
 							
 							<td class="product-quantity-TD">
-								@if($product->category_id==12)
+								@if($product->category_id==12 || !is_null($product->item_amount))
 									<span>1</span>
 									<input hidden id="{{$product->slug}}" class="quantity" type="number" value="1" name="quantity[]" price="{{$product->price}}">
 								@else
@@ -151,6 +152,21 @@
 								<div class="delBtn" data-method="delete" onclick="deleteWithAjax({{$product->id}})">刪除</div>
 							</td>
 						</tr>
+
+
+						@if(!is_null($product->item_amount))
+						
+
+						@foreach ($kart->kartItems()->get() as $kartItem)
+							<tr>
+								<td>
+									{{$kartItem->packageItem->name}}:{{$kartItem->quantity}}
+								</td>
+							</tr>
+						@endforeach
+						@endif
+
+
 						@endforeach
 
 						<tr id="transport-fee">

@@ -83,7 +83,7 @@ class kartController extends Controller
     public function getProducts()
     {
         if ($user = Auth::user()) {
-            return response()->json($user->kartProducts());
+            return response()->json($user->kartProducts(false));
         }
 
         $ip = request()->ip();
@@ -107,7 +107,7 @@ class kartController extends Controller
             return view('auth.reg-buy');
         }
         
-        $product_id_array = Kart::where('user_id', $user->id)->orderBy('product_id')->pluck('product_id');
+        $product_id_array = $user->kartProductsId();    //Kart::where('user_id', $user->id)->orderBy('product_id')->pluck('product_id');
         $additionalProducts = Products::getAdditionalProducts();
 
         $_product_id_array = [];
@@ -124,7 +124,7 @@ class kartController extends Controller
         }
         
         $carriers = Bill::getAllCarriers();
-        $products = Products::whereIn('id', $product_id_array)->get();
+        $products = $user->kartProducts();
         $carrierRestriction = [];
 
         foreach ($products as $product) {
@@ -141,7 +141,7 @@ class kartController extends Controller
         }        
         
         return view('kart.index',[
-            'products'=>$products,
+            'karts'=>$user->kart()->get(),
             'carriers'=>$carrierRestriction
         ]);
 

@@ -49,10 +49,25 @@ class User extends Authenticatable
     }
 
     /**使用者購物車中的商品 */
-    public function kartProducts(){
+    public function kartProducts($groupBy = true){
         $product_id_array = $this->kartProductsId();
         $products = Products::whereIn('id', $product_id_array)->get();
-        return $products;
+
+        if($groupBy) {
+            return $products;
+        }
+        
+        $dict = [];
+        foreach ($products as $product) {
+            $dict[$product->id] = $product;
+        }
+
+        $unGroupedProducts = [];
+        foreach ($product_id_array as $id) {
+            $unGroupedProducts[] = $dict[$id];
+        }
+        return $unGroupedProducts;
+
     }
 
     /**

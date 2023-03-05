@@ -16,6 +16,10 @@ class Kart extends Model
     	return $this->belongsTo('App\User','user_id');
     }
 
+    public function product() {
+        return $this->belongsTo('App\Products','product_id');
+    }
+
     public function kartItems() {
         return $this->hasMany('App\KartItem','kart_id');
     }

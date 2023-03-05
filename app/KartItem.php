@@ -15,4 +15,9 @@ class KartItem extends Model
         $kartItem->quantity = intval($quantity);
         return $kartItem;
     }
+
+    public function packageItem() {
+        return $this->belongsTo('App\PackageItem','item_id');
+    }
+
 }

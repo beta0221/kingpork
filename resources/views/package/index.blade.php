@@ -126,10 +126,17 @@ $(document).ready(function(){
     $('.package-submit-btn').on('click',function(){
 
         $(this).prop('disabled',true);
+
+        let totalAmount = 0;
         $('.package-item-input').each( (index, element) => {
+            totalAmount += parseInt(element.value);
             let itemId = $(element).data('item-id');
             $('#form-input-item-' + itemId).val(element.value);
         });
+
+        if(totalAmount < itemAmount){ 
+            return;
+        }
 
         $('#package-form').submit();
     });
