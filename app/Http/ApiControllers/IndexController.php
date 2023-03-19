@@ -5,13 +5,24 @@ namespace App\Http\ApiControllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\ProductCategory;
+use App\Banner;
 use App\sessionCart;
 use Symfony\Component\HttpFoundation\Response;
 
-class CategoryController extends Controller {
+class IndexController extends Controller {
 
+    public function banners() {
+        $banners = Banner::select(['id','image','link','alt'])->where('public',1)->orderBy('sort','desc')->get();
 
-    public function index()
+        foreach ($banners as $banner) {
+            $host = config('app.url');
+            $banner->imgUrl = "{$host}/images/banner/{$banner->image}";
+        }
+
+        return Response($banners);
+    }
+
+    public function categories()
     {
         $idArray = [1,3,2,9,13,14,15,16,20,30];
         $_cats = ProductCategory::select(['id','name'])->whereIn('id',$idArray)->get();
