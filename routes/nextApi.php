@@ -6,5 +6,6 @@ use Illuminate\Http\Request;
 Route::group([
     'prefix' => 'landing',
 ], function() {
-    Route::get('categories', 'CategoryController@index');
+    Route::get('categories', 'IndexController@categories');
+    Route::get('banners', 'IndexController@banners');
 });
