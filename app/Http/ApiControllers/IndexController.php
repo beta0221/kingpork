@@ -30,6 +30,7 @@ class IndexController extends Controller {
         $indexDict = [];
         foreach ($_cats as $index => $cat) {
             $cat->imgUrl = "https://www.kingpork.com.tw/images/cat/landing/{$cat->id}.png";
+            $cat->menuImgUrl = "https://www.kingpork.com.tw/images/cat/menu/{$cat->id}.png";
             $indexDict[$cat->id] = $index;
         }
 
