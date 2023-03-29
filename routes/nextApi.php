@@ -9,3 +9,10 @@ Route::group([
     Route::get('categories', 'IndexController@categories');
     Route::get('banners', 'IndexController@banners');
 });
+
+//購物頁面
+Route::group([
+    'prefix' => 'shop',
+], function() {
+    Route::get('paths', 'ShopController@paths');
+});

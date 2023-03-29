@@ -11,6 +11,9 @@ class ProductCategory extends Model
 
     protected $table = 'productCategorys';
 
+    /**顯示在架上的類別 */
+    public static $publicIdArray = [1,3,2,9,13,14,15,16,20,30];
+
     public function products()
     {
     	return $this->hasMany('App\Products','category_id')->orderBy('price','asc');
