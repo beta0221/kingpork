@@ -24,8 +24,8 @@ class IndexController extends Controller {
 
     public function categories()
     {
-        $idArray = [1,3,2,9,13,14,15,16,20,30];
-        $_cats = ProductCategory::select(['id','name'])->whereIn('id',$idArray)->get();
+        $idArray = ProductCategory::$publicIdArray;
+        $_cats = ProductCategory::select(['id','name','slug'])->whereIn('id',$idArray)->get();
 
         $indexDict = [];
         foreach ($_cats as $index => $cat) {
