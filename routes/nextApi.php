@@ -15,4 +15,5 @@ Route::group([
     'prefix' => 'shop',
 ], function() {
     Route::get('paths', 'ShopController@paths');
+    Route::get('{slug}', 'ShopController@category');
 });
