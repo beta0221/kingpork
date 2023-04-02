@@ -18,4 +18,16 @@ class ShopController extends Controller
         }
         return Response($paths);
     }
+
+    public function category($slug) {
+        $cat = ProductCategory::where('slug',$slug)->firstOrFail();
+        $products = $cat->products()->get();
+
+        $cat->imgUrl = ProductCategory::getDetailImgUrl($cat->id);
+
+        return Response([
+            'cat' => $cat,
+            'products' => $products
+        ]);
+    }
 }

@@ -13,6 +13,18 @@ class ProductCategory extends Model
 
     /**顯示在架上的類別 */
     public static $publicIdArray = [1,3,2,9,13,14,15,16,20,30];
+    /**購物趣圖片url */
+    public static function getDetailImgUrl($catId) {
+        return config('app.url') . "/images/cat/detail/{$catId}.png";
+    }
+    /**首頁圖片url */
+    public static function getLandingImgUrl($catId) {
+        return config('app.url') . "/images/cat/landing/{$catId}.png";
+    }
+    /**類別列表圖片url */
+    public static function getMenuImgUrl($catId) {
+        return config('app.url') . "/images/cat/menu/{$catId}.png";
+    }
 
     public function products()
     {
