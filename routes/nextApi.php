@@ -22,7 +22,7 @@ Route::group([
 Route::group([
     'prefix' => 'kart',
 ], function() {
-    Route::get('items', '_KartController@getProducts');
+    Route::get('items', '_KartController@items');
     Route::post('add', '_KartController@store');
-    Route::post('remove', '_KartController@destroy');
+    Route::post('remove/{id}', '_KartController@destroy');
 });
