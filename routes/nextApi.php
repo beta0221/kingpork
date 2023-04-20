@@ -2,6 +2,22 @@
 
 use Illuminate\Http\Request;
 
+//身份驗證
+Route::group([
+    'prefix' => 'auth',
+], function() {
+    
+    Route::post('login', 'NextAuthController@login');
+
+    Route::group([
+        'middleware' => 'auth:api',
+    ], function() {
+        Route::get('user', 'NextAuthController@user')->middleware('auth:api');
+    });
+    
+});
+
+
 //首頁用
 Route::group([
     'prefix' => 'landing',

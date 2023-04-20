@@ -12,6 +12,7 @@
         "laravel/passport": "~1.0",
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "^5.4.0",
+        "lcobucci/jwt": "3.3.3",
         "maatwebsite/excel": "~2.0"
     },
     "require-dev": {
