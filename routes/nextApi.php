@@ -8,11 +8,13 @@ Route::group([
 ], function() {
     
     Route::post('login', 'NextAuthController@login');
+    Route::post('signup', 'NextAuthController@signup');
 
     Route::group([
         'middleware' => 'auth:api',
     ], function() {
-        Route::get('user', 'NextAuthController@user')->middleware('auth:api');
+        Route::get('user', 'NextAuthController@user');
+        Route::post('logout', 'NextAuthController@logout');
     });
     
 });
