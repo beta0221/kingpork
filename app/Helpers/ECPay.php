@@ -254,7 +254,8 @@ class ECPay{
             Log::info($err);
             return null;
         }
-
+        Log::info('** Debug getToken **');
+        Log::info($res);
         $res = json_decode($res,true);
         
         if(!isset($res['Data'])){ return null; }
@@ -282,6 +283,8 @@ class ECPay{
             return null;
         }
         
+        Log::info('** Debug createPayment **');
+        Log::info($res);
         $res = json_decode($res,true);
         if(!isset($res['TransCode']) || !isset($res['TransMsg']) || !isset($res['Data'])){ return null; }
         PaymentLog::insert_row(
