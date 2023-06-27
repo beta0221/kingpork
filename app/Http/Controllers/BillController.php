@@ -57,6 +57,8 @@ class BillController extends Controller
 
     public function store(Request $request){
 
+        Log::info("BillController store debug: 1");
+
         $this->validate($request,[
             'item.*'=>'required',
             'quantity.*'=>'required|integer|min:0',
@@ -75,6 +77,8 @@ class BillController extends Controller
             return ('錯誤');
         }
 
+        Log::info("BillController store debug: 2");
+
         $additionalProducts = Products::getAdditionalProductSlug();
         $hasAdditionalProduct = false;
         $hasMainProduct = false;
@@ -88,6 +92,8 @@ class BillController extends Controller
                 }
             }
         }
+
+        Log::info("BillController store debug: 3");
 
         if($hasAdditionalProduct == true && $hasMainProduct == false){
             return redirect()->route('kart.index');
@@ -115,6 +121,8 @@ class BillController extends Controller
 
         if (!in_array('99999',$request->item) AND $total <= 499) { return('錯誤'); }
 
+        Log::info("BillController store debug: 4");
+
         $user = $request->user();
         if($user){
             $user_id = $user->id;
@@ -130,6 +138,8 @@ class BillController extends Controller
         }
         $bill = Bill::insert_row($user_id,$user_name,$MerchantTradeNo,$useBonus,$total,$getBonus,$request);
 
+        Log::info("BillController store debug: 5");
+
         foreach ($products as $product) {
             BillItem::insert_row($bill->id,$product);
         }
@@ -137,6 +147,7 @@ class BillController extends Controller
             FamilyStore::insert_row($bill->id,$request);
         }        
 
+        Log::info("BillController store debug: 6");
         
         if($user){
             Kart::where('user_id',$user->id)->delete(); //清除購物車
@@ -145,6 +156,8 @@ class BillController extends Controller
             }
         }
         
+        Log::info("BillController store debug: 7");
+
         //寄送信件
         switch ($request->ship_pay_by) {
             case Bill::PAY_BY_CREDIT:
@@ -162,12 +175,18 @@ class BillController extends Controller
 
     public function view_payBill($bill_id){
 
+        Log::info("BillController view_payBill debug: 1");
+
         $bill = Bill::where('bill_id',$bill_id)->firstOrFail();
         $ecpay = new ECPay($bill);
+
+        Log::info("BillController view_payBill debug: 2");
 
         if(!$token = $ecpay->getToken()){
             return '系統錯誤';
         }
+
+        Log::info("BillController view_payBill debug: 3");
 
         return view('bill.payBill_v2',[
             'bill_id' => $bill_id,
