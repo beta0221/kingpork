@@ -122,26 +122,29 @@ class kartController extends Controller
             $product_id_array = $_product_id_array;
         }
         
-        $carriers = Bill::getAllCarriers();
+        // $carriers = Bill::getAllCarriers();
         $products = Products::whereIn('id', $product_id_array)->get();
-        $carrierRestriction = [];
+        // $carrierRestriction = [];
 
-        foreach ($products as $product) {
-            $carrier_id_array = $product->carrierRestriction();
-            if(!empty($carrier_id_array)){
-                foreach ($carrier_id_array as $carrier_id) {
-                    $carrierRestriction[$carrier_id] = $carriers[$carrier_id];
-                }
-            }
-        }
+        // foreach ($products as $product) {
+        //     $carrier_id_array = $product->carrierRestriction();
+        //     if(!empty($carrier_id_array)){
+        //         foreach ($carrier_id_array as $carrier_id) {
+        //             $carrierRestriction[$carrier_id] = $carriers[$carrier_id];
+        //         }
+        //     }
+        // }
 
-        if(empty($carrierRestriction)){
-            $carrierRestriction = $carriers;
-        }        
+        // if(empty($carrierRestriction)){
+        //     $carrierRestriction = $carriers;
+        // }        
         
         return view('kart.index',[
             'products'=>$products,
-            'carriers'=>$carrierRestriction
+            // 'carriers'=>$carrierRestriction
+            'carriers' => [
+                Bill::CARRIER_ID_BLACK_CAT => Bill::CARRIER_BLACK_CAT,
+            ]
         ]);
 
     }
