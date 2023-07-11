@@ -169,9 +169,9 @@ class kartController extends Controller
     {
 
         // $additionalProducts = Products::getAdditionalProducts();
-        
+        $product = Products::findOrFail($request->product_id);
 
-        if (Auth::user()) {
+        if ($user = Auth::user()) {
 
             // if(in_array($request->product_id,$additionalProducts)){
             //     $totalPrice =Kart::getKartTotalPrice(Auth::user()->id,$additionalProducts);
@@ -179,6 +179,18 @@ class kartController extends Controller
             //         return response('403');
             //     }
             // }
+
+            //親友專區 電話訂購
+            if (in_array($product->productCategory->id, [25, 26])) {
+                $whiteList = [
+                    'may@sacred.com.tw',
+                    'grace-l@sacred.com.tw',
+                    'julie9066@gmail.com'
+                ];
+                if (!in_array($user->email, $whiteList)) {
+                    return response('無法加入', 403);
+                }
+            }
             
             $kart = Kart::where('product_id',$request->product_id)
                 ->where('user_id', Auth::user()->id)
@@ -193,6 +205,12 @@ class kartController extends Controller
             return response()->json(['msg'=>'成功加入購物車']);
             
         }else{
+
+            //親友專區 電話訂購
+            if (in_array($product->productCategory->id, [25, 26])) {
+                return response('無法加入', 403);
+            }
+
             $ip_address = request()->ip();
             $sessionCart = sessionCart::where('ip_address',$ip_address)->first();
 
