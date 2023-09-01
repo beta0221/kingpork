@@ -23,6 +23,8 @@ use Mail;
 class BillController extends Controller
 {
 
+    /** 免運門檻 */
+    const SHIPPING_FEE_THRESHOLD = 799;
 
     public function __construct()
     {
@@ -119,7 +121,7 @@ class BillController extends Controller
             $total += ($product->price * (int)$quantity);
         }
 
-        if (!in_array('99999',$request->item) AND $total <= 499) { return('錯誤'); }
+        if (!in_array('99999',$request->item) AND $total <= static::SHIPPING_FEE_THRESHOLD) { return('錯誤'); }
 
         Log::info("BillController store debug: 4");
 

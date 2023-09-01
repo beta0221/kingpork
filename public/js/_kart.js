@@ -302,7 +302,7 @@ $(document).ready(function(){
 				price =  price + parseInt($(this).html());
 			});
 
-			if (price > 499) {
+			if (price > 799) {
 				$('#transport-item').attr('name','');
 				$('#transport-quantity').attr('name','');
 				$('#transport-fee').css('display','none');	

@@ -156,7 +156,7 @@
 						<tr id="transport-fee">
 							<td class="product-TR"></td>
 							<td class="product-name-TD">
-								運費(未滿499)
+								運費(未滿799)
 								<input id="transport-item" style="display: none;" type="text" value="99999" name="item[]">
 							</td>
 							<td class="product-quantity-TD">

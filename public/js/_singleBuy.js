@@ -70,7 +70,7 @@ $(document).ready(function(){
 	});
 });
 
-var min_price = 499;
+var min_price = 799;
 var trans_fee = 150;
 
 function product_select(slug,price){
