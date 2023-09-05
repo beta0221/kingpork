@@ -281,6 +281,6 @@
 
 @section('scripts')
 {{ Html::script('js/bootstrap/bootstrap.min.js') }}
-{{ Html::script('js/_kart.js_0904') }}
+{{ Html::script('js/_kart_0904.js') }}
 {{ Html::script('js/_groupBuy_kart.js') }}
 @endsection
