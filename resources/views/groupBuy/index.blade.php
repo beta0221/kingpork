@@ -263,7 +263,7 @@
 
 		<div class="priceSum">
 			<span >總額：</span>
-			<span id="sum-overrite"></span>
+			<span id="sum"></span>
 			
 		</div>
 
@@ -281,6 +281,6 @@
 
 @section('scripts')
 {{ Html::script('js/bootstrap/bootstrap.min.js') }}
-{{ Html::script('js/_kart_0904.js') }}
-{{ Html::script('js/_groupBuy_kart.js') }}
+{{ Html::script('js/_kart_1016.js') }}
+{{ Html::script('js/_groupBuy_kart_1016.js') }}
 @endsection

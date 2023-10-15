@@ -1,3 +1,5 @@
+var sumBeforeDiscount = 0;
+
 $(document).ready(function(){
 		$.ajaxSetup({
   			headers: {
@@ -98,7 +100,7 @@ $(document).ready(function(){
 		$('#bonus').change(function(){	//紅利
 			var maxBonus = parseInt($('#myBonus span').html());
 			var bonus = $('#bonus').val();
-			var sum = parseInt($('#sum').html());
+			// var sum = parseInt($('#sum').html());
 			if (bonus > maxBonus) {
 				$('#bonus').val(maxBonus);
 				bonus = maxBonus;
@@ -107,13 +109,13 @@ $(document).ready(function(){
 				bonus = bonus - bonus%50;
 				$('#bonus').val(bonus);
 			}
-			if (bonus / 50 > sum) {
-				bonus = sum * 50;
+			if (bonus / 50 > sumBeforeDiscount) {
+				bonus = sumBeforeDiscount * 50;
 				$('#bonus').val(bonus);
 			}
 			var bonusCount = bonus/50;
-			var afterDis = sum - bonus / 50;
-			$('#sum').empty().append(sum+'-'+bonusCount+'='+afterDis);
+			var afterDis = sumBeforeDiscount - bonus / 50;
+			$('#sum').empty().append(sumBeforeDiscount+'-'+bonusCount+'='+afterDis);
 		});
 
 		$('#shipping-carrier').on('change',function(){
@@ -315,7 +317,7 @@ $(document).ready(function(){
 
 			//全館95折
 			//price = Math.floor(price * 0.95);
-
+			sumBeforeDiscount = price;
 			$('#sum').empty().append(price);
 
 			if (price == 0) {
@@ -334,9 +336,13 @@ $(document).ready(function(){
 		$('.processing').removeClass('processing');
 		$('.process-2').addClass('processing');
 
+		findMemory();
+	}
+
+	function findMemory() {
 		$.ajax({
 			type:'GET',
-			url:'findMemory',
+			url:'/findMemory',
 			dataType:'json',
 			success: function (response) {
 
