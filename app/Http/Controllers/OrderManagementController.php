@@ -370,6 +370,82 @@ class OrderManagementController extends Controller
     }
 
 
+    public function ExportExcelForHCT(Request $request) {
+        date_default_timezone_set('Asia/Taipei');
+        $cellData = [
+            ['序號','訂單號','姓名','收件人地址','收件人電話','備註','商品別編號','商品數量','材積/重量/總長','代收貨款','指定配送日期','指定配送時間']
+        ];
+        $bill_id_array = json_decode($request->bill_id);
+        $now = date("Y-m-d");
+        if($bills = Bill::whereIn('bill_id',$bill_id_array)->orderBy('id','asc')->get()){
+            foreach ($bills as  $bill) {
+                //代客送禮
+                if($bill->ship_name == '*' && $bill->ship_phone == '*'){
+                    if(!$product = Products::where('slug',Products::GIFT_SLUG)->first()){ continue; }
+
+                    $gifts = json_decode($bill->ship_address,true);
+                    foreach ($gifts as $index => $gift) {
+                        $receiver = $gift['name'];
+                        $phone = $gift['phone'];
+                        $address = $gift['address'];
+                        $quantity = (int)$gift['quantity'];
+                        
+                        $cellData[] = $this->getHCTRow($bill,$product,$index,$quantity,$now,$receiver,$address,$phone);
+                    }
+                    continue;
+                }
+
+                //一般訂單
+                $items = $bill->products();
+                foreach ($items as $index => $item) {
+                    $receiver = $bill->ship_name;
+                    $address = $bill->ship_county . $bill->ship_district . $bill->ship_address;
+                    $phone = $bill->ship_phone;
+
+                    if($item instanceof BillItem){
+                        if(!$product = Products::find($item->product_id)){ continue; }
+                        $item->erp_id = $product->erp_id;
+                    }
+
+                    $cellData[] = $this->getHCTRow($bill,$item,$index,$item->quantity,$now,$receiver,$address,$phone);
+                }
+            }
+        }
+
+        Excel::create('新竹物流出貨單輸出-' . $now, function($excel)use($cellData) {
+            $excel->sheet('Sheet1', function($sheet)use($cellData) {
+                $sheet->rows($cellData);
+            });
+        })->download('xls');
+
+    }
+
+    private function getHCTRow($bill,$product,$index,$quantity,$now,$receiver,$address,$phone){
+
+        $onDeliveryPrice = 0;
+        if($bill->pay_by == '貨到付款' && $index == 0){
+            $onDeliveryPrice = $bill->price;
+        }
+        
+
+        $newRow = [
+            null,
+            $bill->bill_id,
+            $receiver,
+            $address,
+            $phone,
+            $bill->ship_memo,
+            null,
+            1,
+            60, // 材積 [30 60 90 120] 後續依照條件判斷
+            $onDeliveryPrice,
+            null, //指定配送日期 YYYYMMDD
+            null //指定配送時間 1 => 9-13; 2 => 13-17; 3 => 17-20; 
+
+        ];
+        return $newRow;
+    }
+
     public function MonthlyReport($date){
         
         $cellData = [

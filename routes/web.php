@@ -109,6 +109,7 @@ Route::post('order/get_csv','OrderManagementController@csv_download');
 Route::patch('order/marking/{id}','OrderManagementController@marking');
 Route::post('order/ExportExcelForAccountant','OrderManagementController@ExportExcelForAccountant');
 Route::post('order/ExportExcelForFamily','OrderManagementController@ExportExcelForFamily');
+Route::post('order/ExportExcelForHCT','OrderManagementController@ExportExcelForHCT');
 Route::get('order/export/MonthlyReport/{date}','OrderManagementController@MonthlyReport');
 Route::get('order/export/DailyReport/{date}','OrderManagementController@DailyReport');
 Route::delete('order/cancel/{bill_id}','OrderManagementController@cancelBill');

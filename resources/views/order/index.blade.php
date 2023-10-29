@@ -208,7 +208,8 @@
 			<div class="tool-box">
 				<button style="background-color: #000;color: #fff" onclick="selectAll();" class="btn btn-sm">全選</button>
 				<button style="background-color: #008000;color: #fff" onclick="excel_family();" class="btn btn-sm">全家</button>
-				<button style="background-color: steelblue;color: #fff" onclick="csv_download();" class="btn btn-sm">黑貓</button>
+				{{-- <button style="background-color: steelblue;color: #fff" onclick="csv_download();" class="btn btn-sm">黑貓</button> --}}
+				<button style="background-color: teal;color: #fff" onclick="excel_hct();" class="btn btn-sm">新竹</button>
 				<button style="background-color: #d9534f;color: #fff" onclick="excel_accountant();" class="btn btn-sm">會計</button>
 				<button style="background-color: #000;color: #fff" onclick="selectPush();" class="btn btn-sm">下階段</button>
 			</div>
@@ -226,6 +227,10 @@
 			<form id="excelForm_family" action="/order/ExportExcelForFamily" target="_blank" method="POST" style="display:none ;">
 				{{ csrf_field() }}
 				<input id="selectArray_family" type="text" name="bill_id">
+			</form>
+			<form id="excelForm_hct" action="/order/ExportExcelForHCT" target="_blank" method="POST" style="display:none ;">
+				{{ csrf_field() }}
+				<input id="selectArray_hct" type="text" name="bill_id">
 			</form>
 
 		</div>
@@ -556,6 +561,17 @@
 
 		
 
+	}
+
+	function excel_hct() {
+		var selected = getSelectedBillId();
+		
+		if (selected.length > 0) {
+			$('#selectArray_hct').val(JSON.stringify(selected));
+			$('#excelForm_hct').submit();
+		}else{
+			alert('請選取訂單');
+		}
 	}
 
 	function excel_accountant(){
