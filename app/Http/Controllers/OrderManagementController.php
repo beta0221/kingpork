@@ -159,10 +159,10 @@ class OrderManagementController extends Controller
             $ship_time = '2';
         }
 
-        $arrive = str_replace('-', '/', $bill->ship_arriveDate);
-        if ($bill->ship_arriveDate == null) {
-            $arrive = date('Y/m/d',strtotime('3 day'));
-        }
+        // $arrive = str_replace('-', '/', $bill->ship_arriveDate);
+        // if ($bill->ship_arriveDate == null) {
+        //     $arrive = date('Y/m/d',strtotime('3 day'));
+        // }
 
         $cash = $bill->price;
         if ($bill->pay_by != '貨到付款') {
@@ -173,22 +173,36 @@ class OrderManagementController extends Controller
         $bill->ship_district = str_replace(',','',$bill->ship_district);
         $bill->ship_address = str_replace(',','',$bill->ship_address);
 
+        // $row = 
+        //     $bill->created_at.",".
+        //     $bill->bill_id.",".
+        //     '官網'.$bill->pay_by.",".
+        //     $cash.",".
+        //     $ship_time.",".
+        //     $bill->ship_name.",".
+        //     $bill->ship_phone.",".
+        //     $materialListText.",".
+        //     $bill->ship_county.$bill->ship_district.$bill->ship_address.",".
+        //     $now.",".
+        //     $arrive.",".
+        //     $bill->price.",".
+        //     $bill->ship_memo . ",".
+        //     $itemsInShort;
+
+
         $row = 
             $bill->created_at.",".
             $bill->bill_id.",".
             '官網'.$bill->pay_by.",".
-            $cash.",".
-            $ship_time.",".
             $bill->ship_name.",".
+            $bill->ship_county.$bill->ship_district.$bill->ship_address.",".
             $bill->ship_phone.",".
             $materialListText.",".
-            $bill->ship_county.$bill->ship_district.$bill->ship_address.",".
-            $now.",".
-            $arrive.",".
-            $bill->price.",".
-            $bill->ship_memo . ",".
-            $itemsInShort;
-
+            $itemsInShort.",".
+            $cash.",".
+            $ship_time.",".
+            $bill->ship_memo;
+            
         return $row;
 
     }
@@ -373,7 +387,7 @@ class OrderManagementController extends Controller
     public function ExportExcelForHCT(Request $request) {
         date_default_timezone_set('Asia/Taipei');
         $cellData = [
-            ['序號','訂單號','姓名','收件人地址','收件人電話','備註','商品別編號','商品數量','材積/重量/總長','代收貨款','指定配送日期','指定配送時間']
+            ['序號','訂單號','姓名','收件人地址','收件人電話','物料清單','商品別編號','商品數量','材積/重量/總長','代收貨款','指定配送日期','指定配送時間','到貨時段','品名']
         ];
         $bill_id_array = json_decode($request->bill_id);
         $now = date("Y-m-d");
@@ -426,22 +440,45 @@ class OrderManagementController extends Controller
         if($bill->pay_by == '貨到付款' && $index == 0){
             $onDeliveryPrice = $bill->price;
         }
+
+        $inventoryAmountArray = [];
+        if($product instanceof BillItem){
+            $inventoryAmountArray[] = $product->sumInventoryAmount();
+        }else{
+            $inventoryAmountArray[] = $product->sumInventoryAmount($quantity);
+        }
+
+
+        $itemsInShort = "";
+        if($quantity == 1){
+            $itemsInShort .= $product->short;
+        }else{
+            $itemsInShort .= ($product->short . '*' . $quantity);
+        }
         
+        $materialListText = $this->materialListText($inventoryAmountArray);
+        $materialListText .= "[$bill->price]";
+
+        $arriveAt = '上午';
+        if ($bill->ship_time == '14:00-18:00') {
+            $arriveAt = '下午';
+        }
 
         $newRow = [
-            null,
+            $bill->ship_memo,   //序號 (放備註)
             $bill->bill_id,
             $receiver,
             $address,
             $phone,
-            $bill->ship_memo,
+            $materialListText,
             null,
             1,
             60, // 材積 [30 60 90 120] 後續依照條件判斷
             $onDeliveryPrice,
             null, //指定配送日期 YYYYMMDD
-            null //指定配送時間 1 => 9-13; 2 => 13-17; 3 => 17-20; 
-
+            null, //指定配送時間 1 => 9-13; 2 => 13-17; 3 => 17-20; 
+            $arriveAt, //到貨時段（自己看的
+            $itemsInShort  //品名
         ];
         return $newRow;
     }
