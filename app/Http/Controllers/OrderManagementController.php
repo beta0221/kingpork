@@ -173,6 +173,8 @@ class OrderManagementController extends Controller
         $bill->ship_district = str_replace(',','',$bill->ship_district);
         $bill->ship_address = str_replace(',','',$bill->ship_address);
 
+        $memo = str_replace(',','，',$bill->ship_memo);
+
         // $row = 
         //     $bill->created_at.",".
         //     $bill->bill_id.",".
@@ -194,6 +196,7 @@ class OrderManagementController extends Controller
             $bill->created_at.",".
             $bill->bill_id.",".
             '官網'.$bill->pay_by.",".
+            $bill->user_name.",".
             $bill->ship_name.",".
             $bill->ship_county.$bill->ship_district.$bill->ship_address.",".
             $bill->ship_phone.",".
@@ -201,8 +204,8 @@ class OrderManagementController extends Controller
             $itemsInShort.",".
             $cash.",".
             $ship_time.",".
-            $bill->ship_memo;
-            
+            $memo;
+
         return $row;
 
     }
