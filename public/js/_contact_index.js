@@ -61,7 +61,7 @@ function sendMail(){
 	// alert(selected_id);
 	var text = $('#response-text').val();
 	
-	if (text.length > 20 && selected_id !=null) {
+	if (selected_id !=null) {
 		
 		$.ajax({
 			type:'POST',
@@ -82,7 +82,7 @@ function sendMail(){
 		});
 			
 	}else{
-		alert('請確認回覆字數20字以上，並選擇對象。');
+		alert('請選擇對象。');
 	}
 	
 
