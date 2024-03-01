@@ -215,11 +215,13 @@
 						<tr>
 							<td class="">
 								<label for=""><span class="required">*</span>運送方式：</label>
-								<select id="shipping-carrier" name="carrier_id" class="shipping-carrier form-control">
+								<span>冷凍宅配</span>
+								<input type="hidden" value="0" name="carrier_id">
+								{{-- <select id="shipping-carrier" name="carrier_id" class="shipping-carrier form-control">
 									@foreach ($carriers as $id => $name)
 									<option value="{{$id}}">{{$name}}</option>
 									@endforeach
-								</select>
+								</select> --}}
 							</td>
 						</tr>
 

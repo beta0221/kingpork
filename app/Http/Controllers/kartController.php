@@ -142,9 +142,9 @@ class kartController extends Controller
         return view('kart.index',[
             'products'=>$products,
             // 'carriers'=>$carrierRestriction
-            'carriers' => [
-                Bill::CARRIER_ID_BLACK_CAT => Bill::CARRIER_BLACK_CAT,
-            ]
+            // 'carriers' => [
+            //     Bill::CARRIER_ID_BLACK_CAT => Bill::CARRIER_BLACK_CAT,
+            // ]
         ]);
 
     }
