@@ -30,7 +30,7 @@ class Bill extends Model
 
     /**黑貓 */
     const CARRIER_ID_BLACK_CAT = 0;
-    const CARRIER_BLACK_CAT = '黑貓宅配';
+    const CARRIER_BLACK_CAT = '冷凍宅配';
     /**全家 */
     const CARRIER_ID_FAMILY_MART = 1;
     const CARRIER_FAMILY_MART = '全家冷凍超取';
