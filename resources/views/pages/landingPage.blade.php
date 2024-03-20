@@ -3,7 +3,7 @@
 @section('title','| 官方商城')
 
 @section('stylesheets')
-{{Html::style('css/Style_landingPage.css')}}
+{{Html::style('css/Style_landingPage_0320.css')}}
 {{Html::style('css/owl-carousel/owl.carousel.css')}}
 @endsection
 
@@ -28,12 +28,10 @@
 		1=>'金園排骨',
 		3=>'幸福雙響組合',
 		2=>'厚切雞腿排',
-		9=>'鯖魚',
-		20=>'活凍金鑽蝦',
+		30=>'厚切里肌'
 	];
 ?>
 	<div class="new-product-bar">
-
 		@foreach ($rowA as $key => $item)
 		<div class="product-cell">
 			<div>
@@ -48,19 +46,17 @@
 			</div>
 		</div>
 		@endforeach
-
 	</div>
+
 <?php 
 	$rowB = [
-		13=>'義式蕃茄鍋底',
-		14=>'泰式酸辣湯底',
-		15=>'養生麻油酒香鍋底',
-		16=>'特級麻辣養生鍋底',
-		30=>'厚切里肌',
+		32=>'鹽酥雞腿肉',
+		33=>'鹽酥雞Pizza',
+		9=>'鯖魚',
+		20=>'活凍金鑽蝦',
 	];
 ?>
 	<div class="new-product-bar">
-		
 		@foreach ($rowB as $key => $item)
 		<div class="product-cell">
 			<div>
@@ -75,7 +71,32 @@
 			</div>
 		</div>
 		@endforeach
+	</div>
 
+<?php 
+	$rowC = [
+		13=>'義式蕃茄鍋底',
+		14=>'泰式酸辣湯底',
+		15=>'養生麻油酒香鍋底',
+		16=>'特級麻辣養生鍋底',
+	];
+?>
+
+	<div class="new-product-bar">
+		@foreach ($rowC as $key => $item)
+		<div class="product-cell">
+			<div>
+				<div>
+					<div class="catImg">
+						<a href="{{route('productCategory.show',$key)}}">		
+							<img src="{{asset('images/cat/landing/'.$key.'.png')}}" alt="{{$item}}">
+						</a>
+						<div onclick="location.href='{{route('productCategory.show',$key)}}';" class="P-buy">我要買</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		@endforeach
 	</div>
 
 <div class="productArea container">
