@@ -198,7 +198,7 @@
 }
 
 .product-cell{
-	width:calc(100% / 5 - 3.5px);
+	width:calc(100% / 4 - 3.5px);
 	display: inline-block;
 }
 
@@ -256,7 +256,22 @@
 	border:4pt solid rgba(195,28,34,1);;
 }
 
-.P-pork:before{
+.cat-title-div {
+	position: absolute;
+	left: 0.5rem;
+	top: 0.5rem;
+	background: linear-gradient(to right, rgba(0,0,0,0) 0%,rgba(0,0,0,.3) 20%,rgba(0,0,0,.3) 80%,rgba(0,0,0,0) 100%);
+	color: white;
+	font-family: cwTeXKai , serif;
+	font-weight: 900;
+	font-size: 32px;
+	letter-spacing: 2px;
+	padding: .4rem .8rem;
+	cursor: pointer;
+}
+
+
+/* .P-pork:before{
 	content: '厚切排骨';
 }
 .P-both:before{
@@ -298,7 +313,7 @@
 	left: 2.5%;
 	padding: 8px 28px;
 	z-index: 1;
-}
+} */
 /* 1366 ~ 992 */
 
 @media (max-width: 1366px) {
@@ -435,13 +450,13 @@
 		line-height: 60px;
 	}
 	
-	.P-pork:before,.P-both:before,.P-chicken:before,.P-fish:before,.P-soup:before,.P-soup-2:before,.P-soup-3:before,.P-soup-4:before,.P-soup-5:before,.P-tenderloin:before{
+	/* .P-pork:before,.P-both:before,.P-chicken:before,.P-fish:before,.P-soup:before,.P-soup-2:before,.P-soup-3:before,.P-soup-4:before,.P-soup-5:before,.P-tenderloin:before{
 		font-size: 20px;
 		letter-spacing: 2px;
 		top: 5%;
 		left: 2%;
 		padding: 8px 28px;
-	}
+	} */
 	/* ----------------------- */
 	.productBox{
 		overflow-y: scroll;
@@ -571,9 +586,9 @@
 	.product-bar{
 		margin:0;
 	}
-	.float-cell{
+	/* .float-cell{
 		float: left;
-	}
+	} */
 	.product-cell{
 		width:calc(100% / 2 - 3px);
 	}
@@ -600,13 +615,13 @@
 	.hr{
 		margin: 30px 0 30px 0;
 	}
-	.P-pork:before,.P-both:before,.P-chicken:before,.P-fish:before,.P-soup:before,.P-soup-2:before,.P-soup-3:before,.P-soup-4:before,.P-soup-5:before,.P-tenderloin:before{
+	/* .P-pork:before,.P-both:before,.P-chicken:before,.P-fish:before,.P-soup:before,.P-soup-2:before,.P-soup-3:before,.P-soup-4:before,.P-soup-5:before,.P-tenderloin:before{
 		font-size: 22px;
 		letter-spacing: 0px;
 		top: 5%;
 		left: 0%;
 		padding: 4px 16px;
-	}
+	} */
 	/* ----------------------- */
 	.productBox{
 		overflow-y: scroll;
@@ -722,13 +737,13 @@
 	
 }
 @media(max-width: 330px){
-	.P-pork:before,.P-both:before,.P-chicken:before,.P-fish:before,.P-soup:before,.P-soup-2:before,.P-soup-3:before,.P-soup-4:before,.P-soup-5:before,.P-tenderloin:before{
+	/* .P-pork:before,.P-both:before,.P-chicken:before,.P-fish:before,.P-soup:before,.P-soup-2:before,.P-soup-3:before,.P-soup-4:before,.P-soup-5:before,.P-tenderloin:before{
 		font-size: 14px;
 		letter-spacing: 0px;
 		top: 5%;
 		left: 0%;
 		padding: 4px 16px;
-	}
+	} */
 	/* ----------------------- */
 	.productBox{
 		/* height: 60%; */

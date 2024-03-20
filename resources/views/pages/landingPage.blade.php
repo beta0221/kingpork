@@ -30,50 +30,12 @@
 		2=>'厚切雞腿排',
 		30=>'厚切里肌'
 	];
-?>
-	<div class="new-product-bar">
-		@foreach ($rowA as $key => $item)
-		<div class="product-cell">
-			<div>
-				<div>
-					<div class="catImg">
-						<a href="{{route('productCategory.show',$key)}}">		
-							<img src="{{asset('images/cat/landing/'.$key.'.png')}}" alt="{{$item}}">
-						</a>
-						<div onclick="location.href='{{route('productCategory.show',$key)}}';" class="P-buy">我要買</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		@endforeach
-	</div>
-
-<?php 
 	$rowB = [
 		32=>'鹽酥雞腿肉',
 		33=>'鹽酥雞Pizza',
 		9=>'鯖魚',
 		20=>'活凍金鑽蝦',
 	];
-?>
-	<div class="new-product-bar">
-		@foreach ($rowB as $key => $item)
-		<div class="product-cell">
-			<div>
-				<div>
-					<div class="catImg">
-						<a href="{{route('productCategory.show',$key)}}">		
-							<img src="{{asset('images/cat/landing/'.$key.'.png')}}" alt="{{$item}}">
-						</a>
-						<div onclick="location.href='{{route('productCategory.show',$key)}}';" class="P-buy">我要買</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		@endforeach
-	</div>
-
-<?php 
 	$rowC = [
 		13=>'義式蕃茄鍋底',
 		14=>'泰式酸辣湯底',
@@ -81,21 +43,30 @@
 		16=>'特級麻辣養生鍋底',
 	];
 ?>
+	<div class="new-product-bar">
+		@foreach ($rowA as $key => $item)
+		@include('partials._landingPageProductCell',[
+			'key' => $key,
+			'item' => $item
+		])
+		@endforeach
+	</div>
+
+	<div class="new-product-bar">
+		@foreach ($rowB as $key => $item)
+		@include('partials._landingPageProductCell',[
+			'key' => $key,
+			'item' => $item
+		])
+		@endforeach
+	</div>
 
 	<div class="new-product-bar">
 		@foreach ($rowC as $key => $item)
-		<div class="product-cell">
-			<div>
-				<div>
-					<div class="catImg">
-						<a href="{{route('productCategory.show',$key)}}">		
-							<img src="{{asset('images/cat/landing/'.$key.'.png')}}" alt="{{$item}}">
-						</a>
-						<div onclick="location.href='{{route('productCategory.show',$key)}}';" class="P-buy">我要買</div>
-					</div>
-				</div>
-			</div>
-		</div>
+		@include('partials._landingPageProductCell',[
+			'key' => $key,
+			'item' => $item
+		])
 		@endforeach
 	</div>
 

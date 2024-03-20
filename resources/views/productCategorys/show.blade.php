@@ -3,127 +3,57 @@
 @section('title','| 購物趣')
 
 @section('stylesheets')
-{{Html::style('css/_showProduct.css')}}
+{{Html::style('css/_showProduct_0320.css')}}
 @endsection
 
 @section('content')
-
+<?php 
+	$rowA = [
+		1=>'金園排骨',
+		3=>'幸福雙響組合',
+		2=>'厚切雞腿排',
+		30=>'厚切里肌'
+	];
+	$rowB = [
+		32=>'鹽酥雞腿肉',
+		33=>'鹽酥雞Pizza',
+		9=>'鯖魚',
+		20=>'活凍金鑽蝦',
+	];
+	$rowC = [
+		13=>'義式蕃茄鍋底',
+		14=>'泰式酸辣湯底',
+		15=>'養生麻油酒香鍋底',
+		16=>'特級麻辣養生鍋底',
+	];
+?>
 <div class="content">
 
 	<div class="product-bar" style="z-index:2">
-		<div class="product-cell">
-			<div>
-				<div>
-					<div class="catImg P-pork" id="{{Request::is('productCategory/1') ? 'currentCat' : ''}}"  onclick="location.href='/productCategory/1'">
-						<a href="{{route('productCategory.show',1)}}">		
-							<img src="{{asset('images/cat/menu/1.png')}}" alt="厚切手打豬排">	
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="product-cell">
-			<div>
-				<div>
-					<div class="catImg P-both" id="{{Request::is('productCategory/3') ? 'currentCat' : ''}}"  onclick="location.href='/productCategory/3'">
-						<a href="{{route('productCategory.show',3)}}">
-							<img src="{{asset('images/cat/menu/3.png')}}" alt="幸福雙響組合">
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="product-cell">
-			<div>
-				<div>
-					<div class="catImg P-chicken" id="{{Request::is('productCategory/2') ? 'currentCat' : ''}}"  onclick="location.href='/productCategory/2'">
-						<a href="{{route('productCategory.show',2)}}">
-							<img src="{{asset('images/cat/menu/2.png')}}" alt="無骨嫩雞腿排">	
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="product-cell">
-			<div>
-				<div>
-					<div class="catImg P-fish" id="{{Request::is('productCategory/9') ? 'currentCat' : ''}}"  onclick="location.href='/productCategory/9'">
-						<a href="{{route('productCategory.show',9)}}">
-							<img src="{{asset('images/cat/menu/9.png')}}" alt="鯖魚">	
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="product-cell float-cell">
-			<div>
-				<div>
-					<div class="catImg P-soup" id="{{Request::is('productCategory/20') ? 'currentCat' : ''}}" onclick="location.href='/productCategory/20'">
-						<a href="{{route('productCategory.show',20)}}">
-							<img src="{{asset('images/cat/menu/20.png')}}" alt="活凍金鑽蝦">	
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
+		@foreach ($rowA as $key => $item)
+		@include('partials._productPageCatCell',[
+			'key' => $key,
+			'item' => $item
+		])
+		@endforeach
 	</div>
 
-	<div class="product-bar">
-		<div class="product-cell">
-			<div>
-				<div>
-					<div class="catImg P-soup-2" id="{{Request::is('productCategory/13') ? 'currentCat' : ''}}" onclick="location.href='/productCategory/13'">
-						<a href="{{route('productCategory.show',13)}}">
-							<img src="{{asset('images/cat/menu/13.png')}}" alt="義式蕃茄鍋底">	
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="product-cell">
-			<div>
-				<div>
-					<div class="catImg P-soup-3" id="{{Request::is('productCategory/14') ? 'currentCat' : ''}}" onclick="location.href='/productCategory/14'">
-						<a href="{{route('productCategory.show',14)}}">
-							<img src="{{asset('images/cat/menu/14.png')}}" alt="泰式酸辣湯底">	
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="product-cell">
-			<div>
-				<div>
-					<div class="catImg P-soup-4" id="{{Request::is('productCategory/15') ? 'currentCat' : ''}}" onclick="location.href='/productCategory/15'">
-						<a href="{{route('productCategory.show',15)}}">
-							<img src="{{asset('images/cat/menu/15.png')}}" alt="養生麻油酒香鍋底">	
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="product-cell">
-			<div>
-				<div>
-					<div class="catImg P-soup-5" id="{{Request::is('productCategory/16') ? 'currentCat' : ''}}" onclick="location.href='/productCategory/16'">
-						<a href="{{route('productCategory.show',16)}}">
-							<img src="{{asset('images/cat/menu/16.png')}}" alt="特級麻辣養生鍋底">	
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="product-cell">
-			<div>
-				<div>
-					<div class="catImg P-tenderloin" id="{{Request::is('productCategory/30') ? 'currentCat' : ''}}" onclick="location.href='/productCategory/30'">
-						<a href="{{route('productCategory.show',30)}}">
-							<img src="{{asset('images/cat/menu/30.png')}}" alt="厚切里肌">
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
+	<div class="product-bar" style="z-index:2">
+		@foreach ($rowB as $key => $item)
+		@include('partials._productPageCatCell',[
+			'key' => $key,
+			'item' => $item
+		])
+		@endforeach
+	</div>
+
+	<div class="product-bar" style="z-index:2">
+		@foreach ($rowC as $key => $item)
+		@include('partials._productPageCatCell',[
+			'key' => $key,
+			'item' => $item
+		])
+		@endforeach
 	</div>
 
 	<div class="container">
