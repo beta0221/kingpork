@@ -104,7 +104,13 @@
 									</div>
 									<div class="right-bottom-box">
 										<span class="productPrice productPrice_avg">
-											{{($product->format!=null)?'(均價$'.$product->format.')':''}}	
+											{{($product->format!=null)?'(均價$'.$product->format.')':''}}
+
+											{{-- 一竿進洞 特殊狀況 --}}
+											@if ($productCategory->id == 31)
+											<del>${{ceil($product->price / 0.88)}}</del>	
+											@endif
+											
 										</span>
 									</div>
 								</div>
