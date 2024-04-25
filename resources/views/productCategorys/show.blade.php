@@ -106,8 +106,8 @@
 										<span class="productPrice productPrice_avg">
 											{{($product->format!=null)?'(均價$'.$product->format.')':''}}
 
-											{{-- 一竿進洞 特殊狀況 --}}
-											@if ($productCategory->id == 31)
+											{{-- 一竿進洞&地區年會 特殊狀況 --}}
+											@if ($productCategory->id == 31 || $productCategory->id == 34)
 											<del>${{ceil($product->price / 0.88)}}</del>	
 											@endif
 											
