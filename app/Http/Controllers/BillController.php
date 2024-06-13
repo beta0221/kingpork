@@ -112,6 +112,7 @@ class BillController extends Controller
         $products = [];
 
         foreach ($request->item as $index => $slug) {
+            if ($slug == "99999") { continue; }
             $quantity = $request->quantity[$index];
             $product = Products::where('slug', $slug)->firstOrFail();
             $product->quantity = (int)$quantity;
@@ -120,8 +121,17 @@ class BillController extends Controller
             $getBonus += ($product->bonus * (int)$quantity);
             $total += ($product->price * (int)$quantity);
         }
+        
+        // 未達到 免運門檻
+        if ($total < static::SHIPPING_FEE_THRESHOLD) { 
+            // 加入運費
+            $product = Products::where('slug', "99999")->firstOrFail();
+            $product->quantity = 1;
+            $products[] = $product;
+            $total += (int)$product->price;
+        }
 
-        if (!in_array('99999',$request->item) AND $total <= static::SHIPPING_FEE_THRESHOLD) { return('錯誤'); }
+        if (!in_array('99999',$request->item) AND $total < static::SHIPPING_FEE_THRESHOLD) { return('錯誤'); }
 
         Log::info("BillController store debug: 4");
 
