@@ -262,6 +262,8 @@ class OrderManagementController extends Controller
         ];
         $bill_id_array = json_decode($request->bill_id);
         $now = date("Y-m-d");
+        $inventoryAmountArray = [];
+
         if($bills = Bill::whereIn('bill_id',$bill_id_array)->orderBy('id','asc')->get()){
 
             foreach ($bills as  $bill) {
@@ -291,13 +293,19 @@ class OrderManagementController extends Controller
                     if($item instanceof BillItem){
                         if(!$product = Products::find($item->product_id)){ continue; }
                         $item->erp_id = $product->erp_id;
+                        $inventoryAmountArray[] = $item->sumInventoryAmount();
                     }
 
                     $cellData[] = $this->getAccountantRow($bill,$item,$index,$item->quantity,$now,$receiver,$address,$phone);
                 }
 
             }
-
+            $this->materialListText($inventoryAmountArray);
+            $cellData[] = [];
+            foreach ($this->totalMaterialList as $key => $value) {
+                $cellData[] = [$key . "*" . $value];
+            }
+            $cellData[] = ["總比數：" . count($bills)];
         }
 
         Excel::create('會計訂單輸出-' . $now, function($excel)use($cellData) {
