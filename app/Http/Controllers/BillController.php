@@ -102,7 +102,8 @@ class BillController extends Controller
         }
 
         date_default_timezone_set('Asia/Taipei');
-        $MerchantTradeNo = time() . rand(10,99);//先給訂單編號
+        $MerchantTradeNo = Bill::genMerchantTradeNo(); //先給訂單編號
+        //$MerchantTradeNo = time() . rand(10,99);//先給訂單編號
 
         $user_id = null;
         $user_name = $request->user_name;

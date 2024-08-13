@@ -112,6 +112,7 @@ Route::post('order/ExportExcelForFamily','OrderManagementController@ExportExcelF
 Route::post('order/ExportExcelForHCT','OrderManagementController@ExportExcelForHCT');
 Route::get('order/export/MonthlyReport/{date}','OrderManagementController@MonthlyReport');
 Route::get('order/export/DailyReport/{date}','OrderManagementController@DailyReport');
+Route::post('order/upload/wayMay','OrderManagementController@uploadWayMay');
 Route::delete('order/cancel/{bill_id}','OrderManagementController@cancelBill');
 Route::get('order/history/{user_id}','OrderManagementController@orderHistory');
 Route::post('regulate/bonus/{user_id}','OrderManagementController@regulateUserBonus');

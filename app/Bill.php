@@ -70,6 +70,11 @@ class Bill extends Model
         return $this->hasMany('App\BillItem','bill_id','id');
     }
     
+    /** 產生訂單流水號 */
+    public static function genMerchantTradeNo($index = null) {
+        return time() . rand(10,99) . (is_null($index) ? '' : $index);
+    }
+
     public static function insert_row($user_id,$user_name,$bill_id,$useBonus,$total,$getBonus,Request $request){
         $bill = new Bill;
         $bill->user_id = $user_id;

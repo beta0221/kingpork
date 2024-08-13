@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Bill;
 use App\BillItem;
 use App\Helpers\ECPay;
+use App\Helpers\ExcelHelper;
 use App\Inventory;
 use App\User;
 use App\Products;
@@ -783,6 +784,22 @@ class OrderManagementController extends Controller
 
         return redirect('order/history/' . $user_id);
         
+    }
+
+    public function uploadWayMay(Request $request) {
+        $this->validate($request,[
+            'excel_data' => 'required',
+            'kol' => 'required'
+        ]);
+
+        $data = json_decode($request->excel_data, true);
+        $excelOrder = new ExcelHelper($data);
+
+        $excelOrder->save($request->kol);
+
+        // return response($excelOrder->orderList);
+
+        return redirect()->route('order.index');
     }
 
 }

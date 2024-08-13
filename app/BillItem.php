@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class BillItem extends Model
 {
     
+    protected $guarded = [];
+
     public $timestamps = false;
 
     public function product(){
