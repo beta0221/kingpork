@@ -795,6 +795,12 @@ class OrderManagementController extends Controller
         $data = json_decode($request->excel_data, true);
         $excelOrder = new ExcelHelper($data);
 
+        if($bills = $excelOrder->validateOrderNum($request->kol)) {
+            return response()->json([
+                '錯誤：已存在單號' => $bills
+            ]);
+        }
+
         $excelOrder->save($request->kol);
 
         // return response($excelOrder->orderList);

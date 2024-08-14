@@ -24,6 +24,17 @@ class ExcelHelper {
         $this->arrangeData();
     }
 
+    /** 檢查訂單號碼是否已存在 */
+    public function validateOrderNum($kol) {
+        $orderNumList = array_keys($this->orderList);
+
+        $bills = Bill::where('kol', $kol)
+            ->whereIn('kolOrderNum', $orderNumList)
+            ->pluck('kolOrderNum');
+
+        return empty($bills) ? null : $bills;
+    }
+
     /** 存進資料庫 */
     public function save($kol) {
 
