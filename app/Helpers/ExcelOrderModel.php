@@ -12,12 +12,16 @@ class ExcelOrderModel {
     const KEY_NAME = '姓名';
     const KEY_PHONE = '電話';
     const KEY_ADDRESS = '地址';
+    const KEY_COMPANY_NAME = '三聯抬頭';
+    const KEY_COMPANY_NUM = '統編';
     const KEY_MEMO = '備註';
 
     public $orderNum;
     public $name;
     public $phone;
     public $address;
+    public $companyName;
+    public $companyNum;
     public $memo;
     public $products = [];
 
@@ -26,6 +30,12 @@ class ExcelOrderModel {
         $this->name = $row[static::KEY_NAME];
         $this->phone = $row[static::KEY_PHONE];
         $this->address = $row[static::KEY_ADDRESS];
+        if (isset($row[static::KEY_COMPANY_NAME])) {
+            $this->companyName = $row[static::KEY_COMPANY_NAME];
+        }
+        if (isset($row[static::KEY_COMPANY_NUM])) {
+            $this->companyNum = $row[static::KEY_COMPANY_NUM];
+        }
         if (isset($row[static::KEY_MEMO])) {
             $this->memo = $row[static::KEY_MEMO];
         }

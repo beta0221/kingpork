@@ -47,7 +47,13 @@ class ExcelHelper {
                 $bill->ship_name = $order->name;
                 $bill->ship_phone = $order->phone;
                 $bill->ship_address = $order->address;
-                $bill->ship_receipt = 2;
+                if (!is_null($order->companyName)) {
+                    $bill->ship_receipt = 3;
+                    $bill->ship_three_id = $order->companyNum;
+                    $bill->ship_three_company = $order->companyName;
+                } else {
+                    $bill->ship_receipt = 2;
+                }
                 $bill->ship_memo = $order->memo;
                 $bill->pay_by = 'KOL';
                 $bill->carrier_id = 0;
