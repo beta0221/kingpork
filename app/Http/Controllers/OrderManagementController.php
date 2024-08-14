@@ -368,7 +368,7 @@ class OrderManagementController extends Controller
     }
 
     private function getAccountantRow($bill,$product,$index,$quantity,$now,$receiver,$address,$phone){
-        $bill_id = $bill->bill_id;
+        $bill_id = ($bill->pay_by == 'KOL' ? $bill->kolOrderNum : $bill->bill_id);
         $billDate = $bill->created_at;
         $buyer = $bill->user_name;
         $erp_id = $product->erp_id;
