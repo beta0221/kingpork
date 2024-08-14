@@ -328,7 +328,14 @@
 						{{$order->user_name}}
 					</td>
 
-					<td><a href="{{url('order/showAll').'/'.$order['bill_id']}}" target="_blank">{{$order['bill_id']}}</a></td>
+					<td>
+						<a href="{{url('order/showAll').'/'.$order['bill_id']}}" target="_blank">{{$order['bill_id']}}</a>
+						<?php
+							if($order['pay_by'] == "KOL") {
+								echo '<br>' . '(' . $order['kolOrderNum'] . ')';
+							}
+						?>
+					</td>
 
 					<td>{{$order['price']}}</td>
 

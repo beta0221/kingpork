@@ -53,6 +53,7 @@ class ExcelHelper {
                 $bill->pay_by = 'KOL';
                 $bill->carrier_id = 0;
                 $bill->kol = $kol;
+                $bill->kolOrderNum = $order->orderNum;
                 $bill->dumpNum = $this->dumpNum;
                 $bill->save();
 

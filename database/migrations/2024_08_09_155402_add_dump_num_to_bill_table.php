@@ -16,6 +16,7 @@ class AddDumpNumToBillTable extends Migration
         Schema::table('bills', function (Blueprint $table) {
             $table->string('dumpNum')->nullable();
             $table->string('kol')->nullable();
+            $table->string('kolOrderNum')->nullable();
             $table->string('shipmentNum')->nullable();
         });
     }
@@ -30,6 +31,7 @@ class AddDumpNumToBillTable extends Migration
         Schema::table('bills', function (Blueprint $table) {
             $table->dropColumn('dumpNum');
             $table->dropColumn('kol');
+            $table->dropColumn('kolOrderNum');
             $table->dropColumn('shipmentNum');
         });
     }
