@@ -267,7 +267,7 @@ class OrderManagementController extends Controller
 
         if($bills = Bill::whereIn('bill_id',$bill_id_array)->orderBy('id','asc')->get()){
 
-            foreach ($bills as  $bill) {
+            foreach ($bills as $billIndex => $bill) {
                 //代客送禮
                 if($bill->ship_name == '*' && $bill->ship_phone == '*'){
                     if(!$product = Products::where('slug',Products::GIFT_SLUG)->first()){ continue; }
@@ -287,7 +287,7 @@ class OrderManagementController extends Controller
                 //一般訂單
                 $items = $bill->products();
                 foreach ($items as $index => $item) {
-                    $receiver = $bill->ship_name;
+                    $receiver = $bill->ship_name . '(' . ($billIndex + 1) . ')';
                     $address = $bill->ship_county . $bill->ship_district . $bill->ship_address;
                     $phone = $bill->ship_phone;
 
