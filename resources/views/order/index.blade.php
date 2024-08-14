@@ -332,7 +332,15 @@
 
 					<td>{{$order['price']}}</td>
 
-					<td>{{$order['pay_by']}}{{ ($order['pay_by'] == "KOL" ? '-' . $order['kol'] : '') }}</td>
+					<td>
+						{{$order['pay_by']}}
+						<?php 
+							if($order['pay_by'] == "KOL") {
+								echo '-' . $order['kol'] . '<br>';
+								echo '(' . $order['dumpNum'] . ')';
+							}
+						?>
+					</td>
 
 					{{-- <td>
 						@if ($order->carrier_id == 1)
