@@ -178,7 +178,7 @@
 					<span>貨運資料：</span>
 				</div>
 				<div>
-					<input type="file" class="form-control" id="uploadShipmentNum" accept=".xlsx, .xls">
+					<input type="file" class="form-control" id="uploadShipmentNum" accept=".csv">
 				</div>
 				<input id="shipmentNumData" type="hidden" name="shipmentNumData">
 				<button class="btn btn-primary mt-2" type="submit">上傳</button>
@@ -477,6 +477,7 @@
 @section('scripts')
 {{ Html::script('js/bootstrap/bootstrap.min.js') }}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
 <script>
     document.getElementById('uploadKolOrder').addEventListener('change', (event) => {
       const file = event.target.files[0];
@@ -498,20 +499,17 @@
 
 	document.getElementById('uploadShipmentNum').addEventListener('change', (event) => {
       const file = event.target.files[0];
-      const reader = new FileReader();
-
-      reader.onload = (e) => {
-        const data = new Uint8Array(e.target.result);
-        const workbook = XLSX.read(data, { type: 'array' });
-        const firstSheetName = workbook.SheetNames[0];
-        const worksheet = workbook.Sheets[firstSheetName];
-        const jsonData = XLSX.utils.sheet_to_json(worksheet);
-
-        document.getElementById('shipmentNumOutput').textContent = JSON.stringify(jsonData, null, 2);
-		document.getElementById('shipmentNumData').value = JSON.stringify(jsonData, null, 2);
-      };
-
-      reader.readAsArrayBuffer(file);
+	  if (file) {
+        Papa.parse(file, {
+          header: true,
+          dynamicTyping: true,
+          complete: (results) => {
+            const jsonData = results.data;
+			document.getElementById('shipmentNumOutput').textContent = JSON.stringify(jsonData, null, 2);
+			document.getElementById('shipmentNumData').value = JSON.stringify(jsonData, null, 2);
+          }
+        });
+      }
     });
 
 </script>
