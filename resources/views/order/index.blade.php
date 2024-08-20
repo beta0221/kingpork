@@ -244,11 +244,16 @@
 				<span style="color: green;">已結案</span>
 
 				<span>-</span>
-				<select id="select_carrier" name="carrier_id">
+				{{-- <select id="select_carrier" name="carrier_id">
 					<option value="">貨運方式</option>
 					@foreach ($carriers as $id => $name)
 						<option value="{{$id}}">{{$name}}</option>
 					@endforeach
+				</select> --}}
+				<select id="select_kol" name="kol">
+					<option value="">官方訂單</option>
+					<option value="waymay">為美</option>
+					<option value="bawmami">寶媽咪</option>
 				</select>
 				
 
@@ -523,8 +528,12 @@
 		$('#pageSelecter').val('{{$_GET['page']}}');
 		@endif
 
-		@if (isset($_GET['carrier_id']))
-		$('#select_carrier').val('{{$_GET['carrier_id']}}');
+		// @if (isset($_GET['carrier_id']))
+		// $('#select_carrier').val('{{$_GET['carrier_id']}}');
+		// @endif
+
+		@if (isset($_GET['kol']))
+		$('#select_kol').val('{{$_GET['kol']}}');
 		@endif
 
 		if (parseInt($('#pageSelecter').val()) == {{$page_amount}}) {

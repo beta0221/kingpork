@@ -81,6 +81,12 @@ class OrderManagementController extends Controller
             $query->where('carrier_id',$request->carrier_id);
         }
 
+        if($request->has('kol')){
+            $query->where('kol',$request->kol);
+        } else {
+            $query->whereNull('kol');
+        }
+
         if($request->has('ship_county')){
             $query->where('ship_county',$request->ship_county);
         }
