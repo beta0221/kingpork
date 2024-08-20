@@ -343,7 +343,7 @@ class OrderManagementController extends Controller
             $excel->sheet($file, function($sheet)use($cellData) {
                 $sheet->rows($cellData);
             });
-        })->download('xls');
+        })->download('csv');
 
     }
 
