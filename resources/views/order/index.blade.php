@@ -51,6 +51,11 @@
 		right: 12px;
 		top: 12px;
 	}
+	.tool-box2{
+		position: absolute;
+		right: 12px;
+		top: 46px;
+	}
 	.th-green,.th-red,.th-yellow{
 		color: #fff;
 	}
@@ -287,9 +292,13 @@
 				<button style="background-color: steelblue;color: #fff" onclick="csv_download();" class="btn btn-sm">黑貓</button>
 				{{-- <button style="background-color: teal;color: #fff" onclick="excel_hct();" class="btn btn-sm">新竹</button> --}}
 				<button style="background-color: #d9534f;color: #fff" onclick="excel_accountant();" class="btn btn-sm">會計</button>
+				<button style="background-color: #000;color: #fff" onclick="selectPush();" class="btn btn-sm">下階段</button>
+			</div>
+
+			<div class="tool-box2">
 				<button style="background-color: orange; color: #fff" onclick="import_kol();" class="btn btn-sm">匯入訂單</button>
 				<button style="background-color: #008000; color: #fff" onclick="import_carrierNum();" class="btn btn-sm">匯入貨運單</button>
-				<button style="background-color: #000;color: #fff" onclick="selectPush();" class="btn btn-sm">下階段</button>
+				<button style="background-color: steelblue; color: #fff" onclick="excel_shipmentNum();" class="btn btn-sm">貨運單</button>
 			</div>
 
 
@@ -302,14 +311,18 @@
 				{{ csrf_field() }}
 				<input id="selectArray_accountant" type="text" name="bill_id">
 			</form>
-			<form id="excelForm_family" action="/order/ExportExcelForFamily" target="_blank" method="POST" style="display:none ;">
+			<form id="excelForm_shipmentNum" action="/order/ExportExcelForShipmentNum" target="_blank" method="POST" style="display:none ;">
+				{{ csrf_field() }}
+				<input id="selectArray_shipmentNum" type="text" name="bill_id">
+			</form>
+			{{-- <form id="excelForm_family" action="/order/ExportExcelForFamily" target="_blank" method="POST" style="display:none ;">
 				{{ csrf_field() }}
 				<input id="selectArray_family" type="text" name="bill_id">
-			</form>
-			<form id="excelForm_hct" action="/order/ExportExcelForHCT" target="_blank" method="POST" style="display:none ;">
+			</form> --}}
+			{{-- <form id="excelForm_hct" action="/order/ExportExcelForHCT" target="_blank" method="POST" style="display:none ;">
 				{{ csrf_field() }}
 				<input id="selectArray_hct" type="text" name="bill_id">
-			</form>
+			</form> --}}
 
 		</div>
 
@@ -705,16 +718,16 @@
 
 	}
 
-	function excel_hct() {
-		var selected = getSelectedBillId();
+	// function excel_hct() {
+	// 	var selected = getSelectedBillId();
 		
-		if (selected.length > 0) {
-			$('#selectArray_hct').val(JSON.stringify(selected));
-			$('#excelForm_hct').submit();
-		}else{
-			alert('請選取訂單');
-		}
-	}
+	// 	if (selected.length > 0) {
+	// 		$('#selectArray_hct').val(JSON.stringify(selected));
+	// 		$('#excelForm_hct').submit();
+	// 	}else{
+	// 		alert('請選取訂單');
+	// 	}
+	// }
 
 	function excel_accountant(){
 
@@ -729,17 +742,27 @@
 
 	}
 
-	function excel_family(){
+	// function excel_family(){
 
-		var selected = getSelectedBillId();
+	// 	var selected = getSelectedBillId();
 		
+	// 	if (selected.length > 0) {
+	// 		$('#selectArray_family').val(JSON.stringify(selected));
+	// 		$('#excelForm_family').submit();
+	// 	}else{
+	// 		alert('請選取訂單');
+	// 	}
+
+	// }
+
+	function excel_shipmentNum(){
+		var selected = getSelectedBillId();
 		if (selected.length > 0) {
-			$('#selectArray_family').val(JSON.stringify(selected));
-			$('#excelForm_family').submit();
+			$('#selectArray_shipmentNum').val(JSON.stringify(selected));
+			$('#excelForm_shipmentNum').submit();
 		}else{
 			alert('請選取訂單');
 		}
-
 	}
 
 	function import_kol() {
