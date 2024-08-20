@@ -786,7 +786,7 @@ class OrderManagementController extends Controller
         
     }
 
-    public function uploadWayMay(Request $request) {
+    public function uploadKolOrder(Request $request) {
         $this->validate($request,[
             'excel_data' => 'required',
             'kol' => 'required'
@@ -807,5 +807,36 @@ class OrderManagementController extends Controller
 
         return redirect()->route('order.index');
     }
+
+    public function uploadShipmentNum(Request $request) {
+        $this->validate($request,[
+            'shipmentNumData' => 'required'
+        ]);
+
+        $rows = json_decode($request->shipmentNumData, true);
+
+        $bill_id_array = array_map(function($row){
+            return $row['訂單編號'];
+        }, $rows);
+        $existingBill_id_array = Bill::whereIn('bill_id', $bill_id_array)->pluck('bill_id')->toArray();
+        $nonExistingBill_id_array = array_values(array_diff($bill_id_array, $existingBill_id_array));
+        
+        if (!empty($nonExistingBill_id_array)) {
+            return response()->json([
+                '錯誤!不存在單號' => $nonExistingBill_id_array
+            ]);
+        }
+
+        DB::transaction(function() use ($rows){
+            foreach ($rows as $row) {
+                $bill_id = $row['訂單編號'];
+                $shipmentNum = $row['託運單號'];
+                Bill::where('bill_id', $bill_id)->update(['shipmentNum' => $shipmentNum]);
+            }
+        });
+
+        return redirect()->route('order.index');
+    }
+
 
 }

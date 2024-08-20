@@ -130,20 +130,20 @@
 		  </button>
 		</div>
 		<div class="modal-body">
-			<form action="/order/upload/wayMay" method="POST">
+			<form action="/order/uploadKolOrder" method="POST">
 				{{ csrf_field() }}
 				<div>
 					<span>廠商：</span>
 				</div>
 				<select class="form-control" name="kol">
 					<option value="waymay">為美</option>
-					{{-- <option value=""></option> --}}
+					<option value="bawmami">寶媽咪</option>
 				</select>
 				<div class="mt-2">
 					<span>訂單資料：</span>
 				</div>
 				<div>
-					<input type="file" class="form-control" id="upload" accept=".xlsx, .xls">
+					<input type="file" class="form-control" id="uploadKolOrder" accept=".xlsx, .xls">
 				</div>
 				<input id="excel_data" type="hidden" name="excel_data">
 				<button class="btn btn-primary mt-2" type="submit">上傳</button>
@@ -156,6 +156,36 @@
 	  </div>
 	</div>
   </div>
+
+  <div class="modal fade" id="uploadShipmentNumModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h5 class="modal-title" id="exampleModalLabel">匯入黑貓單號</h5>
+		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
+		<div class="modal-body">
+			<form action="/order/uploadShipmentNum" method="POST">
+				{{ csrf_field() }}
+				<div class="mt-2">
+					<span>貨運資料：</span>
+				</div>
+				<div>
+					<input type="file" class="form-control" id="uploadShipmentNum" accept=".xlsx, .xls">
+				</div>
+				<input id="shipmentNumData" type="hidden" name="shipmentNumData">
+				<button class="btn btn-primary mt-2" type="submit">上傳</button>
+				<pre id="shipmentNumOutput"></pre>				
+			</form>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
+		</div>
+	  </div>
+	</div>
+</div>
 {{-- Modal --}}
 
 		<div class="nav">
@@ -252,7 +282,8 @@
 				<button style="background-color: steelblue;color: #fff" onclick="csv_download();" class="btn btn-sm">黑貓</button>
 				{{-- <button style="background-color: teal;color: #fff" onclick="excel_hct();" class="btn btn-sm">新竹</button> --}}
 				<button style="background-color: #d9534f;color: #fff" onclick="excel_accountant();" class="btn btn-sm">會計</button>
-				<button style="background-color: orange; color: #fff" onclick="import_waymay();" class="btn btn-sm">匯入訂單</button>
+				<button style="background-color: orange; color: #fff" onclick="import_kol();" class="btn btn-sm">匯入訂單</button>
+				<button style="background-color: #008000; color: #fff" onclick="import_carrierNum();" class="btn btn-sm">匯入貨運單</button>
 				<button style="background-color: #000;color: #fff" onclick="selectPush();" class="btn btn-sm">下階段</button>
 			</div>
 
@@ -429,7 +460,7 @@
 {{ Html::script('js/bootstrap/bootstrap.min.js') }}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
 <script>
-    document.getElementById('upload').addEventListener('change', (event) => {
+    document.getElementById('uploadKolOrder').addEventListener('change', (event) => {
       const file = event.target.files[0];
       const reader = new FileReader();
 
@@ -446,6 +477,25 @@
 
       reader.readAsArrayBuffer(file);
     });
+
+	document.getElementById('uploadShipmentNum').addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        const data = new Uint8Array(e.target.result);
+        const workbook = XLSX.read(data, { type: 'array' });
+        const firstSheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[firstSheetName];
+        const jsonData = XLSX.utils.sheet_to_json(worksheet);
+
+        document.getElementById('shipmentNumOutput').textContent = JSON.stringify(jsonData, null, 2);
+		document.getElementById('shipmentNumData').value = JSON.stringify(jsonData, null, 2);
+      };
+
+      reader.readAsArrayBuffer(file);
+    });
+
 </script>
 <script src="{{asset('js/order_marking.js')}}"></script>
 	<script>
@@ -683,8 +733,12 @@
 
 	}
 
-	function import_waymay() {
-		$('#uploadModal').modal('show');;
+	function import_kol() {
+		$('#uploadModal').modal('show');
+	}
+
+	function import_carrierNum() {
+		$('#uploadShipmentNumModal').modal('show');
 	}
 
 	function upload_file() {
