@@ -109,8 +109,10 @@ class ExcelHelper {
         $orderNum = null;
         foreach ($this->data as $row) {
             
-            if (isset($row[ExcelOrderModel::KEY_ORDER_NUM])) {
-                $orderNum = $row[ExcelOrderModel::KEY_ORDER_NUM];
+            $_orderNum = $row[ExcelOrderModel::KEY_ORDER_NUM];
+
+            if ($orderNum != $_orderNum) {
+                $orderNum = $_orderNum;
                 $this->orderList[$orderNum] = new ExcelOrderModel($row);
             }
 
