@@ -117,6 +117,33 @@ class Bill extends Model
         return $bill;
     }
 
+    public function getErpCustomerId() {
+
+        if ($this->ship_receipt == 3) { return null; }
+
+        switch ($this->pay_by) {
+            case static::PAY_BY_CREDIT:
+                return "0511";
+            case static::PAY_BY_ATM:
+                return "05112";
+            case static::PAY_BY_COD:
+                return "0512";
+            default:
+                break;
+        }
+
+        switch ($this->kol) {
+            case "waymay":
+                return "90483457";
+            case "bawmami":
+                return "40980579";
+            default:
+                break;
+        }
+
+        return null;
+    }
+
     public function products(){
         if(is_null($this->item)){ return $this->billItems()->get(); }
 

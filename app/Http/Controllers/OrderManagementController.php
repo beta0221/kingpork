@@ -265,7 +265,7 @@ class OrderManagementController extends Controller
 
         date_default_timezone_set('Asia/Taipei');
         $cellData = [
-            ['訂單編號','訂單日期','交易日期','客戶','購買人','商品貨號','','商品名稱','數量','單位','單價','抵扣紅利','含稅金額','','含稅金額','收件人','郵遞區號','送貨地址','聯絡電話','行動電話','代收宅配單號','代收貨款','付款方式','','','','發票號碼','發票收件人','發票種類','發票統編','買受人名稱','','','','','','信用卡後4碼','','部門','備註'],
+            ['訂單編號','客戶','交易日期','訂單日期','購買人','商品貨號','','商品名稱','數量','單位','單價','抵扣紅利','含稅金額','','含稅金額','收件人','郵遞區號','送貨地址','聯絡電話','行動電話','代收宅配單號','代收貨款','付款方式','','','','發票號碼','發票收件人','發票種類','發票統編','買受人名稱','','','','','','信用卡後4碼','','部門','備註'],
         ];
         $bill_id_array = json_decode($request->bill_id);
         $now = date("Y-m-d");
@@ -420,8 +420,9 @@ class OrderManagementController extends Controller
         $invoiceType = $bill->ship_receipt;
         $invoice_id = $bill->ship_three_id;
         $invoice_company = $bill->ship_three_company;
+        $erpCustomerId = $bill->getErpCustomerId();
 
-        $newRow = [$bill_id,$billDate,$now,null,$buyer,$erp_id,null,$productName,$quantity,'組',$price,$bonus,$totalPrice,null,$totalPrice,$receiver,null,$address,$phone,$phone,null,$onDeliveryPrice,$payType,null,null,null,null,$receiver,$invoiceType,$invoice_id,$invoice_company,null,null,null,null,null,null,null,'官網',$bill->ship_memo];
+        $newRow = [$bill_id,$erpCustomerId,$now,$billDate,$buyer,$erp_id,null,$productName,$quantity,'組',$price,$bonus,$totalPrice,null,$totalPrice,$receiver,null,$address,$phone,$phone,null,$onDeliveryPrice,$payType,null,null,null,null,$receiver,$invoiceType,$invoice_id,$invoice_company,null,null,null,null,null,null,null,'官網',$bill->ship_memo];
         return $newRow;
     }
 
