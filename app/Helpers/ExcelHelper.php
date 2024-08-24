@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 class ExcelHelper {
 
     
-    public $slugs = [];
+    public $erpIdList = [];
     public $products = [];
     public $orderList = [];
 
@@ -96,14 +96,14 @@ class ExcelHelper {
     /**整理陣列 */
     private function arrangeData() {
 
-        $_slugs = array_map(function($row){
-            return $row[ExcelOrderModel::KEY_PRODUCT_SLUG];
+        $_erpId = array_map(function($row){
+            return $row[ExcelOrderModel::KEY_ERP_ID];
         }, $this->data);
-        $this->slugs = array_values(array_unique($_slugs));
+        $this->erpIdList = array_values(array_unique($_erpId));
 
-        $_products = Products::whereIn('slug', $this->slugs)->get();
+        $_products = Products::whereIn('erp_id', $this->erpIdList)->get();
         foreach ($_products as $_product) {
-            $this->products[$_product->slug] = $_product;
+            $this->products[$_product->erp_id] = $_product;
         }
 
         $orderNum = null;
@@ -116,9 +116,9 @@ class ExcelHelper {
                 $this->orderList[$orderNum] = new ExcelOrderModel($row);
             }
 
-            $slug = $row[ExcelOrderModel::KEY_PRODUCT_SLUG];
+            $erpId = $row[ExcelOrderModel::KEY_ERP_ID];
             $quantity = $row[ExcelOrderModel::KEY_QUANTITY];
-            $product = clone $this->products[$slug];
+            $product = clone $this->products[$erpId];
             $product->quantity = $quantity;
             
             $this->orderList[$orderNum]->setItem($product);

@@ -7,7 +7,7 @@ use App\Products;
 class ExcelOrderModel {
     
     const KEY_ORDER_NUM = '訂單編號';
-    const KEY_PRODUCT_SLUG = '產品代號';
+    const KEY_ERP_ID = '產品代號';
     const KEY_QUANTITY = '數量';
     const KEY_NAME = '姓名';
     const KEY_PHONE = '電話';
