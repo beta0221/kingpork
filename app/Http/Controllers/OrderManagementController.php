@@ -827,9 +827,11 @@ class OrderManagementController extends Controller
         $excelOrder = new ExcelHelper($data);
 
         if($existKolOrderNumList = $excelOrder->validateOrderNum($request->kol)) {
-            if (!empty($existKolOrderNumList)) {
-                return response()->json([
-                    '錯誤：已存在單號' => $existKolOrderNumList
+            if (count($existKolOrderNumList) > 0) {
+                return view('order.uploadResult',[
+                    'error' => [
+                        '錯誤：已存在單號' => $existKolOrderNumList
+                    ]
                 ]);
             }
         }
@@ -838,7 +840,9 @@ class OrderManagementController extends Controller
 
         // return response($excelOrder->orderList);
 
-        return redirect()->route('order.index');
+        return view('order.uploadResult',[
+            'success' => '上傳成功'
+        ]);
     }
 
     public function uploadShipmentNum(Request $request) {
@@ -868,7 +872,9 @@ class OrderManagementController extends Controller
             }
         });
 
-        return redirect()->route('order.index');
+        return view('order.uploadResult',[
+            'success' => '上傳成功'
+        ]);
     }
 
 
