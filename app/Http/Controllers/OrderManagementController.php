@@ -421,8 +421,9 @@ class OrderManagementController extends Controller
         $invoice_id = $bill->ship_three_id;
         $invoice_company = $bill->ship_three_company;
         $erpCustomerId = $bill->getErpCustomerId();
+        $erpDeparmentName = $bill->getErpDeparmentName();
 
-        $newRow = [$bill_id,$erpCustomerId,$now,$erpCustomerId,$buyer,$erp_id,null,$productName,$quantity,'組',$price,$bonus,$totalPrice,null,$totalPrice,$receiver,null,$address,$phone,$phone,null,$onDeliveryPrice,$payType,null,null,null,null,$receiver,$invoiceType,$invoice_id,$invoice_company,null,null,null,null,null,null,null,'官網',$bill->ship_memo];
+        $newRow = [$bill_id,$erpCustomerId,$now,$erpCustomerId,$buyer,$erp_id,null,$productName,$quantity,'組',$price,$bonus,$totalPrice,null,$totalPrice,$receiver,null,$address,$phone,$phone,null,$onDeliveryPrice,$payType,null,null,null,null,$receiver,$invoiceType,$invoice_id,$invoice_company,null,null,null,null,null,null,null,$erpDeparmentName,$bill->ship_memo];
         return $newRow;
     }
 

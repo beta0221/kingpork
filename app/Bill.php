@@ -144,6 +144,17 @@ class Bill extends Model
         return null;
     }
 
+    public function getErpDeparmentName() {
+        switch ($this->kol) {
+        case "waymay":
+            return "為美";
+        case "bawmami":
+            return "寶媽咪";
+        default:
+            return "官網";
+        }
+    }
+
     public function products(){
         if(is_null($this->item)){ return $this->billItems()->get(); }
 
