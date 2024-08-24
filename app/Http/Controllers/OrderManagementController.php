@@ -826,11 +826,10 @@ class OrderManagementController extends Controller
         $data = json_decode($request->excel_data, true);
         $excelOrder = new ExcelHelper($data);
 
-        
-        if($bills = $excelOrder->validateOrderNum($request->kol)) {
-            if (empty($bills)) {
+        if($existKolOrderNumList = $excelOrder->validateOrderNum($request->kol)) {
+            if (!empty($existKolOrderNumList)) {
                 return response()->json([
-                    '錯誤：已存在單號' => $bills
+                    '錯誤：已存在單號' => $existKolOrderNumList
                 ]);
             }
         }

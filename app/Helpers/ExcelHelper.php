@@ -28,11 +28,12 @@ class ExcelHelper {
     public function validateOrderNum($kol) {
         $orderNumList = array_keys($this->orderList);
 
-        $bills = Bill::where('kol', $kol)
+        $kolOrderNumList = Bill::where('kol', $kol)
             ->whereIn('kolOrderNum', $orderNumList)
+            ->groupBy('kolOrderNum')
             ->pluck('kolOrderNum');
 
-        return empty($bills) ? null : $bills;
+        return empty($kolOrderNumList) ? null : $kolOrderNumList;
     }
 
     /** 存進資料庫 */
