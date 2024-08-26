@@ -27,6 +27,8 @@ class Bill extends Model
     const PAY_BY_COD = '貨到付款';
     /**全家代收 */
     const PAY_BY_FAMILY = 'FAMILY';
+    /**網紅收單 */
+    const PAY_BY_KOL = "KOL";
 
     /**黑貓 */
     const CARRIER_ID_BLACK_CAT = 0;
