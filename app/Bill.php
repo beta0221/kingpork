@@ -209,6 +209,13 @@ class Bill extends Model
     /**下階段出貨狀態 */
     public function nextShipmentPhase(){
 
+        // 網紅收單 && 尚未出貨 => 直接下階段 不需做任何處理
+        if ($this->pay_by == static::PAY_BY_KOL && $this->shipment < 2) {
+            $this->shipment += 1;
+            $this->save();
+            return;
+        }
+
         //不是貨到收款 又還沒付錢的話
         if(!$this->isCodGroup() AND $this->status != 1){
             return;
