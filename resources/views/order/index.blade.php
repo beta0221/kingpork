@@ -500,15 +500,22 @@
 	document.getElementById('uploadShipmentNum').addEventListener('change', (event) => {
       const file = event.target.files[0];
 	  if (file) {
-        Papa.parse(file, {
-          header: true,
-          dynamicTyping: true,
-          complete: (results) => {
-            const jsonData = results.data;
-			document.getElementById('shipmentNumOutput').textContent = JSON.stringify(jsonData, null, 2);
-			document.getElementById('shipmentNumData').value = JSON.stringify(jsonData, null, 2);
-          }
-        });
+		const reader = new FileReader();
+		reader.onload = (e) => {
+			const data = new Uint8Array(e.target.result);
+			const decoder = new TextDecoder("big5");
+			const text = decoder.decode(data);
+			Papa.parse(text, {
+				header: true,
+				dynamicTyping: true,
+				complete: (results) => {
+					const jsonData = results.data;
+					document.getElementById('shipmentNumOutput').textContent = JSON.stringify(jsonData, null, 2);
+					document.getElementById('shipmentNumData').value = JSON.stringify(jsonData, null, 2);
+				}
+			});
+		}
+		reader.readAsArrayBuffer(file);
       }
     });
 
