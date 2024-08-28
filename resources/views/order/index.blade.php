@@ -51,11 +51,6 @@
 		right: 12px;
 		top: 12px;
 	}
-	.tool-box2{
-		position: absolute;
-		right: 12px;
-		top: 46px;
-	}
 	.th-green,.th-red,.th-yellow{
 		color: #fff;
 	}
@@ -79,6 +74,33 @@
 		background-color: #36c28c;
 		color: #fff;
 	}
+
+	.dropdown {
+		position: relative;
+		display: inline-block;
+	}
+
+	.dropdown-content {
+		display: none;
+		position: absolute;
+		background-color: lightgray;
+		box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+		z-index: 1;
+		right: 0;
+	}
+
+	.dropdown-content button {
+		color: #fff;
+		padding: 4px 8px;
+		margin: 8px;
+		text-decoration: none;
+		display: block;
+		cursor: pointer;
+	}
+
+	.dropdown-content button:hover {background-color: #ddd;}
+
+	.dropdown:hover .dropdown-content {display: block;}
 </style>
 @endsection
 
@@ -289,17 +311,34 @@
 			<div class="tool-box">
 				<button style="background-color: #000;color: #fff" onclick="selectAll();" class="btn btn-sm">全選</button>
 				{{-- <button style="background-color: #008000;color: #fff" onclick="excel_family();" class="btn btn-sm">全家</button> --}}
-				<button style="background-color: steelblue;color: #fff" onclick="csv_download();" class="btn btn-sm">黑貓</button>
+				{{-- <button style="background-color: steelblue;color: #fff" onclick="csv_download();" class="btn btn-sm">黑貓</button> --}}
 				{{-- <button style="background-color: teal;color: #fff" onclick="excel_hct();" class="btn btn-sm">新竹</button> --}}
-				<button style="background-color: #d9534f;color: #fff" onclick="excel_accountant();" class="btn btn-sm">會計</button>
+				{{-- <button style="background-color: #d9534f;color: #fff" onclick="excel_accountant();" class="btn btn-sm">會計</button> --}}
 				<button style="background-color: #000;color: #fff" onclick="selectPush();" class="btn btn-sm">下階段</button>
+				
+				<div class="dropdown">
+					<button class="btn btn-sm text-white" style="background-color: green">匯出▼</button>
+					<div class="dropdown-content">
+					  <button class="btn btn-sm" style="background-color: steelblue;" onclick="csv_download();">黑貓</button>
+					  <button class="btn btn-sm" style="background-color: #d9534f;" onclick="excel_accountant();">會計</button>
+					  <button class="btn btn-sm" style="background-color:cadetblue ;" onclick="excel_shipmentNum();">貨運單</button>
+					</div>
+				</div>
+
+				<div class="dropdown">
+					<button class="btn btn-sm text-white" style="background-color: orange">匯入▼</button>
+					<div class="dropdown-content">
+						<button class="btn btn-sm" style="background-color: orange;" onclick="import_kol();">KOL訂單</button>
+						<button class="btn btn-sm" style="background-color: steelblue;" onclick="import_carrierNum();">貨運單號</button>
+					</div>
+				</div>
 			</div>
 
-			<div class="tool-box2">
+			{{-- <div class="tool-box2">
 				<button style="background-color: orange; color: #fff" onclick="import_kol();" class="btn btn-sm">匯入訂單</button>
 				<button style="background-color: #008000; color: #fff" onclick="import_carrierNum();" class="btn btn-sm">匯入貨運單</button>
 				<button style="background-color: steelblue; color: #fff" onclick="excel_shipmentNum();" class="btn btn-sm">貨運單</button>
-			</div>
+			</div> --}}
 
 
 			<form id="csvForm" action="csv_download.php" target="_blank" method="POST" style="display:none ;">
