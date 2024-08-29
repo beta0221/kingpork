@@ -30,7 +30,7 @@ class ExcelHelper {
         if (empty($this->undefinedErpIdList)) {
             return null;
         }
-        return array_unique($this->undefinedErpIdList);
+        return array_values(array_unique($this->undefinedErpIdList));
     }
 
     /** 檢查訂單號碼是否已存在 */
