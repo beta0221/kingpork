@@ -855,28 +855,28 @@ class OrderManagementController extends Controller
 
         $rows = json_decode($request->shipmentNumData, true);
 
-        $bill_id_array = array_filter(array_map(function($row){
+        $orderNumArray = array_filter(array_map(function($row){
             if (isset($row['訂單編號'])) {
                 return $row['訂單編號'];
             }
             return null;
         }, $rows));
-        $existingBill_id_array = Bill::whereIn('bill_id', $bill_id_array)->pluck('bill_id')->toArray();
-        $nonExistingBill_id_array = array_values(array_diff($bill_id_array, $existingBill_id_array));
+        $existingOrderNumArray = Bill::whereIn('kolOrderNum', $orderNumArray)->pluck('kolOrderNum')->toArray();
+        $nonExistingOrderNumArray = array_values(array_diff($orderNumArray, $existingOrderNumArray));
         
-        if (!empty($nonExistingBill_id_array)) {
+        if (!empty($nonExistingOrderNumArray)) {
             return view('order.uploadResult',[
                 'error' => [
-                    '錯誤!不存在單號' => $nonExistingBill_id_array
+                    '錯誤!不存在單號' => $nonExistingOrderNumArray
                 ]
             ]);
         }
 
         DB::transaction(function() use ($rows){
             foreach ($rows as $row) {
-                $bill_id = $row['訂單編號'];
+                $orderNum = $row['訂單編號'];
                 $shipmentNum = $row['託運單號'];
-                Bill::where('bill_id', $bill_id)->update(['shipmentNum' => $shipmentNum]);
+                Bill::where('kolOrderNum', $orderNum)->update(['shipmentNum' => $shipmentNum]);
             }
         });
 
