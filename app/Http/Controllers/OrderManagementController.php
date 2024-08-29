@@ -829,6 +829,14 @@ class OrderManagementController extends Controller
         $data = json_decode($request->excel_data, true);
         $excelOrder = new ExcelHelper($data);
 
+        if ($undefinedErpIdList = $excelOrder->validateErpId()) {
+            return view('order.uploadResult',[
+                'error' => [
+                    '錯誤：Erp代號不存在' => $undefinedErpIdList
+                ]
+            ]);
+        }
+
         if($existKolOrderNumList = $excelOrder->validateOrderNum($request->kol)) {
             if (count($existKolOrderNumList) > 0) {
                 return view('order.uploadResult',[

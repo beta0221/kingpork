@@ -12,6 +12,7 @@ class ExcelHelper {
     public $erpIdList = [];
     public $products = [];
     public $orderList = [];
+    public $undefinedErpIdList = [];
 
     private $data;
     private $dumpNum;
@@ -22,6 +23,14 @@ class ExcelHelper {
         $this->data = $data;
         $this->dumpNum = $this->genDumpNum();
         $this->arrangeData();
+    }
+
+    /** 檢查 ErpId 是否存在 */
+    public function validateErpId() {
+        if (empty($this->undefinedErpIdList)) {
+            return null;
+        }
+        return array_unique($this->undefinedErpIdList);
     }
 
     /** 檢查訂單號碼是否已存在 */
@@ -119,6 +128,12 @@ class ExcelHelper {
 
             $erpId = $row[ExcelOrderModel::KEY_ERP_ID];
             $quantity = $row[ExcelOrderModel::KEY_QUANTITY];
+
+            if (!isset($this->products[$erpId])) {
+                $this->undefinedErpIdList[] = $erpId;
+                continue;
+            }
+
             $product = clone $this->products[$erpId];
             $product->quantity = $quantity;
             
