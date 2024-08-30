@@ -252,10 +252,10 @@ class OrderManagementController extends Controller
             $count += 1;
 
         }
-        foreach ($this->totalMaterialList as $key => $value) {
-            $orders[] = ",,,,,,,,,,,,,".$key . "*" . $value;
-        }
-        $orders[] = ",,,,,,,,,,,,,"."總比數：" . $count;
+        // foreach ($this->totalMaterialList as $key => $value) {
+        //     $orders[] = ",,,,,,,,,,,,,".$key . "*" . $value;
+        // }
+        // $orders[] = ",,,,,,,,,,,,,"."總比數：" . $count;
 
         $orders = json_encode($orders);
         return response()->json($orders);
