@@ -378,7 +378,7 @@
 					{{-- <th class="th-green">商品</th> --}}
 					<th class="th-yellow">總價</th>
 					<th class="th-yellow">付款方式</th>
-					{{-- <th class="th-yellow">物流</th> --}}
+					<th class="th-yellow">託運單號</th>
 
 					<th class="th-red">付款狀態</th>
 
@@ -437,11 +437,12 @@
 						?>
 					</td>
 
-					{{-- <td>
-						@if ($order->carrier_id == 1)
+					<td>
+						{{-- @if ($order->carrier_id == 1)
 							全家店取
-						@endif
-					</td> --}}
+						@endif --}}
+						{{($order->shipmentNum) ? $order->shipmentNum : '-'}}
+					</td>
 
 					<td>{{$order['status']}}</td>
 
