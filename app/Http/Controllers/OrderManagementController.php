@@ -345,7 +345,12 @@ class OrderManagementController extends Controller
             $excel->sheet($file, function($sheet)use($cellData) {
                 $sheet->rows($cellData);
             });
-        })->download('csv');
+        })->download('xls');
+        // [
+        //     'Content-Type' => 'text/csv; charset=BIG-5',
+        //     'Content-Disposition' => 'attachment; filename="users.csv"',
+        //     'Content-Encoding' => 'BIG-5'
+        // ]
 
     }
 
