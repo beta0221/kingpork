@@ -887,8 +887,8 @@ class OrderManagementController extends Controller
 
         DB::transaction(function() use ($rows){
             foreach ($rows as $row) {
-                $orderNum = $row['訂單編號'];
-                $shipmentNum = $row['託運單號'];
+                $orderNum = (string)$row['訂單編號'];
+                $shipmentNum = (string)$row['託運單號'];
                 Bill::where('kolOrderNum', $orderNum)->update(['shipmentNum' => $shipmentNum]);
             }
         });
