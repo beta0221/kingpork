@@ -321,7 +321,7 @@ class OrderManagementController extends Controller
             $excel->sheet('Sheet1', function($sheet)use($cellData) {
                 $sheet->rows($cellData);
             });
-        })->download('xls');
+        })->download('xlsx');
 
     }
 
@@ -345,7 +345,7 @@ class OrderManagementController extends Controller
             $excel->sheet($file, function($sheet)use($cellData) {
                 $sheet->rows($cellData);
             });
-        })->download('xls');
+        })->download('xlsx');
         // [
         //     'Content-Type' => 'text/csv; charset=BIG-5',
         //     'Content-Disposition' => 'attachment; filename="users.csv"',
@@ -481,7 +481,7 @@ class OrderManagementController extends Controller
             $excel->sheet('Sheet1', function($sheet)use($cellData) {
                 $sheet->rows($cellData);
             });
-        })->download('xls');
+        })->download('xlsx');
 
     }
 
@@ -572,7 +572,7 @@ class OrderManagementController extends Controller
             $excel->sheet('Sheet1', function($sheet)use($cellData) {
                 $sheet->rows($cellData);
             });
-        })->download('xls');
+        })->download('xlsx');
     }
 
 
@@ -611,7 +611,7 @@ class OrderManagementController extends Controller
             $excel->sheet('Sheet1', function($sheet)use($cellData) {
                 $sheet->rows($cellData);
             });
-        })->download('xls');
+        })->download('xlsx');
     }
 
     /**
