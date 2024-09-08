@@ -183,7 +183,7 @@ function selectProduct(i) {
 	productPrice = product.price;
 
 	$('#product-name').html(product.name);
-	$('#product-price').html(product.price);
+	$('#product-price').html('$' + product.price);
 	$('#product-discription').html(product.discription);
 	
 }
