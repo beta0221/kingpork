@@ -329,14 +329,17 @@ class OrderManagementController extends Controller
     public function ExportExcelForShipmentNum(Request $request) {
         date_default_timezone_set('Asia/Taipei');
         $cellData = [
-            ['物流','物流單號', '出貨日期', '預計出貨日期','訂單編號', '收件人']
+            ['物流','物流單號', '出貨日期','訂單編號', '收件人', '產品名稱', '數量']
         ];
         $now = date("Y-m-d");
         $bill_id_array = json_decode($request->bill_id);
 
         if($bills = Bill::whereIn('bill_id',$bill_id_array)->orderBy('id','asc')->get()){
             foreach ($bills as $billIndex => $bill) {
-                $cellData[] = ['黑貓', $bill->shipmentNum, '', '', $bill->kolOrderNum, $bill->ship_name];
+                $products = $bill->products();
+                foreach ($products as $product) {
+                    $cellData[] = ['黑貓', $bill->shipmentNum, '', $bill->kolOrderNum, $bill->ship_name, $product->name, $product->quantity];    
+                }
             }
         }
 
