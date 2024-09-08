@@ -66,7 +66,7 @@
 	.table img{
 		width: 26px;
 	}
-	.fromSingle{
+	.giftOrder{
 		background-color: #0275d8;
 		color: #fff;
 	}
@@ -405,7 +405,7 @@
 				@foreach($orders as $order)
 
 				<tr class="table-tr">
-					<td class="{{$order['user_id']==null?'fromSingle':''}} {{$order['pay_by']=='KOL'?'fromKol':''}}">
+					<td class="{{$order->ship_time == '*' ? 'giftOrder' : ''}} {{$order['pay_by']=='KOL'?'fromKol':''}}">
 						{{$i++}}
 					</td>
 					<td>

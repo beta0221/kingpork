@@ -171,3 +171,19 @@ function clearAlert(){
 	$('.alert-field').empty();
 	$('.alert-field').css('display','none');
 }
+
+function selectProduct(i) {
+	let product = products[i];
+	let className = 'product-display-image-outter-selected';
+	$('.product-display-image-outter').removeClass(className);
+	$('#product-selection-' + i).toggleClass(className);
+	console.log(product);
+
+	$('#item-input').val(product.slug);
+	productPrice = product.price;
+
+	$('#product-name').html(product.name);
+	$('#product-price').html(product.price);
+	$('#product-discription').html(product.discription);
+	
+}

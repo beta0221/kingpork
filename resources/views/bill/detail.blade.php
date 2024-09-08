@@ -60,7 +60,16 @@
                         <li>電話：{{$bill->ship_phone}}</li>
                         <li>信箱：{{$bill->ship_email}}</li>
                         <li>物流：{{$carrierDict[$bill->carrier_id]}}</li>
+                        @if ($bill->ship_time == '*')
+                        <li>寄送地址：</li>
+                            <?php $addresses = json_decode($bill->ship_address, true); ?>
+                            @foreach ($addresses as $a)
+                            <li class="ml-2">姓名:{{$a['name']}} 地址:{{$a['address']}} 電話:{{$a['phone']}} 數量:{{$a['quantity']}}</li>    
+                            @endforeach
+                        @else
                         <li>寄送地址：{{$bill->ship_county}}{{$bill->ship_district}}{{$bill->ship_address}}</li>
+                        @endif
+                        
                     </ul>
                 </div>
 

@@ -10,43 +10,66 @@
 
 
 
-<div class="product-display-image-outter">
+{{-- <div class="product-display-image-outter">
 	<div class="product-display-image">
 		<img src="/images/send-gift.png" alt="">
 	</div>	
+</div> --}}
+
+<div class="container mt-4">
+	<div class="row">
+		<div class="col-12">
+			<h3>1. 選擇禮盒</h3>
+		</div>
+		
+	</div>
+	<div class="row">
+
+		
+		@foreach ($products as $i => $product)
+			<?php $col = 12 / count($products) ?>
+			<div class="col-{{$col}}">
+				<div id="product-selection-{{$i}}" class="product-display-image-outter" onclick="selectProduct({{$i}})"> 
+					<div class="product-display-image">
+						<img src="/images/productsIMG/{{$product->image}}" alt="">
+					</div>	
+				</div>
+			</div>
+		@endforeach
+	</div>
 </div>
 
 
-<div class="intro-title-bar mb-4">
+{{-- <div class="intro-title-bar mb-4">
 
 	<div class="intro-title intro-title-line intro-title-line-left"></div>
 	<div class="intro-title intro-title-text">
 		<img src="{{asset('images/remind.png')}}">
 	</div>
 	<div class="intro-title intro-title-line intro-title-line-right"></div>
-</div>
+</div> --}}
 
 <div class="mt-3 ghost">　</div>
 <div class="container">
 	<div class="row">
-		<div class="col-12 mt-4 mb-3">
+		<div class="col-12 mb-3">
 
 			<div class="product-displayDiv">
-
-				<h3>＊<font color="#c80013">不限</font>單一地址配送，一筆訂單多筆地址，送禮好便利</h3>
-				<h3>＊金園真空包屬於冷凍食品，送禮時請留意收貨端</h3>
+				<h3>2. 填寫收件人資訊</h3>
+				<h5>＊<font color="#c80013">不限</font>單一地址配送，一筆訂單多筆地址，送禮好便利</h5>
+				<h5>＊金園真空包屬於冷凍食品，送禮時請留意收貨端</h5>
 				
 
 				<div class="product-display-Info">
 
 					<div class="product-display-Info-name">
-						<h2>{{$giftProduct->name}}</h2><span>{{$giftProduct->discription}}</span>
+						<h2 id="product-name">_</h2>
 					</div>
 
 					<div class="product-display-Info-price">
-						<h2>至尊蝦1+鯖魚2+豬排2+雞腿2+四款萬用鍋底各1</h2>
+						<h2 id="product-discription">_</h2>
 						{{-- <h2>排骨 5 片＋雞腿 5 支</h2> --}}
-						<h2 class="price-h2"><font color="#c80013">${{$giftProduct->price}}</font></h2>
+						<h2 id="product-price" class="price-h2"><font color="#c80013">_</font></h2>
 					</div>
 					
 					<div class="send-listTableDiv">
@@ -88,7 +111,7 @@
 							<form id="billing-form" action="{{route('bill.store')}}" method="POST">
 								{{csrf_field()}}
 								<input type="hidden" value="0" name="carrier_id">
-								<input type="text" name="item[]" value="{{$giftProduct->slug}}" style="display: none;">
+								<input id="item-input" type="text" name="item[]" style="display: none;">
 								<input id="quantity" type="number" name="quantity[]" style="display: none;">
 								<input type="text" name="ship_name" value="*" style="display: none;">
 								<input type="text" name="ship_phone" value="*" style="display: none;">
@@ -185,7 +208,8 @@
 
 @section('scripts')
 <script>
-	const productPrice = {{$giftProduct->price}};
+	const products = {!! $products !!};
+	var productPrice = null;
 </script>
 {{ Html::script('js/_sendGift.js') }}
 @endsection

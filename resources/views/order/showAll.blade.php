@@ -165,7 +165,17 @@
 				@if ($bill->carrier_id == 0)
 				<tr>
 					<td class="head">寄送地址</td>
-					<td colspan="3">{{$bill->ship_county}}{{$bill->ship_district}}{{$bill->ship_address}}</td>
+					<td colspan="3">
+						@if ($bill->ship_time == '*')
+                        
+                            <?php $addresses = json_decode($bill->ship_address, true); ?>
+                            @foreach ($addresses as $a)
+                            姓名:{{$a['name']}} 地址:{{$a['address']}} 電話:{{$a['phone']}} 數量:{{$a['quantity']}}<br>
+                            @endforeach
+						@else
+							{{$bill->ship_county}}{{$bill->ship_district}}{{$bill->ship_address}}
+						@endif
+					</td>
 				</tr>	
 				@endif
 				
