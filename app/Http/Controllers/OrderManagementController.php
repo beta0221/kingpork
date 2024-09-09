@@ -461,7 +461,7 @@ class OrderManagementController extends Controller
                         if(!$product = Products::find($item->product_id)){ continue; }
                         $item->erp_id = $product->erp_id;
                     }
-                    
+
                     $gifts = json_decode($bill->ship_address,true);
                     foreach ($gifts as $index => $gift) {
                         $receiver = $gift['name'];
@@ -901,6 +901,8 @@ class OrderManagementController extends Controller
 
         DB::transaction(function() use ($rows){
             foreach ($rows as $row) {
+                if (!isset($row['訂單編號'])) { continue; }
+                if (!isset($row['託運單號'])) { continue; }
                 $orderNum = (string)$row['訂單編號'];
                 $shipmentNum = (string)$row['託運單號'];
                 Bill::where('kolOrderNum', $orderNum)->update(['shipmentNum' => $shipmentNum]);
