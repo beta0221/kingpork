@@ -7,8 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class Products extends Model
 {
-    /**禮盒slug */
-    const GIFT_SLUG = "30007";
+    
     /**加價購類別id */
     const ADDITIONAL_CAT_ID = 12;
     /**加價購門檻 */

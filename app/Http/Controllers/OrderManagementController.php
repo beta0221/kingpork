@@ -278,7 +278,13 @@ class OrderManagementController extends Controller
             foreach ($bills as $billIndex => $bill) {
                 //代客送禮
                 if($bill->ship_name == '*' && $bill->ship_phone == '*'){
-                    if(!$product = Products::where('slug',Products::GIFT_SLUG)->first()){ continue; }
+                    if(!$item = $bill->products()[0]){ continue; }
+
+                    if($item instanceof BillItem){
+                        if(!$product = Products::find($item->product_id)){ continue; }
+                        $item->erp_id = $product->erp_id;
+                        $inventoryAmountArray[] = $item->sumInventoryAmount();
+                    }
 
                     $gifts = json_decode($bill->ship_address,true);
                     foreach ($gifts as $index => $gift) {
@@ -287,7 +293,7 @@ class OrderManagementController extends Controller
                         $address = $gift['address'];
                         $quantity = (int)$gift['quantity'];
                         
-                        $cellData[] = $this->getAccountantRow($bill,$product,$index,$quantity,$now,$receiver,$address,$phone);
+                        $cellData[] = $this->getAccountantRow($bill,$item,$index,$quantity,$now,$receiver,$address,$phone);
                     }
                     continue;
                 }
@@ -449,8 +455,13 @@ class OrderManagementController extends Controller
             foreach ($bills as  $bill) {
                 //代客送禮
                 if($bill->ship_name == '*' && $bill->ship_phone == '*'){
-                    if(!$product = Products::where('slug',Products::GIFT_SLUG)->first()){ continue; }
+                    if(!$item = $bill->products()[0]){ continue; }
 
+                    if($item instanceof BillItem){
+                        if(!$product = Products::find($item->product_id)){ continue; }
+                        $item->erp_id = $product->erp_id;
+                    }
+                    
                     $gifts = json_decode($bill->ship_address,true);
                     foreach ($gifts as $index => $gift) {
                         $receiver = $gift['name'];
@@ -458,7 +469,7 @@ class OrderManagementController extends Controller
                         $address = $gift['address'];
                         $quantity = (int)$gift['quantity'];
                         
-                        $cellData[] = $this->getHCTRow($bill,$product,$index,$quantity,$now,$receiver,$address,$phone);
+                        $cellData[] = $this->getHCTRow($bill,$item,$index,$quantity,$now,$receiver,$address,$phone);
                     }
                     continue;
                 }

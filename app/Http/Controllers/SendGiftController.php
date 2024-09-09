@@ -19,7 +19,7 @@ class SendGiftController extends Controller
     {
 		// return response('非常抱歉，禮盒目前暫停供應。');
 
-		$cat = ProductCategory::where('slug', 'GIFT')->firstOrFail();
+		$cat = ProductCategory::getGiftCategory();
 		$products = $cat->products()->get();
     	
     	return view('sendGift.index',[

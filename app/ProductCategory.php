@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProductCategory extends Model
 {
+    /**禮盒slug */
+    const GIFT_SLUG = "GIFT";
+
     protected $table = 'productCategorys';
 
     public function products()
@@ -25,5 +28,9 @@ class ProductCategory extends Model
             $Dic[$cat->id] = $cat->name;
         }
         return $Dic;
+    }
+
+    public static function getGiftCategory() {
+        return static::where('slug', static::GIFT_SLUG)->firstOrFail();
     }
 }
