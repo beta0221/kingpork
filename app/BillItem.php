@@ -28,8 +28,9 @@ class BillItem extends Model
     }
 
 
-    public function sumInventoryAmount(){
-        return $this->product->sumInventoryAmount($this->quantity);
+    public function sumInventoryAmount($_quantity = null){
+        $quantity = (is_null($_quantity) ? $this->quantity : $_quantity);
+        return $this->product->sumInventoryAmount($quantity);
     }
 
 }

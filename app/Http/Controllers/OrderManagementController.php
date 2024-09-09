@@ -141,14 +141,9 @@ class OrderManagementController extends Controller
         $inventoryAmountArray = [];
         foreach($items as $item)       
         {
-            $_quantity = $item->quantity;
-            if(!is_null($quantity)){
-                $_quantity = $quantity;
-            }
+            $_quantity = (is_null($quantity) ? $item->quantity : $quantity);
 
             if($item instanceof BillItem){
-                $inventoryAmountArray[] = $item->sumInventoryAmount();
-            }else{
                 $inventoryAmountArray[] = $item->sumInventoryAmount($_quantity);
             }
 
