@@ -156,10 +156,7 @@ class OrderManagementController extends Controller
         $materialListText = $this->materialListText($inventoryAmountArray);
         $materialListText .= "[$bill->price]";
 
-        $ship_time = '1';
-        if ($bill->ship_time == '14:00-18:00') {
-            $ship_time = '2';
-        }
+        $ship_time = $bill->getShiptimeId();        
 
         // $arrive = str_replace('-', '/', $bill->ship_arriveDate);
         // if ($bill->ship_arriveDate == null) {

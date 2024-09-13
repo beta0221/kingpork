@@ -157,6 +157,18 @@ class Bill extends Model
         }
     }
 
+    /** 指定到貨時段 代號 */
+    public function getShiptimeId() {
+        switch ($this->ship_time) {
+            case '13點前':
+                return '1';
+            case '14-18點':
+                return '2';
+            default:
+                return '4';
+        }
+    }
+
     public function products(){
         if(is_null($this->item)){ return $this->billItems()->get(); }
 
