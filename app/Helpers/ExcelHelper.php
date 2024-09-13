@@ -121,6 +121,8 @@ class ExcelHelper {
 
         $orderNum = null;
         foreach ($this->data as $row) {
+
+            if ($this->isRowInvalid($row)) { continue; }
             
             $_orderNum = $row[ExcelOrderModel::KEY_ORDER_NUM];
 
@@ -142,5 +144,12 @@ class ExcelHelper {
             
             $this->orderList[$orderNum]->setItem($product);
         }
+    }
+
+    private function isRowInvalid($row) {
+        
+        $result = isset($row[ExcelOrderModel::KEY_ORDER_NUM]);
+
+        return !$result;
     }
 }
