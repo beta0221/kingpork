@@ -127,8 +127,8 @@
 								<span>E-mail：</span>
 								<input type="text" class="form-control" name="ship_email" value="{{Auth::user()?Auth::user()->email:''}}">	
 
-								<span>希望發貨日：</span>
-								<select id="ship_ifDate" class="form-control" name="ship_arrive">
+								{{-- <span>希望發貨日：</span> --}}
+								<select id="ship_ifDate" class="form-control d-none" name="ship_arrive">
 									<option value="no">不指定</option>
 									<option value="yes">指定</option>
 								</select>
