@@ -106,9 +106,12 @@ class ExcelHelper {
     /**整理陣列 */
     private function arrangeData() {
 
-        $_erpId = array_map(function($row){
-            return $row[ExcelOrderModel::KEY_ERP_ID];
-        }, $this->data);
+        $_erpId = array_filter(array_map(function($row){
+            if (isset($row[ExcelOrderModel::KEY_ERP_ID])) {
+                return $row[ExcelOrderModel::KEY_ERP_ID];
+            }
+            return null;
+        }, $this->data));
         $this->erpIdList = array_values(array_unique($_erpId));
 
         $_products = Products::whereIn('erp_id', $this->erpIdList)->get();
