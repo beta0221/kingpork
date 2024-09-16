@@ -152,7 +152,7 @@
 								@if(Auth::user())
 								<span>可用紅利（{{Auth::user()->bonus}}）：</span>
 								<span id="myBonus" style="display: none;">{{Auth::user()->bonus}}</span>
-								<input id="bonus-use" value="0" min="0" max="{{Auth::user()->bonus}}" type="number" class="form-control">
+								<input id="bonus-use" value="0" min="0" max="{{Auth::user()->bonus}}" name="bonus" type="number" class="form-control">
 								@else
 								<span>可用紅利（無）：</span><br>
 								<span>使用紅利或累積紅利請登入會員</span><br>
