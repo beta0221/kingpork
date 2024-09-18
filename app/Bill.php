@@ -161,8 +161,12 @@ class Bill extends Model
     public function getShiptimeId() {
         switch ($this->ship_time) {
             case '13點前':
+            case '1':
+            case 1:
                 return '1';
             case '14-18點':
+            case '2':
+            case 2:
                 return '2';
             default:
                 return '4';
