@@ -42,7 +42,9 @@ class OrderManagementController extends Controller
             $query->where('ship_phone',$request->ship_phone);
         }
         if($request->has('shipment_0')){
-            if ($request->has('pay_by_ATM') OR $request->has('pay_by_credit')) {
+            if($request->has('kol')){
+                $query->where('shipment',$request->shipment_0);
+            }else if ($request->has('pay_by_ATM') OR $request->has('pay_by_credit')) {
                 $query->where('status','1')->where('shipment',$request->shipment_0);
             }else{
                 $query->where(function($query) use($request){
