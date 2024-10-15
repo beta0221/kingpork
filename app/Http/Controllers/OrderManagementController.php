@@ -624,6 +624,7 @@ class OrderManagementController extends Controller
 
     public function bestSeller($from, $to) {
 
+        $to = date('Y-m-d', strtotime($to . "+1 day"));
         $billIdArray = Bill::whereBetween('created_at', [$from, $to])->pluck('id');
         $billItemList = BillItem::whereIn('bill_id', $billIdArray)->get();
 
