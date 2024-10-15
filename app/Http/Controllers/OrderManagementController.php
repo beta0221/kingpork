@@ -622,6 +622,35 @@ class OrderManagementController extends Controller
         })->download('xlsx');
     }
 
+    public function bestSeller($from, $to) {
+
+        $billIdArray = Bill::whereBetween('created_at', [$from, $to])->pluck('id');
+        $billItemList = BillItem::whereIn('bill_id', $billIdArray)->get();
+
+        $stats = [];
+        foreach ($billItemList as $item) {
+            $name = $item->name;
+            $quantity = $item->quantity;
+
+            if (!isset($stats[$name])) {
+                $stats[$name] = $quantity;
+                continue;
+            }
+
+            $stats[$name] += $quantity;
+        }
+        
+        // 按值降序排序
+        arsort($stats);
+
+        return view('admin.bestSeller', [
+            'from' => $from,
+            'to' => $to,
+            'stats' => $stats
+        ]);
+
+    }
+
     /**
      * Show the form for creating a new resource.
      *

@@ -20,6 +20,16 @@
     <button class="mt-2 btn btn-primary" onclick="dailyReport()">日報表</button>
 </div>
 
+<div class="mt-2 p-2" style="">
+    <div>
+        <input id="bestSellerDate_from" type="date" class="form-control d-inline-block" style="width:200px">
+        <span>-</span>
+        <input id="bestSellerDate_to" type="date" class="form-control d-inline-block" style="width:200px">
+    </div>
+    
+    <button class="mt-2 btn btn-success" onclick="bestSeller()">銷售排行</button>
+</div>
+
 <div class="mt-2 p-2">
     <h3>發票記錄</h3>
     {{$invoiceLogs->links()}}
@@ -53,6 +63,14 @@
         if(date){
             window.open('/order/export/DailyReport/'+date);
         }
+    }
+
+    function bestSeller() {
+        var from = $('#bestSellerDate_from').val();
+        var to = $('#bestSellerDate_to').val();
+        if (!from) { return }
+        if (!to) { return }
+        window.open('/order/stats/bestSeller/' + from + '/' + to);
     }
 </script>
 @endsection
