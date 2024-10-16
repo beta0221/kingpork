@@ -622,10 +622,19 @@ class OrderManagementController extends Controller
         })->download('xlsx');
     }
 
-    public function bestSeller($from, $to) {
+    public function bestSeller($vendor, $from, $to) {
+
 
         $to = date('Y-m-d', strtotime($to . "+1 day"));
-        $billIdArray = Bill::whereBetween('created_at', [$from, $to])->pluck('id');
+        $query = Bill::whereBetween('created_at', [$from, $to]);
+
+        if ($vendor == 'official') {
+            $query->whereNull('kol');
+        } else {
+            $query->where('kol', $vendor);
+        }
+
+        $billIdArray = $query->pluck('id');
         $billItemList = BillItem::whereIn('bill_id', $billIdArray)->get();
 
         $stats = [];
@@ -645,6 +654,7 @@ class OrderManagementController extends Controller
         arsort($stats);
 
         return view('admin.bestSeller', [
+            'vendor' => Bill::getVendorName($vendor),
             'from' => $from,
             'to' => $to,
             'stats' => $stats

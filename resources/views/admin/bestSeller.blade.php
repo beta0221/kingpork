@@ -19,6 +19,7 @@
 
     <div class="container mt-4 mb-4">
         <h3 class="d-block">銷售排行</h3>
+        <h5 class="text-primary">廠商：{{$vendor}}</h5>
         <h5 class="text-muted">區間：{{$from}} ~ {{$to}}</h5>
 
         <div class="row mt-4">

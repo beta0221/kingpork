@@ -147,7 +147,11 @@ class Bill extends Model
     }
 
     public function getErpDeparmentName() {
-        switch ($this->kol) {
+        return static::getVendorName($this->kol);
+    }
+
+    public static function getVendorName($key) {
+        switch ($key) {
         case "waymay":
             return "為美";
         case "bawmami":

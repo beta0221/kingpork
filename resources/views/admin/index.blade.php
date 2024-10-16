@@ -10,6 +10,14 @@
 
 @section('content')
 
+
+<?php 
+    $venders = [
+        '官網' => 'official',
+        '為美' => 'waymay',
+        '寶媽咪' => 'bawmami'
+    ]
+?>
 <div class="mt-2 p-2" style="width:200px">
     <input id="monthlyReportDate" type="date" class="form-control">
     <button class="mt-2 btn btn-danger" onclick="monthlyReport()">月報表</button>
@@ -22,6 +30,11 @@
 
 <div class="mt-2 p-2" style="">
     <div>
+        <select id="bestSellerVendor" class="form-control d-inline-block" style="width:120px">
+            @foreach ($venders as $name => $key)
+            <option value="{{$key}}">{{$name}}</option>    
+            @endforeach
+        </select>
         <input id="bestSellerDate_from" type="date" class="form-control d-inline-block" style="width:200px">
         <span>-</span>
         <input id="bestSellerDate_to" type="date" class="form-control d-inline-block" style="width:200px">
@@ -66,11 +79,13 @@
     }
 
     function bestSeller() {
+        var vendor = $('#bestSellerVendor').val();
         var from = $('#bestSellerDate_from').val();
         var to = $('#bestSellerDate_to').val();
+        if (!vendor) { return }
         if (!from) { return }
         if (!to) { return }
-        window.open('/order/stats/bestSeller/' + from + '/' + to);
+        window.open('/order/stats/bestSeller/' + vendor + '/' + from + '/' + to);
     }
 </script>
 @endsection

@@ -113,7 +113,7 @@ Route::post('order/ExportExcelForShipmentNum','OrderManagementController@ExportE
 // Route::post('order/ExportExcelForHCT','OrderManagementController@ExportExcelForHCT');
 Route::get('order/export/MonthlyReport/{date}','OrderManagementController@MonthlyReport');
 Route::get('order/export/DailyReport/{date}','OrderManagementController@DailyReport');
-Route::get('order/stats/bestSeller/{from}/{to}','OrderManagementController@bestSeller');
+Route::get('order/stats/bestSeller/{vendor}/{from}/{to}','OrderManagementController@bestSeller');
 Route::post('order/uploadKolOrder','OrderManagementController@uploadKolOrder');
 Route::post('order/uploadShipmentNum','OrderManagementController@uploadShipmentNum');
 Route::delete('order/cancel/{bill_id}','OrderManagementController@cancelBill');
