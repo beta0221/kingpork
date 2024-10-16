@@ -111,8 +111,8 @@ Route::post('order/ExportExcelForAccountant','OrderManagementController@ExportEx
 Route::post('order/ExportExcelForShipmentNum','OrderManagementController@ExportExcelForShipmentNum');
 // Route::post('order/ExportExcelForFamily','OrderManagementController@ExportExcelForFamily');
 // Route::post('order/ExportExcelForHCT','OrderManagementController@ExportExcelForHCT');
-Route::get('order/export/MonthlyReport/{date}','OrderManagementController@MonthlyReport');
-Route::get('order/export/DailyReport/{date}','OrderManagementController@DailyReport');
+Route::get('order/export/MonthlyReport/{vendor}/{date}','OrderManagementController@MonthlyReport');
+Route::get('order/export/DailyReport/{vendor}/{date}','OrderManagementController@DailyReport');
 Route::get('order/stats/bestSeller/{vendor}/{from}/{to}','OrderManagementController@bestSeller');
 Route::post('order/uploadKolOrder','OrderManagementController@uploadKolOrder');
 Route::post('order/uploadShipmentNum','OrderManagementController@uploadShipmentNum');

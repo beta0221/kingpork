@@ -542,13 +542,16 @@ class OrderManagementController extends Controller
         return $newRow;
     }
 
-    public function MonthlyReport($date){
+    public function MonthlyReport($vendor, $date){
         
-        $cellData = [
-            ['訂單日期','訂單筆數','單日業績','平均客單價'],
-        ];
+        $sql = "SELECT * FROM bills WHERE MONTH(created_at) = MONTH('".$date."') AND YEAR(created_at) = YEAR('".$date."') AND shipment = 2";
+        if ($vendor == 'official') {
+            $sql .= " AND kol IS NULL";
+        } else {
+            $sql .= " AND kol = '$vendor'";
+        }
 
-        $bills = DB::select("SELECT * FROM bills WHERE MONTH(created_at) = MONTH('".$date."') AND YEAR(created_at) = YEAR('".$date."') AND shipment = 2");
+        $bills = DB::select($sql);
 
         $billsDic = [];
 
@@ -568,6 +571,10 @@ class OrderManagementController extends Controller
             }
         }
 
+        $cellData = [
+            ['訂單日期','訂單筆數','單日業績','平均客單價'],
+        ];
+
         foreach ($billsDic as $date => $bill) {
             $avg = intval((int)$bill['total'] / (int)$bill['amount']);
             $newRow = [$date,$bill['amount'],$bill['total'],$avg];
@@ -576,46 +583,38 @@ class OrderManagementController extends Controller
 
         $time = strtotime($date);
         $year_month = date("Y-m",$time);
-        Excel::create('月報表-' . $year_month, function($excel)use($cellData) {
+        Excel::create('月報表-' . Bill::getVendorName($vendor) . '-' . $year_month, function($excel)use($cellData) {
             $excel->sheet('Sheet1', function($sheet)use($cellData) {
                 $sheet->rows($cellData);
             });
         })->download('xlsx');
     }
 
-
-
-
-
-
-
-
-
-    public function DailyReport($date){
+    public function DailyReport($vendor, $date){
+        
+        $query = Bill::whereDate('created_at', $date)->where('shipment', 2);
+        if ($vendor == 'official') {
+            $query->whereNull('kol');
+        } else {
+            $query->where('kol', $vendor);
+        }
+        $bills = $query->get();
 
         $cellData = [
-            ['訂單日期','訂購人','訂購品項','數量','金額','前次訂購日期','入會日期'],
+            ['訂購人','訂購品項','數量','金額']
         ];
 
-        $bills = DB::select("SELECT * FROM bills WHERE MONTH(created_at) = MONTH('".$date."') AND YEAR(created_at) = YEAR('".$date."') AND DAY(created_at) = DAY('".$date."') AND shipment = 2");
-        
         foreach ($bills as $bill) {
-            if($user = User::find($bill->user_id)){
-                $prevOrderDate = null;
-                if($result = Bill::where('user_id',$bill->user_id)->orderBy('id','desc')->where('created_at','<',$bill->created_at)->skip(1)->first()){
-                    $prevOrderDate = $result->created_at;
-                }
-                $items = json_decode($bill->item,true);
-                foreach ($items as $index => $item) {
-                    if($product = Products::where('slug',$item['slug'])->first()){
-                        $newRow = [$bill->created_at,$user->name,$product->name,$item['quantity'],$product->price,$prevOrderDate,$user->created_at];
-                        array_push($cellData,$newRow);
-                    }
-                }
+
+            $items = $bill->products();
+            foreach ($items as $item) {
+                $total = (int)$item->quantity * (int)$item->price;
+                $newRow = [$bill->user_name, $item->name, $item->quantity, $total];
+                array_push($cellData,$newRow);
             }
         }
 
-        Excel::create('日報表-' . $date, function($excel)use($cellData) {
+        Excel::create('日報表-' . Bill::getVendorName($vendor) . '-' . $date, function($excel)use($cellData) {
             $excel->sheet('Sheet1', function($sheet)use($cellData) {
                 $sheet->rows($cellData);
             });

@@ -18,13 +18,29 @@
         '寶媽咪' => 'bawmami'
     ]
 ?>
-<div class="mt-2 p-2" style="width:200px">
-    <input id="monthlyReportDate" type="date" class="form-control">
+<div class="mt-2 p-2">
+    <div>
+        <select id="monthlyReportVendor" class="form-control d-inline-block" style="width:120px">
+            @foreach ($venders as $name => $key)
+            <option value="{{$key}}">{{$name}}</option>    
+            @endforeach
+        </select>
+        <input id="monthlyReportDate" type="date" class="form-control d-inline-block" style="width:200px">
+    </div>
+    
     <button class="mt-2 btn btn-danger" onclick="monthlyReport()">月報表</button>
 </div>
 
-<div class="mt-2 p-2" style="width:200px">
-    <input id="dailyReportDate" type="date" class="form-control">
+<div class="mt-2 p-2">
+    <div>
+        <select id="dailyReportVendor" class="form-control d-inline-block" style="width:120px">
+            @foreach ($venders as $name => $key)
+            <option value="{{$key}}">{{$name}}</option>    
+            @endforeach
+        </select>
+        <input id="dailyReportDate" type="date" class="form-control d-inline-block" style="width:200px">
+    </div>
+    
     <button class="mt-2 btn btn-primary" onclick="dailyReport()">日報表</button>
 </div>
 
@@ -66,22 +82,24 @@
 @section('scripts')
 <script>
     function monthlyReport(){
-        var date = $('#monthlyReportDate').val();
+        let date = $('#monthlyReportDate').val();
+        let vendor = $('#monthlyReportVendor').val();
         if(date){
-            window.open('/order/export/MonthlyReport/'+date);
+            window.open('/order/export/MonthlyReport/'+ vendor + '/' + date);
         }
     }
     function dailyReport(){
-        var date = $('#dailyReportDate').val();
+        let date = $('#dailyReportDate').val();
+        let vendor = $('#dailyReportVendor').val();
         if(date){
-            window.open('/order/export/DailyReport/'+date);
+            window.open('/order/export/DailyReport/' + vendor + '/' + date);
         }
     }
 
     function bestSeller() {
-        var vendor = $('#bestSellerVendor').val();
-        var from = $('#bestSellerDate_from').val();
-        var to = $('#bestSellerDate_to').val();
+        let vendor = $('#bestSellerVendor').val();
+        let from = $('#bestSellerDate_from').val();
+        let to = $('#bestSellerDate_to').val();
         if (!vendor) { return }
         if (!from) { return }
         if (!to) { return }
