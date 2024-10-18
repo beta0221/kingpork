@@ -145,7 +145,7 @@ class kartController extends Controller
             return (isset($relation[$id])) ? $relation[$id] : null;
         }, $product_id_array);
         $bindedProduct_id_array = array_filter($bindedProduct_id_array);
-        $bindedProduct_id_array = array_merge(...$bindedProduct_id_array);
+        $bindedProduct_id_array = (count($bindedProduct_id_array) > 0) ? array_merge(...$bindedProduct_id_array) : $bindedProduct_id_array;
         $bindedProduct_id_array = array_filter($bindedProduct_id_array, function($bindedProduct_id) use ($product_id_array) {
             return !in_array($bindedProduct_id, $product_id_array);
         });
