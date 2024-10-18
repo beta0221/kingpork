@@ -11,6 +11,7 @@ use App\sessionCart;
 use DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
 use Session;
 
 class kartController extends Controller
@@ -106,7 +107,7 @@ class kartController extends Controller
             return view('auth.reg-buy');
         }
         
-        $product_id_array = Kart::where('user_id', $user->id)->orderBy('product_id')->pluck('product_id');
+        $product_id_array = Kart::where('user_id', $user->id)->orderBy('product_id')->pluck('product_id')->all();
         $additionalProducts = Products::getAdditionalProducts();
 
         $_product_id_array = [];
@@ -139,8 +140,24 @@ class kartController extends Controller
         //     $carrierRestriction = $carriers;
         // }        
         
+        $relation = Products::getBindedProducts('relation');
+        $bindedProduct_id_array = array_map(function($id) use ($relation) {
+            return (isset($relation[$id])) ? $relation[$id] : null;
+        }, $product_id_array);
+        $bindedProduct_id_array = array_filter($bindedProduct_id_array);
+        $bindedProduct_id_array = array_merge(...$bindedProduct_id_array);
+        $bindedProduct_id_array = array_filter($bindedProduct_id_array, function($bindedProduct_id) use ($product_id_array) {
+            return !in_array($bindedProduct_id, $product_id_array);
+        });
+
+        $bindedProducts = Products::whereIn('id', $bindedProduct_id_array)->get();
+
+        // Log::info(json_encode($bindedProduct_id_array));
+        //Log::info(json_encode($bindedProducts));
+
         return view('kart.index',[
-            'products'=>$products,
+            'products' => $products,
+            'bindedProducts' => $bindedProducts
             // 'carriers'=>$carrierRestriction
             // 'carriers' => [
             //     Bill::CARRIER_ID_BLACK_CAT => Bill::CARRIER_BLACK_CAT,
@@ -193,13 +210,14 @@ class kartController extends Controller
             }
             
             $kart = Kart::where('product_id',$request->product_id)
-                ->where('user_id', Auth::user()->id)
+                ->where('user_id', $user->id)
                 ->first();
+
             if($kart == null){
-                $kart = new Kart;
-                $kart->user_id = Auth::user()->id;
-                $kart->product_id = $request->product_id;
-                $kart->save();
+                Kart::create([
+                    'user_id' => $user->id,
+                    'product_id' => $request->product_id
+                ]);
             }
 
             return response()->json(['msg'=>'成功加入購物車']);

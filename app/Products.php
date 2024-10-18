@@ -68,6 +68,46 @@ class Products extends Model
         return $idArray;
     }
 
+    /**取得 綁定附帶商品 列表 */
+    public static function getBindedProducts($type = null) {
+        $binds = DB::table('product_bind')->get();
+
+        $result = [
+            'products' => [], //目標產品 id array
+            'binds' => [], //綁定產品 id array
+            'relation' => [
+                // '{id}' => [{id}, {id}] //綁定結構
+            ] 
+        ];
+
+        foreach ($binds as $bind) {
+            $product = $bind->product_id;
+            $bindProduct = $bind->bind_product_id;
+
+            if(!in_array($product, $result['products'])) {
+                $result['products'][] = $product;
+            }
+
+            if(!in_array($bindProduct, $result['binds'])) {
+                $result['binds'][] = $bindProduct;
+            }
+
+            if(!isset($result['relation'][$product])) {
+                $result['relation'][$product] = [];
+            }
+
+            if(!in_array($bindProduct, $result['relation'][$product])) {
+                $result['relation'][$product][] = $bindProduct;
+            }
+        }
+
+        if (!is_null($type) && isset($result[$type])) {
+            return $result[$type];
+        }
+
+        return $result;
+    }
+
     public static function getAdditionalProductSlug(){
         $products = Products::where('category_id',Products::ADDITIONAL_CAT_ID)->select('slug')->get();
         $slugArray = [];
