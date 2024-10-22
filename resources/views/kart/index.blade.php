@@ -195,7 +195,7 @@
 
 							
 							<td class="product-quantity-TD">
-								@if($product->category_id==12)
+								@if(in_array($product->category_id, [12, 40]))
 									<span>1</span>
 									<input hidden id="{{$product->slug}}" class="quantity" type="number" value="1" name="quantity[]" price="{{$product->price}}">
 								@else
