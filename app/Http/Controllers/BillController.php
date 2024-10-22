@@ -81,7 +81,7 @@ class BillController extends Controller
 
         Log::info("BillController store debug: 2");
 
-        $additionalProducts = Products::getAdditionalProductSlug();
+        $additionalProducts = Products::getAdditionalProducts('slug');
         $hasAdditionalProduct = false;
         $hasMainProduct = false;
 

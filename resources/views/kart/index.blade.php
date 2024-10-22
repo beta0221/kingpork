@@ -10,8 +10,33 @@
 	    width: 100%;
 	    height: auto;
 	}
+
+	.bind-product-outter {
+		background-color: rgba(255,255,255,0.5);
+		box-shadow: 2px 2px 16px 2px rgba(0, 0, 0, 0.3);
+		border-radius: 0 0 0.3em 0.3em;
+	}
+
+	.bind-product-title {
+		background-color: #f0ad4e;
+		border-radius: 0.3em 0.3em 0 0;
+		z-index: 9;
+	}
+
+	.bind-product {
+		background-color: rgba(0,0,0,0.1);
+		border-radius: 0.3em;
+	}
+
+	.bind-product img {
+		height: 100%;
+    	max-width: 100%;
+    	max-height: 100%;
+    	border-radius: 0.2rem;
+	}
+
 	.outter{
-		margin-top: 60px;
+		margin-top: 32px;
 		margin-bottom: 60px;
 		/*min-height: 520px;*/
 		min-height: 60vh;
@@ -62,6 +87,41 @@
 
 <div class="contentPage">
 	<div class="container">
+
+		@if (count($bindedProducts) > 0)
+		<div class="row">
+			<div class="col-lg-10 offset-lg-1 col-12 bind-product-title mt-4">
+				<h5 class="mt-2 text-white">目前已滿足加價購條件</h5>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-10 offset-lg-1 col-12 bind-product-outter pt-2 pb-1">
+
+				@foreach ($bindedProducts as $p)
+				<div class="mb-2 pl-2 pr-2 pt-2 pb-2 bind-product">
+					<div class="d-inline-block align-middle" style="height: 80px; width: 80px;">
+						<img src="{{asset('images/productsIMG') . '/' . $p->image}}" alt="">
+					</div>
+					<div class="d-inline-block align-middle ml-2 w-auto" style="height: 80px;">
+						<div class="d-flex flex-column justify-content-between h-100">
+							<span class="d-block h-50">{{$p->name}}</span>
+							<div class="h-50">
+								<span class="text-danger">${{$p->price}}</span>
+							</div>
+						</div>
+					</div>
+					<div class="mt-2 mr-2" style="height: 80px; position: absolute; right:0; top: 0">
+						<button class="btn btn-warning h-100" style="cursor: pointer" onclick="addToKart({{$p->id}})">
+							加購
+						</button>
+					</div>
+				</div>	
+				@endforeach
+				
+			</div>
+		</div>			
+		@endif
+
 		<div class="row">
 			<div class="col-lg-10 offset-lg-1 col-12 outter">
 				
@@ -135,7 +195,7 @@
 
 							
 							<td class="product-quantity-TD">
-								@if($product->category_id==12)
+								@if(in_array($product->category_id, [12, 40]))
 									<span>1</span>
 									<input hidden id="{{$product->slug}}" class="quantity" type="number" value="1" name="quantity[]" price="{{$product->price}}">
 								@else
@@ -400,6 +460,25 @@
 @endsection
 
 @section('scripts')
-{{ Html::script('js/_kart_1016.js') }}
-{{ Html::script('js/_family.js') }}
+{{ Html::script('js/_kart_1023.js') }}
+{{-- {{ Html::script('js/_family.js') }} --}}
+
+<script>
+	function addToKart(id){
+		$.ajax({
+			type:'POST',
+			url:'{{route('kart.store')}}',
+			dataType:'json',
+			data: {
+				'product_id':id,
+			},
+			success: function (response) {
+                location.reload();
+            },
+            error: function (error) {
+				console.log(error);
+            }
+		});
+	}
+</script>
 @endsection

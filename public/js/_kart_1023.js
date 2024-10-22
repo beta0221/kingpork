@@ -279,18 +279,7 @@ $(document).ready(function(){
 				_method: 'delete',
 			},
 			success: function (response) {
-
-				if(response.msg=='403'){
-					window.location.reload();
-					return false;
-				}
-                // alert(response.msg);
-                $('#item'+id).remove();
-                // navbar cart 減一
-                var inKart = parseInt($('#inKart').html()) - 1;
-                $('#inKart').empty().append(inKart);
-
-                uploadSum();
+				window.location.reload();
             },
             error: function () {
                 alert('無法從購物車中刪除');
