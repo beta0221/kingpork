@@ -123,45 +123,26 @@ class kartController extends Controller
             $product_id_array = $_product_id_array;
         }
         
-        // $carriers = Bill::getAllCarriers();
+
+        // 刪除 無主商品的綁定商品
+        $violation_id_array = Products::getViolationProductIdArray($product_id_array);
+        foreach ($violation_id_array as $violation_id) {
+            if (($key = array_search($violation_id, $product_id_array)) !== false) {
+                unset($product_id_array[$key]);
+            }
+        }
+        if (count($violation_id_array) > 0) {
+            Kart::where('user_id',$user->id)->whereIn('product_id',$violation_id_array)->delete();
+        }
+
+        // 目前購物車商品
         $products = Products::whereIn('id', $product_id_array)->get();
-        // $carrierRestriction = [];
-
-        // foreach ($products as $product) {
-        //     $carrier_id_array = $product->carrierRestriction();
-        //     if(!empty($carrier_id_array)){
-        //         foreach ($carrier_id_array as $carrier_id) {
-        //             $carrierRestriction[$carrier_id] = $carriers[$carrier_id];
-        //         }
-        //     }
-        // }
-
-        // if(empty($carrierRestriction)){
-        //     $carrierRestriction = $carriers;
-        // }        
-        
-        $relation = Products::getBindedProducts('relation');
-        $bindedProduct_id_array = array_map(function($id) use ($relation) {
-            return (isset($relation[$id])) ? $relation[$id] : null;
-        }, $product_id_array);
-        $bindedProduct_id_array = array_filter($bindedProduct_id_array);
-        $bindedProduct_id_array = (count($bindedProduct_id_array) > 0) ? array_merge(...$bindedProduct_id_array) : $bindedProduct_id_array;
-        $bindedProduct_id_array = array_filter($bindedProduct_id_array, function($bindedProduct_id) use ($product_id_array) {
-            return !in_array($bindedProduct_id, $product_id_array);
-        });
-
-        $bindedProducts = Products::whereIn('id', $bindedProduct_id_array)->get();
-
-        // Log::info(json_encode($bindedProduct_id_array));
-        //Log::info(json_encode($bindedProducts));
+        // 可加購商品
+        $bindedProducts = Products::getBindedProducts($product_id_array);
 
         return view('kart.index',[
             'products' => $products,
             'bindedProducts' => $bindedProducts
-            // 'carriers'=>$carrierRestriction
-            // 'carriers' => [
-            //     Bill::CARRIER_ID_BLACK_CAT => Bill::CARRIER_BLACK_CAT,
-            // ]
         ]);
 
     }
