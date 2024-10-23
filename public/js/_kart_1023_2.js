@@ -317,13 +317,13 @@ $(document).ready(function(){
 	}
 	function sureToBuy(){
 		$('.kartTable').css('display','none');
-		$('.sureToBuy').css('display','none');
 		$('.shipping').css('display','table');
-		$('#back-kart').css('display','inline-block');
 		$('#h-title').html('填寫寄送資料');
-		$('#payBtn').css('display','inline-block');
 		$('.processing').removeClass('processing');
 		$('.process-2').addClass('processing');
+
+		$('.sure-to-buy-div').css('display','none');
+		$('.check-out-form-div').css('display','block');
 
 		findMemory();
 	}
@@ -370,12 +370,12 @@ $(document).ready(function(){
 
 	function back_kart(){
 		$('.kartTable').css('display','table');
-		$('.sureToBuy').css('display','inline-block');
 		$('.shipping').css('display','none');
-		$('#back-kart').css('display','none');
 		$('#h-title').html('我的購物車');
-		$('#payBtn').css('display','none');
 		$('.processing').removeClass('processing');
 		$('.process-1').addClass('processing');
 		$('.alert-field').empty();
+
+		$('.sure-to-buy-div').css('display','block');
+		$('.check-out-form-div').css('display','none');
 	}

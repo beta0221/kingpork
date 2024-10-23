@@ -18,28 +18,30 @@
 .product-title-TR{
 	border-bottom: 1.5pt solid rgba(255,255,255,0.3);
 }
-#payBtn,.shipping{
+.shipping{
 	display: none;
 }
 .priceSum{
-	position: absolute;
-	display: block;
-	width: 100%;
+	/* position: absolute; */
+	/* display: block; */
+	/* width: 100%; */
+	height: 40px;
 }
-.submitBtn{
-	margin-top: 40px;
-	position: absolute;
-	display: block;
-	width: 100%;
-	left: 0;
-}
-.back-shop{
+/* .submitBtn{ */
+	/* margin-top: 40px; */
+	/* position: absolute; */
+	/* display: block; */
+	/* width: 100%; */
+	/* left: 0; */
+	/* height: 40px; */
+/* } */
+/* .back-shop{
 	float: left;
 	cursor: pointer;
-}
+} */
 .sureToBuy{
-	float: right;
-	margin:0 0 0 20px;
+	/* float: right; */
+	/* margin:0 0 0 20px; */
 	cursor: pointer;
 }
 /* all sizing */
@@ -166,8 +168,8 @@
 	width: 24%;
 }
 #back-kart{
-	display: none;
-	float: left;
+	/* display: none; */
+	/* float: left; */
 	cursor: pointer;
 }
 .product-img-TD{

@@ -64,7 +64,7 @@
 		outline: none;
 	}
 	#payBtn{
-		float: right;
+		/* float: right; */
 		box-shadow: 2px 2px 16px 2px rgba(0, 0, 0, 0.3);
 		cursor: pointer;
 		width: 160px;
@@ -88,39 +88,7 @@
 <div class="contentPage">
 	<div class="container">
 
-		@if (count($bindedProducts) > 0)
-		<div class="row">
-			<div class="col-lg-10 offset-lg-1 col-12 bind-product-title mt-4">
-				<h5 class="mt-2 text-white">目前已滿足加價購條件</h5>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-lg-10 offset-lg-1 col-12 bind-product-outter pt-2 pb-1">
-
-				@foreach ($bindedProducts as $p)
-				<div class="mb-2 pl-2 pr-2 pt-2 pb-2 bind-product">
-					<div class="d-inline-block align-middle" style="height: 80px; width: 80px;">
-						<img src="{{asset('images/productsIMG') . '/' . $p->image}}" alt="">
-					</div>
-					<div class="d-inline-block align-middle ml-2 w-auto" style="height: 80px;">
-						<div class="d-flex flex-column justify-content-between h-100">
-							<span class="d-block h-50">{{$p->name}}</span>
-							<div class="h-50">
-								<span class="text-danger">${{$p->price}}</span>
-							</div>
-						</div>
-					</div>
-					<div class="mt-2 mr-2" style="height: 80px; position: absolute; right:0; top: 0">
-						<button class="btn btn-warning h-100" style="cursor: pointer" onclick="addToKart({{$p->id}})">
-							加購
-						</button>
-					</div>
-				</div>	
-				@endforeach
-				
-			</div>
-		</div>			
-		@endif
+		
 
 		<div class="row">
 			<div class="col-lg-10 offset-lg-1 col-12 outter">
@@ -171,7 +139,7 @@
 				<h3 id="h-title" style="text-align: center;margin: 0 0 10px 0;">我的購物車</h3>
 
 				<form class="kartForm" action="{{route('bill.store')}}" method="POST">
-				{{csrf_field()}}
+					{{csrf_field()}}
 					<table class="kartTable">	
 						<tr class="product-title-TR">
 							<th></th>
@@ -247,8 +215,8 @@
 								<input id="radio1" class="radio" type="radio" name="ship_gender" value="1" checked>
 								<span>先生</span>
 
-  								<input id="radio2" class="radio" type="radio" name="ship_gender" value="2">
-  								<span>小姐</span>
+								<input id="radio2" class="radio" type="radio" name="ship_gender" value="2">
+								<span>小姐</span>
 							</td>
 						</tr>
 
@@ -380,8 +348,8 @@
 							<td>
 								<label for="">　時間：</label>
 								<input name="ship_time" class="radio" type="radio" name="time" value="no" checked><span>不指定</span>
-  								<input id="1300" name="ship_time" class="radio" type="radio" name="time" value="13:00"><span>13:00前</span>
-  								<input id="1400-1800" name="ship_time" class="radio" type="radio" name="time" value="14:00-18:00"><span>14:00-18:00</span>
+								<input id="1300" name="ship_time" class="radio" type="radio" name="time" value="13:00"><span>13:00前</span>
+								<input id="1400-1800" name="ship_time" class="radio" type="radio" name="time" value="14:00-18:00"><span>14:00-18:00</span>
 							</td>
 						</tr>
 
@@ -419,8 +387,8 @@
 								<label for=""><span class="required">*</span>付款方式：</label>
 								<div class="pay_by">
 									<input id="pay_by_credit" class="radio" type="radio" name="ship_pay_by" value="CREDIT"><span>信用卡</span>
-	  								<input id="pay_by_atm" class="radio" type="radio" name="ship_pay_by" value="ATM"><span>ATM</span>
-	  								<input id="pay_by_cod" class="radio blackcat-column" type="radio" name="ship_pay_by" value="cod"><span class="blackcat-column">貨到付款</span>
+									<input id="pay_by_atm" class="radio" type="radio" name="ship_pay_by" value="ATM"><span>ATM</span>
+									<input id="pay_by_cod" class="radio blackcat-column" type="radio" name="ship_pay_by" value="cod"><span class="blackcat-column">貨到付款</span>
 									{{-- <input id="pay_by_family" class="radio family-column" type="radio" name="ship_pay_by" value="FAMILY" style="display: none"><span class="family-column" style="display: none">全家取貨付款</span> --}}
 								</div>
 							</td>
@@ -430,26 +398,68 @@
 					</table>
 					
 					
-					
-					<div class="priceSum">
-						<span style="margin: 0 8px 0 8px;font-size: 18pt;float: right;" id="sum"></span>
-						<span style=";margin: 0 8px 0 8px;font-size: 18pt;float: right;">總額：</span>
+					<div style="background: rgba(255,255,255,0.3); height: 1.5pt;"></div>
+
+					<div class="d-flex justify-content-end priceSum mt-2">
+						<span style="font-size: 18pt">總額：</span>
+						<span style="margin: 0 8px 0 8px;font-size: 18pt" id="sum"></span>
 					</div>
 
-					<div class="submitBtn">
-
-						<div class="back-shop btn btn-success mr-2" onclick="location.href='/productCategory/1'">繼續購物</div>
-						<div onclick="back_kart();" id="back-kart" class="btn btn-primary">回購物車</div>
-
-						<div onclick="sureToBuy()" class="sureToBuy btn btn-primary">
-							確定購買
+					<div class="sure-to-buy-div">
+						<div class="d-flex justify-content-end mt-2 pl-2 pr-2 pb-2">
+							<div onclick="sureToBuy()" class="sureToBuy btn btn-primary">
+								確定購買
+							</div>
 						</div>
-						<div onclick="checkForm();" id="payBtn" class="ml-3">送出訂單</div>
-						
+					</div>
+
+					<div class="check-out-form-div" style="display: none">
+						<div class="d-flex justify-content-between mt-2 pl-2 pr-2 pb-2">
+							{{-- <div class="back-shop btn btn-success mr-2" onclick="location.href='/productCategory/1'">繼續購物</div> --}}
+							<div>
+								<div onclick="back_kart();" id="back-kart" style="position: absolute; bottom: 0" class="btn btn-primary align-bottom">回購物車</div>
+							</div>
+							
+							<div onclick="checkForm();" id="payBtn" class="ml-3">送出訂單</div>
+						</div>
 					</div>
 
 				</form>
+				
+
+				@if (count($bindedProducts) > 0)
+				
+				<hr>
+				<div class="bind-product-title mt-2 p-2">
+					<h5 class="m-0 text-white">目前已滿足加價購條件</h5>
+				</div>
+				
+				<div class="bind-product-outter pt-3 pl-3 pr-3 pb-2">
 					
+					@foreach ($bindedProducts as $p)
+					<div class="mb-2 pl-2 pr-2 pt-2 pb-2 bind-product">
+						<div class="d-inline-block align-middle" style="height: 80px; width: 80px;">
+							<img src="{{asset('images/productsIMG') . '/' . $p->image}}" alt="">
+						</div>
+						<div class="d-inline-block align-middle ml-2 w-auto" style="height: 80px;">
+							<div class="d-flex flex-column justify-content-between h-100">
+								<span class="d-block h-50">{{$p->name}}</span>
+								<div class="h-50">
+									<span class="text-danger">${{$p->price}}</span>
+								</div>
+							</div>
+						</div>
+						<div class="mt-2 mr-2" style="height: 80px; position: absolute; right:0; top: 0">
+							<button class="btn btn-warning h-100" style="cursor: pointer" onclick="addToKart({{$p->id}})">
+								加購
+							</button>
+						</div>
+					</div>	
+					@endforeach	
+				</div>
+				
+				@endif
+
 				@endif
 				<div class="alert-field"></div>
 			</div>
@@ -460,7 +470,7 @@
 @endsection
 
 @section('scripts')
-{{ Html::script('js/_kart_1023.js') }}
+{{ Html::script('js/_kart_1023_2.js') }}
 {{-- {{ Html::script('js/_family.js') }} --}}
 
 <script>
