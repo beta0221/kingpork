@@ -287,6 +287,7 @@ $(document).ready(function(){
 		// caculate quantityLimit
 		let quantityLimit = {};
 		Object.keys(relation).forEach((key) => {
+			if(!$('.quantity-input-' + key).length) { return; }
 			let quantity = $('.quantity-input-' + key).val();
 			relation[key].forEach((id) => {
 				if (quantityLimit[id] == undefined) {
