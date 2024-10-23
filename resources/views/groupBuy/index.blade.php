@@ -4,7 +4,7 @@
 
 @section('stylesheets')
 {{Html::style('css/_groupBuy.css')}}
-{{Html::style('css/_kart.css')}}
+{{Html::style('css/_kart_1023_2.css')}}
 {{Html::style('css/_groupBuy_kart.css')}}
 @endsection
 
@@ -281,6 +281,6 @@
 
 @section('scripts')
 {{ Html::script('js/bootstrap/bootstrap.min.js') }}
-{{ Html::script('js/_kart_1016.js') }}
+{{ Html::script('js/_kart_1023_2.js') }}
 {{ Html::script('js/_groupBuy_kart_1016.js') }}
 @endsection
