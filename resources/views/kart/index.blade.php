@@ -3,7 +3,7 @@
 @section('title','| 我的購物車')
 
 @section('stylesheets')
-{{Html::style('css/_kart.css')}}
+{{Html::style('css/_kart_1023_2.css')}}
 {{Html::style('css/_process.css')}}
 <style>
 	.contentPage{
