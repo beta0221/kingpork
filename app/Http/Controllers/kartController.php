@@ -142,7 +142,8 @@ class kartController extends Controller
 
         return view('kart.index',[
             'products' => $products,
-            'bindedProducts' => $bindedProducts
+            'bindedProducts' => $bindedProducts,
+            'relation' => Products::getAllBindedProducts('relation')
         ]);
 
     }

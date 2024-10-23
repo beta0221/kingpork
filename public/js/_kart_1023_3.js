@@ -21,10 +21,6 @@ $(document).ready(function(){
 
 		//------- 
 		$('.quantity').change(function(){
-			var slug = $(this).attr('id');
-			var q = $(this).val();
-			var pp = q * parseInt($(this).attr('price'));
-			$('#priceTag' + slug).empty().append(pp);
 			uploadSum();
 		});
 		$('#arriveYes').click(function(){
@@ -100,7 +96,6 @@ $(document).ready(function(){
 		$('#bonus').change(function(){	//紅利
 			var maxBonus = parseInt($('#myBonus span').html());
 			var bonus = $('#bonus').val();
-			// var sum = parseInt($('#sum').html());
 			if (bonus > maxBonus) {
 				$('#bonus').val(maxBonus);
 				bonus = maxBonus;
@@ -115,7 +110,7 @@ $(document).ready(function(){
 			}
 			var bonusCount = bonus/50;
 			var afterDis = sumBeforeDiscount - bonus / 50;
-			$('#sum').empty().append(sumBeforeDiscount+'-'+bonusCount+'='+afterDis);
+			$('#total-price-span').empty().append(sumBeforeDiscount + '-' + bonusCount + '=' + afterDis);
 		});
 
 		$('#shipping-carrier').on('change',function(){
@@ -288,32 +283,59 @@ $(document).ready(function(){
 	}
 
 	function uploadSum(){
-		var price = 0;
-			$('.priceTag').each(function(){
-				price =  price + parseInt($(this).html());
-			});
 
-			if (price > 799) {
-				$('#transport-item').attr('name','');
-				$('#transport-quantity').attr('name','');
-				$('#transport-fee').css('display','none');	
-			}else{
-				price = price + 150;
-				$('#transport-item').attr('name','item[]');
-				$('#transport-quantity').attr('name','quantity[]');
-				$('#transport-fee').css('display','table-row');	
+		// caculate quantityLimit
+		let quantityLimit = {};
+		Object.keys(relation).forEach((key) => {
+			let quantity = $('.quantity-input-' + key).val();
+			relation[key].forEach((id) => {
+				if (quantityLimit[id] == undefined) {
+					quantityLimit[id] = quantity;
+				} else {
+					quantityLimit[id] += quantity;
+				}
+			})
+		});
+
+		Object.keys(quantityLimit).forEach((id) => {
+			let dom = $('.quantity-input-' + id);
+			let limit = quantityLimit[id];
+			dom.attr('max', limit);
+			if(dom.val() > limit) {
+				dom.val(limit);
 			}
+		});
 
-			//全館95折
-			//price = Math.floor(price * 0.95);
-			sumBeforeDiscount = price;
-			$('#sum').empty().append(price);
+		let total = 0;
+		$('input.quantity').each(function() {
+			let slug = $(this).attr('id');
+			let quantity = $(this).val();
+			let price = $(this).data('price');
+			let sum = quantity * parseInt(price);
+			$('#priceTag' + slug).empty().append(sum);
+			total += sum;
+		});
 
-			if (price == 0) {
-				$('.sureToBuy').css('display','none');
-			}else{
-				$('.sureToBuy').css('display','inline-block');
-			}
+		if (total > 799) {
+			$('#transport-item').attr('name','');
+			$('#transport-quantity').attr('name','');
+			$('#transport-fee').css('display','none');	
+		}else{
+			total = total + 150;
+			$('#transport-item').attr('name','item[]');
+			$('#transport-quantity').attr('name','quantity[]');
+			$('#transport-fee').css('display','table-row');	
+		}
+
+		sumBeforeDiscount = total;
+		$('#total-price-span').empty().append(total);
+
+		if (total == 0) {
+			$('.sureToBuy').css('display','none');
+		}else{
+			$('.sureToBuy').css('display','inline-block');
+		}
+
 	}
 	function sureToBuy(){
 		$('.kartTable').css('display','none');

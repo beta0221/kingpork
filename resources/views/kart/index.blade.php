@@ -163,11 +163,19 @@
 
 							
 							<td class="product-quantity-TD">
-								@if(in_array($product->category_id, [12, 40]))
+								@if(in_array($product->category_id, [12]))
 									<span>1</span>
 									<input hidden id="{{$product->slug}}" class="quantity" type="number" value="1" name="quantity[]" price="{{$product->price}}">
 								@else
-									<input id="{{$product->slug}}" class="quantity" type="number" value="1" name="quantity[]" price="{{$product->price}}">
+									<input 
+										id="{{$product->slug}}"
+										data-id="{{$product->id}}"
+										data-price="{{$product->price}}"
+										class="quantity quantity-input-{{$product->id}}"
+										type="number"
+										min="1"
+										value="1"
+										name="quantity[]">
 								@endif
 							</td>
 
@@ -402,7 +410,7 @@
 
 					<div class="d-flex justify-content-end priceSum mt-2">
 						<span style="font-size: 18pt">總額：</span>
-						<span style="margin: 0 8px 0 8px;font-size: 18pt" id="sum"></span>
+						<span style="margin: 0 8px 0 8px;font-size: 18pt" id="total-price-span"></span>
 					</div>
 
 					<div class="sure-to-buy-div">
@@ -470,10 +478,14 @@
 @endsection
 
 @section('scripts')
-{{ Html::script('js/_kart_1023_2.js') }}
+{{ Html::script('js/_kart_1023_3.js') }}
 {{-- {{ Html::script('js/_family.js') }} --}}
 
 <script>
+
+	// 加購條件
+	const relation = {!!json_encode($relation)!!};
+
 	function addToKart(id){
 		$.ajax({
 			type:'POST',
