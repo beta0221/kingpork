@@ -288,5 +288,16 @@ class Bill extends Model
         $this->updateShipment(Bill::SHIPMENT_VOID);
     }
 
+
+    // 自訂格式資料
+    public function format()
+    {
+        return [
+            'bill_id' => $this->bill_id,
+            'bonus_use' => $this->bonus_use,
+            'price' => $this->price,
+            'created_at' => $this->created_at->format('Y-m-d H:i:s'),
+        ];
+    }
     
 }
