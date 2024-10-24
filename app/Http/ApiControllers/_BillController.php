@@ -119,7 +119,7 @@ class _BillController extends BillController {
      */
     public function list(Request $request) {
 
-        $perPage = 5;
+        $perPage = 10;
         $page = ($request->has('page')) ? intval($request->page) : 1;
 
         $user = $request->user();
