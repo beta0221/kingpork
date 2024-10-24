@@ -44,3 +44,16 @@ Route::group([
     Route::post('add', '_KartController@store');
     Route::post('remove/{id}', '_KartController@destroy');
 });
+
+//訂單
+Route::group([
+    'prefix' => 'bill',
+], function() {
+
+    Route::group([
+        'middleware' => 'auth:api',
+    ], function() {
+        Route::post('checkout', '_BillController@checkout');
+        Route::get('list', '_BillController@list')->name('billList');
+    });
+});

@@ -24,7 +24,25 @@ class BillController extends Controller
 {
 
     /** 免運門檻 */
-    const SHIPPING_FEE_THRESHOLD = 799;
+    protected const SHIPPING_FEE_THRESHOLD = 799;
+
+    /**
+     * 驗證 結帳 Request
+     */
+    protected const CHECKOUT_RULES = [
+        'item.*'=>'required',
+        'quantity.*'=>'required|integer|min:0',
+        'ship_name'=>'required',
+        'ship_phone'=>'required',
+        'ship_address'=>'required_if:use_favorite_address,0',
+        'ship_email'=>'required|E-mail',
+        'ship_pay_by'=>'required',
+        'carrier_id'=>'required',
+        'store_number'=>'required_if:carrier_id,1',
+        'store_name'=>'required_if:carrier_id,1',
+        'store_address'=>'required_if:carrier_id,1',
+        'favorite_address'=>'required_if:use_favorite_address,1'
+    ];
 
     public function __construct()
     {
@@ -61,20 +79,7 @@ class BillController extends Controller
 
         Log::info("BillController store debug: 1");
 
-        $this->validate($request,[
-            'item.*'=>'required',
-            'quantity.*'=>'required|integer|min:0',
-            'ship_name'=>'required',
-            'ship_phone'=>'required',
-            'ship_address'=>'required_if:use_favorite_address,0',
-            'ship_email'=>'required|E-mail',
-            'ship_pay_by'=>'required',
-            'carrier_id'=>'required',
-            'store_number'=>'required_if:carrier_id,1',
-            'store_name'=>'required_if:carrier_id,1',
-            'store_address'=>'required_if:carrier_id,1',
-            'favorite_address'=>'required_if:use_favorite_address,1'
-        ]);
+        $this->validate($request, static::CHECKOUT_RULES);
 
         if($request->carrier_id == Bill::CARRIER_ID_FAMILY_MART && $request->ship_pay_by == 'cod'){
             return ('錯誤');
