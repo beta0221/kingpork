@@ -4,6 +4,7 @@ namespace App\Http\ApiControllers;
 
 use App\Bill;
 use App\BillItem;
+use App\Helpers\ECPay;
 use App\Http\Controllers\BillController;
 use App\Kart;
 use App\Products;
@@ -13,15 +14,17 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Validator;
 
-class _BillController extends BillController {
+class _BillController extends BillController
+{
 
     /**
      * 成立訂單
      */
-    public function checkout(Request $request) {
-        
+    public function checkout(Request $request)
+    {
+
         $validator = Validator::make($request->all(), static::CHECKOUT_RULES);
-        
+
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
@@ -29,8 +32,10 @@ class _BillController extends BillController {
         date_default_timezone_set('Asia/Taipei');
 
         $productDict = [];
-        $slugs = array_filter(array_map(function($item){
-            if (isset($item['slug'])) { return $item['slug']; }
+        $slugs = array_filter(array_map(function ($item) {
+            if (isset($item['slug'])) {
+                return $item['slug'];
+            }
             return null;
         }, $request->items));
         $slugs = array_values(array_unique($slugs));
@@ -49,56 +54,65 @@ class _BillController extends BillController {
         foreach ($request->items as $i => $item) {
             $slug = $item['slug'];
             $quantity = $item['quantity'];
-            if ($slug == "99999") { continue; }
+            if ($slug == "99999") {
+                continue;
+            }
 
             $product = clone $productDict[$slug];
-            $product->quantity = (int)$quantity;
+            $product->quantity = (int) $quantity;
             $products[] = $product;
 
-            $getBonus += ($product->bonus * (int)$quantity);
-            $total += ($product->price * (int)$quantity);
+            $getBonus += ($product->bonus * (int) $quantity);
+            $total += ($product->price * (int) $quantity);
         }
 
         Log::info("Total: $total");
         Log::info("GetBonus: $getBonus");
 
         // 未達到 免運門檻 => 加入運費
-        if ($total < static::SHIPPING_FEE_THRESHOLD) { 
+        if ($total < static::SHIPPING_FEE_THRESHOLD) {
             $shippingFee = Products::where('slug', "99999")->firstOrFail();
             $shippingFee->quantity = 1;
             $products[] = $shippingFee;
-            $total += (int)$shippingFee->price;
+            $total += (int) $shippingFee->price;
         }
 
         $user = $request->user();
-        if($user){
+        if ($user) {
             $user_id = $user->id;
             $user_name = $user->name;
 
             $bonus = $request->bonus;               // bonus{
-            if ($bonus > $user->bonus) { $bonus = $user->bonus; }
-            if (fmod($bonus,50) != 0) { $bonus = $bonus - fmod($bonus,50); }
-            if ($bonus / 50 > $total) { $bonus = $total * 50; }
-            if ($bonus < 0) { $bonus = 0; }
+            if ($bonus > $user->bonus) {
+                $bonus = $user->bonus;
+            }
+            if (fmod($bonus, 50) != 0) {
+                $bonus = $bonus - fmod($bonus, 50);
+            }
+            if ($bonus / 50 > $total) {
+                $bonus = $total * 50;
+            }
+            if ($bonus < 0) {
+                $bonus = 0;
+            }
             $useBonus = $bonus / 50;
             $total = $total - $useBonus;          // }bonus    
         }
-        
-        DB::transaction(function() use ($user_id, $user_name, $MerchantTradeNo, $useBonus, $total, $getBonus, $request, $products){
-            $bill = Bill::insert_row($user_id,$user_name,$MerchantTradeNo,$useBonus,$total,$getBonus,$request);
+
+        DB::transaction(function () use ($user_id, $user_name, $MerchantTradeNo, $useBonus, $total, $getBonus, $request, $products) {
+            $bill = Bill::insert_row($user_id, $user_name, $MerchantTradeNo, $useBonus, $total, $getBonus, $request);
             foreach ($products as $product) {
-                BillItem::insert_row($bill->id,$product);
+                BillItem::insert_row($bill->id, $product);
             }
         });
 
-        if($user){
-            Kart::where('user_id',$user->id)->delete(); //清除購物車
-            if($bonus != 0){
+        if ($user) {
+            Kart::where('user_id', $user->id)->delete(); //清除購物車
+            if ($bonus != 0) {
                 $user->updateBonus($bonus);  //扣除使用者紅利點數
             }
         }
-        
-        
+
         switch ($request->ship_pay_by) {
             case Bill::PAY_BY_CREDIT:
             case Bill::PAY_BY_ATM:
@@ -117,24 +131,25 @@ class _BillController extends BillController {
     /**
      * 我的訂單列表
      */
-    public function list(Request $request) {
+    public function list(Request $request)
+    {
 
         $perPage = 10;
         $page = ($request->has('page')) ? intval($request->page) : 1;
 
         $user = $request->user();
-        $query = Bill::where('user_id',$user->id)->orderBy('id','desc');
+        $query = Bill::where('user_id', $user->id)->orderBy('id', 'desc');
         $total = $query->count();
 
         $bills = $query->skip($perPage * ($page - 1))
             ->take($perPage)
             ->get();
-        
-        $billCollection = [];   
+
+        $billCollection = [];
         foreach ($bills as $bill) {
-            $billCollection[] = $bill->format();
+            $billCollection[] = $bill->formatAsList();
         }
-                    
+
         $paginator = new LengthAwarePaginator(
             $billCollection,
             $total,
@@ -143,6 +158,41 @@ class _BillController extends BillController {
         );
 
         return response($paginator);
+    }
 
+    /**
+     * 我的訂單 詳細資料
+     */
+    public function detail($bill_id)
+    { 
+        $bill = Bill::where('bill_id', $bill_id)->firstOrFail();
+        
+        $products = $bill->products();
+        $atmInfo = [];
+        $cardInfo = [];
+
+        if($data = $bill->getPaymentInfo()){
+            switch ($bill->pay_by) {
+                case 'ATM':
+                    if(isset($data['ATMInfo'])){
+                        $atmInfo = (object)$data[ECPay::PAYMENT_INFO_ATM];
+                    }
+                    break;
+                case 'CREDIT':
+                    if(isset($data['CardInfo'])){
+                        $cardInfo = (object)$data[ECPay::PAYMENT_INFO_CARD];
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        return response([
+            'bill' => $bill->formatAsDetail(),
+            'products' => $products,
+            'atmInfo' => $atmInfo,
+            'cardInfo' => $cardInfo
+        ]);
     }
 }

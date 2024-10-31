@@ -320,67 +320,159 @@ class Bill extends Model
         $this->updateShipment(Bill::SHIPMENT_VOID);
     }
 
-
-    // 自訂格式資料
-    public function format()
+    /**
+     * 前端格式資料 - 付款方式
+     */
+    public function format_pay_by()
     {
-
-        $pay_by = "-";
         switch ($this->pay_by) {
             case static::PAY_BY_ATM:
-                $pay_by = "ATM轉帳";
-                break;
+                return "ATM轉帳";
             case static::PAY_BY_COD:
-                $pay_by = static::PAY_BY_COD;
-                break;
+                return static::PAY_BY_COD;
             case static::PAY_BY_CREDIT:
-                $pay_by = "信用卡";
-                break;
+                return "信用卡";
             default:
-                break;
+                return "-";
         }
+    }
 
-        $status = "-";
-        $isStatusComplete = false;
-        if ($this->status == 1) {
-            $status = "已付款";
-            $isStatusComplete = true;
-        } else if ($this->pay_by == static::PAY_BY_COD) {
-            $status = "-";
-        } else {
-            $status = "未付款";
-        }
-
-        $shipment = "-";
-        $isShipmentComplete = false;
+    /**
+     * 前端格式資料 - 出貨狀態
+     */
+    public function format_shipment()
+    {
         switch ($this->shipment) {
             case 1:
-                $shipment = "準備中";
-                break;
+                return "準備中";
             case 2:
-                $shipment = "已出貨";
-                $isShipmentComplete = true;
-                break;
+                return "已出貨";
             case 3:
-                $shipment = "已取消";
-                break;
+                return "已取消";
             default:
-                break;
+                return "-";
         }
+    }
 
-        $cancelable = ($this->status != 1 && $this->shipment == 0);
+    /**
+     * 前端格式資料 - 付款狀態
+     */
+    public function format_status()
+    {
+        if ($this->status == 1) {
+            return "已付款";
+        } else if ($this->pay_by == static::PAY_BY_COD) {
+            return "-";
+        } else {
+            return "未付款";
+        }
+    }
 
+    /**
+     * 前端格式資料 - 訂單狀態
+     */
+    public function format_overAllStatus()
+    {
+        if(($this->pay_by == static::PAY_BY_COD && $this->shipment == 0) || ($this->status == 1 AND $this->shipment == 0))
+        {
+            return "可準備";
+        }
+        elseif($this->status == 1 AND $this->shipment == 1)
+        {
+            return "準備中";
+        }
+        elseif($this->shipment==2)
+        {
+            return "已出貨";
+        }
+        elseif($this->shipment==3)
+        {
+            return "＊結案＊";
+        }
+        else {
+            return "未成立";
+        }
+    }
+
+    /**
+     * 前端格式資料 - 是否可取消
+     */
+    public function format_ship_receipt()
+    {
+        switch ($this->ship_receipt) {
+            case 3:
+            case "3":
+                return "三聯";
+            default:
+                return "二聯";
+        }
+    }
+
+    /**
+     * 前端格式資料 - 是否付款
+     */
+    public function format_isStatusComplete()
+    {
+        return $this->status == 1;
+    }
+
+    /**
+     * 前端格式資料 - 是否出貨
+     */
+    public function format_isShipmentComplete()
+    {
+        return $this->shipment == 2;
+    }
+
+    /**
+     * 前端格式資料 - 是否可取消
+     */
+    public function format_isCancelable()
+    {
+        return ($this->status != 1 && $this->shipment == 0);
+    }
+
+
+    /**
+     * 前端格式資料 - 訂單列表
+     */ 
+    public function formatAsList()
+    {
         return [
             'bill_id' => $this->bill_id,
             'bonus_use' => $this->bonus_use,
             'price' => $this->price,
-            'pay_by' => $pay_by,
-            'status' => $status,
-            'isStatusComplete' => $isStatusComplete,
-            'shipment' => $shipment,
-            'isShipmentComplete' => $isShipmentComplete,
-            'cancelable' => $cancelable,
+            'pay_by' => $this->format_pay_by(),
+            'status' => $this->format_status(),
+            'isStatusComplete' => $this->format_isStatusComplete(),
+            'shipment' => $this->format_shipment(),
+            'isShipmentComplete' => $this->format_isShipmentComplete(),
+            'isCancelable' => $this->format_isCancelable(),
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
         ];
+    }
+
+    /**
+     * 前端格式資料 - 訂單詳細資料
+     */ 
+    public function formatAsDetail()
+    {
+        return array_merge(
+            $this->formatAsList(),
+            [
+                'overAllStatus' => $this->format_overAllStatus(),
+                'ship_time' => $this->ship_time,
+                'ship_arriveDate' => $this->ship_arriveDate,
+                'format_ship_receipt' => $this->format_ship_receipt(),
+                'ship_receipt' => $this->ship_receipt,
+                'ship_memo' => $this->ship_memo,
+                'ship_three_id' => $this->ship_three_id,
+                'ship_three_company' => $this->ship_three_company,
+                'ship_name' => $this->ship_name,
+                'ship_phone' => $this->ship_phone,
+                'ship_email' => $this->ship_email,
+                'address' => $this->ship_county . $this->ship_district . $this->ship_address
+            ]
+        );
     }
 }
