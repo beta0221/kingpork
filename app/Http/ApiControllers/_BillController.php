@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use stdClass;
 use Validator;
 
 class _BillController extends BillController
@@ -168,8 +169,8 @@ class _BillController extends BillController
         $bill = Bill::where('bill_id', $bill_id)->firstOrFail();
         
         $products = $bill->products();
-        $atmInfo = [];
-        $cardInfo = [];
+        $atmInfo = new stdClass;
+        $cardInfo = new stdClass;
 
         if($data = $bill->getPaymentInfo()){
             switch ($bill->pay_by) {
