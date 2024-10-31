@@ -55,5 +55,6 @@ Route::group([
     ], function() {
         Route::post('checkout', '_BillController@checkout');
         Route::get('list', '_BillController@list')->name('billList');
+        Route::get('/detail/{bill_id}', '_BillController@detail');
     });
 });
