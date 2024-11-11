@@ -47,6 +47,8 @@ class ECPay{
 
     //CardInfo
 
+    /** 3D驗證URL */
+    public $ThreeDURL;
     /** 3D驗證回傳付款結果URL（POST） */
     private $OrderResultURL;
 
@@ -239,6 +241,15 @@ class ECPay{
         return $curl;
     }
 
+    /**
+     * 客製化 信用卡3D驗證 導回網址 (NextJS)
+     * @param string $url
+     */
+    public function setOrderResultURL(string $url)
+    {
+        $this->OrderResultURL = $url;
+    }
+
     /** 
      * 取得付款token
      * @return string 
@@ -302,7 +313,8 @@ class ECPay{
 
         //如果有3D驗證url
         if(!is_null($Data['ThreeDInfo']['ThreeDURL'])){
-            return $Data['ThreeDInfo']['ThreeDURL'];
+            $this->ThreeDURL = $Data['ThreeDInfo']['ThreeDURL'];
+            return $this->ThreeDURL;
         }        
 
         if(!isset($Data['OrderInfo']['PaymentType'])){ return null; }
