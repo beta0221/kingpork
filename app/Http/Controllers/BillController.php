@@ -71,10 +71,6 @@ class BillController extends Controller
         //
     }
 
-    public function pay(){
-
-    }
-
     public function store(Request $request){
 
         Log::info("BillController store debug: 1");

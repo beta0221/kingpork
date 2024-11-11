@@ -56,5 +56,7 @@ Route::group([
         Route::post('checkout', '_BillController@checkout');
         Route::get('list', '_BillController@list')->name('billList');
         Route::get('/detail/{bill_id}', '_BillController@detail');
+        Route::get('/token/{bill_id}', '_BillController@token');
+        Route::post('/pay/{bill_id}', '_BillController@pay');
     });
 });

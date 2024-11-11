@@ -114,19 +114,7 @@ class _BillController extends BillController
             }
         }
 
-        switch ($request->ship_pay_by) {
-            case Bill::PAY_BY_CREDIT:
-            case Bill::PAY_BY_ATM:
-                break;
-            case Bill::PAY_BY_COD:
-            case Bill::PAY_BY_FAMILY:
-                // route('billThankyou',['bill_id'=>$MerchantTradeNo])
-                break;
-            default:
-                break;
-        }
-
-        return response(['msg' => 'success']);
+        return response(['bill_id' => $MerchantTradeNo]);
     }
 
     /**
@@ -165,23 +153,23 @@ class _BillController extends BillController
      * 我的訂單 詳細資料
      */
     public function detail($bill_id)
-    { 
+    {
         $bill = Bill::where('bill_id', $bill_id)->firstOrFail();
-        
+
         $products = $bill->products();
         $atmInfo = new stdClass;
         $cardInfo = new stdClass;
 
-        if($data = $bill->getPaymentInfo()){
+        if ($data = $bill->getPaymentInfo()) {
             switch ($bill->pay_by) {
                 case 'ATM':
-                    if(isset($data['ATMInfo'])){
-                        $atmInfo = (object)$data[ECPay::PAYMENT_INFO_ATM];
+                    if (isset($data['ATMInfo'])) {
+                        $atmInfo = (object) $data[ECPay::PAYMENT_INFO_ATM];
                     }
                     break;
                 case 'CREDIT':
-                    if(isset($data['CardInfo'])){
-                        $cardInfo = (object)$data[ECPay::PAYMENT_INFO_CARD];
+                    if (isset($data['CardInfo'])) {
+                        $cardInfo = (object) $data[ECPay::PAYMENT_INFO_CARD];
                     }
                     break;
                 default:
@@ -194,6 +182,44 @@ class _BillController extends BillController
             'products' => $products,
             'atmInfo' => $atmInfo,
             'cardInfo' => $cardInfo
+        ]);
+    }
+
+    /**
+     * 取得 ECpay token
+     */
+    public function token($bill_id)
+    {
+        $bill = Bill::where('bill_id', $bill_id)->firstOrFail();
+        $ecpay = new ECPay($bill);
+        $ecpay->setOrderResultURL(app('url')->to("/bills/$bill_id"));   //訂單內頁
+
+        if (!$token = $ecpay->getToken()) {
+            return response(['error' => '系統錯誤']);
+        }
+
+        return response(['token' => $token]);
+    }
+
+    /**
+     * 進行付款
+     */
+    public function pay(Request $request, $bill_id)
+    {
+        if (!$request->has('payToken')) {
+            return response(['error' => '系統錯誤'], 403);
+        }
+        $bill = Bill::where('bill_id', $bill_id)->firstOrFail();
+        $ecpay = new ECPay($bill);
+        if (!$resultUrl = $ecpay->createPayment($request->payToken)) {
+            return response(['error' => '系統錯誤'], 403);
+        }
+
+        $url = !is_null($ecpay->ThreeDURL) ? $ecpay->ThreeDURL : "/bills/$bill_id";
+
+        return response([
+            'success' => true,
+            'url' => $url
         ]);
     }
 }
