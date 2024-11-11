@@ -272,7 +272,7 @@ class ECPay{
         if(!isset($res['Data'])){ return null; }
         $Data = $this->string2DecryptedArray($res['Data']);
         if(!isset($Data['RtnCode']) || !isset($Data['Token'])){ return null; }
-        echo $Data['RtnMsg'];
+        // echo $Data['RtnMsg'];
         if($Data['RtnCode'] != 1){ return null; }
         return $Data['Token'];
         
