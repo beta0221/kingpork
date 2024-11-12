@@ -192,7 +192,7 @@ class _BillController extends BillController
     {
         $bill = Bill::where('bill_id', $bill_id)->firstOrFail();
         $ecpay = new ECPay($bill);
-        $ecpay->setOrderResultURL(app('url')->to("/bills/$bill_id"));   //訂單內頁
+        $ecpay->setOrderResultURL(app('url')->to("/bills/complete/$bill_id"));   //訂單內頁
 
         if (!$token = $ecpay->getToken()) {
             return response(['error' => '系統錯誤']);
@@ -215,7 +215,7 @@ class _BillController extends BillController
             return response(['error' => '系統錯誤'], 403);
         }
 
-        $url = !is_null($ecpay->ThreeDURL) ? $ecpay->ThreeDURL : "/bills/$bill_id";
+        $url = !is_null($ecpay->ThreeDURL) ? $ecpay->ThreeDURL : "/bills/complete/$bill_id";
 
         return response([
             'success' => true,
