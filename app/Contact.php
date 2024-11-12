@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Contact extends Model
 {
+
+    protected $fillable = ['name', 'email', 'title', 'message'];
+
     public function toggleStatus(){
 
         if($this->status == 1){

@@ -28,6 +28,9 @@ Route::group([
     Route::get('banners', 'IndexController@banners');
 });
 
+//聯絡我們
+Route::post('contact', 'IndexController@contact');
+
 //購物頁面
 Route::group([
     'prefix' => 'shop',
