@@ -2,27 +2,33 @@
 
 namespace App\Http\ApiControllers;
 
-namespace App\Http\ApiControllers;
 use App\Http\Controllers\Controller;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Validator;
 
-class NextAuthController extends Controller {
+class NextAuthController extends Controller
+{
 
     /**
      * 註冊
      */
-    public function signup(Request $request) {
+    public function signup(Request $request)
+    {
 
         //validate the form data
-    	$this->validate($request,[
-    		'name' => 'required|string|max:255',
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
             'phone' => 'required|max:255|string',
-    	]);
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
 
         $user = User::create([
             'name' => $request->name,
@@ -34,6 +40,7 @@ class NextAuthController extends Controller {
         $user->save();
 
         return response([
+            'success' => true,
             'message' => 'Successfully created user!'
         ], 201);
     }
@@ -41,23 +48,27 @@ class NextAuthController extends Controller {
     /**
      * 登入 
      */
-    public function login(Request $request) {
-    	
+    public function login(Request $request)
+    {
+
         //validate the form data
-    	$this->validate($request,[
-    		'email' => 'required|email',
-    		'password' => 'required|min:4'
-    	]);
-    
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required|min:4'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
 
         $credentials = request(['email', 'password']);
 
-        if(!Auth::attempt($credentials)) {
+        if (!Auth::attempt($credentials)) {
             return response([
                 'message' => 'Unauthorized'
             ], 401);
         }
-            
+
         $user = $request->user();
         $tokenResult = $user->createToken('Personal Access Token');
         $token = $tokenResult->token;
@@ -71,7 +82,6 @@ class NextAuthController extends Controller {
                 $tokenResult->token->expires_at
             )->toDateTimeString()
         ]);
-    		
     }
 
     /**
@@ -93,6 +103,4 @@ class NextAuthController extends Controller {
 
         return response($user);
     }
-
-
 }
