@@ -1,3 +1,4 @@
+version: '3.8'
 services:
   app:
     build:
@@ -31,14 +32,15 @@ services:
     networks:
       - kingpork-network
   nginx:
-    image: nginx:alpine
+    image: nginx:latest
     container_name: kingpork-nginx-container
     restart: unless-stopped
     ports:
-      - 8000:80
+      - "80:80"
+      - "443:443"
     volumes:
-      - ./:/var/www
-      - ./docker-compose/nginx:/etc/nginx/conf.d/
+      - ~/etc/nginx/conf:/etc/nginx/conf.d:ro
+      - ~/var/log/nginx:/var/log/nginx
     networks:
       - kingpork-network
 networks:
