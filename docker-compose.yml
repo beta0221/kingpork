@@ -24,7 +24,7 @@ services:
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql
     volumes:
-      - ./docker-compose/mysql:/docker-entrypoint-initdb.d
+      - ./docker-compose/mysql:/var/lib/mysql
     networks:
       kingpork-network:
         ipv4_address: 10.5.0.5
