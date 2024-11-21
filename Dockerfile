@@ -1,7 +1,7 @@
 FROM php:7.3-fpm
 
 # Set working directory
-WORKDIR /var/www
+WORKDIR /var/www/kingpork
 
 RUN apt update && apt install -y \
     git \
@@ -20,10 +20,10 @@ RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Copy the existing application directory contents to the working directory
-COPY . /var/www
+COPY . /var/www/kingpork
 
 # Copy the existing application directory permissions to the working directory
-COPY --chown=www-data:www-data . /var/www
+COPY --chown=www-data:www-data . /var/www/kingpork
 
 # Change current user to www
 USER www-data
