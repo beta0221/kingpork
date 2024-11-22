@@ -1,17 +1,31 @@
 version: '3'
 services:
-  app:
+  next:
     build:
-      context: ./
+      context: ./kp-next/
       dockerfile: Dockerfile
-    image: kingpork-image
-    container_name: kingpork-container
+    image: kingpork-next-image
+    container_name: kingpork-next-container
     restart: unless-stopped
-    working_dir: /var/www/
-    volumes:
-      - ./:/var/www
+    working_dir: /var/www/kp-next
+    #volumes:
+    # - ./kp-next/:/var/www/kp-next
     networks:
-      - kingpork-network
+      kingpork-network:
+        ipv4_address: 10.5.0.7
+  laravel:
+    build:
+      context: ./kingpork/
+      dockerfile: Dockerfile
+    image: kingpork-laravel-image
+    container_name: kingpork-laravel-container
+    restart: unless-stopped
+    working_dir: /var/www/kingpork
+    volumes:
+      - ./kingpork/:/var/www/kingpork
+    networks:
+      kingpork-network:
+        ipv4_address: 10.5.0.6
   db:
     image: mysql:5.7
     container_name: kingpork-db-container
@@ -37,11 +51,15 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    links:
+      - laravel
     volumes:
-      - ./:/var/www
+      - ./kingpork/:/var/www/kingpork
+      - ./kp-next/:/var/www/kp-next
       - ./docker-compose/nginx:/etc/nginx/conf.d/
       - /etc/letsencrypt/ssl/fullchain.pem:/etc/nginx/ssl/fullchain.pem
       - /etc/letsencrypt/ssl/privkey.pem:/etc/nginx/ssl/privkey.pem
+      - ./html:/var/www/html
     networks:
       - kingpork-network
 networks:
