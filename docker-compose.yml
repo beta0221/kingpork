@@ -8,8 +8,6 @@ services:
     container_name: kingpork-next-container
     restart: unless-stopped
     working_dir: /var/www/kp-next
-    #volumes:
-    # - ./kp-next/:/var/www/kp-next
     networks:
       kingpork-network:
         ipv4_address: 10.5.0.7
@@ -55,13 +53,16 @@ services:
       - laravel
     volumes:
       - ./kingpork/:/var/www/kingpork
-      - ./kp-next/:/var/www/kp-next
-      - ./docker-compose/nginx:/etc/nginx/conf.d/
-      - /etc/letsencrypt/ssl/fullchain.pem:/etc/nginx/ssl/fullchain.pem
-      - /etc/letsencrypt/ssl/privkey.pem:/etc/nginx/ssl/privkey.pem
-      - ./html:/var/www/html
+      - ./docker-compose/nginx:/etc/nginx/conf.d/:ro
+      - ./certbot/www:/var/www/certbot/:ro
+      - ./certbot/conf/:/etc/nginx/ssl/:ro
     networks:
       - kingpork-network
+  certbot:
+    image: certbot/certbot:latest
+    volumes:
+      - ./certbot/www:/var/www/certbot/:rw
+      - ./certbot/conf/:/etc/letsencrypt/:rw
 networks:
   kingpork-network:
     driver: bridge
