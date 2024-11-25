@@ -382,9 +382,9 @@ $(document).ready(function(){
 	                $('#ship_phone').val(response.ship_phone);
 
 					if(response.carrier_id == 0){
-						$('#ship_county').val(response.ship_county);
-						updateDistrict(response.ship_county);
-						setDistrict(response.ship_county, response.ship_district);
+						// $('#ship_county').val(response.ship_county);
+						// updateDistrict(response.ship_county);
+						// setDistrict(response.ship_county, response.ship_district);
 						$('#ship_address').val(response.ship_address);
 					}
 
