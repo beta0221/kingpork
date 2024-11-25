@@ -173,17 +173,17 @@ $(document).ready(function(){
 			$('#total-price-span').empty().append(sumBeforeDiscount + '-' + bonusCount + '=' + afterDis);
 		});
 
-		$('#shipping-carrier').on('change',function(){
-			let carrier_id = $(this).val();
-			$('.pay_by .radio').prop('checked', false);
-			if(carrier_id == 1){
-				$('.family-column').show();
-				$('.blackcat-column').hide();
-			}else{
-				$('.family-column').hide();
-				$('.blackcat-column').show();
-			}
-		});
+		// $('#shipping-carrier').on('change',function(){
+		// 	let carrier_id = $(this).val();
+		// 	$('.pay_by .radio').prop('checked', false);
+		// 	if(carrier_id == 1){
+		// 		$('.family-column').show();
+		// 		$('.blackcat-column').hide();
+		// 	}else{
+		// 		$('.family-column').hide();
+		// 		$('.blackcat-column').show();
+		// 	}
+		// });
 
 	});
 
@@ -233,32 +233,33 @@ $(document).ready(function(){
 			errorMessage('#ship_phone','＊號處不可空白');
 		}
 
-		if($('#shipping-carrier').val() == '1'){	//全家
-			if(ship_phone.substring(0,2) != '09'){
-				errorMessage('#ship_phone','請使用手機號碼以便接收到店簡訊通知');
-			}
-			else if(format.test(ship_phone)){
-				errorMessage('#ship_phone','格式錯誤，請勿輸入特殊符號');
-			}
-			else if(ship_phone.length != 10){
-				errorMessage('#ship_phone','格式錯誤');
-			}
+		// if($('#shipping-carrier').val() == '1'){	//全家
+		// 	if(ship_phone.substring(0,2) != '09'){
+		// 		errorMessage('#ship_phone','請使用手機號碼以便接收到店簡訊通知');
+		// 	}
+		// 	else if(format.test(ship_phone)){
+		// 		errorMessage('#ship_phone','格式錯誤，請勿輸入特殊符號');
+		// 	}
+		// 	else if(ship_phone.length != 10){
+		// 		errorMessage('#ship_phone','格式錯誤');
+		// 	}
+		// }
+
+		// if($('#shipping-carrier').val() == 0){
+		if ($('#ship_county').val() == '') {
+			errorMessage('#ship_county','＊號處不可空白');
 		}
 
-		if($('#shipping-carrier').val() == 0){
-			if ($('#ship_county').val() == '') {
-				errorMessage('#ship_county','＊號處不可空白');
-			}
-			if ($('#ship_address').val() == '') {
-				errorMessage('#ship_address','＊號處不可空白');
-			}
-		}else if($('#shipping-carrier').val() == 1){
-			$('.shipping-store').each(function(i,element){
-				if($(element).val() == ''){
-					errorMessage('.shipping-store','＊號處不可空白');
-				}
-			});
+		if ($('#ship_address').val() == '') {
+			errorMessage('#ship_address','＊號處不可空白');
 		}
+		// }else if($('#shipping-carrier').val() == 1){
+		// 	$('.shipping-store').each(function(i,element){
+		// 		if($(element).val() == ''){
+		// 			errorMessage('.shipping-store','＊號處不可空白');
+		// 		}
+		// 	});
+		// }
 
 		if ($('#ship_ship_receipt').val() == '3') {
 			var ship_three_id = $('#ship_three_id').val();
