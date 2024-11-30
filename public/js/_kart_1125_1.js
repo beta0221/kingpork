@@ -67,6 +67,13 @@ $(document).ready(function(){
   			}
 		});
 		
+		if (hasFavoriteAddress) {
+			onClick_favoriteAddress()
+		} else {
+			onClick_newAddress()
+			hideFavoriteAddressButton()
+		}
+
 		uploadSum();
 		
 		//判斷今天日期 
@@ -212,6 +219,7 @@ $(document).ready(function(){
 		alertMsg = msg;
 		unFinished = 1;
 	}
+
 	function checkForm(){
 		unFinished = 0;
 		alertMsg = '';
@@ -354,6 +362,7 @@ $(document).ready(function(){
 		}
 
 	}
+
 	function sureToBuy(){
 		$('.kartTable').css('display','none');
 		$('.shipping').css('display','table');
@@ -382,12 +391,12 @@ $(document).ready(function(){
 	                $('#ship_email').val(response.ship_email);
 	                $('#ship_phone').val(response.ship_phone);
 
-					if(response.carrier_id == 0){
+					// if(response.carrier_id == 0){
 						// $('#ship_county').val(response.ship_county);
 						// updateDistrict(response.ship_county);
 						// setDistrict(response.ship_county, response.ship_district);
-						$('#ship_address').val(response.ship_address);
-					}
+						// $('#ship_address').val(response.ship_address);
+					// }
 
 	                if(response.ship_receipt == '3'){
 	                	$('.two-three').val(response.ship_receipt);
@@ -417,4 +426,34 @@ $(document).ready(function(){
 
 		$('.sure-to-buy-div').css('display','block');
 		$('.check-out-form-div').css('display','none');
+	}
+
+	function hideFavoriteAddressButton() {
+		$('#favorite_address_button').hide();
+	}
+
+	function onClick_newAddress() {
+		$('#favorite_address').hide();
+		$('#new_address_button').hide();
+		$('#favorite_address_button').show();
+
+		$('#ship_county').show();
+		$('#ship_district').show();
+		$('#ship_address_column').show();
+		$('#add_favorite_address').show();
+
+		$('#use_favorite_address').prop('checked', false);
+	}
+
+	function onClick_favoriteAddress() {
+		$('#favorite_address').show();
+		$('#new_address_button').show();
+		hideFavoriteAddressButton();
+
+		$('#ship_county').hide();
+		$('#ship_district').hide();
+		$('#ship_address_column').hide();
+		$('#add_favorite_address').hide();
+
+		$('#use_favorite_address').prop('checked', true);
 	}

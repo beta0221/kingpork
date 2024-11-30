@@ -297,6 +297,13 @@
 						<tr class="blackcat-column">
 							<td>
 								<label for=""><span class="required">*</span>地址：</label>
+
+								<select id="favorite_address" name="favorite_address" class="form-control shipping-ship_address">
+									@foreach ($addresses as $address)
+										<option value="{{$address->id}}">{{$address->county}} {{$address->district}} {{$address->address}}</option>	
+									@endforeach
+								</select>
+
 								<select id="ship_county" name="ship_county" class="shipping-ship_county form-control ship_county">
 									<option value="">縣市</option>
 									<option value="基隆市">基隆市</option>
@@ -320,7 +327,7 @@
 									<option value="宜蘭縣">宜蘭縣</option>
 								</select>
 							
-								<select name="ship_district" class="shipping-ship_district form-control ship_district">
+								<select id="ship_district" name="ship_district" class="shipping-ship_district form-control ship_district">
 									<option value="">地區</option>
 									
 									
@@ -328,13 +335,30 @@
 							</td>
 						</tr>
 
-						<tr class="blackcat-column">
+						<tr id="ship_address_column" class="blackcat-column">
 							<td>
 								<label for=""></label>
 								<input id="ship_address" name="ship_address" type="text" class="shipping-ship_address form-control" placeholder="地址">
 							</td>
 						</tr>
-						
+
+						<tr>
+							<td>
+								<label for=""></label>
+								<div id="new_address_button" class="btn btn-warning" style="cursor: pointer" onclick="onClick_newAddress()">
+									其他地址
+								</div>
+								<div id="favorite_address_button" class="btn btn-primary" style="cursor: pointer" onclick="onClick_favoriteAddress()">
+									常用地址 <img style="width: 16px" src="/images/step-1-2.png">
+								</div>
+								<div id="add_favorite_address" style="display: inline-block">
+									<span style="vertical-align: middle" style="display: inline-block">設為常用地址</span>
+									<input name="add_favorite" type="checkbox" class="form-control" style="width: 24px; height:24px; vertical-align: middle">
+								</div>
+								<input id="use_favorite_address" class="d-none" type="checkbox" name="use_favorite_address">
+							</td>
+						</tr>
+
 						<tr style="display: none">
 							<td>
 								<label for="">　希望到貨日:</label>
@@ -489,6 +513,9 @@
 {{-- {{ Html::script('js/_family.js') }} --}}
 
 <script>
+
+	// 是否有常用地址
+	const hasFavoriteAddress = {{count($addresses) > 0 ? 'true' : 'false'}};
 
 	// 加購條件
 	const relation = {!!json_encode($relation)!!};

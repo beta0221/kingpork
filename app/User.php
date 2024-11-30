@@ -19,7 +19,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','phone',
+        'name', 'email', 'password', 'phone',
     ];
 
     /**
@@ -34,22 +34,29 @@ class User extends Authenticatable
 
     public function kart()
     {
-        return $this->hasMany('App\Kart','user_id');
+        return $this->hasMany('App\Kart', 'user_id');
     }
 
     public function groups()
     {
-        return $this->hasMany('App\Group','dealer_id','id');
+        return $this->hasMany('App\Group', 'dealer_id', 'id');
+    }
+
+    public function addresses()
+    {
+        return $this->hasMany('App\FavoriteAddress', 'user_id');
     }
 
     /**使用者購物車中的商品id */
-    public function kartProductsId(){
+    public function kartProductsId()
+    {
         $product_id_array = Kart::where('user_id', $this->id)->pluck('product_id');
         return $product_id_array;
     }
 
     /**使用者購物車中的商品 */
-    public function kartProducts(){
+    public function kartProducts()
+    {
         $product_id_array = $this->kartProductsId();
         $products = Products::whereIn('id', $product_id_array)->get();
         return $products;
@@ -60,18 +67,13 @@ class User extends Authenticatable
      * @param int $amount
      * @param bool $decrease true減少 false增加
      * */
-    public function updateBonus($amount,$decrease = true){
-        if($decrease){
+    public function updateBonus($amount, $decrease = true)
+    {
+        if ($decrease) {
             $this->bonus -= $amount;
-        }else{
+        } else {
             $this->bonus += $amount;
         }
         $this->save();
     }
-
 }
-
-
-
-
-    

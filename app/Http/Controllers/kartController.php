@@ -143,7 +143,8 @@ class kartController extends Controller
         return view('kart.index',[
             'products' => $products,
             'bindedProducts' => $bindedProducts,
-            'relation' => Products::getAllBindedProducts('relation')
+            'relation' => Products::getAllBindedProducts('relation'),
+            'addresses' => $user->addresses()->orderBy('isDefault', 'desc')->get()
         ]);
 
     }
