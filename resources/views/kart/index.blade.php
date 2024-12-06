@@ -509,7 +509,7 @@
 @endsection
 
 @section('scripts')
-{{ Html::script('js/_kart_1125_1.js') }}
+{{ Html::script('js/_kart_1206_1.js') }}
 {{-- {{ Html::script('js/_family.js') }} --}}
 
 <script>
