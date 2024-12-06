@@ -66,7 +66,7 @@ class BillController extends Controller
             'quantity.*'=>'required|integer|min:0',
             'ship_name'=>'required',
             'ship_phone'=>'required',
-            'ship_address'=>'required_if:carrier_id,0',
+            'ship_address'=>'required_if:use_favorite_address,0',
             'ship_email'=>'required|E-mail',
             'ship_pay_by'=>'required',
             'carrier_id'=>'required',

@@ -254,12 +254,16 @@ $(document).ready(function(){
 		// }
 
 		// if($('#shipping-carrier').val() == 0){
-		if ($('#ship_county').val() == '') {
-			errorMessage('#ship_county','＊號處不可空白');
-		}
+		if ($('#use_favorite_address').prop('checked') == false) {
 
-		if ($('#ship_address').val() == '') {
-			errorMessage('#ship_address','＊號處不可空白');
+			if ($('#ship_county').val() == '') {
+				errorMessage('#ship_county','＊號處不可空白');
+			}
+	
+			if ($('#ship_address').val() == '') {
+				errorMessage('#ship_address','＊號處不可空白');
+			}
+			
 		}
 		// }else if($('#shipping-carrier').val() == 1){
 		// 	$('.shipping-store').each(function(i,element){
