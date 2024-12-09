@@ -15,6 +15,7 @@ Route::group([
     ], function() {
         Route::get('user', 'NextAuthController@user');
         Route::post('logout', 'NextAuthController@logout');
+        Route::get('addresses', 'NextAuthController@addresses');
     });
     
 });

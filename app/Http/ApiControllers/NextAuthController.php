@@ -103,4 +103,23 @@ class NextAuthController extends Controller
 
         return response($user);
     }
+
+    /**
+     * 使用者 常用地址
+     */
+    public function addresses(Request $request)
+    {
+        $addresses = $request->user()
+            ->addresses()
+            ->orderBy('isDefault', 'desc')
+            ->get();
+
+        $addressCollection = [];
+        foreach ($addresses as $address) {
+            $addressCollection[] = $address->format();
+        }
+        
+        return response($addressCollection);
+    }
+
 }

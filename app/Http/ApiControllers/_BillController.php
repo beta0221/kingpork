@@ -100,6 +100,16 @@ class _BillController extends BillController
             $total = $total - $useBonus;          // }bonus    
         }
 
+        // 使用常用地址
+        if ($request->has('use_favorite_address')) {
+            $address = $user->addresses()->findOrFail($request->favorite_address);
+            $request->merge([
+                'ship_county' => $address->county,
+                'ship_district' => $address->district,
+                'ship_address' => $address->address
+            ]);
+        }
+
         DB::transaction(function () use ($user_id, $user_name, $MerchantTradeNo, $useBonus, $total, $getBonus, $request, $products) {
             $bill = Bill::insert_row($user_id, $user_name, $MerchantTradeNo, $useBonus, $total, $getBonus, $request);
             foreach ($products as $product) {
@@ -111,6 +121,20 @@ class _BillController extends BillController
             Kart::where('user_id', $user->id)->delete(); //清除購物車
             if ($bonus != 0) {
                 $user->updateBonus($bonus);  //扣除使用者紅利點數
+            }
+
+            // 使用其他地址 && 設為常用地址
+            if (!$request->has('use_favorite_address') && $request->has('add_favorite')) {
+                $user->addresses()
+                    ->where('isDefault', 1)
+                    ->update(['isDefault' => 0]);
+                $user->addresses()
+                    ->create([
+                        'county' => $request->ship_county,
+                        'district' => $request->ship_district,
+                        'address' => $request->ship_address,
+                        'isDefault' => 1
+                    ]);
             }
         }
 
