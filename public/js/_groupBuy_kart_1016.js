@@ -12,7 +12,6 @@ $(document).ready(function(){
 	//  modal hide override
 	$('#orderModal').on('hidden.bs.modal', function () {
 	    $('.alert-field').empty();
-		$('#itemSlug').attr('value',null);
 		$('#sum').empty();
 	});
 
