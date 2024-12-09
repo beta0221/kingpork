@@ -163,7 +163,7 @@
 									<option value="宜蘭縣">宜蘭縣</option>
 								</select>
 							
-								<select name="ship_district" class="shipping-ship_district form-control ship_district">
+								<select id="ship_district" name="ship_district" class="shipping-ship_district form-control ship_district">
 									<option value="">地區</option>
 									
 									
@@ -280,6 +280,11 @@
 @endsection
 
 @section('scripts')
+<script>
+	const hasFavoriteAddress = false;
+	const relation = {};
+</script>
+
 {{ Html::script('js/bootstrap/bootstrap.min.js') }}
 {{ Html::script('js/_kart_1206_1.js') }}
 {{ Html::script('js/_groupBuy_kart_1016.js') }}
