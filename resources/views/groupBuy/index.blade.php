@@ -314,5 +314,5 @@
 
 {{ Html::script('js/bootstrap/bootstrap.min.js') }}
 {{ Html::script('js/_kart_1206_1.js') }}
-{{ Html::script('js/_groupBuy_kart_1016.js') }}
+{{ Html::script('js/_groupBuy_kart_1209_1.js') }}
 @endsection
