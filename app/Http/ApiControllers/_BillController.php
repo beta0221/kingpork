@@ -101,7 +101,7 @@ class _BillController extends BillController
         }
 
         // 使用常用地址
-        if ($request->has('use_favorite_address')) {
+        if ($request->use_favorite_address) {
             $address = $user->addresses()->findOrFail($request->favorite_address);
             $request->merge([
                 'ship_county' => $address->county,
@@ -124,7 +124,7 @@ class _BillController extends BillController
             }
 
             // 使用其他地址 && 設為常用地址
-            if (!$request->has('use_favorite_address') && $request->has('add_favorite')) {
+            if (!$request->use_favorite_address && $request->add_favorite) {
                 $user->addresses()
                     ->where('isDefault', 1)
                     ->update(['isDefault' => 0]);
