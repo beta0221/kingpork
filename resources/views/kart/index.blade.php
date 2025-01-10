@@ -383,12 +383,25 @@
 							</td>
 						</tr>
 
-						<tr style="display: none">
+						<tr>
 							<td>
-								<label for="">　時間：</label>
-								<input name="ship_time" class="radio" type="radio" name="time" value="no" checked><span>不指定</span>
+								<label class="align-top" for="">　出貨時間：</label>
+								{{-- <input name="ship_time" class="radio" type="radio" name="time" value="no" checked><span>不指定</span>
 								<input id="1300" name="ship_time" class="radio" type="radio" name="time" value="13:00"><span>13:00前</span>
-								<input id="1400-1800" name="ship_time" class="radio" type="radio" name="time" value="14:00-18:00"><span>14:00-18:00</span>
+								<input id="1400-1800" name="ship_time" class="radio" type="radio" name="time" value="14:00-18:00"><span>14:00-18:00</span> --}}
+
+								<div class="d-inline-block">
+									<div>
+										<input class="radio" type="radio" name="ship_time" value="隨時可出貨" checked><span>隨時可出貨</span>
+									</div>
+									<div>
+										<input class="radio" type="radio" name="ship_time" value="漲價前預購，2月中以後隨時出貨"><span>漲價前預購，2月中以後隨時出貨</span>
+									</div>
+									<div>
+										<input class="radio" type="radio" name="ship_time" value="漲價前預購，等待電話通知出貨"><span>漲價前預購，等待電話通知出貨</span>
+									</div>
+								</div>
+
 							</td>
 						</tr>
 

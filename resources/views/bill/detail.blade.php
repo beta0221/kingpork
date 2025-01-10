@@ -104,7 +104,7 @@
                                     <font color="red">未繳費</font>
                             @endif
                         </li>
-                        <li>指定到貨時間：{{$bill->ship_arriveDate}}{{$bill->ship_time}}</li>
+                        <li>出貨時間：{{$bill->ship_arriveDate}}{{$bill->ship_time}}</li>
                         <li>
                             發票：
                             @if($bill->ship_receipt == 2)
