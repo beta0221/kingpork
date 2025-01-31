@@ -395,10 +395,10 @@
 										<input class="radio" type="radio" name="ship_time" value="隨時可出貨" checked><span>隨時可出貨</span>
 									</div>
 									<div>
-										<input class="radio" type="radio" name="ship_time" value="漲價前預購，2月中以後隨時出貨"><span>漲價前預購，2月中以後隨時出貨</span>
+										<input class="radio" type="radio" name="ship_time" value="出貨前電話通知我"><span>出貨前電話通知我</span>
 									</div>
 									<div>
-										<input class="radio" type="radio" name="ship_time" value="漲價前預購，等待電話通知出貨"><span>漲價前預購，等待電話通知出貨</span>
+										<input class="radio" type="radio" name="ship_time" value="請等我通知日期再出貨"><span>請等我通知日期再出貨</span>
 									</div>
 								</div>
 
