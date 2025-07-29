@@ -287,6 +287,14 @@
 								</div>
 							</td>
 						</tr>
+						<tr>
+							<td>
+								<label for=""></label>
+								<div class="d-inline-block">
+									<span class="required">單筆交易金額，不得超過新台幣5萬元</span>
+								</div>
+							</td>
+						</tr>
 
 					</table>
 					
