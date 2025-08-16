@@ -73,7 +73,9 @@ class BillController extends Controller
             'store_number'=>'required_if:carrier_id,1',
             'store_name'=>'required_if:carrier_id,1',
             'store_address'=>'required_if:carrier_id,1',
-            'favorite_address'=>'required_if:use_favorite_address,1'
+            'favorite_address'=>'required_if:use_favorite_address,1',
+            'save_credit_card'=>'boolean',
+            'use_saved_card'=>'integer|exists:user_credit_cards,id'
         ]);
 
         if($request->carrier_id == Bill::CARRIER_ID_FAMILY_MART && $request->ship_pay_by == 'cod'){
@@ -460,6 +462,11 @@ class BillController extends Controller
             $user->bonus = $user->bonus+$TradeAmt;
             $user->save();                                          //}紅利回算機制
 
+            // 儲存信用卡資訊
+            if ($the->save_credit_card && $the->user_id && $PaymentType == 'Credit') {
+                $this->saveCreditCardInfo($the, $request);
+            }
+
 
             // $user = User::find($bill->user_id);
                     
@@ -794,6 +801,52 @@ class BillController extends Controller
         $bill->updateShipment(Bill::SHIPMENT_VOID);
         return response()->json('success');
 
+    }
+
+    private function saveCreditCardInfo($bill, $request)
+    {
+        if (!$request->has('card_4_no') || !$request->has('card_6_no')) {
+            return;
+        }
+
+        $maskedCardNumber = $request->card_6_no . '******' . $request->card_4_no;
+        
+        $existingCard = \App\UserCreditCard::where('user_id', $bill->user_id)
+            ->where('masked_card_number', $maskedCardNumber)
+            ->first();
+
+        if (!$existingCard) {
+            $cardBrand = $this->detectCardBrand($request->card_6_no);
+            
+            \App\UserCreditCard::create([
+                'user_id' => $bill->user_id,
+                'card_alias' => '我的' . $cardBrand . '卡',
+                'masked_card_number' => $maskedCardNumber,
+                'card_holder_name' => $bill->ship_name,
+                'expiry_month' => null, 
+                'expiry_year' => null,
+                'card_brand' => $cardBrand,
+                'ecpay_member_id' => 'USER_' . $bill->user_id,
+                'is_default' => !\App\UserCreditCard::where('user_id', $bill->user_id)->exists(),
+            ]);
+        }
+    }
+
+    private function detectCardBrand($cardPrefix)
+    {
+        $cardPrefix = substr($cardPrefix, 0, 4);
+        
+        if (in_array(substr($cardPrefix, 0, 1), ['4'])) {
+            return 'VISA';
+        } elseif (in_array(substr($cardPrefix, 0, 2), ['51', '52', '53', '54', '55']) || 
+                  in_array(substr($cardPrefix, 0, 4), range('2221', '2720'))) {
+            return 'MASTERCARD';
+        } elseif (in_array(substr($cardPrefix, 0, 4), ['3528', '3529']) || 
+                  in_array(substr($cardPrefix, 0, 3), range('353', '358'))) {
+            return 'JCB';
+        } else {
+            return 'UNKNOWN';
+        }
     }
 
 }

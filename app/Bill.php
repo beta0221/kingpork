@@ -115,6 +115,10 @@ class Bill extends Model
         if($request->ship_pay_by == 'cod'){
             $bill->pay_by = '貨到付款';
         }
+        
+        $bill->save_credit_card = $request->save_credit_card ?? false;
+        $bill->used_credit_card_id = $request->use_saved_card ?? null;
+        
         $bill->save();
         return $bill;
     }

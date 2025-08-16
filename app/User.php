@@ -47,6 +47,16 @@ class User extends Authenticatable
         return $this->hasMany('App\FavoriteAddress', 'user_id');
     }
 
+    public function creditCards()
+    {
+        return $this->hasMany('App\UserCreditCard', 'user_id');
+    }
+
+    public function getDefaultCreditCardAttribute()
+    {
+        return $this->creditCards()->where('is_default', true)->where('is_active', true)->first();
+    }
+
     /**使用者購物車中的商品id */
     public function kartProductsId()
     {

@@ -106,6 +106,18 @@ class ECPay{
                 break;
         }
 
+        if ($bill->user_id && $bill->save_credit_card) {
+            $this->RememberCard = 1;
+            $this->MerchantMemberID = 'USER_' . $bill->user_id;
+        }
+
+        if ($bill->user_id) {
+            $this->Email = $bill->ship_email;
+            $this->Phone = $bill->ship_phone;
+            $this->Name = $bill->ship_name;
+            $this->CountryCode = 'TW';
+        }
+
     }
 
     /**

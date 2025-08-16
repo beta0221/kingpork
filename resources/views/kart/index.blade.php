@@ -446,6 +446,46 @@
 							</td>
 						</tr>
 
+						@if(Auth::check())
+						<!-- 信用卡相關選項 -->
+						<tr id="credit_card_options" style="display: none;">
+							<td>
+								@if(Auth::user()->creditCards()->active()->count() > 0)
+									<div class="mb-3">
+										<label for="">選擇信用卡：</label>
+										<div class="saved_cards">
+											<input id="use_new_card" class="radio" type="radio" name="credit_card_option" value="new" checked>
+											<span>使用新信用卡</span>
+											@foreach(Auth::user()->creditCards()->active()->orderBy('is_default', 'desc')->get() as $card)
+												<div class="mt-1">
+													<input id="use_saved_card_{{ $card->id }}" class="radio" type="radio" name="credit_card_option" value="saved">
+													<input type="hidden" name="use_saved_card" value="{{ $card->id }}">
+													<span>{{ $card->masked_card_number }} ({{ $card->card_alias }})
+														@if($card->is_default) <small class="text-success">預設</small> @endif
+													</span>
+												</div>
+											@endforeach
+										</div>
+									</div>
+								@endif
+								
+								<div id="save_card_option" class="mt-2">
+									<input type="checkbox" id="save_credit_card" name="save_credit_card" value="1">
+									<label for="save_credit_card">儲存此信用卡資訊，下次結帳更便利</label>
+									<div style="font-size: 12px; color: #666; margin-top: 5px;">
+										※ 我們僅儲存卡號前六後四碼用於識別，不會儲存完整卡號資訊
+									</div>
+								</div>
+								
+								<div class="mt-2">
+									<a href="{{ route('creditCard.index') }}" target="_blank" class="btn btn-sm btn-outline-primary">
+										管理我的信用卡
+									</a>
+								</div>
+							</td>
+						</tr>
+						@endif
+
 
 					</table>
 					
@@ -549,5 +589,31 @@
             }
 		});
 	}
+
+	// 信用卡選項控制
+	$(document).ready(function() {
+		// 監聽付款方式變更
+		$('input[name="ship_pay_by"]').change(function() {
+			if ($(this).val() === 'CREDIT') {
+				$('#credit_card_options').show();
+			} else {
+				$('#credit_card_options').hide();
+			}
+		});
+
+		// 監聽信用卡選擇變更
+		$('input[name="credit_card_option"]').change(function() {
+			if ($(this).val() === 'new') {
+				$('#save_card_option').show();
+				// 清除已選擇的儲存卡片
+				$('input[name="use_saved_card"]').prop('checked', false);
+			} else if ($(this).val() === 'saved') {
+				$('#save_card_option').hide();
+				// 設定選中的儲存卡片
+				var cardId = $(this).siblings('input[name="use_saved_card"]').val();
+				$('input[name="use_saved_card"]').val(cardId);
+			}
+		});
+	});
 </script>
 @endsection
