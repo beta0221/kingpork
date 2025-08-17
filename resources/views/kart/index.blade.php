@@ -446,7 +446,7 @@
 							</td>
 						</tr>
 
-						@if(Auth::check())
+						{{-- @if(Auth::check()) --}}
 						<!-- 信用卡相關選項 -->
 						{{-- <tr class="credit_card_options" style="display: none;">
 							<td>
@@ -482,7 +482,7 @@
 								</div>
 							</td>
 						</tr> --}}
-						<tr class="credit_card_options" style="display: none;">
+						{{-- <tr class="credit_card_options" style="display: none;">
 							<td>
 								<label for=""></label>
 								<div id="save_card_option" class="d-inline-block">
@@ -493,8 +493,8 @@
 									</div>
 								</div>
 							</td>
-						</tr>
-						@endif
+						</tr> --}}
+						{{-- @endif --}}
 
 
 					</table>
@@ -601,15 +601,15 @@
 	}
 
 	// 信用卡選項控制
-	$(document).ready(function() {
-		// 監聽付款方式變更
-		$('input[name="ship_pay_by"]').change(function() {
-			if ($(this).val() === 'CREDIT') {
-				$('.credit_card_options').show();
-			} else {
-				$('.credit_card_options').hide();
-			}
-		});
+	// $(document).ready(function() {
+	// 	// 監聽付款方式變更
+	// 	$('input[name="ship_pay_by"]').change(function() {
+	// 		if ($(this).val() === 'CREDIT') {
+	// 			$('.credit_card_options').show();
+	// 		} else {
+	// 			$('.credit_card_options').hide();
+	// 		}
+	// 	});
 
 		// 監聽信用卡選擇變更
 		// $('input[name="credit_card_option"]').change(function() {
@@ -624,6 +624,6 @@
 		// 		$('input[name="use_saved_card"]').val(cardId);
 		// 	}
 		// });
-	});
+	// });
 </script>
 @endsection

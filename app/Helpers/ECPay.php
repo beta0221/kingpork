@@ -24,7 +24,7 @@ class ECPay{
     /** 串接文件版號 */
     private $Revision = "1.0.0";
     /** 是否使用記憶卡號 0否 1是 */
-    private $RememberCard = 0;
+    private $RememberCard = 1;
     /** 畫面的呈現方式 */
     private $PaymentUIType = 2;
     /** 欲使用的付款方式 1.信用卡付清 3.ATM */
@@ -94,6 +94,7 @@ class ECPay{
         $this->TotalAmount = (int)$bill->price;
         $this->ReturnURL = route('ecpay_ReturnURL',['bill_id'=>$bill->bill_id]);
         $this->OrderResultURL = route('ecpay_OrderResultURL',['bill_id'=>$bill->bill_id]);
+        $this->MerchantMemberID = 'USER_' . $bill->user_id;
 
         switch ($bill->pay_by) {
             case 'CREDIT':
@@ -104,11 +105,6 @@ class ECPay{
                 break;
             default:
                 break;
-        }
-
-        if ($bill->user_id && $bill->save_credit_card) {
-            $this->RememberCard = 1;
-            $this->MerchantMemberID = 'USER_' . $bill->user_id;
         }
 
         if ($bill->user_id) {
