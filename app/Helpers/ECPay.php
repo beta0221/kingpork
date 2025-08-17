@@ -338,7 +338,7 @@ class ECPay{
      */
     public function handlePayRequest(Request $request){
         $res = json_decode($request->getContent(),true);
-        if(!isset($res['TransCode']) || !isset($res['TransMsg']) || !isset($res['Data'])){ return; }
+        if(!isset($res['TransCode']) || !isset($res['TransMsg']) || !isset($res['Data'])){ return false; }
         PaymentLog::insert_row(
             $this->bill->id,
             PaymentLog::TYPE_PAY_REQUEST,

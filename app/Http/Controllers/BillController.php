@@ -267,7 +267,7 @@ class BillController extends Controller
             dispatch(new ECPayInvoice($bill,ECPayInvoice::TYPE_ISSUE)); //開立發票
 
             // 儲存信用卡資訊
-            if ($bill->save_credit_card && $bill->user_id && $bill->pay_by == BILL::PAY_BY_CREDIT) {
+            if ($bill->save_credit_card == 1 && $bill->pay_by == BILL::PAY_BY_CREDIT) {
                 $this->saveCreditCardInfo($bill, $request);
             }
         }
