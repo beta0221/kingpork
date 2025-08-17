@@ -60,7 +60,7 @@
 @endsection
 
 @section('content')
-<div class="container">
+<div class="container mt-4 mb-4">
     <div class="row">
         <div class="col-12">
             <div class="card-form">

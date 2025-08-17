@@ -81,7 +81,7 @@
 @endsection
 
 @section('content')
-<div class="container">
+<div class="container mt-4 mb-4">
     <div class="row">
         <div class="col-12">
             <div class="d-flex justify-content-between align-items-center mb-4">
@@ -101,7 +101,7 @@
             @endif
 
             @if($creditCards->isEmpty())
-                <div class="empty-state">
+                <div class="empty-state mt-4 mb-4">
                     <i class="fa fa-credit-card"></i>
                     <h4>尚未新增任何信用卡</h4>
                     <p>新增信用卡可以讓您下次結帳更快速便利</p>
