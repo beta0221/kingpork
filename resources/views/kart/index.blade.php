@@ -448,11 +448,12 @@
 
 						@if(Auth::check())
 						<!-- 信用卡相關選項 -->
-						<tr id="credit_card_options" style="display: none;">
+						<tr class="credit_card_options" style="display: none;">
 							<td>
 								@if(Auth::user()->creditCards()->active()->count() > 0)
-									<div class="mb-3">
-										<label for="">選擇信用卡：</label>
+									<label for="">　選擇卡片：</label>
+									<div class="d-inline-block">
+										
 										<div class="saved_cards">
 											<input id="use_new_card" class="radio" type="radio" name="credit_card_option" value="new" checked>
 											<span>使用新信用卡</span>
@@ -469,18 +470,27 @@
 									</div>
 								@endif
 								
-								<div id="save_card_option" class="mt-2">
-									<input type="checkbox" id="save_credit_card" name="save_credit_card" value="1">
-									<label for="save_credit_card">儲存此信用卡資訊，下次結帳更便利</label>
-									<div style="font-size: 12px; color: #666; margin-top: 5px;">
-										※ 我們僅儲存卡號前六後四碼用於識別，不會儲存完整卡號資訊
-									</div>
-								</div>
-								
-								<div class="mt-2">
+							</td>
+						</tr>
+						<tr class="credit_card_options" style="display: none;">
+							<td>
+								<label for=""></label>
+								<div class="d-inline-block">
 									<a href="{{ route('creditCard.index') }}" target="_blank" class="btn btn-sm btn-outline-primary">
 										管理我的信用卡
 									</a>
+								</div>
+							</td>
+						</tr>
+						<tr class="credit_card_options" style="display: none;">
+							<td>
+								<label for=""></label>
+								<div id="save_card_option" class="d-inline-block">
+									<input type="checkbox" id="save_credit_card" name="save_credit_card" value="1">
+									<span>儲存此次結帳信用卡資訊，下次結帳更便利</span>
+									<div style="font-size: 12px; color: #666; margin-top: 5px;">
+										※ 我們僅儲存卡號前六後四碼用於識別，不會儲存完整卡號資訊
+									</div>
 								</div>
 							</td>
 						</tr>
@@ -595,9 +605,9 @@
 		// 監聽付款方式變更
 		$('input[name="ship_pay_by"]').change(function() {
 			if ($(this).val() === 'CREDIT') {
-				$('#credit_card_options').show();
+				$('.credit_card_options').show();
 			} else {
-				$('#credit_card_options').hide();
+				$('.credit_card_options').hide();
 			}
 		});
 
