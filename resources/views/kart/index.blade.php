@@ -448,7 +448,7 @@
 
 						@if(Auth::check())
 						<!-- 信用卡相關選項 -->
-						<tr class="credit_card_options" style="display: none;">
+						{{-- <tr class="credit_card_options" style="display: none;">
 							<td>
 								@if(Auth::user()->creditCards()->active()->count() > 0)
 									<label for="">　選擇卡片：</label>
@@ -481,7 +481,7 @@
 									</a>
 								</div>
 							</td>
-						</tr>
+						</tr> --}}
 						<tr class="credit_card_options" style="display: none;">
 							<td>
 								<label for=""></label>
@@ -612,18 +612,18 @@
 		});
 
 		// 監聽信用卡選擇變更
-		$('input[name="credit_card_option"]').change(function() {
-			if ($(this).val() === 'new') {
-				$('#save_card_option').show();
-				// 清除已選擇的儲存卡片
-				$('input[name="use_saved_card"]').prop('checked', false);
-			} else if ($(this).val() === 'saved') {
-				$('#save_card_option').hide();
-				// 設定選中的儲存卡片
-				var cardId = $(this).siblings('input[name="use_saved_card"]').val();
-				$('input[name="use_saved_card"]').val(cardId);
-			}
-		});
+		// $('input[name="credit_card_option"]').change(function() {
+		// 	if ($(this).val() === 'new') {
+		// 		$('#save_card_option').show();
+		// 		// 清除已選擇的儲存卡片
+		// 		$('input[name="use_saved_card"]').prop('checked', false);
+		// 	} else if ($(this).val() === 'saved') {
+		// 		$('#save_card_option').hide();
+		// 		// 設定選中的儲存卡片
+		// 		var cardId = $(this).siblings('input[name="use_saved_card"]').val();
+		// 		$('input[name="use_saved_card"]').val(cardId);
+		// 	}
+		// });
 	});
 </script>
 @endsection

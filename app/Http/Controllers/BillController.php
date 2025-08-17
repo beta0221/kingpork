@@ -75,7 +75,7 @@ class BillController extends Controller
             'store_address'=>'required_if:carrier_id,1',
             'favorite_address'=>'required_if:use_favorite_address,1',
             'save_credit_card'=>'boolean',
-            'use_saved_card'=>'integer|exists:user_credit_cards,id'
+            // 'use_saved_card'=>'integer|exists:user_credit_cards,id'
         ]);
 
         if($request->carrier_id == Bill::CARRIER_ID_FAMILY_MART && $request->ship_pay_by == 'cod'){
@@ -267,11 +267,11 @@ class BillController extends Controller
             dispatch(new ECPayInvoice($bill,ECPayInvoice::TYPE_ISSUE)); //開立發票
 
             // 儲存信用卡資訊
-            if ($bill->save_credit_card == 1 && $bill->pay_by == BILL::PAY_BY_CREDIT) {
-                if ($cardInfo = $ecpay->getCardInfo($request)) {
-                    $this->saveCreditCardInfo($bill, $cardInfo);
-                }
-            }
+            // if ($bill->save_credit_card == 1 && $bill->pay_by == BILL::PAY_BY_CREDIT) {
+            //     if ($cardInfo = $ecpay->getCardInfo($request)) {
+            //         $this->saveCreditCardInfo($bill, $cardInfo);
+            //     }
+            // }
         }
 
         Log::info("-----綠界回傳-----");

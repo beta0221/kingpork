@@ -127,10 +127,10 @@ Route::get('/users/logout','Auth\LoginController@userLogout')->name('user.logout
 Route::get('memberHash','memberHash@memberHash');
 
 //Credit Card Management routes
-Route::group(['middleware' => 'auth'], function() {
-    Route::resource('creditCard', 'CreditCardController', ['except' => ['show']]);
-    Route::post('creditCard/{id}/setDefault', 'CreditCardController@setDefault')->name('creditCard.setDefault');
-});
+// Route::group(['middleware' => 'auth'], function() {
+//     Route::resource('creditCard', 'CreditCardController', ['except' => ['show']]);
+//     Route::post('creditCard/{id}/setDefault', 'CreditCardController@setDefault')->name('creditCard.setDefault');
+// });
 
 //admin routes
 Route::get('admin','AdminController@index')->name('admin.dashboard');
