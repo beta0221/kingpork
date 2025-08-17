@@ -265,6 +265,11 @@ class BillController extends Controller
             $bill->save();
             $bill->sendBonusToBuyer();
             dispatch(new ECPayInvoice($bill,ECPayInvoice::TYPE_ISSUE)); //開立發票
+
+            // 儲存信用卡資訊
+            if ($bill->save_credit_card && $bill->user_id && $bill->pay_by == BILL::PAY_BY_CREDIT) {
+                $this->saveCreditCardInfo($bill, $request);
+            }
         }
 
         Log::info("-----綠界回傳-----");
@@ -462,10 +467,6 @@ class BillController extends Controller
             $user->bonus = $user->bonus+$TradeAmt;
             $user->save();                                          //}紅利回算機制
 
-            // 儲存信用卡資訊
-            if ($the->save_credit_card && $the->user_id && $PaymentType == 'Credit') {
-                $this->saveCreditCardInfo($the, $request);
-            }
 
 
             // $user = User::find($bill->user_id);
