@@ -268,7 +268,9 @@ class BillController extends Controller
 
             // 儲存信用卡資訊
             if ($bill->save_credit_card == 1 && $bill->pay_by == BILL::PAY_BY_CREDIT) {
-                $this->saveCreditCardInfo($bill, $request);
+                if ($cardInfo = $ecpay->getCardInfo($request)) {
+                    $this->saveCreditCardInfo($bill, $cardInfo);
+                }
             }
         }
 
@@ -804,20 +806,23 @@ class BillController extends Controller
 
     }
 
-    private function saveCreditCardInfo($bill, $request)
+    private function saveCreditCardInfo($bill, $cardInfo)
     {
-        if (!$request->has('card_4_no') || !$request->has('card_6_no')) {
+        if (!isset($cardInfo["Card4No"]) || !isset($cardInfo["Card6No"])) {
             return;
         }
 
-        $maskedCardNumber = $request->card_6_no . '******' . $request->card_4_no;
+        $card6No = $cardInfo["Card6No"];
+        $card4No = $cardInfo["Card4No"];
+
+        $maskedCardNumber = $card6No . '******' . $card4No;
         
         $existingCard = \App\UserCreditCard::where('user_id', $bill->user_id)
             ->where('masked_card_number', $maskedCardNumber)
             ->first();
 
         if (!$existingCard) {
-            $cardBrand = $this->detectCardBrand($request->card_6_no);
+            $cardBrand = $this->detectCardBrand($card6No);
             
             \App\UserCreditCard::create([
                 'user_id' => $bill->user_id,

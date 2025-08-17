@@ -358,6 +358,20 @@ class ECPay{
     }
 
     /**
+     * 取得交易卡片資訊
+     * @return array
+     */
+    public function getCardInfo(Request $request) {
+        $res = json_decode($request->getContent(),true);
+
+        if(!isset($res["Data"])) { return null; }
+        $data = $this->string2DecryptedArray($res['Data']);
+
+        if (!isset($data["CardInfo"])) { return null; }
+        return $data["CardInfo"];
+    }
+
+    /**
      * 取得綠界金流交易資訊
      * @return array
      */
