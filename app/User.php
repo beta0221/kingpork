@@ -80,7 +80,11 @@ class User extends Authenticatable
     public function updateBonus($amount, $decrease = true)
     {
         if ($decrease) {
-            $this->bonus -= $amount;
+            if ($amount > $this->bonus) {
+                $this->bonus = 0;
+            } else {
+                $this->bonus -= $amount;
+            }
         } else {
             $this->bonus += $amount;
         }

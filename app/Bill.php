@@ -9,6 +9,10 @@ use Illuminate\Http\Request;
 
 class Bill extends Model
 {
+    protected $fillable = [
+        'save_credit_card',
+        'used_credit_card_id',
+    ];
 
     /**可準備 */
     const SHIPMENT_READY = 0;
@@ -202,6 +206,12 @@ class Bill extends Model
     /**發送這筆訂單可獲得的紅利點數給購買人 */
     public function sendBonusToBuyer(){
         if(empty($this->user_id)){ return; }
+        
+        // 只有已付款的訂單才能獲得紅利，但貨到付款例外（在出貨時才發放）
+        if ($this->status != 1 && $this->pay_by != self::PAY_BY_COD) {
+            return;
+        }
+        
         $user = User::find($this->user_id);
         $user->updateBonus($this->get_bonus,false);
     }

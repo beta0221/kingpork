@@ -28,7 +28,7 @@ class BillController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth',['only'=>['index','findMemory','cancelBill']]);
+        $this->middleware('auth',['only'=>['index','findMemory','cancelBill', 'view_billDetail']]);
     }
 
 
@@ -298,8 +298,14 @@ class BillController extends Controller
         ]);
     }
 
-    public function view_billDetail($bill_id){
+    public function view_billDetail(Request $request, $bill_id){
         $bill = Bill::where('bill_id',$bill_id)->firstOrFail();
+
+        $user = $request->user();
+        if ($bill->user_id != $user->id) {
+            return response("Forbidden", 403);
+        }
+
         $products = $bill->products();
         $atmInfo = null;
         $cardInfo = null;
