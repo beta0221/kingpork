@@ -47,7 +47,8 @@ function nextStep(){
 	}
 	caculateTotalPrice();
 	$('#orderModal').modal('show');
-	findMemory();
+
+	onQuickRecipientChange();
 }
 
 function updateFormItems(){

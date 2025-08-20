@@ -88,8 +88,6 @@
 <div class="contentPage">
 	<div class="container">
 
-		
-
 		<div class="row">
 			<div class="col-lg-10 offset-lg-1 col-12 outter">
 				
@@ -215,15 +213,46 @@
 					
 					<table class="shipping">
 
-						<tr class="family-column" style="display: none">
+						{{-- <tr class="family-column" style="display: none">
 							<td>
 								<label for=""></label>
 								<span style="font-size: 14px;" class="shipping-ship_email">(全家取貨需出示身份證核對資料)</span>
 							</td>
+						</tr> --}}
+
+						<tr style="border-bottom: 1px solid darkgrey;">
+							<td>
+								<label for="">　常用資料：</label>
+								<!-- 快速選擇模式 -->
+								<div id="recipient_selection_mode" class="d-inline-block mt-4">
+									<select id="quick_recipient_select" name="favorite_address" class="form-control" onchange="onQuickRecipientChange()" style="margin-bottom: 10px;">
+										@foreach ($addresses as $address)
+											@if($address->ship_name)
+											<option value="{{$address->id}}" 
+												data-county="{{$address->county}}" 
+												data-district="{{$address->district}}" 
+												data-address="{{$address->address}}"
+												data-ship-name="{{$address->ship_name}}"
+												data-ship-phone="{{$address->ship_phone ?? ''}}"
+												data-ship-email="{{$address->ship_email ?? ''}}"
+												data-ship-receipt="{{$address->ship_receipt ?? ''}}"
+												data-ship-three-id="{{$address->ship_three_id ?? ''}}"
+												data-ship-three-company="{{$address->ship_three_company ?? ''}}"
+												data-ship-gender="{{$address->ship_gender ?? ''}}"
+											>{{$address->ship_name}} - {{$address->county}}{{$address->district}}{{$address->address}}</option>
+											@endif
+										@endforeach
+										<option value="">手動輸入新資料</option>
+									</select>
+								</div>
+							</td>
 						</tr>
 
 						<tr>
-							<td class="shipping-top-TD">
+							<td></td>
+						</tr>
+						<tr>
+							<td>
 								<label for=""><span class="required">*</span>收件人：</label>
 								<input id="ship_name" name="ship_name" type="text" class="shipping-ship_name form-control" placeholder="收件人" value="{{Auth::user()->name}}" style="">		
 							
@@ -294,15 +323,10 @@
 							</td>
 						</tr>
 
-						<tr class="blackcat-column">
+						<tr class="blackcat-column" id="address_selection_row">
 							<td>
 								<label for=""><span class="required">*</span>地址：</label>
 
-								<select id="favorite_address" name="favorite_address" class="form-control shipping-ship_address">
-									@foreach ($addresses as $address)
-										<option value="{{$address->id}}">{{$address->county}} {{$address->district}} {{$address->address}}</option>	
-									@endforeach
-								</select>
 
 								<select id="ship_county" name="ship_county" class="shipping-ship_county form-control ship_county">
 									<option value="">縣市</option>
@@ -342,22 +366,6 @@
 							</td>
 						</tr>
 
-						<tr>
-							<td>
-								<label for=""></label>
-								<div id="new_address_button" class="btn btn-warning" style="cursor: pointer" onclick="onClick_newAddress()">
-									其他地址
-								</div>
-								<div id="favorite_address_button" class="btn btn-primary" style="cursor: pointer" onclick="onClick_favoriteAddress()">
-									常用地址 <img style="width: 16px" src="/images/step-1-2.png">
-								</div>
-								<div id="add_favorite_address" style="display: inline-block">
-									<span style="vertical-align: middle" style="display: inline-block">設為常用地址</span>
-									<input name="add_favorite" type="checkbox" class="form-control" style="width: 24px; height:24px; vertical-align: middle">
-								</div>
-								<input id="use_favorite_address" class="d-none" type="checkbox" name="use_favorite_address">
-							</td>
-						</tr>
 
 						<tr style="display: none">
 							<td>
@@ -430,7 +438,7 @@
 							<td>
 								<label for="">　使用紅利：</label>
 								<input id="bonus" max="" name="bonus" type="number" class="shipping-bonus form-control" value="0">
-								<label id="myBonus" for="">　累積紅利：<span></span></label>
+								<label id="myBonus" for="">　累積紅利：<span>{{Auth::user()->bonus}}</span></label>
 							</td>
 						</tr>
 
@@ -443,6 +451,18 @@
 									<input id="pay_by_cod" class="radio blackcat-column" type="radio" name="ship_pay_by" value="cod"><span class="blackcat-column">貨到付款</span>
 									{{-- <input id="pay_by_family" class="radio family-column" type="radio" name="ship_pay_by" value="FAMILY" style="display: none"><span class="family-column" style="display: none">全家取貨付款</span> --}}
 								</div>
+							</td>
+						</tr>
+
+						<!-- 保存為常用地址選項 -->
+						<tr id="add_favorite_address">
+							<td>
+								<label for=""></label>
+								<div id="" style="display: inline-block">
+									<span style="vertical-align: middle" style="display: inline-block">設為常用收件人</span>
+									<input name="add_favorite" type="checkbox" class="form-control" style="width: 24px; height:24px; vertical-align: middle">
+								</div>
+								<input id="use_favorite_address" class="d-none" type="checkbox" name="use_favorite_address">
 							</td>
 						</tr>
 
@@ -577,8 +597,6 @@
 
 <script>
 
-	// 是否有常用地址
-	const hasFavoriteAddress = {{count($addresses) > 0 ? 'true' : 'false'}};
 
 	// 加購條件
 	const relation = {!!json_encode($relation)!!};

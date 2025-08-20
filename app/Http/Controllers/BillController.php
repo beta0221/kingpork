@@ -159,7 +159,14 @@ class BillController extends Controller
             $request->merge([
                 'ship_county' => $address->county,
                 'ship_district' => $address->district,
-                'ship_address' => $address->address
+                'ship_address' => $address->address,
+                'ship_name' => $address->ship_name,
+                'ship_phone' => $address->ship_phone,
+                'ship_email' => $address->ship_email,
+                'ship_receipt' => $address->ship_receipt,
+                'ship_three_id' => $address->ship_three_id,
+                'ship_three_company' => $address->ship_three_company,
+                'ship_gender' => $address->ship_gender
             ]);
         }
 
@@ -192,6 +199,13 @@ class BillController extends Controller
                         'county' => $request->ship_county,
                         'district' => $request->ship_district,
                         'address' => $request->ship_address,
+                        'ship_name' => $request->ship_name,
+                        'ship_phone' => $request->ship_phone,
+                        'ship_email' => $request->ship_email,
+                        'ship_receipt' => $request->ship_receipt,
+                        'ship_three_id' => $request->ship_three_id,
+                        'ship_three_company' => $request->ship_three_company,
+                        'ship_gender' => $request->ship_gender,
                         'isDefault' => 1
                     ]);
             }

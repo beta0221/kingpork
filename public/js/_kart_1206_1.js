@@ -66,13 +66,6 @@ $(document).ready(function(){
     			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
   			}
 		});
-		
-		if (hasFavoriteAddress) {
-			onClick_favoriteAddress()
-		} else {
-			onClick_newAddress()
-			hideFavoriteAddressButton()
-		}
 
 		uploadSum();
 		
@@ -377,47 +370,7 @@ $(document).ready(function(){
 		$('.sure-to-buy-div').css('display','none');
 		$('.check-out-form-div').css('display','block');
 
-		findMemory();
-	}
-
-	function findMemory() {
-		$.ajax({
-			type:'GET',
-			url:'/findMemory',
-			dataType:'json',
-			success: function (response) {
-
-				if(response.ifMemory != '0'){
-					if (response.ship_gender == 2) {
-						$('#radio2').prop('checked','checked');
-					}
-	                $('#ship_name').val(response.ship_name);
-	                $('#ship_email').val(response.ship_email);
-	                $('#ship_phone').val(response.ship_phone);
-
-					// if(response.carrier_id == 0){
-						// $('#ship_county').val(response.ship_county);
-						// updateDistrict(response.ship_county);
-						// setDistrict(response.ship_county, response.ship_district);
-						// $('#ship_address').val(response.ship_address);
-					// }
-
-	                if(response.ship_receipt == '3'){
-	                	$('.two-three').val(response.ship_receipt);
-	                	$('.ifThree').css('display','inline-block');
-	                	$('#ship_three_id').val(response.ship_three_id);
-	                	$('#ship_three_company').val(response.ship_three_company);
-	                }
-	                
-              	}
-
-				$('#myBonus span').empty();
-	            $('#myBonus span').append(response.bonus);
-	            $('#bonus').attr('max',response.bonus);
-            },
-            error: function () {
-            }
-		});
+		onQuickRecipientChange();
 	}
 
 	function back_kart(){
@@ -432,32 +385,181 @@ $(document).ready(function(){
 		$('.check-out-form-div').css('display','none');
 	}
 
-	function hideFavoriteAddressButton() {
-		$('#favorite_address_button').hide();
+	// 新增：快速收件人選擇功能
+	function onQuickRecipientChange() {
+		const selectedValue = $('#quick_recipient_select').val();
+		
+		if (selectedValue === '') {
+			// 選擇手動輸入模式
+			switchToManualMode();
+			return;
+		}
+		
+		// 選擇了已保存的收件人，進入快速選擇模式
+		loadRecipientData(selectedValue);
 	}
 
-	function onClick_newAddress() {
-		$('#favorite_address').hide();
-		$('#new_address_button').hide();
-		$('#favorite_address_button').show();
-
+	function switchToManualMode() {
+		
+		// 顯示保存為常用地址選項和手動輸入提示
+		$('#add_favorite_address').show();
+		
+		// 顯示手動地址輸入欄位
 		$('#ship_county').show();
 		$('#ship_district').show();
 		$('#ship_address_column').show();
-		$('#add_favorite_address').show();
-
+		
+		// 重設選擇
 		$('#use_favorite_address').prop('checked', false);
+		
+		// 重新啟用所有欄位
+		enableFormFields();
+		
+		// 清空所有輸入欄位
+		clearAllInputFields();
 	}
 
-	function onClick_favoriteAddress() {
-		$('#favorite_address').show();
-		$('#new_address_button').show();
-		hideFavoriteAddressButton();
+	function clearAllInputFields() {
+		// 清空收件人資訊
+		$('#ship_name').val('');
+		$('#ship_phone').val('');
+		$('#ship_email').val('');
+		
+		// 重設性別選擇為預設
+		$('#radio1').prop('checked', true);
+		$('#radio2').prop('checked', false);
+		
+		// 清空地址資訊
+		$('#ship_county').val('');
+		$('#ship_district').empty().append('<option value="">地區</option>');
+		$('#ship_address').val('');
+		
+		// 重設發票選項為二聯（預設）
+		$('#ship_ship_receipt').val('2');
+		$('.ifThree').css('display','none');
+		$('#ship_three_id').val('');
+		$('#ship_three_company').val('');
+		
+		// 清除勾選狀態
+		$('input[name="add_favorite"]').prop('checked', false);
+		
+		// 移除任何驗證錯誤樣式
+		$('.form-control').removeClass('alerting');
+	}
 
-		$('#ship_county').hide();
-		$('#ship_district').hide();
-		$('#ship_address_column').hide();
+	function disableFormFields() {
+		// 停用收件人資訊欄位
+		$('#ship_name').prop('readonly', true);
+		$('#ship_phone').prop('readonly', true);
+		$('#ship_email').prop('readonly', true);
+		$('#radio1').prop('readonly', true);
+		$('#radio2').prop('readonly', true);
+		
+		// 停用地址欄位
+		$('#ship_county').prop('readonly', true);
+		$('#ship_district').prop('readonly', true);
+		$('#ship_address').prop('readonly', true);
+		
+		// 停用發票欄位
+		$('#ship_ship_receipt').prop('readonly', true);
+		$('#ship_three_id').prop('readonly', true);
+		$('#ship_three_company').prop('readonly', true);
+		
+		// 添加disabled樣式類
+		$('#ship_name, #ship_phone, #ship_email, #ship_county, #ship_district, #ship_address, #ship_ship_receipt, #ship_three_id, #ship_three_company').addClass('form-field-disabled');
+	}
+
+	function enableFormFields() {
+		// 重新啟用收件人資訊欄位
+		$('#ship_name').prop('readonly', false);
+		$('#ship_phone').prop('readonly', false);
+		$('#ship_email').prop('readonly', false);
+		$('#radio1').prop('readonly', false);
+		$('#radio2').prop('readonly', false);
+		
+		// 重新啟用地址欄位
+		$('#ship_county').prop('readonly', false);
+		$('#ship_district').prop('readonly', false);
+		$('#ship_address').prop('readonly', false);
+		
+		// 重新啟用發票欄位
+		$('#ship_ship_receipt').prop('readonly', false);
+		$('#ship_three_id').prop('readonly', false);
+		$('#ship_three_company').prop('readonly', false);
+		
+		// 移除disabled樣式類
+		$('#ship_name, #ship_phone, #ship_email, #ship_county, #ship_district, #ship_address, #ship_ship_receipt, #ship_three_id, #ship_three_company').removeClass('form-field-disabled');
+	}
+
+	function loadRecipientData(recipientId) {
+		const selectedOption = $('#quick_recipient_select option:selected');
+		
+		// 從選項中取得所有資料
+		const county = selectedOption.data('county');
+		const district = selectedOption.data('district');
+		const address = selectedOption.data('address');
+		const shipName = selectedOption.data('ship-name');
+		const shipPhone = selectedOption.data('ship-phone');
+		const shipEmail = selectedOption.data('ship-email');
+		const shipReceipt = selectedOption.data('ship-receipt');
+		const shipThreeId = selectedOption.data('ship-three-id');
+		const shipThreeCompany = selectedOption.data('ship-three-company');
+		const shipGender = selectedOption.data('ship-gender');
+		
+		// 顯示保存為常用地址選項和手動輸入提示
 		$('#add_favorite_address').hide();
 
-		$('#use_favorite_address').prop('checked', true);
+		
+		// 填入表單資料
+		if (shipName) {
+			$('#ship_name').val(shipName);
+		}
+		if (shipPhone) {
+			$('#ship_phone').val(shipPhone);
+		}
+		if (shipEmail) {
+			$('#ship_email').val(shipEmail);
+		}
+		
+		// 填入地址資料
+		if (county) {
+			$('#ship_county').val(county);
+			updateDistrict(county);
+			if (district) {
+				setTimeout(() => {
+					setDistrict(county, district);
+				}, 100);
+			}
+		}
+		if (address) {
+			$('#ship_address').val(address);
+		}
+		
+		if (shipReceipt) {
+			$('#ship_ship_receipt').val(shipReceipt);
+			if (shipReceipt == '3') {
+				$('.ifThree').css('display','inline-block');
+				if (shipThreeId) {
+					$('#ship_three_id').val(shipThreeId);
+				}
+				if (shipThreeCompany) {
+					$('#ship_three_company').val(shipThreeCompany);
+				}
+			} else {
+				$('.ifThree').css('display','none');
+			}
+		}
+		if (shipGender) {
+			if (shipGender == '1') {
+				$('#radio1').prop('checked', true);
+			} else if (shipGender == '2') {
+				$('#radio2').prop('checked', true);
+			}
+		}
+		
+		// 設定 favorite_address 下拉選單到對應的值
+		$('#favorite_address').val(recipientId);
+		
+		// 填入資料後停用所有欄位
+		disableFormFields();
 	}

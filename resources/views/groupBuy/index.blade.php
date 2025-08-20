@@ -110,6 +110,39 @@
 				<input type="hidden" value="0" name="carrier_id">
 					
 					<table class="shipping">
+
+						<tr style="border-bottom: 1px solid darkgrey;">
+							<td>
+								<label for="">　常用資料：</label>
+								<!-- 快速選擇模式 -->
+								<div id="recipient_selection_mode" class="d-inline-block mt-4">
+									<select id="quick_recipient_select" name="favorite_address" class="form-control" onchange="onQuickRecipientChange()" style="margin-bottom: 10px;">
+										@foreach ($addresses as $address)
+											@if($address->ship_name)
+											<option value="{{$address->id}}" 
+												data-county="{{$address->county}}" 
+												data-district="{{$address->district}}" 
+												data-address="{{$address->address}}"
+												data-ship-name="{{$address->ship_name}}"
+												data-ship-phone="{{$address->ship_phone ?? ''}}"
+												data-ship-email="{{$address->ship_email ?? ''}}"
+												data-ship-receipt="{{$address->ship_receipt ?? ''}}"
+												data-ship-three-id="{{$address->ship_three_id ?? ''}}"
+												data-ship-three-company="{{$address->ship_three_company ?? ''}}"
+												data-ship-gender="{{$address->ship_gender ?? ''}}"
+											>{{$address->ship_name}} - {{$address->county}}{{$address->district}}{{$address->address}}</option>
+											@endif
+										@endforeach
+										<option value="">手動輸入新資料</option>
+									</select>
+								</div>
+							</td>
+						</tr>
+
+						<tr>
+							<td></td>
+						</tr>
+
 						<tr>
 							<td class="shipping-top-TD">
 								<label for=""><span class="required">*</span>收件人：</label>
@@ -120,6 +153,13 @@
 
   								<input id="radio2" class="radio" type="radio" name="ship_gender" value="2">
   								<span>小姐</span>
+							</td>
+						</tr>
+
+						<tr>
+							<td>
+								<label for=""></label>
+								<span style="font-size: 14px;" class="shipping-ship_email">(電子發票將寄送至此信箱)</span>
 							</td>
 						</tr>
 
@@ -137,15 +177,9 @@
 							</td>
 						</tr>
 
-						<tr>
+						<tr id="address_selection_row">
 							<td>
 								<label for=""><span class="required">*</span>地址：</label>
-
-								<select id="favorite_address" name="favorite_address" class="form-control shipping-ship_address">
-									@foreach ($addresses as $address)
-										<option value="{{$address->id}}">{{$address->county}} {{$address->district}} {{$address->address}}</option>	
-									@endforeach
-								</select>
 
 								<select id="ship_county" name="ship_county" class="shipping-ship_county form-control ship_county">
 									<option value="">縣市</option>
@@ -182,23 +216,6 @@
 							<td>
 								<label for=""></label>
 								<input id="ship_address" name="ship_address" type="text" class="shipping-ship_address form-control" placeholder="地址">
-							</td>
-						</tr>
-
-						<tr>
-							<td>
-								<label for=""></label>
-								<div id="new_address_button" class="btn btn-warning" style="cursor: pointer" onclick="onClick_newAddress()">
-									其他地址
-								</div>
-								<div id="favorite_address_button" class="btn btn-primary" style="cursor: pointer" onclick="onClick_favoriteAddress()">
-									常用地址 <img style="width: 16px" src="/images/step-1-2.png">
-								</div>
-								<div id="add_favorite_address" style="display: inline-block">
-									<span style="vertical-align: middle" style="display: inline-block">設為常用地址</span>
-									<input name="add_favorite" type="checkbox" class="form-control" style="width: 24px; height:24px; vertical-align: middle">
-								</div>
-								<input id="use_favorite_address" class="d-none" type="checkbox" name="use_favorite_address">
 							</td>
 						</tr>
 						
@@ -293,6 +310,18 @@
 								<div class="d-inline-block">
 									<span class="required">單筆交易金額，不得超過新台幣5萬元</span>
 								</div>
+							</td>
+						</tr>
+
+						<!-- 保存為常用地址選項 -->
+						<tr id="add_favorite_address">
+							<td>
+								<label for=""></label>
+								<div id="" style="display: inline-block">
+									<span style="vertical-align: middle" style="display: inline-block">設為常用收件人</span>
+									<input name="add_favorite" type="checkbox" class="form-control" style="width: 24px; height:24px; vertical-align: middle">
+								</div>
+								<input id="use_favorite_address" class="d-none" type="checkbox" name="use_favorite_address">
 							</td>
 						</tr>
 
