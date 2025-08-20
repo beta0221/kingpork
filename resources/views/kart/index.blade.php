@@ -3,7 +3,7 @@
 @section('title','| 我的購物車')
 
 @section('stylesheets')
-{{Html::style('css/_kart_1023_2.css')}}
+{{Html::style('css/_kart_0820_1.css')}}
 {{Html::style('css/_process.css')}}
 <style>
 	.contentPage{
@@ -592,7 +592,7 @@
 @endsection
 
 @section('scripts')
-{{ Html::script('js/_kart_1206_1.js') }}
+{{ Html::script('js/_kart_0820_1.js') }}
 {{-- {{ Html::script('js/_family.js') }} --}}
 
 <script>
