@@ -292,10 +292,6 @@
 
 		var _id = id.toString();
 		
-		// fbq('track', 'AddToCart', {
-		// 	content_ids: [_id],
-		// 	content_type: 'product',
-		// });
 	}
 
 	function deleteFromKart(id){
@@ -331,32 +327,3 @@
 </script>
 @endsection
 
-@section('fbq')
-<script>
-	var content_ids = [];
-	var products = {!!$productCategory->products!!};
-
-	products.forEach(element => {
-		if(element.public){
-			content_ids.push(element.id.toString());
-		}
-	});
-
-	var fbqObject = {
-		content_ids:content_ids,
-		content_type:'product',
-	};
-	function waitForFbq(callback){
-			if(typeof fbq !== 'undefined'){
-				callback()
-			} else {
-				setTimeout(function () {
-					waitForFbq(callback)
-				}, 500)
-			}
-		}
-	waitForFbq(function () {
-		fbq('track','ViewContent',fbqObject);
-	})
-</script>
-@endsection

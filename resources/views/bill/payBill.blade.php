@@ -2,15 +2,6 @@
 
 @section('title','| 付款')
 
-@section('dataLayer')
-@if(isset($dataLayer))
-	<script>
-		var d = {!!$dataLayer!!};
-		window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push(d);
-	</script>
-@endif
-@endsection
 
 @section('stylesheets')
 {{Html::style('css/_payBill.css')}}
@@ -484,52 +475,3 @@ window.onload = ECPay.init();		//!* production *!
 
 @endsection
 
-@section('fbq')
-	<script>
-			var content_ids = [];
-			var content_name = '';
-			var category_name = '';
-			var contents = [];
-			
-			d.ecommerce.purchase.products.forEach(item => {
-				content_ids.push(item.id);
-				let c = {};
-				c['id'] = item.id;
-				c['quantity'] = item.quantity;
-				contents.push(c);
-				if(content_name){
-					content_name = content_name + ',' + item.name;
-				}else{
-					content_name = item.name;
-				}
-				if(category_name){
-					category_name = category_name + ',' + item.category;
-				}else{
-					category_name = item.category;
-				}
-			});
-			
-			var fbqObject = {
-				content_ids:content_ids,
-				content_name:content_name,
-				category_name:category_name,
-				value:d.ecommerce.purchase.actionField.revenue,
-				currency:'TWD',
-				contents:contents,
-				content_type:'product',
-			};
-		function waitForFbq(callback){
-			if(typeof fbq !== 'undefined'){
-				callback()
-			} else {
-				setTimeout(function () {
-					waitForFbq(callback)
-				}, 500)
-			}
-		}
-		waitForFbq(function () {
-			fbq('track','Purchase',fbqObject);
-		})
-		
-	</script>
-@endsection

@@ -2,15 +2,6 @@
 
 @section('title','| 購買成功')
 
-@section('dataLayer')
-@if(isset($dataLayer))
-	<script>
-		var d = {!!$dataLayer!!};
-		window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push(d);
-	</script>
-@endif
-@endsection
 
 @section('stylesheets')
 {{Html::style('css/_payBill.css')}}
