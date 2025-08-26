@@ -35,6 +35,13 @@
 			</div>
 		</div>
 
+        <div class="row">
+            <div class="col-md-12">
+                <div id="error-msg-div">
+                </div>
+            </div>
+        </div>
+
 		<div class="row">
 			<div class="col-md-12">
 				<form action="/bill/{{$bill_id}}/pay" id="PayProcess" method="post"> 
@@ -103,16 +110,9 @@ $(function(){
 
 
 function ErrHandle(strErr) {
-
-    if (strErr != null) {
-        $('#ECPayPayment').append('<div style="text-align: center;"><label style="color: red;">' + strErr + '</label></div>');
-        console.log(strErr);
-    } else {
-        $('#ECPayPayment').append('<div style="text-align: center;"><label style="color: red;">Token取得失敗</label></div>');
-        console.log('Wrong');
-    }
-
-    $('#btnPay').hide();
+    let errorDiv = $('#error-msg-div');
+    errorDiv.empty();
+    errorDiv.append('<div style="text-align: center;"><label style="color: red;">' + strErr ?? 'Token取得失敗' + '</label></div>');
 }
 
 </script>
