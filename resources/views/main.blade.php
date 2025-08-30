@@ -9,10 +9,10 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>金園排骨 @yield('title')</title>
-{{Html::style('css/reset.css')}}
-{{Html::style('css/bootstrap/bootstrap.min.css')}}
-{{Html::style('css/_navbar.css')}}
-{{Html::style('css/_footer.css')}}
+{{-- 使用合併後的主要 CSS 檔案 --}}
+{{-- reset.css bootstrap.min.css _navbar.css _footer.css --}}
+{{Html::style('css/app-main.css')}}
+
 <style>
   *{
       position: relative;
@@ -41,9 +41,8 @@
 	</div>
   </body>
 
-{{ Html::script('js/jquery/jquery-3.2.1.min.js') }}
-{{ Html::script('js/bootstrap/bootstrap.min.js') }}
-{{ Html::script('js/prefix-free/prefixfree.dynamic-dom.min.js') }}
+{{-- 使用合併後的主要 JS 檔案 --}}
+{{ Html::script('js/app-main.js') }}
 <script>
 $(document).ready(function(){
   $.ajaxSetup({
