@@ -3,8 +3,7 @@
 @section('title','| 官方商城')
 
 @section('stylesheets')
-{{Html::style('css/Style_landingPage_0320.css')}}
-{{Html::style('css/owl-carousel/owl.carousel.css')}}
+{{Html::style('css/app-landing.css')}}
 @endsection
 
 @section('content')
@@ -194,11 +193,7 @@
 @endsection
 
 @section('scripts')
-{{-- {{Html::script('js/parallax/jquery.parallax-1.1.3.js')}} --}}
-{{Html::script('js/owl-carousel/owl.carousel.min.js')}}
-{{Html::script('js/landingPage.js')}}
-{{-- 圖片 Lazy Loading 腳本 --}}
-{{ Html::script('js/lazy-loading.js') }}
+{{ Html::script('js/app-landing.js') }}
 <script>
 	$(document).ready(function(){
 		$(".owl-carousel").owlCarousel({

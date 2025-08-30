@@ -26,6 +26,19 @@ if (mainCssFiles.length > 0) {
     mix.styles(mainCssFiles, 'public/css/app-main.css');
 }
 
+// 合併主要 CSS 檔案 (檢查文件是否存在後再合併)
+const landingCssFiles = [
+    'public/css/Style_landingPage_0320.css',
+    'public/css/owl-carousel/owl.carousel.css'
+].filter(file => {
+    const fs = require('fs');
+    return fs.existsSync(file);
+});
+
+if (landingCssFiles.length > 0) {
+    mix.styles(landingCssFiles, 'public/css/app-landing.css');
+}
+
 
 
 // 合併主要 JavaScript 檔案
@@ -40,6 +53,20 @@ const mainJsFiles = [
 
 if (mainJsFiles.length > 0) {
     mix.scripts(mainJsFiles, 'public/js/app-main.js');
+}
+
+// 合併 Landing Page JavaScript 檔案
+const landingJsFiles = [
+    'public/js/owl-carousel/owl.carousel.min.js',
+    'public/js/landingPage.js',
+    'public/js/lazy-loading.js'
+].filter(file => {
+    const fs = require('fs');
+    return fs.existsSync(file);
+});
+
+if (landingJsFiles.length > 0) {
+    mix.scripts(landingJsFiles, 'public/js/app-landing.js');
 }
 
 

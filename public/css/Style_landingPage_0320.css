@@ -195,6 +195,7 @@
 .send-gift:hover:before,.group-buy:hover:before,.product-cell:hover:before{
 	background-color: rgba(192,18,24,1);
 	color: #fff;
+	border-radius: .3rem;
 }
 
 /* shop-intro start*/
