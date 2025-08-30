@@ -209,6 +209,7 @@
 @endsection
 
 @section('scripts')
+{{ Html::script('js/lazy-loading.js') }}
 <script>
 	const kartProductsId = {!!json_encode($kartProductsId)!!};
 

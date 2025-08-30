@@ -76,7 +76,7 @@
 		<div class="product col-md-6 col-12 group-buy">
 			<div class="P-">
 				<a href="/group-buy/">
-					<img src="{{asset('images/vip-450*300.png')}}" alt="金園排骨">
+					<img class="lazy-image" data-src="{{asset('images/vip-450*300.png')}}" alt="金園排骨" loading="lazy">
 				</a>
 				<div onclick="location.href='/group-buy/';" class="P-buy">我要團購</div>
 			</div>
@@ -85,7 +85,7 @@
 		<div class="product col-md-6 col-12 send-gift">
 			<div class="P-">
 				<a href="/send-gift/">
-					<img src="{{asset('images/gift-450*300.png')}}" alt="金園排骨">
+					<img class="lazy-image" data-src="{{asset('images/gift-450*300.png')}}" alt="金園排骨" loading="lazy">
 				</a>
 				<div onclick="location.href='/send-gift/';" class="P-buy">我要送禮</div>
 			</div>
@@ -120,19 +120,19 @@
 		<div class="shop-intro-row">
 			
 			<div id="story-1-box" class=" shop-intro-box">
-				<img class="shop-now-img" src="{{asset('images/king2-1.png')}}" alt="金園排骨總公司">
+				<img class="lazy-image shop-now-img" data-src="{{asset('images/king2-1.png')}}" alt="金園排骨總公司" loading="lazy">
 
 			</div>
 			<div id="story-2-box" class=" shop-intro-box">
-				<img src="{{asset('images/king2-2.png')}}" alt="金園排骨春日店">
+				<img class="lazy-image" data-src="{{asset('images/king2-2.png')}}" alt="金園排骨春日店" loading="lazy">
 
 			</div>
 			<div id="story-3-box" class="shop-intro-box">
-				<img src="{{asset('images/king2-3.png')}}" alt="金園排骨長庚店">
+				<img class="lazy-image" data-src="{{asset('images/king2-3.png')}}" alt="金園排骨長庚店" loading="lazy">
 
 			</div>
 			<div id="story-4-box" class="shop-intro-box">
-				<img src="{{asset('images/king2-4.png')}}" alt="金園排骨萬年店">
+				<img class="lazy-image" data-src="{{asset('images/king2-4.png')}}" alt="金園排骨萬年店" loading="lazy">
 
 			</div>
 		</div>
@@ -197,6 +197,8 @@
 {{-- {{Html::script('js/parallax/jquery.parallax-1.1.3.js')}} --}}
 {{Html::script('js/owl-carousel/owl.carousel.min.js')}}
 {{Html::script('js/landingPage.js')}}
+{{-- 圖片 Lazy Loading 腳本 --}}
+{{ Html::script('js/lazy-loading.js') }}
 <script>
 	$(document).ready(function(){
 		$(".owl-carousel").owlCarousel({
