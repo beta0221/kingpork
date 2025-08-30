@@ -32,10 +32,6 @@ class PageController extends Controller
     	return view('pages.contact');
     }
 
-    public function showProductPage(){
-    	return view('pages.productPage');
-    }
-
     public function guide(){
         return view('pages.guide');
     }
