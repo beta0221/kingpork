@@ -238,7 +238,7 @@ class BillController extends Controller
         Log::info("BillController view_payBill debug: 2");
 
         if(!$token = $ecpay->getToken()){
-            return '系統錯誤';
+            return $ecpay->errorMsg;
         }
 
         Log::info("BillController view_payBill debug: 3");

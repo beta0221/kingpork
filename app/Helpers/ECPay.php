@@ -72,6 +72,8 @@ class ECPay{
     const PAYMENT_INFO_CARD = 'CardInfo';
     const PAYMENT_INFO_ATM = 'ATMInfo';
     
+    /** 錯誤訊息 */
+    public $errorMsg = "系統錯誤";
 
     /**
      * 建構子
@@ -260,6 +262,7 @@ class ECPay{
         
         if ($err) {
             Log::info($err);
+            $this->errorMsg = $err;
             return null;
         }
         Log::info('** Debug getToken **');
@@ -269,8 +272,11 @@ class ECPay{
         if(!isset($res['Data'])){ return null; }
         $Data = $this->string2DecryptedArray($res['Data']);
         if(!isset($Data['RtnCode']) || !isset($Data['Token'])){ return null; }
-        echo $Data['RtnMsg'];
-        if($Data['RtnCode'] != 1){ return null; }
+        
+        if($Data['RtnCode'] != 1){ 
+            $this->errorMsg = $Data['RtnMsg'];
+            return null; 
+        }
         return $Data['Token'];
         
     }
