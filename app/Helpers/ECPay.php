@@ -109,7 +109,7 @@ class ECPay{
 
         if ($bill->user_id) {
             $this->Email = $bill->ship_email;
-            $this->Phone = $bill->ship_phone;
+            $this->Phone = (strpos($bill->ship_phone, '09') === 0) ? $bill->ship_phone : null;
             $this->Name = $bill->ship_name;
             $this->CountryCode = 'TW';
         }
