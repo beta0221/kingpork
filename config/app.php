@@ -4,6 +4,8 @@ return [
 
     'gtm_id' => env('GTM_ID',''),
     'ga_id' => env('GA_ID',''),
+    'ga_api_secret' => env('GA_API_SECRET', ''),
+    
     /*
     |--------------------------------------------------------------------------
     | Application Name

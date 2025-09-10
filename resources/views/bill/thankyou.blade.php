@@ -119,7 +119,7 @@
 
 
 @section('scripts')
-@if($gaData && config('app.env') === 'production' && env('GA_ID'))
+@if($gaData && config('app.env') === 'production' && config('app.ga_id'))
 <script>
 // GA4 事件追蹤 - 根據付款方式區分處理
 if (typeof gtag !== 'undefined') {

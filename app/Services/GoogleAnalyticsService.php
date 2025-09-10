@@ -15,9 +15,9 @@ class GoogleAnalyticsService
 
     public function __construct()
     {
-        $this->measurementId = env('GA_ID');
+        $this->measurementId = config('app.ga_id');
         // GA4 Measurement Protocol 需要 API Secret，需要在 .env 中設定
-        $this->apiSecret = env('GA_API_SECRET');
+        $this->apiSecret = config('app.ga_api_secret');
         $this->endpoint = 'https://www.google-analytics.com/mp/collect';
     }
 

@@ -27,14 +27,14 @@
 
 @yield('stylesheets')
 
-@if(config('app.env') === 'production' && env('GA_ID'))
+@if(config('app.env') === 'production' && config('app.ga_id'))
 <!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id={{ env('GA_ID') }}"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ config('app.ga_id') }}"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', '{{ env('GA_ID') }}');
+  gtag('config', '{{ config('app.ga_id') }}');
 </script>
 @endif
 
@@ -123,7 +123,7 @@ function delete_item(id){
         $('#inKart').empty().append(inKart);
         
         // GA4 移除商品事件追蹤
-        @if(config('app.env') === 'production' && env('GA_ID'))
+        @if(config('app.env') === 'production' && config('app.ga_id'))
         if (typeof gtag !== 'undefined') {
             gtag('event', 'remove_from_cart', {
                 currency: 'TWD',

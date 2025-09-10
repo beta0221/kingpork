@@ -343,7 +343,7 @@ class BillController extends Controller
         
         // 準備 GA4 電商追蹤數據
         $gaData = null;
-        if (config('app.env') === 'production' && env('GA_ID')) {
+        if (config('app.env') === 'production' && config('app.ga_id')) {
             $items = json_decode($bill->item, true);
             $gaItems = [];
             

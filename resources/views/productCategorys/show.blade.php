@@ -278,7 +278,7 @@
                 $('#add_'+id).attr('onclick','deleteFromKart('+id+')');
                 
                 // GA4 加入購物車事件追蹤
-                @if(config('app.env') === 'production' && env('GA_ID'))
+                @if(config('app.env') === 'production' && config('app.ga_id'))
                 if (typeof gtag !== 'undefined') {
                     // 嘗試從頁面中取得商品資訊
                     var productElement = $('#add_' + id);
