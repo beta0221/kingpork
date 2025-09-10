@@ -27,6 +27,17 @@
 
 @yield('stylesheets')
 
+@if(config('app.env') === 'production' && env('GA_ID'))
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ env('GA_ID') }}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', '{{ env('GA_ID') }}');
+</script>
+@endif
+
 </head>
   <body>
   	<div class="wrapper">
@@ -110,6 +121,20 @@ function delete_item(id){
         // navbar cart 減一
         var inKart = parseInt($('#inKart').html()) - 1;
         $('#inKart').empty().append(inKart);
+        
+        // GA4 移除商品事件追蹤
+        @if(config('app.env') === 'production' && env('GA_ID'))
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'remove_from_cart', {
+                currency: 'TWD',
+                value: 0, // 無法取得具體價格，設為 0
+                items: [{
+                    item_id: id.toString(),
+                    quantity: 1
+                }]
+            });
+        }
+        @endif
 
         uploadSum();
     },

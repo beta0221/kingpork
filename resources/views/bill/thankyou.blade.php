@@ -119,6 +119,17 @@
 
 
 @section('scripts')
-
-
+@if($gaData && config('app.env') === 'production' && env('GA_ID'))
+<script>
+// GA4 事件追蹤 - 根據付款方式區分處理
+if (typeof gtag !== 'undefined') {
+    gtag('event', 'purchase', {
+        transaction_id: '{{ $gaData['ecommerce']['transaction_id'] }}',
+        value: {{ $gaData['ecommerce']['value'] }},
+        currency: '{{ $gaData['ecommerce']['currency'] }}',
+        items: @json($gaData['ecommerce']['items'])
+    });
+}
+</script>
+@endif
 @endsection

@@ -78,7 +78,7 @@ Route::post('bill/sendMail','BillController@sendMail')->name('bill.sendMail');
 // Route::post('bill/sendMailC','BillController@sendMailC')->name('bill.sendMailC');
 Route::get('findMemory','BillController@findMemory')->name('findMemory');
 Route::delete('/bill/cancel/{bill}','BillController@cancelBill');
-// Route::get('/bill/getDataLayerForGA/{bill_id}','BillController@getDataLayerForGA');  
+Route::get('/bill/getDataLayerForGA/{bill_id}','BillController@getDataLayerForGA');  
 Route::get('bill/{bill_id}/detail','BillController@view_billDetail')->name('billDetail');
 Route::get('bill/{bill_id}/thankyou','BillController@view_billThankyou')->name('billThankyou');
 Route::get('bill/{bill_id}/pay','BillController@view_payBill')->name('payBill');

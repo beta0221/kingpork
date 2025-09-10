@@ -15,6 +15,7 @@ use App\Helpers\ECPay;
 use App\Jobs\ECPayInvoice;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use App\Services\GoogleAnalyticsService;
 use Mail;
 
 
@@ -280,6 +281,26 @@ class BillController extends Controller
             $bill->sendBonusToBuyer();
             dispatch(new ECPayInvoice($bill,ECPayInvoice::TYPE_ISSUE)); //開立發票
 
+            // ATM交易成功時，透過後端發送GA購買轉換事件
+            if ($bill->pay_by == Bill::PAY_BY_ATM) { // ATM付款
+                try {
+                    $gaService = new GoogleAnalyticsService();
+                    // 嘗試從請求中取得 client_id，或生成新的
+                    $clientId = $this->extractClientId($request) ?? null;
+                    $gaService->sendPurchaseEvent($bill, $clientId);
+                    
+                    Log::info("GA Purchase Event sent for ATM payment", [
+                        'bill_id' => $bill_id,
+                        'amount' => $bill->price
+                    ]);
+                } catch (\Exception $e) {
+                    Log::error("Failed to send GA Purchase Event for ATM payment", [
+                        'bill_id' => $bill_id,
+                        'error' => $e->getMessage()
+                    ]);
+                }
+            }
+
             // 儲存信用卡資訊
             // if ($bill->save_credit_card == 1 && $bill->pay_by == BILL::PAY_BY_CREDIT) {
             //     if ($cardInfo = $ecpay->getCardInfo($request)) {
@@ -297,6 +318,20 @@ class BillController extends Controller
         return "1|OK";
     }
 
+    /**
+     * 從請求中提取 Google Analytics Client ID
+     * 
+     * @param Request $request
+     * @return string|null
+     */
+    private function extractClientId(Request $request)
+    {
+        // 嘗試從請求參數中取得 client_id
+        // 這需要在前端付款時將 GA client_id 傳送到後端
+        // 目前先返回 null，讓 GoogleAnalyticsService 自動生成
+        return null;
+    }
+
     /** 綠界付款完成頁面  */
     public function view_ecpay_thankyouPage($bill_id){
         return redirect()->route('billThankyou',['bill_id'=>$bill_id]);
@@ -305,10 +340,42 @@ class BillController extends Controller
     public function view_billThankyou($bill_id){
         $bill = Bill::where('bill_id',$bill_id)->firstOrFail();
         $products = $bill->products();
+        
+        // 準備 GA4 電商追蹤數據
+        $gaData = null;
+        if (config('app.env') === 'production' && env('GA_ID')) {
+            $items = json_decode($bill->item, true);
+            $gaItems = [];
+            
+            foreach ($items as $item) {
+                $product = Products::where('slug', $item['slug'])->first();
+                if ($product) {
+                    $category = $product->productCategory()->first();
+                    $gaItems[] = [
+                        'item_name' => $product->name,
+                        'item_id' => (string)$product->id,
+                        'price' => (float)$product->price,
+                        'item_category' => $category ? $category->name : '未分類',
+                        'quantity' => (int)$item['quantity'],
+                    ];
+                }
+            }
+            
+            $gaData = [
+                'event' => 'purchase',
+                'ecommerce' => [
+                    'transaction_id' => $bill_id,
+                    'value' => (float)$bill->price,
+                    'currency' => 'TWD',
+                    'items' => $gaItems
+                ]
+            ];
+        }
 
         return view('bill.thankyou',[
             'bill'=>$bill,
             'products' => $products,
+            'gaData' => $gaData,
         ]);
     }
 
@@ -358,49 +425,38 @@ class BillController extends Controller
 
 
     public function getDataLayerForGA($bill_id){
-
         $bill = Bill::where('bill_id',$bill_id)->firstOrFail();
-
         $items = json_decode($bill->item,true);
-
         
-
-        $products=[];
+        $products = [];
         foreach ($items as $item) {
-            // return response()->json($item);
             $product = Products::where('slug',$item['slug'])->first();
             
-            $obj = [
-                'name'=>$product->name,
-                'id'=>(string)$product->id,
-                'price'=>$product->price,
-                'category'=>$product->productCategory()->first()->name,
-                'quantity'=>(int)$item['quantity'],
-            ];
-            $products[] = $obj;
+            if ($product) {
+                $category = $product->productCategory()->first();
+                $obj = [
+                    'item_name' => $product->name,
+                    'item_id' => (string)$product->id,
+                    'price' => (float)$product->price,
+                    'item_category' => $category ? $category->name : '未分類',
+                    'quantity' => (int)$item['quantity'],
+                ];
+                $products[] = $obj;
+            }
         }
-
         
-
-        $actionField = [];
-        $actionField['id'] = $bill_id;
-        $actionField['revenue'] = $bill->price;
-
-        $purchase = [];
-        $ecommerce = [];
-
-        $dataLayer = [];
-        $dataLayer['ecommerce'] = [];
-        $dataLayer['ecommerce']['purchase'] = [];
-        $dataLayer['ecommerce']['purchase']['actionField'] = $actionField;
-        $dataLayer['ecommerce']['purchase']['products'] = $products;
-        $dataLayer['event'] = 'purchaseComplete';
-        $dataLayer['currencyCode'] = 'TWD';
-
-
-        // return response()->json($dataLayer);
-        return $dataLayer;
-
+        // GA4 格式的購買事件數據
+        $dataLayer = [
+            'event' => 'purchase',
+            'ecommerce' => [
+                'transaction_id' => $bill_id,
+                'value' => (float)$bill->price,
+                'currency' => 'TWD',
+                'items' => $products
+            ]
+        ];
+        
+        return response()->json($dataLayer);
     }
 
 

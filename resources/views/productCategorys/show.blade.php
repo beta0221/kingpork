@@ -277,6 +277,24 @@
                 $('#add_'+id).addClass('deleteKartBtn');
                 $('#add_'+id).attr('onclick','deleteFromKart('+id+')');
                 
+                // GA4 加入購物車事件追蹤
+                @if(config('app.env') === 'production' && env('GA_ID'))
+                if (typeof gtag !== 'undefined') {
+                    // 嘗試從頁面中取得商品資訊
+                    var productElement = $('#add_' + id);
+                    if (productElement.length) {
+                        gtag('event', 'add_to_cart', {
+                            currency: 'TWD',
+                            value: 0, // 無法從此處取得具體價格
+                            items: [{
+                                item_id: id.toString(),
+                                quantity: 1
+                            }]
+                        });
+                    }
+                }
+                @endif
+                
 				getKartProducts();
                 
             },
