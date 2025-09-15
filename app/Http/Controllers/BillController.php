@@ -344,19 +344,17 @@ class BillController extends Controller
         // 準備 GA4 電商追蹤數據
         $gaData = null;
         if (config('app.env') === 'production' && config('app.ga_id')) {
-            $items = json_decode($bill->item, true);
+            $items = $bill->products();
             $gaItems = [];
             
             foreach ($items as $item) {
-                $product = Products::where('slug', $item['slug'])->first();
-                if ($product) {
-                    $category = $product->productCategory()->first();
+                if ($product = Products::find($item->product_id)) {
                     $gaItems[] = [
-                        'item_name' => $product->name,
-                        'item_id' => (string)$product->id,
-                        'price' => (float)$product->price,
-                        'item_category' => $category ? $category->name : '未分類',
-                        'quantity' => (int)$item['quantity'],
+                        'item_name' => $item->name,
+                        'item_id' => (string)$item->product_id,
+                        'price' => (float)$item->price,
+                        'item_category' => $product->productCategory->name,
+                        'quantity' => (int)$item->quantity,
                     ];
                 }
             }

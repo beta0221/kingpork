@@ -127,7 +127,7 @@ if (typeof gtag !== 'undefined') {
         transaction_id: '{{ $gaData['ecommerce']['transaction_id'] }}',
         value: {{ $gaData['ecommerce']['value'] }},
         currency: '{{ $gaData['ecommerce']['currency'] }}',
-        items: @json($gaData['ecommerce']['items'])
+        items: json_encode($gaData['ecommerce']['items'])
     });
 }
 </script>
