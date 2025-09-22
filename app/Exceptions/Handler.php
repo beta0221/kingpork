@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Session\TokenMismatchException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
@@ -44,6 +45,21 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        // 處理CSRF Token Mismatch異常
+        if ($exception instanceof TokenMismatchException) {
+            // 如果是AJAX請求，返回JSON響應
+            if ($request->ajax() || $request->expectsJson()) {
+                return response()->json([
+                    'error' => 'CSRF token mismatch',
+                    'message' => '安全驗證已過期，請重新載入頁面',
+                    'reload' => true
+                ], 419);
+            }
+            
+            // 一般請求返回自定義錯誤頁面
+            return response()->view('errors.csrf', [], 419);
+        }
+
         return parent::render($request, $exception);
     }
 
