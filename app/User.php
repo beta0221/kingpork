@@ -48,6 +48,16 @@ class User extends Authenticatable
         return $this->hasMany('App\FavoriteAddress', 'user_id');
     }
 
+    public function creditCards()
+    {
+        return $this->hasMany('App\UserCreditCard', 'user_id');
+    }
+
+    public function getDefaultCreditCardAttribute()
+    {
+        return $this->creditCards()->where('is_default', true)->where('is_active', true)->first();
+    }
+
     /**使用者購物車中的商品id */
     public function kartProductsId()
     {
@@ -71,7 +81,11 @@ class User extends Authenticatable
     public function updateBonus($amount, $decrease = true)
     {
         if ($decrease) {
-            $this->bonus -= $amount;
+            if ($amount > $this->bonus) {
+                $this->bonus = 0;
+            } else {
+                $this->bonus -= $amount;
+            }
         } else {
             $this->bonus += $amount;
         }

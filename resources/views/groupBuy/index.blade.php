@@ -4,7 +4,7 @@
 
 @section('stylesheets')
 {{Html::style('css/_groupBuy.css')}}
-{{Html::style('css/_kart_1023_2.css')}}
+{{Html::style('css/_kart_0820_1.css')}}
 {{Html::style('css/_groupBuy_kart.css')}}
 @endsection
 
@@ -110,6 +110,39 @@
 				<input type="hidden" value="0" name="carrier_id">
 					
 					<table class="shipping">
+
+						<tr style="border-bottom: 1px solid darkgrey;">
+							<td>
+								<label for="">　常用資料：</label>
+								<!-- 快速選擇模式 -->
+								<div id="recipient_selection_mode" class="d-inline-block mt-4">
+									<select id="quick_recipient_select" name="favorite_address" class="form-control" onchange="onQuickRecipientChange()" style="margin-bottom: 10px;">
+										@foreach ($addresses as $address)
+											@if($address->ship_name)
+											<option value="{{$address->id}}" 
+												data-county="{{$address->county}}" 
+												data-district="{{$address->district}}" 
+												data-address="{{$address->address}}"
+												data-ship-name="{{$address->ship_name}}"
+												data-ship-phone="{{$address->ship_phone ?? ''}}"
+												data-ship-email="{{$address->ship_email ?? ''}}"
+												data-ship-receipt="{{$address->ship_receipt ?? ''}}"
+												data-ship-three-id="{{$address->ship_three_id ?? ''}}"
+												data-ship-three-company="{{$address->ship_three_company ?? ''}}"
+												data-ship-gender="{{$address->ship_gender ?? ''}}"
+											>{{$address->ship_name}} - {{$address->county}}{{$address->district}}{{$address->address}}</option>
+											@endif
+										@endforeach
+										<option value="">手動輸入新資料</option>
+									</select>
+								</div>
+							</td>
+						</tr>
+
+						<tr>
+							<td></td>
+						</tr>
+
 						<tr>
 							<td class="shipping-top-TD">
 								<label for=""><span class="required">*</span>收件人：</label>
@@ -120,6 +153,13 @@
 
   								<input id="radio2" class="radio" type="radio" name="ship_gender" value="2">
   								<span>小姐</span>
+							</td>
+						</tr>
+
+						<tr>
+							<td>
+								<label for=""></label>
+								<span style="font-size: 14px;" class="shipping-ship_email">(電子發票將寄送至此信箱)</span>
 							</td>
 						</tr>
 
@@ -137,9 +177,10 @@
 							</td>
 						</tr>
 
-						<tr>
+						<tr id="address_selection_row">
 							<td>
 								<label for=""><span class="required">*</span>地址：</label>
+
 								<select id="ship_county" name="ship_county" class="shipping-ship_county form-control ship_county">
 									<option value="">縣市</option>
 									<option value="基隆市">基隆市</option>
@@ -163,7 +204,7 @@
 									<option value="宜蘭縣">宜蘭縣</option>
 								</select>
 							
-								<select name="ship_district" class="shipping-ship_district form-control ship_district">
+								<select id="ship_district" name="ship_district" class="shipping-ship_district form-control ship_district">
 									<option value="">地區</option>
 									
 									
@@ -171,7 +212,7 @@
 							</td>
 						</tr>
 
-						<tr>
+						<tr id="ship_address_column" class="blackcat-column">
 							<td>
 								<label for=""></label>
 								<input id="ship_address" name="ship_address" type="text" class="shipping-ship_address form-control" placeholder="地址">
@@ -202,12 +243,24 @@
 							</td>
 						</tr>
 
-						<tr style="display: none">
+						<tr>
 							<td>
-								<label for="">　時間：</label>
-								<input name="ship_time" class="radio" type="radio" name="time" value="no" checked><span>不指定</span>
+								<label class="align-top" for="">　出貨時間：</label>
+								{{-- <input name="ship_time" class="radio" type="radio" name="time" value="no" checked><span>不指定</span>
   								<input id="1300" name="ship_time" class="radio" type="radio" name="time" value="13:00"><span>13:00前</span>
-  								<input id="1400-1800" name="ship_time" class="radio" type="radio" name="time" value="14:00-18:00"><span>14:00-18:00</span>
+  								<input id="1400-1800" name="ship_time" class="radio" type="radio" name="time" value="14:00-18:00"><span>14:00-18:00</span> --}}
+
+								  <div class="d-inline-block">
+									<div>
+										<input class="radio" type="radio" name="ship_time" value="隨時可出貨" checked><span>隨時可出貨</span>
+									</div>
+									<div>
+										<input class="radio" type="radio" name="ship_time" value="出貨前電話通知我"><span>出貨前電話通知我</span>
+									</div>
+									<div>
+										<input class="radio" type="radio" name="ship_time" value="請等我通知日期再出貨"><span>請等我通知日期再出貨</span>
+									</div>
+								</div>
 							</td>
 						</tr>
 
@@ -251,6 +304,26 @@
 								</div>
 							</td>
 						</tr>
+						<tr>
+							<td>
+								<label for=""></label>
+								<div class="d-inline-block">
+									<span class="required">單筆交易金額，不得超過新台幣5萬元</span>
+								</div>
+							</td>
+						</tr>
+
+						<!-- 保存為常用地址選項 -->
+						<tr id="add_favorite_address">
+							<td>
+								<label for=""></label>
+								<div id="" style="display: inline-block">
+									<span style="vertical-align: middle" style="display: inline-block">設為常用收件人</span>
+									<input name="add_favorite" type="checkbox" class="form-control" style="width: 24px; height:24px; vertical-align: middle">
+								</div>
+								<input id="use_favorite_address" class="d-none" type="checkbox" name="use_favorite_address">
+							</td>
+						</tr>
 
 					</table>
 					
@@ -280,7 +353,15 @@
 @endsection
 
 @section('scripts')
+<script>
+	// 是否有常用地址
+	const hasFavoriteAddress = {{count($addresses) > 0 ? 'true' : 'false'}};
+	
+	// 加購條件
+	const relation = {};
+</script>
+
 {{ Html::script('js/bootstrap/bootstrap.min.js') }}
-{{ Html::script('js/_kart_1206_1.js') }}
-{{ Html::script('js/_groupBuy_kart_1016.js') }}
+{{ Html::script('js/_kart_0820_1.js') }}
+{{ Html::script('js/_groupBuy_kart_0820_1.js') }}
 @endsection

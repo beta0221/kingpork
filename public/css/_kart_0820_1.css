@@ -358,4 +358,19 @@
 		left: 100px;
 		width: 240px;
 	}
+
+	/* 停用欄位樣式 */
+	.form-field-disabled {
+		background-color: #f8f9fa !important;
+		border-color: #ced4da !important;
+		color: #495057 !important;
+		cursor: not-allowed !important;
+	}
+
+	.form-field-disabled:focus {
+		background-color: #f8f9fa !important;
+		border-color: #ced4da !important;
+		box-shadow: none !important;
+	}
+	
 }

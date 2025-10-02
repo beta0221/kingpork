@@ -209,6 +209,7 @@
 @endsection
 
 @section('scripts')
+{{ Html::script('js/lazy-loading.js') }}
 <script>
 	const kartProductsId = {!!json_encode($kartProductsId)!!};
 
@@ -276,6 +277,24 @@
                 $('#add_'+id).addClass('deleteKartBtn');
                 $('#add_'+id).attr('onclick','deleteFromKart('+id+')');
                 
+                // GA4 加入購物車事件追蹤
+                @if(config('app.env') === 'production' && config('app.ga_id'))
+                if (typeof gtag !== 'undefined') {
+                    // 嘗試從頁面中取得商品資訊
+                    var productElement = $('#add_' + id);
+                    if (productElement.length) {
+                        gtag('event', 'add_to_cart', {
+                            currency: 'TWD',
+                            value: 0, // 無法從此處取得具體價格
+                            items: [{
+                                item_id: id.toString(),
+                                quantity: 1
+                            }]
+                        });
+                    }
+                }
+                @endif
+                
 				getKartProducts();
                 
             },
@@ -292,10 +311,6 @@
 
 		var _id = id.toString();
 		
-		// fbq('track', 'AddToCart', {
-		// 	content_ids: [_id],
-		// 	content_type: 'product',
-		// });
 	}
 
 	function deleteFromKart(id){
@@ -331,32 +346,3 @@
 </script>
 @endsection
 
-@section('fbq')
-<script>
-	var content_ids = [];
-	var products = {!!$productCategory->products!!};
-
-	products.forEach(element => {
-		if(element.public){
-			content_ids.push(element.id.toString());
-		}
-	});
-
-	var fbqObject = {
-		content_ids:content_ids,
-		content_type:'product',
-	};
-	function waitForFbq(callback){
-			if(typeof fbq !== 'undefined'){
-				callback()
-			} else {
-				setTimeout(function () {
-					waitForFbq(callback)
-				}, 500)
-			}
-		}
-	waitForFbq(function () {
-		fbq('track','ViewContent',fbqObject);
-	})
-</script>
-@endsection

@@ -3,7 +3,7 @@
 @section('title','| 我的購物車')
 
 @section('stylesheets')
-{{Html::style('css/_kart_1023_2.css')}}
+{{Html::style('css/_kart_0820_1.css')}}
 {{Html::style('css/_process.css')}}
 <style>
 	.contentPage{
@@ -87,8 +87,6 @@
 
 <div class="contentPage">
 	<div class="container">
-
-		
 
 		<div class="row">
 			<div class="col-lg-10 offset-lg-1 col-12 outter">
@@ -215,15 +213,46 @@
 					
 					<table class="shipping">
 
-						<tr class="family-column" style="display: none">
+						{{-- <tr class="family-column" style="display: none">
 							<td>
 								<label for=""></label>
 								<span style="font-size: 14px;" class="shipping-ship_email">(全家取貨需出示身份證核對資料)</span>
 							</td>
+						</tr> --}}
+
+						<tr style="border-bottom: 1px solid darkgrey;">
+							<td>
+								<label for="">　常用資料：</label>
+								<!-- 快速選擇模式 -->
+								<div id="recipient_selection_mode" class="d-inline-block mt-4">
+									<select id="quick_recipient_select" name="favorite_address" class="form-control" onchange="onQuickRecipientChange()" style="margin-bottom: 10px;">
+										@foreach ($addresses as $address)
+											@if($address->ship_name)
+											<option value="{{$address->id}}" 
+												data-county="{{$address->county}}" 
+												data-district="{{$address->district}}" 
+												data-address="{{$address->address}}"
+												data-ship-name="{{$address->ship_name}}"
+												data-ship-phone="{{$address->ship_phone ?? ''}}"
+												data-ship-email="{{$address->ship_email ?? ''}}"
+												data-ship-receipt="{{$address->ship_receipt ?? ''}}"
+												data-ship-three-id="{{$address->ship_three_id ?? ''}}"
+												data-ship-three-company="{{$address->ship_three_company ?? ''}}"
+												data-ship-gender="{{$address->ship_gender ?? ''}}"
+											>{{$address->ship_name}} - {{$address->county}}{{$address->district}}{{$address->address}}</option>
+											@endif
+										@endforeach
+										<option value="">手動輸入新資料</option>
+									</select>
+								</div>
+							</td>
 						</tr>
 
 						<tr>
-							<td class="shipping-top-TD">
+							<td></td>
+						</tr>
+						<tr>
+							<td>
 								<label for=""><span class="required">*</span>收件人：</label>
 								<input id="ship_name" name="ship_name" type="text" class="shipping-ship_name form-control" placeholder="收件人" value="{{Auth::user()->name}}" style="">		
 							
@@ -294,15 +323,10 @@
 							</td>
 						</tr>
 
-						<tr class="blackcat-column">
+						<tr class="blackcat-column" id="address_selection_row">
 							<td>
 								<label for=""><span class="required">*</span>地址：</label>
 
-								<select id="favorite_address" name="favorite_address" class="form-control shipping-ship_address">
-									@foreach ($addresses as $address)
-										<option value="{{$address->id}}">{{$address->county}} {{$address->district}} {{$address->address}}</option>	
-									@endforeach
-								</select>
 
 								<select id="ship_county" name="ship_county" class="shipping-ship_county form-control ship_county">
 									<option value="">縣市</option>
@@ -342,22 +366,6 @@
 							</td>
 						</tr>
 
-						<tr>
-							<td>
-								<label for=""></label>
-								<div id="new_address_button" class="btn btn-warning" style="cursor: pointer" onclick="onClick_newAddress()">
-									其他地址
-								</div>
-								<div id="favorite_address_button" class="btn btn-primary" style="cursor: pointer" onclick="onClick_favoriteAddress()">
-									常用地址 <img style="width: 16px" src="/images/step-1-2.png">
-								</div>
-								<div id="add_favorite_address" style="display: inline-block">
-									<span style="vertical-align: middle" style="display: inline-block">設為常用地址</span>
-									<input name="add_favorite" type="checkbox" class="form-control" style="width: 24px; height:24px; vertical-align: middle">
-								</div>
-								<input id="use_favorite_address" class="d-none" type="checkbox" name="use_favorite_address">
-							</td>
-						</tr>
 
 						<tr style="display: none">
 							<td>
@@ -383,12 +391,25 @@
 							</td>
 						</tr>
 
-						<tr style="display: none">
+						<tr>
 							<td>
-								<label for="">　時間：</label>
-								<input name="ship_time" class="radio" type="radio" name="time" value="no" checked><span>不指定</span>
+								<label class="align-top" for="">　出貨時間：</label>
+								{{-- <input name="ship_time" class="radio" type="radio" name="time" value="no" checked><span>不指定</span>
 								<input id="1300" name="ship_time" class="radio" type="radio" name="time" value="13:00"><span>13:00前</span>
-								<input id="1400-1800" name="ship_time" class="radio" type="radio" name="time" value="14:00-18:00"><span>14:00-18:00</span>
+								<input id="1400-1800" name="ship_time" class="radio" type="radio" name="time" value="14:00-18:00"><span>14:00-18:00</span> --}}
+
+								<div class="d-inline-block">
+									<div>
+										<input class="radio" type="radio" name="ship_time" value="隨時可出貨" checked><span>隨時可出貨</span>
+									</div>
+									<div>
+										<input class="radio" type="radio" name="ship_time" value="出貨前電話通知我"><span>出貨前電話通知我</span>
+									</div>
+									<div>
+										<input class="radio" type="radio" name="ship_time" value="請等我通知日期再出貨"><span>請等我通知日期再出貨</span>
+									</div>
+								</div>
+
 							</td>
 						</tr>
 
@@ -417,7 +438,7 @@
 							<td>
 								<label for="">　使用紅利：</label>
 								<input id="bonus" max="" name="bonus" type="number" class="shipping-bonus form-control" value="0">
-								<label id="myBonus" for="">　累積紅利：<span></span></label>
+								<label id="myBonus" for="">　累積紅利：<span>{{Auth::user()->bonus}}</span></label>
 							</td>
 						</tr>
 
@@ -432,6 +453,68 @@
 								</div>
 							</td>
 						</tr>
+
+						<!-- 保存為常用地址選項 -->
+						<tr id="add_favorite_address">
+							<td>
+								<label for=""></label>
+								<div id="" style="display: inline-block">
+									<span style="vertical-align: middle" style="display: inline-block">設為常用收件人</span>
+									<input name="add_favorite" type="checkbox" class="form-control" style="width: 24px; height:24px; vertical-align: middle">
+								</div>
+								<input id="use_favorite_address" class="d-none" type="checkbox" name="use_favorite_address">
+							</td>
+						</tr>
+
+						{{-- @if(Auth::check()) --}}
+						<!-- 信用卡相關選項 -->
+						{{-- <tr class="credit_card_options" style="display: none;">
+							<td>
+								@if(Auth::user()->creditCards()->active()->count() > 0)
+									<label for="">　選擇卡片：</label>
+									<div class="d-inline-block">
+										
+										<div class="saved_cards">
+											<input id="use_new_card" class="radio" type="radio" name="credit_card_option" value="new" checked>
+											<span>使用新信用卡</span>
+											@foreach(Auth::user()->creditCards()->active()->orderBy('is_default', 'desc')->get() as $card)
+												<div class="mt-1">
+													<input id="use_saved_card_{{ $card->id }}" class="radio" type="radio" name="credit_card_option" value="saved">
+													<input type="hidden" name="use_saved_card" value="{{ $card->id }}">
+													<span>{{ $card->masked_card_number }} ({{ $card->card_alias }})
+														@if($card->is_default) <small class="text-success">預設</small> @endif
+													</span>
+												</div>
+											@endforeach
+										</div>
+									</div>
+								@endif
+								
+							</td>
+						</tr>
+						<tr class="credit_card_options" style="display: none;">
+							<td>
+								<label for=""></label>
+								<div class="d-inline-block">
+									<a href="{{ route('creditCard.index') }}" target="_blank" class="btn btn-sm btn-outline-primary">
+										管理我的信用卡
+									</a>
+								</div>
+							</td>
+						</tr> --}}
+						{{-- <tr class="credit_card_options" style="display: none;">
+							<td>
+								<label for=""></label>
+								<div id="save_card_option" class="d-inline-block">
+									<input type="checkbox" id="save_credit_card" name="save_credit_card" value="1">
+									<span>儲存此次結帳信用卡資訊，下次結帳更便利</span>
+									<div style="font-size: 12px; color: #666; margin-top: 5px;">
+										※ 我們僅儲存卡號前六後四碼用於識別，不會儲存完整卡號資訊
+									</div>
+								</div>
+							</td>
+						</tr> --}}
+						{{-- @endif --}}
 
 
 					</table>
@@ -509,13 +592,11 @@
 @endsection
 
 @section('scripts')
-{{ Html::script('js/_kart_1206_1.js') }}
+{{ Html::script('js/_kart_0820_1.js') }}
 {{-- {{ Html::script('js/_family.js') }} --}}
 
 <script>
 
-	// 是否有常用地址
-	const hasFavoriteAddress = {{count($addresses) > 0 ? 'true' : 'false'}};
 
 	// 加購條件
 	const relation = {!!json_encode($relation)!!};
@@ -536,5 +617,31 @@
             }
 		});
 	}
+
+	// 信用卡選項控制
+	// $(document).ready(function() {
+	// 	// 監聽付款方式變更
+	// 	$('input[name="ship_pay_by"]').change(function() {
+	// 		if ($(this).val() === 'CREDIT') {
+	// 			$('.credit_card_options').show();
+	// 		} else {
+	// 			$('.credit_card_options').hide();
+	// 		}
+	// 	});
+
+		// 監聽信用卡選擇變更
+		// $('input[name="credit_card_option"]').change(function() {
+		// 	if ($(this).val() === 'new') {
+		// 		$('#save_card_option').show();
+		// 		// 清除已選擇的儲存卡片
+		// 		$('input[name="use_saved_card"]').prop('checked', false);
+		// 	} else if ($(this).val() === 'saved') {
+		// 		$('#save_card_option').hide();
+		// 		// 設定選中的儲存卡片
+		// 		var cardId = $(this).siblings('input[name="use_saved_card"]').val();
+		// 		$('input[name="use_saved_card"]').val(cardId);
+		// 	}
+		// });
+	// });
 </script>
 @endsection

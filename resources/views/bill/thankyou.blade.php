@@ -2,15 +2,6 @@
 
 @section('title','| 購買成功')
 
-@section('dataLayer')
-@if(isset($dataLayer))
-	<script>
-		var d = {!!$dataLayer!!};
-		window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push(d);
-	</script>
-@endif
-@endsection
 
 @section('stylesheets')
 {{Html::style('css/_payBill.css')}}
@@ -128,6 +119,17 @@
 
 
 @section('scripts')
-
-
+@if($gaData && config('app.env') === 'production' && config('app.ga_id'))
+<script>
+// GA4 事件追蹤 - 根據付款方式區分處理
+if (typeof gtag !== 'undefined') {
+    gtag('event', 'purchase', {
+        transaction_id: '{{ $gaData['ecommerce']['transaction_id'] }}',
+        value: {{ $gaData['ecommerce']['value'] }},
+        currency: '{{ $gaData['ecommerce']['currency'] }}',
+        items: json_encode($gaData['ecommerce']['items'])
+    });
+}
+</script>
+@endif
 @endsection

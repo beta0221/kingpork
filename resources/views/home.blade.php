@@ -14,7 +14,18 @@
                         </div>
                     @endif
 
-                    You are logged in!
+                    <h4>會員功能</h4>
+                    <div class="list-group">
+                        <a href="{{ route('bill.index') }}" class="list-group-item">
+                            <i class="fa fa-shopping-bag"></i> 訂單管理
+                        </a>
+                        <a href="{{ route('creditCard.index') }}" class="list-group-item">
+                            <i class="fa fa-credit-card"></i> 信用卡管理
+                        </a>
+                        <a href="{{ route('kart.index') }}" class="list-group-item">
+                            <i class="fa fa-shopping-cart"></i> 購物車
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

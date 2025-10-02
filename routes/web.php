@@ -22,7 +22,6 @@ Route::get('/','PageController@getLanding');
 Route::get('/menustudy','SingleController@showMenustudy')->name('menustudy');
 
 Route::get('/contact','PageController@getContact')->name('contact');
-Route::get('/productPage','PageController@showProductPage')->name('showProductPage');
 Route::get('/guide','PageController@guide')->name('guide');
 Route::post('/contactUs','PageController@contactUs');
 Route::get('/about-line','PageController@aboutLine');
@@ -79,7 +78,7 @@ Route::post('bill/sendMail','BillController@sendMail')->name('bill.sendMail');
 // Route::post('bill/sendMailC','BillController@sendMailC')->name('bill.sendMailC');
 Route::get('findMemory','BillController@findMemory')->name('findMemory');
 Route::delete('/bill/cancel/{bill}','BillController@cancelBill');
-// Route::get('/bill/getDataLayerForGA/{bill_id}','BillController@getDataLayerForGA');  
+Route::get('/bill/getDataLayerForGA/{bill_id}','BillController@getDataLayerForGA');  
 Route::get('bill/{bill_id}/detail','BillController@view_billDetail')->name('billDetail');
 Route::get('bill/{bill_id}/thankyou','BillController@view_billThankyou')->name('billThankyou');
 Route::get('bill/{bill_id}/pay','BillController@view_payBill')->name('payBill');
@@ -125,6 +124,12 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/users/logout','Auth\LoginController@userLogout')->name('user.logout');
 Route::get('memberHash','memberHash@memberHash');
+
+//Credit Card Management routes
+// Route::group(['middleware' => 'auth'], function() {
+//     Route::resource('creditCard', 'CreditCardController', ['except' => ['show']]);
+//     Route::post('creditCard/{id}/setDefault', 'CreditCardController@setDefault')->name('creditCard.setDefault');
+// });
 
 //admin routes
 Route::get('admin','AdminController@index')->name('admin.dashboard');

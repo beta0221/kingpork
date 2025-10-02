@@ -206,7 +206,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td class="head">指定到貨時間</td>
+					<td class="head">出貨時間</td>
 					<td>{{$bill->ship_arriveDate}}{{$bill->ship_time}}</td>
 					<td class="head">發票</td>
 					<td>

@@ -24,7 +24,7 @@ class ECPay{
     /** 串接文件版號 */
     private $Revision = "1.0.0";
     /** 是否使用記憶卡號 0否 1是 */
-    private $RememberCard = 0;
+    private $RememberCard = 1;
     /** 畫面的呈現方式 */
     private $PaymentUIType = 2;
     /** 欲使用的付款方式 1.信用卡付清 3.ATM */
@@ -74,6 +74,8 @@ class ECPay{
     const PAYMENT_INFO_CARD = 'CardInfo';
     const PAYMENT_INFO_ATM = 'ATMInfo';
     
+    /** 錯誤訊息 */
+    public $errorMsg = "系統錯誤";
 
     /**
      * 建構子
@@ -96,6 +98,7 @@ class ECPay{
         $this->TotalAmount = (int)$bill->price;
         $this->ReturnURL = route('ecpay_ReturnURL',['bill_id'=>$bill->bill_id]);
         $this->OrderResultURL = route('ecpay_OrderResultURL',['bill_id'=>$bill->bill_id]);
+        $this->MerchantMemberID = 'USER_' . $bill->user_id;
 
         switch ($bill->pay_by) {
             case 'CREDIT':
@@ -106,6 +109,13 @@ class ECPay{
                 break;
             default:
                 break;
+        }
+
+        if ($bill->user_id) {
+            $this->Email = $bill->ship_email;
+            $this->Phone = (strpos($bill->ship_phone, '09') === 0) ? $bill->ship_phone : null;
+            $this->Name = $bill->ship_name;
+            $this->CountryCode = 'TW';
         }
 
     }
@@ -263,6 +273,7 @@ class ECPay{
         
         if ($err) {
             Log::info($err);
+            $this->errorMsg = $err;
             return null;
         }
         Log::info('** Debug getToken **');
@@ -272,8 +283,11 @@ class ECPay{
         if(!isset($res['Data'])){ return null; }
         $Data = $this->string2DecryptedArray($res['Data']);
         if(!isset($Data['RtnCode']) || !isset($Data['Token'])){ return null; }
-        // echo $Data['RtnMsg'];
-        if($Data['RtnCode'] != 1){ return null; }
+        
+        if($Data['RtnCode'] != 1){ 
+            $this->errorMsg = $Data['RtnMsg'];
+            return null; 
+        }
         return $Data['Token'];
         
     }
@@ -338,7 +352,7 @@ class ECPay{
      */
     public function handlePayRequest(Request $request){
         $res = json_decode($request->getContent(),true);
-        if(!isset($res['TransCode']) || !isset($res['TransMsg']) || !isset($res['Data'])){ return; }
+        if(!isset($res['TransCode']) || !isset($res['TransMsg']) || !isset($res['Data'])){ return false; }
         PaymentLog::insert_row(
             $this->bill->id,
             PaymentLog::TYPE_PAY_REQUEST,
@@ -355,6 +369,20 @@ class ECPay{
         }
 
         return false;
+    }
+
+    /**
+     * 取得交易卡片資訊
+     * @return array
+     */
+    public function getCardInfo(Request $request) {
+        $res = json_decode($request->getContent(),true);
+
+        if(!isset($res["Data"])) { return null; }
+        $data = $this->string2DecryptedArray($res['Data']);
+
+        if (!isset($data["CardInfo"])) { return null; }
+        return $data["CardInfo"];
     }
 
     /**

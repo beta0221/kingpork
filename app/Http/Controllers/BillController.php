@@ -15,6 +15,7 @@ use App\Helpers\ECPay;
 use App\Jobs\ECPayInvoice;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use App\Services\GoogleAnalyticsService;
 use Mail;
 
 
@@ -46,7 +47,7 @@ class BillController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth',['only'=>['index','findMemory','cancelBill']]);
+        $this->middleware('auth',['only'=>['index','findMemory','cancelBill', 'view_billDetail']]);
     }
 
 
@@ -75,7 +76,22 @@ class BillController extends Controller
 
         Log::info("BillController store debug: 1");
 
-        $this->validate($request, static::CHECKOUT_RULES);
+        $this->validate($request,[
+            'item.*'=>'required',
+            'quantity.*'=>'required|integer|min:0',
+            'ship_name'=>'required',
+            'ship_phone'=>'required',
+            'ship_address'=>'required_if:use_favorite_address,0',
+            'ship_email'=>'required|E-mail',
+            'ship_pay_by'=>'required',
+            'carrier_id'=>'required',
+            'store_number'=>'required_if:carrier_id,1',
+            'store_name'=>'required_if:carrier_id,1',
+            'store_address'=>'required_if:carrier_id,1',
+            'favorite_address'=>'required_if:use_favorite_address,1',
+            'save_credit_card'=>'boolean',
+            // 'use_saved_card'=>'integer|exists:user_credit_cards,id'
+        ]);
 
         if($request->carrier_id == Bill::CARRIER_ID_FAMILY_MART && $request->ship_pay_by == 'cod'){
             return ('錯誤');
@@ -158,7 +174,14 @@ class BillController extends Controller
             $request->merge([
                 'ship_county' => $address->county,
                 'ship_district' => $address->district,
-                'ship_address' => $address->address
+                'ship_address' => $address->address,
+                'ship_name' => $address->ship_name,
+                'ship_phone' => $address->ship_phone,
+                'ship_email' => $address->ship_email,
+                'ship_receipt' => $address->ship_receipt,
+                'ship_three_id' => $address->ship_three_id,
+                'ship_three_company' => $address->ship_three_company,
+                'ship_gender' => $address->ship_gender
             ]);
         }
 
@@ -191,6 +214,13 @@ class BillController extends Controller
                         'county' => $request->ship_county,
                         'district' => $request->ship_district,
                         'address' => $request->ship_address,
+                        'ship_name' => $request->ship_name,
+                        'ship_phone' => $request->ship_phone,
+                        'ship_email' => $request->ship_email,
+                        'ship_receipt' => $request->ship_receipt,
+                        'ship_three_id' => $request->ship_three_id,
+                        'ship_three_company' => $request->ship_three_company,
+                        'ship_gender' => $request->ship_gender,
                         'isDefault' => 1
                     ]);
             }
@@ -223,7 +253,7 @@ class BillController extends Controller
         Log::info("BillController view_payBill debug: 2");
 
         if(!$token = $ecpay->getToken()){
-            return '系統錯誤';
+            return $ecpay->errorMsg;
         }
 
         Log::info("BillController view_payBill debug: 3");
@@ -264,6 +294,33 @@ class BillController extends Controller
             $bill->save();
             $bill->sendBonusToBuyer();
             dispatch(new ECPayInvoice($bill,ECPayInvoice::TYPE_ISSUE)); //開立發票
+
+            // ATM交易成功時，透過後端發送GA購買轉換事件
+            if ($bill->pay_by == Bill::PAY_BY_ATM) { // ATM付款
+                try {
+                    $gaService = new GoogleAnalyticsService();
+                    // 嘗試從請求中取得 client_id，或生成新的
+                    $clientId = $this->extractClientId($request) ?? null;
+                    $gaService->sendPurchaseEvent($bill, $clientId);
+                    
+                    Log::info("GA Purchase Event sent for ATM payment", [
+                        'bill_id' => $bill_id,
+                        'amount' => $bill->price
+                    ]);
+                } catch (\Exception $e) {
+                    Log::error("Failed to send GA Purchase Event for ATM payment", [
+                        'bill_id' => $bill_id,
+                        'error' => $e->getMessage()
+                    ]);
+                }
+            }
+
+            // 儲存信用卡資訊
+            // if ($bill->save_credit_card == 1 && $bill->pay_by == BILL::PAY_BY_CREDIT) {
+            //     if ($cardInfo = $ecpay->getCardInfo($request)) {
+            //         $this->saveCreditCardInfo($bill, $cardInfo);
+            //     }
+            // }
         }
 
         Log::info("-----綠界回傳-----");
@@ -275,6 +332,20 @@ class BillController extends Controller
         return "1|OK";
     }
 
+    /**
+     * 從請求中提取 Google Analytics Client ID
+     * 
+     * @param Request $request
+     * @return string|null
+     */
+    private function extractClientId(Request $request)
+    {
+        // 嘗試從請求參數中取得 client_id
+        // 這需要在前端付款時將 GA client_id 傳送到後端
+        // 目前先返回 null，讓 GoogleAnalyticsService 自動生成
+        return null;
+    }
+
     /** 綠界付款完成頁面  */
     public function view_ecpay_thankyouPage($bill_id){
         return redirect()->route('billThankyou',['bill_id'=>$bill_id]);
@@ -283,15 +354,51 @@ class BillController extends Controller
     public function view_billThankyou($bill_id){
         $bill = Bill::where('bill_id',$bill_id)->firstOrFail();
         $products = $bill->products();
+        
+        // 準備 GA4 電商追蹤數據
+        $gaData = null;
+        if (config('app.env') === 'production' && config('app.ga_id')) {
+            $items = $bill->products();
+            $gaItems = [];
+            
+            foreach ($items as $item) {
+                if ($product = Products::find($item->product_id)) {
+                    $gaItems[] = [
+                        'item_name' => $item->name,
+                        'item_id' => (string)$item->product_id,
+                        'price' => (float)$item->price,
+                        'item_category' => $product->productCategory->name,
+                        'quantity' => (int)$item->quantity,
+                    ];
+                }
+            }
+            
+            $gaData = [
+                'event' => 'purchase',
+                'ecommerce' => [
+                    'transaction_id' => $bill_id,
+                    'value' => (float)$bill->price,
+                    'currency' => 'TWD',
+                    'items' => $gaItems
+                ]
+            ];
+        }
 
         return view('bill.thankyou',[
             'bill'=>$bill,
             'products' => $products,
+            'gaData' => $gaData,
         ]);
     }
 
-    public function view_billDetail($bill_id){
+    public function view_billDetail(Request $request, $bill_id){
         $bill = Bill::where('bill_id',$bill_id)->firstOrFail();
+
+        $user = $request->user();
+        if ($bill->user_id != $user->id) {
+            return response("Forbidden", 403);
+        }
+
         $products = $bill->products();
         $atmInfo = null;
         $cardInfo = null;
@@ -330,49 +437,38 @@ class BillController extends Controller
 
 
     public function getDataLayerForGA($bill_id){
-
         $bill = Bill::where('bill_id',$bill_id)->firstOrFail();
-
         $items = json_decode($bill->item,true);
-
         
-
-        $products=[];
+        $products = [];
         foreach ($items as $item) {
-            // return response()->json($item);
             $product = Products::where('slug',$item['slug'])->first();
             
-            $obj = [
-                'name'=>$product->name,
-                'id'=>(string)$product->id,
-                'price'=>$product->price,
-                'category'=>$product->productCategory()->first()->name,
-                'quantity'=>(int)$item['quantity'],
-            ];
-            $products[] = $obj;
+            if ($product) {
+                $category = $product->productCategory()->first();
+                $obj = [
+                    'item_name' => $product->name,
+                    'item_id' => (string)$product->id,
+                    'price' => (float)$product->price,
+                    'item_category' => $category ? $category->name : '未分類',
+                    'quantity' => (int)$item['quantity'],
+                ];
+                $products[] = $obj;
+            }
         }
-
         
-
-        $actionField = [];
-        $actionField['id'] = $bill_id;
-        $actionField['revenue'] = $bill->price;
-
-        $purchase = [];
-        $ecommerce = [];
-
-        $dataLayer = [];
-        $dataLayer['ecommerce'] = [];
-        $dataLayer['ecommerce']['purchase'] = [];
-        $dataLayer['ecommerce']['purchase']['actionField'] = $actionField;
-        $dataLayer['ecommerce']['purchase']['products'] = $products;
-        $dataLayer['event'] = 'purchaseComplete';
-        $dataLayer['currencyCode'] = 'TWD';
-
-
-        // return response()->json($dataLayer);
-        return $dataLayer;
-
+        // GA4 格式的購買事件數據
+        $dataLayer = [
+            'event' => 'purchase',
+            'ecommerce' => [
+                'transaction_id' => $bill_id,
+                'value' => (float)$bill->price,
+                'currency' => 'TWD',
+                'items' => $products
+            ]
+        ];
+        
+        return response()->json($dataLayer);
     }
 
 
@@ -460,6 +556,7 @@ class BillController extends Controller
             $TradeAmt = (int)$the->get_bonus;
             $user->bonus = $user->bonus+$TradeAmt;
             $user->save();                                          //}紅利回算機制
+
 
 
             // $user = User::find($bill->user_id);
@@ -795,6 +892,55 @@ class BillController extends Controller
         $bill->updateShipment(Bill::SHIPMENT_VOID);
         return response()->json('success');
 
+    }
+
+    private function saveCreditCardInfo($bill, $cardInfo)
+    {
+        if (!isset($cardInfo["Card4No"]) || !isset($cardInfo["Card6No"])) {
+            return;
+        }
+
+        $card6No = $cardInfo["Card6No"];
+        $card4No = $cardInfo["Card4No"];
+
+        $maskedCardNumber = $card6No . '******' . $card4No;
+        
+        $existingCard = \App\UserCreditCard::where('user_id', $bill->user_id)
+            ->where('masked_card_number', $maskedCardNumber)
+            ->first();
+
+        if (!$existingCard) {
+            $cardBrand = $this->detectCardBrand($card6No);
+            
+            \App\UserCreditCard::create([
+                'user_id' => $bill->user_id,
+                'card_alias' => '我的' . $cardBrand . '卡',
+                'masked_card_number' => $maskedCardNumber,
+                'card_holder_name' => $bill->ship_name,
+                'expiry_month' => null, 
+                'expiry_year' => null,
+                'card_brand' => $cardBrand,
+                'ecpay_member_id' => 'USER_' . $bill->user_id,
+                'is_default' => !\App\UserCreditCard::where('user_id', $bill->user_id)->exists(),
+            ]);
+        }
+    }
+
+    private function detectCardBrand($cardPrefix)
+    {
+        $cardPrefix = substr($cardPrefix, 0, 4);
+        
+        if (in_array(substr($cardPrefix, 0, 1), ['4'])) {
+            return 'VISA';
+        } elseif (in_array(substr($cardPrefix, 0, 2), ['51', '52', '53', '54', '55']) || 
+                  in_array(substr($cardPrefix, 0, 4), range('2221', '2720'))) {
+            return 'MASTERCARD';
+        } elseif (in_array(substr($cardPrefix, 0, 4), ['3528', '3529']) || 
+                  in_array(substr($cardPrefix, 0, 3), range('353', '358'))) {
+            return 'JCB';
+        } else {
+            return 'UNKNOWN';
+        }
     }
 
 }

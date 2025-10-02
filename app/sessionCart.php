@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class sessionCart extends Model
 {
     public $table = "session_carts";
+    
+    protected $fillable = ['ip_address', 'item'];
 
 
     /** ip 的購物車商品id */

@@ -3,25 +3,16 @@
 
 <head>
 
-@yield('dataLayer')
-
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer',"{{config('app.gtm_id')}}");</script>
-<!-- End Google Tag Manager -->
 
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>金園排骨 @yield('title')</title>
-{{Html::style('css/reset.css')}}
-{{Html::style('css/bootstrap/bootstrap.min.css')}}
-{{Html::style('css/_navbar.css')}}
-{{Html::style('css/_footer.css')}}
+{{-- 使用合併後的主要 CSS 檔案 --}}
+{{-- reset.css bootstrap.min.css _navbar.css _footer.css --}}
+{{Html::style('css/app-main.css')}}
+
 <style>
   *{
       position: relative;
@@ -36,12 +27,19 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 @yield('stylesheets')
 
+@if(config('app.env') === 'production' && config('app.ga_id'))
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ config('app.ga_id') }}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', '{{ config('app.ga_id') }}');
+</script>
+@endif
+
 </head>
   <body>
-    <!-- Google Tag Manager (noscript) -->
-  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{config('app.gtm_id')}}"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
   	<div class="wrapper">
 @include('partials._navbar')
 
@@ -53,11 +51,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 @include('partials._footer')
 	</div>
   </body>
-  {{-- @yield('fbq') --}}
 
-{{ Html::script('js/jquery/jquery-3.2.1.min.js') }}
-{{ Html::script('js/bootstrap/bootstrap.min.js') }}
-{{ Html::script('js/prefix-free/prefixfree.dynamic-dom.min.js') }}
+{{-- 使用合併後的主要 JS 檔案 --}}
+{{ Html::script('js/app-main.js') }}
 <script>
 $(document).ready(function(){
   $.ajaxSetup({
@@ -125,6 +121,20 @@ function delete_item(id){
         // navbar cart 減一
         var inKart = parseInt($('#inKart').html()) - 1;
         $('#inKart').empty().append(inKart);
+        
+        // GA4 移除商品事件追蹤
+        @if(config('app.env') === 'production' && config('app.ga_id'))
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'remove_from_cart', {
+                currency: 'TWD',
+                value: 0, // 無法取得具體價格，設為 0
+                items: [{
+                    item_id: id.toString(),
+                    quantity: 1
+                }]
+            });
+        }
+        @endif
 
         uploadSum();
     },
