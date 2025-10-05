@@ -22,3 +22,6 @@ Route::post('creditPaied','BillController@creditPaied');
 //ecpay 成功付款
 Route::post('ecpay/{bill_id}/pay','BillController@api_ecpay_pay')->name('ecpay_ReturnURL');
 Route::post('ecpay/{bill_id}/thankyou','BillController@view_ecpay_thankyouPage')->name('ecpay_OrderResultURL');
+
+//checkout funnel tracking
+Route::post('funnel/track','CheckoutFunnelController@track')->name('funnel.track');

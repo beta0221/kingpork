@@ -16,6 +16,8 @@ use App\Jobs\ECPayInvoice;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use App\Services\GoogleAnalyticsService;
+use App\Services\CheckoutFunnelTracker;
+use App\CheckoutFunnelLog;
 use Mail;
 
 
@@ -60,26 +62,51 @@ class BillController extends Controller
 
     public function store(Request $request){
 
+        // 追蹤：提交結帳表單
+        CheckoutFunnelTracker::trackSuccess(
+            CheckoutFunnelLog::STEP_CHECKOUT_FORM_SUBMIT,
+            $request,
+            ['payment_method' => $request->ship_pay_by]
+        );
+
         Log::info("BillController store debug: 1");
 
-        $this->validate($request,[
-            'item.*'=>'required',
-            'quantity.*'=>'required|integer|min:0',
-            'ship_name'=>'required',
-            'ship_phone'=>'required',
-            'ship_address'=>'required_if:use_favorite_address,0',
-            'ship_email'=>'required|E-mail',
-            'ship_pay_by'=>'required',
-            'carrier_id'=>'required',
-            'store_number'=>'required_if:carrier_id,1',
-            'store_name'=>'required_if:carrier_id,1',
-            'store_address'=>'required_if:carrier_id,1',
-            'favorite_address'=>'required_if:use_favorite_address,1',
-            'save_credit_card'=>'boolean',
-            // 'use_saved_card'=>'integer|exists:user_credit_cards,id'
-        ]);
+        try {
+            $this->validate($request,[
+                'item.*'=>'required',
+                'quantity.*'=>'required|integer|min:0',
+                'ship_name'=>'required',
+                'ship_phone'=>'required',
+                'ship_address'=>'required_if:use_favorite_address,0',
+                'ship_email'=>'required|E-mail',
+                'ship_pay_by'=>'required',
+                'carrier_id'=>'required',
+                'store_number'=>'required_if:carrier_id,1',
+                'store_name'=>'required_if:carrier_id,1',
+                'store_address'=>'required_if:carrier_id,1',
+                'favorite_address'=>'required_if:use_favorite_address,1',
+                'save_credit_card'=>'boolean',
+                // 'use_saved_card'=>'integer|exists:user_credit_cards,id'
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // 追蹤：表單驗證失敗
+            CheckoutFunnelTracker::trackError(
+                CheckoutFunnelLog::STEP_CHECKOUT_FORM_SUBMIT,
+                '表單驗證失敗: ' . json_encode($e->errors()),
+                $request,
+                ['payment_method' => $request->ship_pay_by]
+            );
+            throw $e;
+        }
 
         if($request->carrier_id == Bill::CARRIER_ID_FAMILY_MART && $request->ship_pay_by == 'cod'){
+            // 追蹤：業務規則錯誤
+            CheckoutFunnelTracker::trackError(
+                CheckoutFunnelLog::STEP_CHECKOUT_FORM_SUBMIT,
+                '全家超商不支援貨到付款',
+                $request,
+                ['payment_method' => $request->ship_pay_by]
+            );
             return ('錯誤');
         }
 
@@ -173,6 +200,13 @@ class BillController extends Controller
 
         $bill = Bill::insert_row($user_id,$user_name,$MerchantTradeNo,$useBonus,$total,$getBonus,$request);
 
+        // 追蹤：訂單建立成功
+        CheckoutFunnelTracker::trackFromBill(
+            CheckoutFunnelLog::STEP_ORDER_CREATED,
+            $bill,
+            $request
+        );
+
         Log::info("BillController store debug: 5");
 
         foreach ($products as $product) {
@@ -180,10 +214,10 @@ class BillController extends Controller
         }
         if($request->carrier_id == Bill::CARRIER_ID_FAMILY_MART){
             FamilyStore::insert_row($bill->id,$request);
-        }        
+        }
 
         Log::info("BillController store debug: 6");
-        
+
         if($user){
             Kart::where('user_id',$user->id)->delete(); //清除購物車
             if($bonus != 0){
@@ -234,13 +268,46 @@ class BillController extends Controller
         Log::info("BillController view_payBill debug: 1");
 
         $bill = Bill::where('bill_id',$bill_id)->firstOrFail();
+
+        // 追蹤：進入付款頁面
+        CheckoutFunnelTracker::trackFromBill(
+            CheckoutFunnelLog::STEP_PAYMENT_PAGE_VIEW,
+            $bill,
+            request()
+        );
+
         $ecpay = new ECPay($bill);
 
         Log::info("BillController view_payBill debug: 2");
 
+        // 追蹤：請求付款Token
+        CheckoutFunnelTracker::trackFromBill(
+            CheckoutFunnelLog::STEP_PAYMENT_TOKEN_REQUESTED,
+            $bill,
+            request()
+        );
+
         if(!$token = $ecpay->getToken()){
+            // 追蹤：Token取得失敗
+            CheckoutFunnelTracker::trackError(
+                CheckoutFunnelLog::STEP_PAYMENT_TOKEN_REQUESTED,
+                'ECPay Token取得失敗: ' . $ecpay->errorMsg,
+                request(),
+                [
+                    'bill_id' => $bill->bill_id,
+                    'payment_method' => $bill->pay_by,
+                    'amount' => $bill->price
+                ]
+            );
             return $ecpay->errorMsg;
         }
+
+        // 追蹤：收到付款Token
+        CheckoutFunnelTracker::trackFromBill(
+            CheckoutFunnelLog::STEP_PAYMENT_TOKEN_RECEIVED,
+            $bill,
+            request()
+        );
 
         Log::info("BillController view_payBill debug: 3");
 
@@ -253,7 +320,24 @@ class BillController extends Controller
 
     public function payBill(Request $request,$bill_id){
         $bill = Bill::where('bill_id',$bill_id)->firstOrFail();
-        if(!$request->has('PayToken')){ return '錯誤頁面。'; }
+
+        // 追蹤：提交付款表單
+        CheckoutFunnelTracker::trackFromBill(
+            CheckoutFunnelLog::STEP_PAYMENT_FORM_SUBMIT,
+            $bill,
+            $request
+        );
+
+        if(!$request->has('PayToken')){
+            CheckoutFunnelTracker::trackError(
+                CheckoutFunnelLog::STEP_PAYMENT_FORM_SUBMIT,
+                '缺少PayToken',
+                $request,
+                ['bill_id' => $bill->bill_id, 'payment_method' => $bill->pay_by]
+            );
+            return '錯誤頁面。';
+        }
+
         $ecpay = new ECPay($bill);
 
         $resultUrl = $ecpay->createPayment($request->PayToken);
@@ -265,7 +349,24 @@ class BillController extends Controller
         //     dispatch(new ECPayInvoice($bill,ECPayInvoice::TYPE_ISSUE)); //開立發票
         // }
 
-        if(!$resultUrl){ return '錯誤頁面'; }
+        if(!$resultUrl){
+            CheckoutFunnelTracker::trackError(
+                CheckoutFunnelLog::STEP_PAYMENT_REDIRECT,
+                'ECPay createPayment失敗',
+                $request,
+                ['bill_id' => $bill->bill_id, 'payment_method' => $bill->pay_by]
+            );
+            return '錯誤頁面';
+        }
+
+        // 追蹤：導向ECPay
+        CheckoutFunnelTracker::trackFromBill(
+            CheckoutFunnelLog::STEP_PAYMENT_REDIRECT,
+            $bill,
+            $request,
+            ['metadata' => ['redirect_url' => $resultUrl]]
+        );
+
         return redirect($resultUrl);
     }
 
@@ -276,6 +377,13 @@ class BillController extends Controller
         $isSuccess = $ecpay->handlePayRequest($request);
 
         if($isSuccess){
+            // 追蹤：付款完成
+            CheckoutFunnelTracker::trackFromBill(
+                CheckoutFunnelLog::STEP_PAYMENT_COMPLETED,
+                $bill,
+                $request
+            );
+
             $bill->status = 1;
             $bill->save();
             $bill->sendBonusToBuyer();
@@ -340,7 +448,14 @@ class BillController extends Controller
     public function view_billThankyou($bill_id){
         $bill = Bill::where('bill_id',$bill_id)->firstOrFail();
         $products = $bill->products();
-        
+
+        // 追蹤：進入感謝頁面 (流程完成)
+        CheckoutFunnelTracker::trackFromBill(
+            CheckoutFunnelLog::STEP_THANKYOU_PAGE_VIEW,
+            $bill,
+            request()
+        );
+
         // 準備 GA4 電商追蹤數據
         $gaData = null;
         if (config('app.env') === 'production' && config('app.ga_id')) {

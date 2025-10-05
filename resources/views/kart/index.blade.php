@@ -594,6 +594,7 @@
 @section('scripts')
 {{ Html::script('js/_kart_0820_1.js') }}
 {{-- {{ Html::script('js/_family.js') }} --}}
+<script src="{{ asset('js/checkout-funnel-tracker.js') }}"></script>
 
 <script>
 

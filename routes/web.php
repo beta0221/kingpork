@@ -143,6 +143,14 @@ Route::post('/admin/password/reset','Auth\AdminResetPasswordController@reset');/
 
 Route::get('/admin-kingblog','PageController@kingblog');
 
+//Funnel Analytics routes (admin only)
+Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function() {
+    Route::get('/funnel-analytics', 'FunnelAnalyticsController@index')->name('admin.funnel.index');
+    Route::get('/funnel-analytics/export', 'FunnelAnalyticsController@export')->name('admin.funnel.export');
+    Route::get('/funnel-analytics/stats', 'FunnelAnalyticsController@stats')->name('admin.funnel.stats');
+    Route::get('/funnel-analytics/abandoned-sessions', 'FunnelAnalyticsController@abandonedSessions')->name('admin.funnel.abandoned');
+});
+
 
 //vip routes
 Route::get('/group-buy','GroupBuyController@index');

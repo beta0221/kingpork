@@ -12,6 +12,8 @@ use DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
+use App\Services\CheckoutFunnelTracker;
+use App\CheckoutFunnelLog;
 use Session;
 
 class kartController extends Controller
@@ -103,10 +105,16 @@ class kartController extends Controller
      */
     public function index()
     {
+        // 追蹤：查看購物車
+        CheckoutFunnelTracker::trackSuccess(
+            CheckoutFunnelLog::STEP_CART_VIEW,
+            request()
+        );
+
         if(!$user = Auth::user()){
             return view('auth.reg-buy');
         }
-        
+
         $product_id_array = Kart::where('user_id', $user->id)->orderBy('product_id')->pluck('product_id')->all();
         $additionalProducts = Products::getAdditionalProducts();
 
