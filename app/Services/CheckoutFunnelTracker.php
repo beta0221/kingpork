@@ -5,6 +5,7 @@ namespace App\Services;
 use App\CheckoutFunnelLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class CheckoutFunnelTracker
 {
@@ -29,6 +30,11 @@ class CheckoutFunnelTracker
             $request = app('request');
         }
 
+        $_payment_method = $options['payment_method'] ?? null;
+        if ($_payment_method == 'cod') {
+            $_payment_method = '貨到付款';
+        }
+
         $data = [
             'session_id' => self::getSessionId($request),
             'user_id' => Auth::id(),
@@ -36,7 +42,7 @@ class CheckoutFunnelTracker
             'status' => $options['status'] ?? CheckoutFunnelLog::STATUS_SUCCESS,
             'error_message' => $options['error_message'] ?? null,
             'bill_id' => $options['bill_id'] ?? null,
-            'payment_method' => $options['payment_method'] ?? null,
+            'payment_method' => $_payment_method,
             'amount' => $options['amount'] ?? null,
             'metadata' => $options['metadata'] ?? null,
             'ip_address' => $request->ip(),
@@ -123,7 +129,7 @@ class CheckoutFunnelTracker
      */
     public static function apiTrack(Request $request)
     {
-        $validated = $request->validate([
+        $validator = Validator::make($request->all(), [
             'step' => 'required|string',
             'status' => 'nullable|string|in:success,error,abandoned',
             'error_message' => 'nullable|string',
@@ -131,6 +137,19 @@ class CheckoutFunnelTracker
             'payment_method' => 'nullable|string',
             'amount' => 'nullable|integer',
             'metadata' => 'nullable|array',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'error' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $validated = $request->only([
+            'step', 'status', 'error_message', 'bill_id',
+            'payment_method', 'amount', 'metadata'
         ]);
 
         try {

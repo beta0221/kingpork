@@ -1,12 +1,12 @@
-@extends('layouts.admin')
+@extends('admin_main')
+
+@section('title','| 結帳流程漏斗分析')
 
 @section('content')
 <div class="container-fluid">
-    <h1 class="mb-4">結帳流程漏斗分析</h1>
-
     <!-- 日期篩選 -->
-    <div class="card mb-4">
-        <div class="card-body">
+    <div class="card mt-4 mb-4">
+        <div class="card-body p-2">
             <form method="GET" action="{{ url('/admin/funnel-analytics') }}" class="form-inline">
                 <label class="mr-2">日期範圍:</label>
                 <input type="date" name="start_date" class="form-control mr-2" value="{{ $startDate }}">
@@ -21,7 +21,7 @@
     <!-- 總體統計卡片 -->
     <div class="row mb-4">
         <div class="col-md-3">
-            <div class="card text-white bg-primary">
+            <div class="card text-white bg-primary p-2">
                 <div class="card-body">
                     <h5 class="card-title">總體轉換率</h5>
                     <h2>{{ $totalStats['overall_conversion_rate'] }}%</h2>
@@ -30,7 +30,7 @@
             </div>
         </div>
         <div class="col-md-3">
-            <div class="card text-white bg-info">
+            <div class="card text-white bg-info p-2">
                 <div class="card-body">
                     <h5 class="card-title">購物車放棄率</h5>
                     <h2>{{ $totalStats['cart_abandonment_rate'] }}%</h2>
@@ -39,7 +39,7 @@
             </div>
         </div>
         <div class="col-md-3">
-            <div class="card text-white bg-warning">
+            <div class="card text-white bg-warning p-2">
                 <div class="card-body">
                     <h5 class="card-title">付款放棄率</h5>
                     <h2>{{ $totalStats['payment_abandonment_rate'] }}%</h2>
@@ -48,7 +48,7 @@
             </div>
         </div>
         <div class="col-md-3">
-            <div class="card text-white bg-success">
+            <div class="card text-white bg-success p-2">
                 <div class="card-body">
                     <h5 class="card-title">訂單付款成功率</h5>
                     <h2>{{ $totalStats['order_to_payment_rate'] }}%</h2>
@@ -90,7 +90,7 @@
                             @endif
                         </td>
                         <td>
-                            <div class="progress" style="height: 25px;">
+                            <div class="progress" style="height: 16px;">
                                 <div class="progress-bar" role="progressbar"
                                      style="width: {{ $data['conversion_rate'] }}%;"
                                      aria-valuenow="{{ $data['conversion_rate'] }}"
