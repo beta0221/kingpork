@@ -59,6 +59,9 @@ Route::get('ajaxShowIndex','kartController@ajaxShowIndex');//
 //Inventory routes
 Route::resource('inventory','InventoryController');
 
+//Inventory Batch routes
+Route::resource('inventoryBatch','InventoryBatchController');
+
 //Retailer routes
 Route::resource('retailer','RetailerController');
 

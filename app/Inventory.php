@@ -57,4 +57,12 @@ class Inventory extends Model
         $this->save();
     }
 
+    /**
+     * 關聯到 InventoryBatch 模型
+     */
+    public function batches()
+    {
+        return $this->hasMany('App\InventoryBatch');
+    }
+
 }
