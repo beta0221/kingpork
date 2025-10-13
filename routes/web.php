@@ -103,7 +103,8 @@ Route::post('runner/use','RunnerController@runnerUse');
 Route::get('getRunner','RunnerController@getRunner');
 
 //Order Management
-Route::resource('order','OrderManagementController',['except'=>['create','store']]);
+Route::get('order/materials','OrderManagementController@materialsReport');
+Route::post('order/materials/calculate-plan','OrderManagementController@calculateShipmentPlan');
 Route::post('order/updateShipment','OrderManagementController@updateShipment');
 Route::get('order/showAll/{bill}','OrderManagementController@showAll');
 Route::post('order/void/{bill_id}','OrderManagementController@voidBill');
@@ -121,6 +122,7 @@ Route::post('order/uploadShipmentNum','OrderManagementController@uploadShipmentN
 Route::delete('order/cancel/{bill_id}','OrderManagementController@cancelBill');
 Route::get('order/history/{user_id}','OrderManagementController@orderHistory');
 Route::post('regulate/bonus/{user_id}','OrderManagementController@regulateUserBonus');
+Route::resource('order','OrderManagementController',['except'=>['create','store']]);
 
 //php artisan make:auth
 Auth::routes();

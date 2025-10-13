@@ -8,6 +8,7 @@ use App\BillItem;
 use App\Helpers\ECPay;
 use App\Helpers\ExcelHelper;
 use App\Inventory;
+use App\InventoryBatch;
 use App\User;
 use App\Products;
 use Excel;
@@ -923,7 +924,7 @@ class OrderManagementController extends Controller
         }, $rows));
         $existingOrderNumArray = Bill::whereIn('kolOrderNum', $orderNumArray)->pluck('kolOrderNum')->toArray();
         $nonExistingOrderNumArray = array_values(array_diff($orderNumArray, $existingOrderNumArray));
-        
+
         if (!empty($nonExistingOrderNumArray)) {
             return view('order.uploadResult',[
                 'error' => [
@@ -944,6 +945,231 @@ class OrderManagementController extends Controller
 
         return view('order.uploadResult',[
             'success' => '上傳成功'
+        ]);
+    }
+
+    /**
+     * 訂單原料需求報表
+     */
+    public function materialsReport(Request $request)
+    {
+        $query = Bill::orderBy('id','desc');
+
+        // 預設只顯示準備中的訂單
+        $query->where('shipment', 1);
+
+        // 日期篩選
+        if($request->has('date1') && $request->has('date2')){
+            if($request->date1 == $request->date2){
+                $query->whereDate('created_at',date('Y-m-d',strtotime($request->date1)));
+            }else{
+                $date2 = date('Y-m-d',strtotime($request->date2."+1 day"));
+                $query->whereBetween('created_at',[$request->date1,$date2]);
+            }
+        }
+
+        // 每頁筆數
+        $perPage = $request->input('per_page', 20);
+        $bills = $query->paginate($perPage);
+
+        // 計算每筆訂單的原料需求
+        $billsWithMaterials = [];
+        $totalMaterials = [];
+
+        foreach ($bills as $bill) {
+            $billItems = $bill->billItems()->get();
+            $materials = [];
+
+            foreach ($billItems as $item) {
+                $inventoryAmount = $item->sumInventoryAmount();
+                foreach ($inventoryAmount as $slug => $quantity) {
+                    if(!isset($materials[$slug])){
+                        $materials[$slug] = 0;
+                    }
+                    $materials[$slug] += $quantity;
+
+                    if(!isset($totalMaterials[$slug])){
+                        $totalMaterials[$slug] = 0;
+                    }
+                    $totalMaterials[$slug] += $quantity;
+                }
+            }
+
+            $billsWithMaterials[] = [
+                'bill' => $bill,
+                'items' => $billItems,
+                'materials' => $materials
+            ];
+        }
+
+        // 取得 Inventory name 字典
+        $inventoryDict = Inventory::all()->pluck('name', 'slug')->toArray();
+
+        // 取得有庫存的批號列表
+        $batches = InventoryBatch::with('inventory')
+            ->where('quantity', '>', 0)
+            ->orderBy('manufactured_date', 'asc')
+            ->get()
+            ->groupBy('inventory.name');
+
+        return view('order.materials', [
+            'bills' => $bills,
+            'billsWithMaterials' => $billsWithMaterials,
+            'totalMaterials' => $totalMaterials,
+            'inventoryDict' => $inventoryDict,
+            'batches' => $batches
+        ]);
+    }
+
+    /**
+     * 計算出貨階段計劃
+     */
+    public function calculateShipmentPlan(Request $request)
+    {
+        // 接收批號使用計劃 [batch_id => quantity]
+        $batchPlan = $request->input('batch_plan', []);
+
+        // 建立批號庫存追蹤（用於模擬扣除）
+        $batchStock = [];
+        foreach ($batchPlan as $batchId => $quantity) {
+            $batch = InventoryBatch::with('inventory')->find($batchId);
+            if (!$batch) { continue; }
+
+            $batchStock[$batchId] = [
+                'inventory_slug' => $batch->inventory->slug,
+                'inventory_name' => $batch->inventory->name,
+                'batch_number' => $batch->batch_number,
+                'available' => (int)$quantity,
+                'original' => (int)$quantity
+            ];
+        }
+
+        // 建立 slug 到 batch 的映射（依 FIFO 順序）
+        $slugToBatches = [];
+        foreach ($batchStock as $batchId => $info) {
+            $slug = $info['inventory_slug'];
+            if (!isset($slugToBatches[$slug])) {
+                $slugToBatches[$slug] = [];
+            }
+            $slugToBatches[$slug][] = $batchId;
+        }
+
+        // 查詢準備中的訂單
+        $bills = Bill::where('shipment', 1)
+            ->orderBy('id', 'asc')
+            ->get();
+
+        $completedOrders = [];
+        $stopOrder = null;
+        $stopReason = [];
+
+        foreach ($bills as $bill) {
+            $billItems = $bill->billItems()->get();
+            $requiredMaterials = [];
+
+            // 計算訂單需要的原料
+            foreach ($billItems as $item) {
+                $inventoryAmount = $item->sumInventoryAmount();
+                foreach ($inventoryAmount as $slug => $quantity) {
+                    if (!isset($requiredMaterials[$slug])) {
+                        $requiredMaterials[$slug] = 0;
+                    }
+                    $requiredMaterials[$slug] += $quantity;
+                }
+            }
+
+            // 檢查是否有足夠的批號數量
+            $canComplete = true;
+            $insufficientMaterials = [];
+
+            foreach ($requiredMaterials as $slug => $requiredQty) {
+                // 如果這個 slug 沒有對應的批號計劃，視為不足
+                if (!isset($slugToBatches[$slug])) {
+                    $canComplete = false;
+                    $insufficientMaterials[] = [
+                        'slug' => $slug,
+                        'required' => $requiredQty,
+                        'available' => 0
+                    ];
+                    continue;
+                }
+
+                // 嘗試從批號中扣除（FIFO）
+                $remainingQty = $requiredQty;
+                foreach ($slugToBatches[$slug] as $batchId) {
+                    if ($remainingQty <= 0) { break; }
+
+                    $available = $batchStock[$batchId]['available'];
+                    $deduct = min($remainingQty, $available);
+                    $remainingQty -= $deduct;
+                }
+
+                // 如果扣除後還有剩餘需求，表示數量不足
+                if ($remainingQty > 0) {
+                    $canComplete = false;
+                    $totalAvailable = 0;
+                    foreach ($slugToBatches[$slug] as $batchId) {
+                        $totalAvailable += $batchStock[$batchId]['available'];
+                    }
+                    $insufficientMaterials[] = [
+                        'slug' => $slug,
+                        'required' => $requiredQty,
+                        'available' => $totalAvailable
+                    ];
+                }
+            }
+
+            if (!$canComplete) {
+                // 訂單無法完成，記錄停止訂單
+                $stopOrder = [
+                    'bill_id' => $bill->bill_id,
+                    'user_name' => $bill->user_name,
+                    'created_at' => substr($bill->created_at, 0, 10)
+                ];
+                $stopReason = $insufficientMaterials;
+                break;
+            }
+
+            // 實際扣除批號數量（模擬）
+            foreach ($requiredMaterials as $slug => $requiredQty) {
+                foreach ($slugToBatches[$slug] as $batchId) {
+                    if ($requiredQty <= 0) { break; }
+
+                    $available = $batchStock[$batchId]['available'];
+                    $deduct = min($requiredQty, $available);
+                    $batchStock[$batchId]['available'] -= $deduct;
+                    $requiredQty -= $deduct;
+                }
+            }
+
+            $completedOrders[] = [
+                'bill_id' => $bill->bill_id,
+                'user_name' => $bill->user_name,
+                'created_at' => substr($bill->created_at, 0, 10)
+            ];
+        }
+
+        // 取得 Inventory name 字典
+        $inventoryDict = Inventory::all()->pluck('name', 'slug')->toArray();
+
+        // 格式化停止原因
+        $formattedStopReason = [];
+        foreach ($stopReason as $reason) {
+            $name = isset($inventoryDict[$reason['slug']]) ? $inventoryDict[$reason['slug']] : $reason['slug'];
+            $formattedStopReason[] = [
+                'name' => $name,
+                'required' => $reason['required'],
+                'available' => $reason['available']
+            ];
+        }
+
+        return response()->json([
+            'success' => true,
+            'completed_count' => count($completedOrders),
+            'completed_orders' => $completedOrders,
+            'stop_order' => $stopOrder,
+            'stop_reason' => $formattedStopReason,
+            'batch_remaining' => $batchStock
         ]);
     }
 

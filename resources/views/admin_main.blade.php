@@ -212,8 +212,11 @@
     <a href="{{route('contactManage.index')}}"><img src="{{asset('images/admin_mail.png')}}" alt="">客服管理</a>
     <div class="badge contact-badge"></div>
   </li>
-  <li class="sideBar_item {{Request::is('order*') ? 'sideBar_now' : ''}}">
+  <li class="sideBar_item {{Request::is('order') || Request::is('order/showAll*') || Request::is('order/history*') ? 'sideBar_now' : ''}}">
     <a href="{{route('order.index')}}"><img src="{{asset('images/admin_delivery.png')}}" alt="">訂單管理</a>
+  </li>
+  <li class="sideBar_item {{Request::is('order/materials*') ? 'sideBar_now' : ''}}">
+    <a href="{{url('order/materials')}}"><img src="{{asset('images/admin_category.png')}}" alt="">出貨計劃</a>
   </li>
   <li class="sideBar_item {{Request::is('admin-kingblog') ? 'sideBar_now' : ''}}">
     <a href="/admin-kingblog"><img src="{{asset('images/admin_wordpress.png')}}" alt="">美食廚房</a>
