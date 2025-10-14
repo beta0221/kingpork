@@ -1056,7 +1056,7 @@ class OrderManagementController extends Controller
 
         // 查詢準備中的訂單
         $bills = Bill::where('shipment', 1)
-            ->orderBy('id', 'asc')
+            ->orderBy('id', 'desc')
             ->get();
 
         $completedOrders = [];

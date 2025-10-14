@@ -276,7 +276,7 @@
 										name="batch[{{ $batch->id }}]"
 										min="0"
 										max="{{ $batch->quantity }}"
-										value="{{ $batch->quantity }}"
+										value="0"
 										style="width: 120px; display: inline-block;"
 									>
 								</div>
