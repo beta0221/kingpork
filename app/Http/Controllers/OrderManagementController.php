@@ -1120,11 +1120,24 @@ class OrderManagementController extends Controller
             }
 
             if (!$canComplete) {
+                // 計算不足的數量（需要量 - 可用量）
+                $shortageDetails = [];
+                foreach ($insufficientMaterials as $material) {
+                    $shortage = $material['required'] - $material['available'];
+                    $shortageDetails[] = [
+                        'slug' => $material['slug'],
+                        'required' => $material['required'],
+                        'available' => $material['available'],
+                        'shortage' => $shortage
+                    ];
+                }
+
                 // 訂單無法完成，記錄停止訂單
                 $stopOrder = [
                     'bill_id' => $bill->bill_id,
                     'user_name' => $bill->user_name,
-                    'created_at' => substr($bill->created_at, 0, 10)
+                    'created_at' => substr($bill->created_at, 0, 10),
+                    'shortage_details' => $shortageDetails
                 ];
                 $stopReason = $insufficientMaterials;
                 break;
@@ -1163,13 +1176,21 @@ class OrderManagementController extends Controller
             ];
         }
 
+        $bill_range = "";
+        if (!empty($completedOrders)) {
+            $firstBillId = $completedOrders[0]['bill_id'];
+            $lastBillId = end($completedOrders)['bill_id'];
+            $bill_range = $firstBillId . ' ~ ' . $lastBillId;
+        }
+
         return response()->json([
             'success' => true,
             'completed_count' => count($completedOrders),
             'completed_orders' => $completedOrders,
             'stop_order' => $stopOrder,
             'stop_reason' => $formattedStopReason,
-            'batch_remaining' => $batchStock
+            'batch_remaining' => $batchStock,
+            'bill_range' => $bill_range
         ]);
     }
 

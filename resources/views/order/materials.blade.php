@@ -358,6 +358,10 @@ function displayResult(data) {
 	html += '<h4><strong>計算結果</strong></h4>';
 	html += '<p><strong>可完成訂單數量：</strong>' + data.completed_count + ' 筆</p>';
 
+	html += '<h5 class="text-danger"><strong>出貨範圍</strong></h5>';
+	html += '<p>訂單編號：' + data.bill_range + '</strong></p>';
+
+
 	if (data.stop_order) {
 		html += '<hr>';
 		html += '<h5 class="text-danger"><strong>停止訂單</strong></h5>';
