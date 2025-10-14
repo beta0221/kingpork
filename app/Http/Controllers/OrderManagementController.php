@@ -1022,12 +1022,18 @@ class OrderManagementController extends Controller
     }
 
     /**
-     * 計算出貨階段計劃
+     * 計算出貨階段計劃（支援多階段迭代）
      */
     public function calculateShipmentPlan(Request $request)
     {
         // 接收批號使用計劃 [batch_id => quantity]
         $batchPlan = $request->input('batch_plan', []);
+
+        // 多階段支援參數
+        $stage = $request->input('stage', 1);  // 當前階段
+        $startFromBillId = $request->input('start_from_bill_id', null);  // 從哪筆訂單開始
+        $previousCompletedOrders = $request->input('previous_completed_orders', []);  // 前階段已完成訂單
+        $stopOrderConsumed = $request->input('stop_order_consumed', []);  // 停止訂單已消耗量 {slug: quantity}
 
         // 建立批號庫存追蹤（用於模擬扣除）
         $batchStock = [];
@@ -1055,9 +1061,16 @@ class OrderManagementController extends Controller
         }
 
         // 查詢準備中的訂單
-        $bills = Bill::where('shipment', 1)
-            ->orderBy('id', 'desc')
-            ->get();
+        $query = Bill::where('shipment', 1)->orderBy('id', 'desc');
+
+        // 如果是多階段計算，排除已完成的訂單並從指定訂單開始
+        if ($startFromBillId && !empty($previousCompletedOrders)) {
+            $completedBillIds = array_column($previousCompletedOrders, 'bill_id');
+            $query->whereNotIn('bill_id', $completedBillIds);
+        }
+
+        $bills = $query->get();
+        $totalBills = Bill::where('shipment', 1)->count();  // 總訂單數
 
         $completedOrders = [];
         $stopOrder = null;
@@ -1119,6 +1132,61 @@ class OrderManagementController extends Controller
                 }
             }
 
+            // 實際扣除批號數量（模擬）- 即使訂單無法完成也要扣除已使用的部分
+            // 如果是停止訂單的後續階段，需要扣除已消耗的數量，只扣除剩餘不足的部分
+            $realRequiredMaterials = [];
+            foreach ($requiredMaterials as $slug => $requiredQty) {
+                // 檢查這個訂單是否為上階段的停止訂單
+                if ($startFromBillId && $bill->bill_id == $startFromBillId && isset($stopOrderConsumed[$slug])) {
+                    // 這是停止訂單，計算實際還需要的數量
+                    $alreadyConsumed = $stopOrderConsumed[$slug];
+                    $realRequiredMaterials[$slug] = $requiredQty - $alreadyConsumed;
+                } else {
+                    // 一般訂單，需要全部數量
+                    $realRequiredMaterials[$slug] = $requiredQty;
+                }
+            }
+
+            // 實際扣除（使用調整後的需求量）
+            $currentConsumed = [];  // 記錄本次消耗量
+            $batchUsageDetails = [];  // 記錄此訂單使用的批號明細 {slug: [{batch_id, batch_number, quantity_used}]}
+
+            foreach ($realRequiredMaterials as $slug => $needQty) {
+                // 如果該原料沒有對應的批號，跳過
+                if (!isset($slugToBatches[$slug])) {
+                    continue;
+                }
+
+                $remainingNeed = $needQty;
+                foreach ($slugToBatches[$slug] as $batchId) {
+                    if ($remainingNeed <= 0) { break; }
+
+                    $available = $batchStock[$batchId]['available'];
+                    $deduct = min($remainingNeed, $available);
+                    $batchStock[$batchId]['available'] -= $deduct;
+                    $remainingNeed -= $deduct;
+
+                    // 記錄本次實際消耗量
+                    if (!isset($currentConsumed[$slug])) {
+                        $currentConsumed[$slug] = 0;
+                    }
+                    $currentConsumed[$slug] += $deduct;
+
+                    // 記錄批號使用明細
+                    if ($deduct > 0) {
+                        if (!isset($batchUsageDetails[$slug])) {
+                            $batchUsageDetails[$slug] = [];
+                        }
+                        $batchUsageDetails[$slug][] = [
+                            'batch_id' => $batchId,
+                            'batch_number' => $batchStock[$batchId]['batch_number'],
+                            'inventory_name' => $batchStock[$batchId]['inventory_name'],
+                            'quantity_used' => $deduct
+                        ];
+                    }
+                }
+            }
+
             if (!$canComplete) {
                 // 計算不足的數量（需要量 - 可用量）
                 $shortageDetails = [];
@@ -1132,33 +1200,33 @@ class OrderManagementController extends Controller
                     ];
                 }
 
-                // 訂單無法完成，記錄停止訂單
+                // 計算累積消耗量（包含前階段 + 本次消耗）
+                $totalConsumed = [];
+                foreach ($requiredMaterials as $slug => $requiredQty) {
+                    $previousConsumed = isset($stopOrderConsumed[$slug]) ? $stopOrderConsumed[$slug] : 0;
+                    $currentConsume = isset($currentConsumed[$slug]) ? $currentConsumed[$slug] : 0;
+                    $totalConsumed[$slug] = $previousConsumed + $currentConsume;
+                }
+
+                // 訂單無法完成，記錄停止訂單（此時批號已扣除完畢）
                 $stopOrder = [
                     'bill_id' => $bill->bill_id,
                     'user_name' => $bill->user_name,
                     'created_at' => substr($bill->created_at, 0, 10),
-                    'shortage_details' => $shortageDetails
+                    'shortage_details' => $shortageDetails,
+                    'consumed' => $totalConsumed,  // 累積消耗量
+                    'batch_usage' => $batchUsageDetails  // 本次使用的批號明細
                 ];
                 $stopReason = $insufficientMaterials;
                 break;
             }
 
-            // 實際扣除批號數量（模擬）
-            foreach ($requiredMaterials as $slug => $requiredQty) {
-                foreach ($slugToBatches[$slug] as $batchId) {
-                    if ($requiredQty <= 0) { break; }
-
-                    $available = $batchStock[$batchId]['available'];
-                    $deduct = min($requiredQty, $available);
-                    $batchStock[$batchId]['available'] -= $deduct;
-                    $requiredQty -= $deduct;
-                }
-            }
-
+            // 訂單完成，加入已完成列表
             $completedOrders[] = [
                 'bill_id' => $bill->bill_id,
                 'user_name' => $bill->user_name,
-                'created_at' => substr($bill->created_at, 0, 10)
+                'created_at' => substr($bill->created_at, 0, 10),
+                'batch_usage' => $batchUsageDetails  // 批號使用明細
             ];
         }
 
@@ -1176,6 +1244,7 @@ class OrderManagementController extends Controller
             ];
         }
 
+        // 計算訂單範圍
         $bill_range = "";
         if (!empty($completedOrders)) {
             $firstBillId = $completedOrders[0]['bill_id'];
@@ -1183,14 +1252,33 @@ class OrderManagementController extends Controller
             $bill_range = $firstBillId . ' ~ ' . $lastBillId;
         }
 
+        // 合併所有階段的已完成訂單
+        $allCompletedOrders = array_merge($previousCompletedOrders, $completedOrders);
+        $totalCompletedCount = count($allCompletedOrders);
+        $remainingOrders = $totalBills - $totalCompletedCount;
+
+        // 計算所有階段的訂單範圍
+        $allBillRange = "";
+        if (!empty($allCompletedOrders)) {
+            $allFirstBillId = $allCompletedOrders[0]['bill_id'];
+            $allLastBillId = end($allCompletedOrders)['bill_id'];
+            $allBillRange = $allFirstBillId . ' ~ ' . $allLastBillId;
+        }
+
         return response()->json([
             'success' => true,
-            'completed_count' => count($completedOrders),
-            'completed_orders' => $completedOrders,
+            'stage' => $stage,  // 當前階段
+            'completed_count' => count($completedOrders),  // 本階段完成數量
+            'total_completed_count' => $totalCompletedCount,  // 累積完成數量
+            'remaining_orders' => $remainingOrders,  // 剩餘訂單數量
+            'completed_orders' => $completedOrders,  // 本階段完成訂單
+            'all_completed_orders' => $allCompletedOrders,  // 所有階段累積訂單
             'stop_order' => $stopOrder,
             'stop_reason' => $formattedStopReason,
             'batch_remaining' => $batchStock,
-            'bill_range' => $bill_range
+            'bill_range' => $bill_range,  // 本階段訂單範圍
+            'all_bill_range' => $allBillRange,  // 所有階段訂單範圍
+            'can_continue' => ($stopOrder !== null && $remainingOrders > 0)  // 是否可繼續下一階段
         ]);
     }
 

@@ -105,6 +105,18 @@
 		background-color: #fcf8e3;
 		border: 1px solid #faebcc;
 	}
+	/* 批號狀態樣式 */
+	.batch-depleted{
+		border: 2px solid #d9534f !important;
+		background-color: #f2dede !important;
+	}
+	.batch-partial{
+		border: 2px solid #f0ad4e !important;
+		background-color: #fcf8e3 !important;
+	}
+	.batch-fresh{
+		border: 1px solid #5cb85c !important;
+	}
 </style>
 @endsection
 
@@ -301,6 +313,16 @@
 
 @section('scripts')
 <script>
+// 全域狀態：追蹤多階段計劃
+var shipmentPlanState = {
+	stage: 0,  // 當前階段
+	allCompletedOrders: [],  // 所有已完成訂單
+	lastStopOrder: null,  // 最後停止訂單
+	startFromBillId: null,  // 從哪筆訂單開始
+	batchRemaining: {},  // 批號剩餘量 {batchId: {available, original, ...}}
+	stopOrderConsumed: {}  // 停止訂單已消耗量 {slug: quantity}
+};
+
 function toggleDetail(rowId) {
 	var detailRow = document.getElementById(rowId);
 	var icon = document.getElementById('icon-' + rowId);
@@ -332,35 +354,163 @@ function calculatePlan() {
 		return;
 	}
 
+	// 準備多階段參數
+	shipmentPlanState.stage += 1;
+	var requestData = {
+		batch_plan: batchPlan,
+		stage: shipmentPlanState.stage,
+		start_from_bill_id: shipmentPlanState.startFromBillId,
+		previous_completed_orders: shipmentPlanState.allCompletedOrders,
+		stop_order_consumed: shipmentPlanState.stopOrderConsumed,  // 停止訂單已消耗量
+		_token: '{{ csrf_token() }}'
+	};
+
 	// 發送 AJAX 請求
 	$.ajax({
 		url: '{{ url("order/materials/calculate-plan") }}',
 		method: 'POST',
-		data: {
-			batch_plan: batchPlan,
-			_token: '{{ csrf_token() }}'
-		},
+		data: requestData,
 		beforeSend: function() {
 			$('#planResult').html('<div class="text-center"><i class="glyphicon glyphicon-refresh spinning"></i> 計算中...</div>');
 		},
 		success: function(response) {
+			// 更新全域狀態
+			shipmentPlanState.allCompletedOrders = response.all_completed_orders;
+			shipmentPlanState.lastStopOrder = response.stop_order;
+			shipmentPlanState.batchRemaining = response.batch_remaining || {};  // 保存批號剩餘量
+			if (response.stop_order) {
+				shipmentPlanState.startFromBillId = response.stop_order.bill_id;
+				// 保存停止訂單的累積消耗量
+				shipmentPlanState.stopOrderConsumed = response.stop_order.consumed || {};
+			} else {
+				// 如果沒有停止訂單，清空消耗記錄
+				shipmentPlanState.stopOrderConsumed = {};
+			}
 			displayResult(response);
 		},
 		error: function(xhr) {
+			shipmentPlanState.stage -= 1;  // 計算失敗，回退階段
 			$('#planResult').html('<div class="alert alert-danger">計算失敗，請稍後再試</div>');
 		}
 	});
 }
 
+// 繼續出貨計劃（補充批號後繼續）
+function continuePlan() {
+	// 清空結果顯示，準備下一階段
+	$('#planResult').html('<div class="alert alert-info"><i class="glyphicon glyphicon-info-sign"></i> 請補充批號數量後，點擊「計算出貨計劃」繼續</div>');
+
+	// 更新批號輸入框：顯示剩餘量
+	var inputs = document.querySelectorAll('#batchPlanForm input[name^="batch"]');
+	inputs.forEach(function(input) {
+		var batchId = input.name.match(/\d+/)[0];
+		var parentGroup = input.closest('.batch-input-group');
+		var labelSpan = parentGroup.querySelector('.batch-input-label');
+
+		// 移除舊的樣式類別
+		parentGroup.classList.remove('batch-depleted', 'batch-partial', 'batch-fresh');
+
+		// 如果該批號在上一階段有使用記錄
+		if (shipmentPlanState.batchRemaining[batchId]) {
+			var batchInfo = shipmentPlanState.batchRemaining[batchId];
+			var remaining = batchInfo.available;
+			var original = batchInfo.original;
+
+			// 更新輸入框的值為剩餘數量
+			input.value = remaining;
+
+			// 更新顯示文字
+			var batchNumber = batchInfo.batch_number;
+			var inventoryName = batchInfo.inventory_name;
+
+			if (remaining === 0) {
+				// 已用完
+				labelSpan.innerHTML = '批號: ' + batchNumber +
+					' <small class="text-danger"><strong>⚠️ 已用完</strong> (原始: ' + original + ')</small>';
+				parentGroup.classList.add('batch-depleted');
+			} else if (remaining < original) {
+				// 部分使用
+				labelSpan.innerHTML = '批號: ' + batchNumber +
+					' <small class="text-warning"><strong>剩餘: ' + remaining + '</strong> (原始: ' + original + ')</small>';
+				parentGroup.classList.add('batch-partial');
+			} else {
+				// 未使用（剩餘 = 原始）
+				labelSpan.innerHTML = '批號: ' + batchNumber +
+					' <small class="text-muted">(庫存: ' + original + ')</small>';
+				parentGroup.classList.add('batch-fresh');
+			}
+		}
+		// 否則保持原樣（未使用的新批號）
+	});
+
+	// 滾動到批號輸入區
+	$('#batchInputs')[0].scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
 function displayResult(data) {
 	var html = '<div class="result-box ' + (data.stop_order ? 'result-warning' : 'result-success') + '">';
 
+	// 顯示階段資訊
+	if (data.stage > 1) {
+		html += '<div class="alert alert-info" style="margin-bottom: 15px;">';
+		html += '<strong>階段 ' + data.stage + '</strong>';
+		html += '</div>';
+	}
+
 	html += '<h4><strong>計算結果</strong></h4>';
-	html += '<p><strong>可完成訂單數量：</strong>' + data.completed_count + ' 筆</p>';
 
-	html += '<h5 class="text-danger"><strong>出貨範圍</strong></h5>';
-	html += '<p>訂單編號：' + data.bill_range + '</strong></p>';
+	// 顯示本階段和累積資訊
+	if (data.stage > 1) {
+		html += '<p><strong>本階段完成訂單：</strong>' + data.completed_count + ' 筆</p>';
+		html += '<p><strong>累積完成訂單：</strong>' + data.total_completed_count + ' 筆</p>';
+		html += '<p><strong>剩餘訂單：</strong>' + data.remaining_orders + ' 筆</p>';
+	} else {
+		html += '<p><strong>可完成訂單數量：</strong>' + data.completed_count + ' 筆</p>';
+	}
 
+	html += '<h5 class="text-primary"><strong>出貨範圍</strong></h5>';
+	if (data.stage > 1 && data.all_bill_range) {
+		html += '<p>本階段：' + (data.bill_range || '無') + '</p>';
+		html += '<p>累積範圍：' + data.all_bill_range + '</p>';
+	} else {
+		html += '<p>訂單編號：' + (data.bill_range || '無') + '</p>';
+	}
+
+	// 顯示已完成訂單的批號使用明細
+	if (data.completed_count > 0 && data.completed_orders) {
+		html += '<hr>';
+		html += '<h5 class="text-success"><strong>已完成訂單批號使用明細</strong></h5>';
+		html += '<div style="max-height: 300px; overflow-y: auto;">';
+
+		data.completed_orders.forEach(function(order) {
+			html += '<div style="margin-bottom: 15px; padding: 10px; background-color: #f9f9f9; border-left: 3px solid #5cb85c;">';
+			html += '<strong>訂單 ' + order.bill_id + '</strong> - ' + order.user_name + ' (' + order.created_at + ')';
+
+			if (order.batch_usage && Object.keys(order.batch_usage).length > 0) {
+				html += '<table class="table table-sm table-bordered" style="margin-top: 8px; font-size: 11px; background-color: white;">';
+				html += '<tr><th style="width: 30%;">原料</th><th style="width: 30%;">批號</th><th style="width: 40%;">使用數量</th></tr>';
+
+				for (var slug in order.batch_usage) {
+					var batches = order.batch_usage[slug];
+					batches.forEach(function(batch) {
+						html += '<tr>';
+						html += '<td>' + batch.inventory_name + '</td>';
+						html += '<td>' + batch.batch_number + '</td>';
+						html += '<td><strong>' + batch.quantity_used + '</strong></td>';
+						html += '</tr>';
+					});
+				}
+
+				html += '</table>';
+			} else {
+				html += '<p style="font-size: 11px; color: #999; margin: 5px 0 0 0;">無批號使用記錄</p>';
+			}
+
+			html += '</div>';
+		});
+
+		html += '</div>';
+	}
 
 	if (data.stop_order) {
 		html += '<hr>';
@@ -372,11 +522,48 @@ function displayResult(data) {
 		html += '<h5 class="text-danger"><strong>停止原因（原料不足）</strong></h5>';
 		html += '<ul>';
 		data.stop_reason.forEach(function(reason) {
-			html += '<li>' + reason.name + '：需要 <strong>' + reason.required + '</strong>，剩餘 <strong>' + reason.available + '</strong></li>';
+			html += '<li>' + reason.name + '：需要 <strong>' + reason.required + '</strong>，剩餘 <strong>' + reason.available + '</strong>';
+			var shortage = reason.required - reason.available;
+			html += ' <span class="text-danger">(不足 ' + shortage + ')</span>';
+			html += '</li>';
 		});
 		html += '</ul>';
+
+		// 顯示停止訂單已消耗的批號明細
+		if (data.stop_order.batch_usage && Object.keys(data.stop_order.batch_usage).length > 0) {
+			html += '<h5 class="text-warning"><strong>本訂單已使用批號明細</strong></h5>';
+			html += '<div style="padding: 10px; background-color: #fff9e6; border-left: 3px solid #f0ad4e; margin-bottom: 15px;">';
+			html += '<table class="table table-sm table-bordered" style="font-size: 11px; background-color: white;">';
+			html += '<tr><th style="width: 30%;">原料</th><th style="width: 30%;">批號</th><th style="width: 40%;">已使用數量</th></tr>';
+
+			for (var slug in data.stop_order.batch_usage) {
+				var batches = data.stop_order.batch_usage[slug];
+				batches.forEach(function(batch) {
+					html += '<tr>';
+					html += '<td>' + batch.inventory_name + '</td>';
+					html += '<td>' + batch.batch_number + '</td>';
+					html += '<td><strong>' + batch.quantity_used + '</strong></td>';
+					html += '</tr>';
+				});
+			}
+
+			html += '</table>';
+			html += '<p style="font-size: 11px; color: #856404; margin: 5px 0 0 0;"><i class="glyphicon glyphicon-info-sign"></i> 此訂單因原料不足而停止，上方為已消耗的批號明細</p>';
+			html += '</div>';
+		}
+
+		// 如果還有剩餘訂單，顯示「繼續計劃」按鈕
+		if (data.can_continue) {
+			html += '<div style="margin-top: 20px; padding: 15px; background-color: #fcf8e3; border: 1px solid #faebcc; border-radius: 4px;">';
+			html += '<p><strong><i class="glyphicon glyphicon-exclamation-sign"></i> 還有 ' + data.remaining_orders + ' 筆訂單待處理</strong></p>';
+			html += '<p>請補充批號數量後，點擊下方按鈕繼續出貨計劃</p>';
+			html += '<button type="button" class="btn btn-warning btn-lg" onclick="continuePlan()">';
+			html += '<i class="glyphicon glyphicon-forward"></i> 繼續出貨計劃';
+			html += '</button>';
+			html += '</div>';
+		}
 	} else {
-		html += '<p class="text-success"><strong>所有訂單都可以完成！</strong></p>';
+		html += '<p class="text-success"><strong><i class="glyphicon glyphicon-ok-circle"></i> 所有訂單都可以完成！</strong></p>';
 	}
 
 	// 顯示批號剩餘量
