@@ -1091,24 +1091,43 @@ class OrderManagementController extends Controller
                 }
             }
 
-            // 檢查是否有足夠的批號數量
+            // 計算實際需要的數量（如果是停止訂單的後續階段，需要扣除已消耗的數量）
+            $realRequiredMaterials = [];
+            foreach ($requiredMaterials as $slug => $requiredQty) {
+                // 檢查這個訂單是否為上階段的停止訂單
+                if ($startFromBillId && $bill->bill_id == $startFromBillId && isset($stopOrderConsumed[$slug])) {
+                    // 這是停止訂單，計算實際還需要的數量
+                    $alreadyConsumed = $stopOrderConsumed[$slug];
+                    $realRequiredMaterials[$slug] = $requiredQty - $alreadyConsumed;
+                } else {
+                    // 一般訂單，需要全部數量
+                    $realRequiredMaterials[$slug] = $requiredQty;
+                }
+            }
+
+            // 檢查是否有足夠的批號數量（使用調整後的需求量）
             $canComplete = true;
             $insufficientMaterials = [];
 
-            foreach ($requiredMaterials as $slug => $requiredQty) {
+            foreach ($realRequiredMaterials as $slug => $needQty) {
+                // 跳過不需要的原料（已經完全消耗）
+                if ($needQty <= 0) {
+                    continue;
+                }
+
                 // 如果這個 slug 沒有對應的批號計劃，視為不足
                 if (!isset($slugToBatches[$slug])) {
                     $canComplete = false;
                     $insufficientMaterials[] = [
                         'slug' => $slug,
-                        'required' => $requiredQty,
+                        'required' => $needQty,
                         'available' => 0
                     ];
                     continue;
                 }
 
                 // 嘗試從批號中扣除（FIFO）
-                $remainingQty = $requiredQty;
+                $remainingQty = $needQty;
                 foreach ($slugToBatches[$slug] as $batchId) {
                     if ($remainingQty <= 0) { break; }
 
@@ -1126,24 +1145,9 @@ class OrderManagementController extends Controller
                     }
                     $insufficientMaterials[] = [
                         'slug' => $slug,
-                        'required' => $requiredQty,
+                        'required' => $needQty,
                         'available' => $totalAvailable
                     ];
-                }
-            }
-
-            // 實際扣除批號數量（模擬）- 即使訂單無法完成也要扣除已使用的部分
-            // 如果是停止訂單的後續階段，需要扣除已消耗的數量，只扣除剩餘不足的部分
-            $realRequiredMaterials = [];
-            foreach ($requiredMaterials as $slug => $requiredQty) {
-                // 檢查這個訂單是否為上階段的停止訂單
-                if ($startFromBillId && $bill->bill_id == $startFromBillId && isset($stopOrderConsumed[$slug])) {
-                    // 這是停止訂單，計算實際還需要的數量
-                    $alreadyConsumed = $stopOrderConsumed[$slug];
-                    $realRequiredMaterials[$slug] = $requiredQty - $alreadyConsumed;
-                } else {
-                    // 一般訂單，需要全部數量
-                    $realRequiredMaterials[$slug] = $requiredQty;
                 }
             }
 

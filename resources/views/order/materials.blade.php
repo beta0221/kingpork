@@ -273,24 +273,33 @@
 				<form id="batchPlanForm">
 					<div id="batchInputs">
 						@foreach($batches as $inventoryName => $batchGroup)
+							<?php
+								// 取得第一個批號作為預設選中
+								$firstBatch = $batchGroup->first();
+								$inventorySlug = $firstBatch->inventory->slug;
+							?>
 							<h5 style="margin-top: 15px; color: #337ab7;">
 								<strong>{{ $inventoryName }}</strong>
 							</h5>
-							@foreach($batchGroup as $batch)
-								<div class="batch-input-group">
-									<span class="batch-input-label">
-										批號: {{ $batch->batch_number }}
-										<small class="text-muted">(庫存: {{ $batch->quantity }})</small>
-									</span>
-									<input
-										type="number"
-										class="form-control input-sm"
-										name="batch[{{ $batch->id }}]"
-										min="0"
-										max="{{ $batch->quantity }}"
-										value="0"
-										style="width: 120px; display: inline-block;"
-									>
+							@foreach($batchGroup as $index => $batch)
+								<div class="batch-input-group" data-inventory-slug="{{ $inventorySlug }}">
+									<label style="margin-bottom: 0; display: flex; align-items: center; cursor: pointer;">
+										<input
+											type="radio"
+											name="inventory_{{ $inventorySlug }}"
+											value="{{ $batch->id }}"
+											data-batch-id="{{ $batch->id }}"
+											data-inventory-slug="{{ $inventorySlug }}"
+											data-quantity="{{ $batch->quantity }}"
+											data-batch-number="{{ $batch->batch_number }}"
+											{{ $index === 0 ? 'checked' : '' }}
+											style="margin-right: 8px;"
+										>
+										<span class="batch-input-label" style="width: auto;">
+											批號: {{ $batch->batch_number }}
+											<small class="text-muted">(庫存: {{ $batch->quantity }})</small>
+										</span>
+									</label>
 								</div>
 							@endforeach
 						@endforeach
@@ -337,20 +346,23 @@ function toggleDetail(rowId) {
 }
 
 function calculatePlan() {
-	// 收集批號數據
+	// 收集批號數據：從選中的 radio 直接讀取全部數量
 	var batchPlan = {};
-	var inputs = document.querySelectorAll('#batchPlanForm input[name^="batch"]');
 
-	inputs.forEach(function(input) {
-		var batchId = input.name.match(/\d+/)[0];
-		var quantity = parseInt(input.value) || 0;
+	// 找到所有被選中的 radio buttons
+	var selectedRadios = document.querySelectorAll('#batchPlanForm input[type="radio"]:checked');
+
+	selectedRadios.forEach(function(radio) {
+		var batchId = radio.getAttribute('data-batch-id');
+		var quantity = parseInt(radio.getAttribute('data-quantity')) || 0;
+
 		if (quantity > 0) {
 			batchPlan[batchId] = quantity;
 		}
 	});
 
 	if (Object.keys(batchPlan).length === 0) {
-		alert('請至少設定一個批號的數量');
+		alert('請選擇至少一個有庫存的批號');
 		return;
 	}
 
@@ -398,50 +410,88 @@ function calculatePlan() {
 // 繼續出貨計劃（補充批號後繼續）
 function continuePlan() {
 	// 清空結果顯示，準備下一階段
-	$('#planResult').html('<div class="alert alert-info"><i class="glyphicon glyphicon-info-sign"></i> 請補充批號數量後，點擊「計算出貨計劃」繼續</div>');
+	$('#planResult').html('<div class="alert alert-info"><i class="glyphicon glyphicon-info-sign"></i> 請選擇批號後，點擊「計算出貨計劃」繼續</div>');
 
-	// 更新批號輸入框：顯示剩餘量
-	var inputs = document.querySelectorAll('#batchPlanForm input[name^="batch"]');
-	inputs.forEach(function(input) {
-		var batchId = input.name.match(/\d+/)[0];
-		var parentGroup = input.closest('.batch-input-group');
-		var labelSpan = parentGroup.querySelector('.batch-input-label');
+	// 追蹤每個原料當前選中的批號和是否需要切換
+	var inventorySwitchNeeded = {};  // {slug: {currentBatchId, shouldSwitch}}
+
+	// 第一步：更新所有批號的 data-quantity 和顯示文字
+	var allBatchGroups = document.querySelectorAll('.batch-input-group');
+	allBatchGroups.forEach(function(group) {
+		var inventorySlug = group.getAttribute('data-inventory-slug');
+		var radio = group.querySelector('input[type="radio"]');
+		var batchId = radio.getAttribute('data-batch-id');
+		var labelSpan = group.querySelector('.batch-input-label');
 
 		// 移除舊的樣式類別
-		parentGroup.classList.remove('batch-depleted', 'batch-partial', 'batch-fresh');
+		group.classList.remove('batch-depleted', 'batch-partial', 'batch-fresh');
 
 		// 如果該批號在上一階段有使用記錄
 		if (shipmentPlanState.batchRemaining[batchId]) {
 			var batchInfo = shipmentPlanState.batchRemaining[batchId];
 			var remaining = batchInfo.available;
 			var original = batchInfo.original;
+			var batchNumber = batchInfo.batch_number;
 
-			// 更新輸入框的值為剩餘數量
-			input.value = remaining;
+			// 更新 radio 的 data-quantity 為剩餘數量
+			radio.setAttribute('data-quantity', remaining);
+
+			// 檢查該批號是否被選中
+			var isCurrentlySelected = radio.checked;
+
+			// 記錄此批號的狀態
+			if (isCurrentlySelected) {
+				if (!inventorySwitchNeeded[inventorySlug]) {
+					inventorySwitchNeeded[inventorySlug] = {
+						currentBatchId: batchId,
+						shouldSwitch: (remaining === 0)
+					};
+				}
+			}
 
 			// 更新顯示文字
-			var batchNumber = batchInfo.batch_number;
-			var inventoryName = batchInfo.inventory_name;
-
 			if (remaining === 0) {
 				// 已用完
 				labelSpan.innerHTML = '批號: ' + batchNumber +
 					' <small class="text-danger"><strong>⚠️ 已用完</strong> (原始: ' + original + ')</small>';
-				parentGroup.classList.add('batch-depleted');
+				group.classList.add('batch-depleted');
 			} else if (remaining < original) {
 				// 部分使用
 				labelSpan.innerHTML = '批號: ' + batchNumber +
 					' <small class="text-warning"><strong>剩餘: ' + remaining + '</strong> (原始: ' + original + ')</small>';
-				parentGroup.classList.add('batch-partial');
+				group.classList.add('batch-partial');
 			} else {
 				// 未使用（剩餘 = 原始）
 				labelSpan.innerHTML = '批號: ' + batchNumber +
 					' <small class="text-muted">(庫存: ' + original + ')</small>';
-				parentGroup.classList.add('batch-fresh');
+				group.classList.add('batch-fresh');
 			}
 		}
-		// 否則保持原樣（未使用的新批號）
 	});
+
+	// 第二步：如果當前選中的批號已用完，自動切換到下一個可用批號
+	for (var inventorySlug in inventorySwitchNeeded) {
+		if (inventorySwitchNeeded[inventorySlug].shouldSwitch) {
+			// 找到該原料的所有批號
+			var allRadiosForInventory = document.querySelectorAll('input[name="inventory_' + inventorySlug + '"]');
+			var foundAvailable = false;
+
+			allRadiosForInventory.forEach(function(radio) {
+				if (foundAvailable) return;
+
+				var batchId = radio.getAttribute('data-batch-id');
+				var batchInfo = shipmentPlanState.batchRemaining[batchId];
+
+				// 如果該批號有剩餘量，選中它
+				if (batchInfo && batchInfo.available > 0) {
+					radio.checked = true;
+					foundAvailable = true;
+				}
+			});
+
+			// 如果沒有找到可用批號，保持當前選擇（數量為0）
+		}
+	}
 
 	// 滾動到批號輸入區
 	$('#batchInputs')[0].scrollIntoView({ behavior: 'smooth', block: 'start' });
