@@ -1005,8 +1005,12 @@ class OrderManagementController extends Controller
         // 取得 Inventory name 字典
         $inventoryDict = Inventory::all()->pluck('name', 'slug')->toArray();
 
-        // 取得有庫存的批號列表
+        // 取得有庫存的批號列表（只顯示「成品」類別）
+        // 先取得「成品」類別的 inventory IDs
+        $productInventoryIds = Inventory::where('category', '成品')->pluck('id')->toArray();
+
         $batches = InventoryBatch::with('inventory')
+            ->whereIn('inventory_id', $productInventoryIds)
             ->where('quantity', '>', 0)
             ->orderBy('manufactured_date', 'asc')
             ->get()
@@ -1034,6 +1038,7 @@ class OrderManagementController extends Controller
         $startFromBillId = $request->input('start_from_bill_id', null);  // 從哪筆訂單開始
         $previousCompletedOrders = $request->input('previous_completed_orders', []);  // 前階段已完成訂單
         $stopOrderConsumed = $request->input('stop_order_consumed', []);  // 停止訂單已消耗量 {slug: quantity}
+        $stopOrderBatchUsage = $request->input('stop_order_batch_usage', []);  // 停止訂單的批號使用明細
 
         // 建立批號庫存追蹤（用於模擬扣除）
         $batchStock = [];
@@ -1091,13 +1096,16 @@ class OrderManagementController extends Controller
                 }
             }
 
+            // 標記當前訂單是否為「繼續中的停止訂單」
+            $isResumingStopOrder = ($startFromBillId && $bill->bill_id == $startFromBillId);
+
             // 計算實際需要的數量（如果是停止訂單的後續階段，需要扣除已消耗的數量）
             $realRequiredMaterials = [];
             foreach ($requiredMaterials as $slug => $requiredQty) {
                 // 檢查這個訂單是否為上階段的停止訂單
-                if ($startFromBillId && $bill->bill_id == $startFromBillId && isset($stopOrderConsumed[$slug])) {
-                    // 這是停止訂單，計算實際還需要的數量
-                    $alreadyConsumed = $stopOrderConsumed[$slug];
+                if ($isResumingStopOrder) {
+                    // 這是停止訂單，計算實際還需要的數量（扣除已消耗量）
+                    $alreadyConsumed = isset($stopOrderConsumed[$slug]) ? $stopOrderConsumed[$slug] : 0;
                     $realRequiredMaterials[$slug] = $requiredQty - $alreadyConsumed;
                 } else {
                     // 一般訂單，需要全部數量
@@ -1155,7 +1163,18 @@ class OrderManagementController extends Controller
             $currentConsumed = [];  // 記錄本次消耗量
             $batchUsageDetails = [];  // 記錄此訂單使用的批號明細 {slug: [{batch_id, batch_number, quantity_used}]}
 
+            // 如果是繼續中的停止訂單，直接使用前端傳來的批號使用記錄
+            $previousBatchUsage = [];
+            if ($isResumingStopOrder && !empty($stopOrderBatchUsage)) {
+                $previousBatchUsage = $stopOrderBatchUsage;
+            }
+
             foreach ($realRequiredMaterials as $slug => $needQty) {
+                // 跳過不需要的原料(已經完全消耗)
+                if ($needQty <= 0) {
+                    continue;
+                }
+
                 // 如果該原料沒有對應的批號，跳過
                 if (!isset($slugToBatches[$slug])) {
                     continue;
@@ -1188,6 +1207,17 @@ class OrderManagementController extends Controller
                             'quantity_used' => $deduct
                         ];
                     }
+                }
+            }
+
+            // 合併前階段的批號使用記錄（如果是繼續中的停止訂單）
+            if ($isResumingStopOrder && !empty($previousBatchUsage)) {
+                foreach ($previousBatchUsage as $slug => $batches) {
+                    if (!isset($batchUsageDetails[$slug])) {
+                        $batchUsageDetails[$slug] = [];
+                    }
+                    // 將前階段的批號使用記錄加到前面
+                    $batchUsageDetails[$slug] = array_merge($batches, $batchUsageDetails[$slug]);
                 }
             }
 

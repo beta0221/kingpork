@@ -22,7 +22,7 @@
 		cursor: pointer;
 	}
 	.materials-detail{
-		display: none;
+		display: table-row;
 		background-color: #f9f9f9;
 	}
 	.materials-detail td{
@@ -109,6 +109,11 @@
 	.batch-depleted{
 		border: 2px solid #d9534f !important;
 		background-color: #f2dede !important;
+		opacity: 0.6;
+		cursor: not-allowed !important;
+	}
+	.batch-depleted label{
+		cursor: not-allowed !important;
 	}
 	.batch-partial{
 		border: 2px solid #f0ad4e !important;
@@ -122,15 +127,11 @@
 
 @section('content')
 
-<div class="container-fluid">
-	<h2 style="display: inline-block;">出貨計劃</h2>
-	<button class="btn btn-primary" style="margin-left: 20px;" data-toggle="modal" data-target="#shipmentPlanModal">
-		<i class="glyphicon glyphicon-cog"></i> 設置出貨階段
-	</button>
+<div class="container-fluid">	
 
 	<!-- 篩選區 -->
 	<div class="filter-box">
-		<form action="{{url('order/materials')}}" method="GET">
+		<form class="d-inline-block" action="{{url('order/materials')}}" method="GET">
 			<div class="form-inline">
 				<label>日期區間：</label>
 				<input type="date" name="date1" class="form-control input-sm" value="{{request('date1')}}">
@@ -148,6 +149,10 @@
 				<a href="{{url('order/materials')}}" class="btn btn-default btn-sm">清除篩選</a>
 			</div>
 		</form>
+
+		<button class="btn btn-primary" data-toggle="modal" data-target="#shipmentPlanModal">
+			<i class="glyphicon glyphicon-cog"></i> 設置出貨階段
+		</button>
 
 		<!-- 分頁 -->
 		<div style="text-align: center; margin-top: 12px;">
@@ -192,7 +197,7 @@
 				?>
 				<tr class="table-tr" onclick="toggleDetail('{{$rowId}}')">
 					<td>
-						<span class="toggle-icon" id="icon-{{$rowId}}">▶</span>
+						<span class="toggle-icon" id="icon-{{$rowId}}">▼</span>
 					</td>
 					<td>{{ $bill->bill_id }}</td>
 					<td>{{ substr($bill->created_at, 0, 10) }}</td>
@@ -204,7 +209,7 @@
 					</td>
 					<td>{{ number_format($bill->price) }} 元</td>
 				</tr>
-				<tr id="{{$rowId}}" class="materials-detail">
+				<tr id="{{$rowId}}" class="materials-detail" style="display: table-row;">
 					<td colspan="6">
 						<div class="row">
 							<div class="col-md-6">
@@ -308,6 +313,9 @@
 					<button type="button" class="btn btn-primary" onclick="calculatePlan()">
 						<i class="glyphicon glyphicon-check"></i> 計算出貨計劃
 					</button>
+					<button type="button" class="btn btn-warning" onclick="resetPlan()">
+						<i class="glyphicon glyphicon-refresh"></i> 重新計劃
+					</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 				</form>
 
@@ -329,8 +337,27 @@ var shipmentPlanState = {
 	lastStopOrder: null,  // 最後停止訂單
 	startFromBillId: null,  // 從哪筆訂單開始
 	batchRemaining: {},  // 批號剩餘量 {batchId: {available, original, ...}}
-	stopOrderConsumed: {}  // 停止訂單已消耗量 {slug: quantity}
+	stopOrderConsumed: {},  // 停止訂單已消耗量 {slug: quantity}
+	stopOrderBatchUsage: {},  // 停止訂單的批號使用明細 {slug: [{batch_number, quantity_used, ...}]}
+	stageHistory: []  // 階段歷史記錄（用於回復上階段）
 };
+
+// 頁面載入時保存所有批號的原始數量
+var originalBatchQuantities = {};
+$(document).ready(function() {
+	var allBatchGroups = document.querySelectorAll('.batch-input-group');
+	allBatchGroups.forEach(function(group) {
+		var radio = group.querySelector('input[type="radio"]');
+		var batchId = radio.getAttribute('data-batch-id');
+		var quantity = radio.getAttribute('data-quantity');
+		var batchNumber = radio.getAttribute('data-batch-number');
+
+		originalBatchQuantities[batchId] = {
+			quantity: parseInt(quantity),
+			batchNumber: batchNumber
+		};
+	});
+});
 
 function toggleDetail(rowId) {
 	var detailRow = document.getElementById(rowId);
@@ -374,6 +401,7 @@ function calculatePlan() {
 		start_from_bill_id: shipmentPlanState.startFromBillId,
 		previous_completed_orders: shipmentPlanState.allCompletedOrders,
 		stop_order_consumed: shipmentPlanState.stopOrderConsumed,  // 停止訂單已消耗量
+		stop_order_batch_usage: shipmentPlanState.stopOrderBatchUsage,  // 停止訂單的批號使用明細
 		_token: '{{ csrf_token() }}'
 	};
 
@@ -394,10 +422,20 @@ function calculatePlan() {
 				shipmentPlanState.startFromBillId = response.stop_order.bill_id;
 				// 保存停止訂單的累積消耗量
 				shipmentPlanState.stopOrderConsumed = response.stop_order.consumed || {};
+				// 保存停止訂單的批號使用明細
+				shipmentPlanState.stopOrderBatchUsage = response.stop_order.batch_usage || {};
 			} else {
 				// 如果沒有停止訂單，清空消耗記錄
 				shipmentPlanState.stopOrderConsumed = {};
+				shipmentPlanState.stopOrderBatchUsage = {};
 			}
+
+			// 保存當前階段的完整 response 到歷史記錄（用於回復上階段）
+			shipmentPlanState.stageHistory.push({
+				stage: shipmentPlanState.stage,
+				response: JSON.parse(JSON.stringify(response))  // 深拷貝 response
+			});
+
 			displayResult(response);
 		},
 		error: function(xhr) {
@@ -407,11 +445,44 @@ function calculatePlan() {
 	});
 }
 
-// 繼續出貨計劃（補充批號後繼續）
-function continuePlan() {
-	// 清空結果顯示，準備下一階段
-	$('#planResult').html('<div class="alert alert-info"><i class="glyphicon glyphicon-info-sign"></i> 請選擇批號後，點擊「計算出貨計劃」繼續</div>');
+// 回復到上一個階段
+function goBackToPreviousStage() {
+	if (shipmentPlanState.stageHistory.length <= 1) {
+		alert('已經是第一階段，無法返回');
+		return;
+	}
 
+	// 移除當前階段
+	shipmentPlanState.stageHistory.pop();
+
+	// 獲取上一階段的資料
+	var previousStageData = shipmentPlanState.stageHistory[shipmentPlanState.stageHistory.length - 1];
+	var previousResponse = previousStageData.response;
+
+	// 恢復全域狀態到上一階段
+	shipmentPlanState.stage = previousStageData.stage;
+	shipmentPlanState.allCompletedOrders = previousResponse.all_completed_orders;
+	shipmentPlanState.lastStopOrder = previousResponse.stop_order;
+	shipmentPlanState.batchRemaining = previousResponse.batch_remaining || {};
+	if (previousResponse.stop_order) {
+		shipmentPlanState.startFromBillId = previousResponse.stop_order.bill_id;
+		shipmentPlanState.stopOrderConsumed = previousResponse.stop_order.consumed || {};
+		shipmentPlanState.stopOrderBatchUsage = previousResponse.stop_order.batch_usage || {};
+	} else {
+		shipmentPlanState.startFromBillId = null;
+		shipmentPlanState.stopOrderConsumed = {};
+		shipmentPlanState.stopOrderBatchUsage = {};
+	}
+
+	// 重新顯示上一階段的結果
+	displayResult(previousResponse);
+
+	// 更新批號狀態（不清空結果）
+	updateBatchDisplayOnly();
+}
+
+// 僅更新批號顯示狀態（不清空結果）
+function updateBatchDisplayOnly() {
 	// 追蹤每個原料當前選中的批號和是否需要切換
 	var inventorySwitchNeeded = {};  // {slug: {currentBatchId, shouldSwitch}}
 
@@ -449,23 +520,46 @@ function continuePlan() {
 				}
 			}
 
-			// 更新顯示文字
+			// 更新顯示文字和禁用狀態
 			if (remaining === 0) {
-				// 已用完
+				// 已用完 - 禁用此批號
+				radio.disabled = true;
 				labelSpan.innerHTML = '批號: ' + batchNumber +
 					' <small class="text-danger"><strong>⚠️ 已用完</strong> (原始: ' + original + ')</small>';
 				group.classList.add('batch-depleted');
 			} else if (remaining < original) {
-				// 部分使用
+				// 部分使用 - 確保可用
+				radio.disabled = false;
 				labelSpan.innerHTML = '批號: ' + batchNumber +
 					' <small class="text-warning"><strong>剩餘: ' + remaining + '</strong> (原始: ' + original + ')</small>';
 				group.classList.add('batch-partial');
 			} else {
-				// 未使用（剩餘 = 原始）
+				// 未使用（剩餘 = 原始）- 確保可用
+				radio.disabled = false;
 				labelSpan.innerHTML = '批號: ' + batchNumber +
 					' <small class="text-muted">(庫存: ' + original + ')</small>';
 				group.classList.add('batch-fresh');
 			}
+		} else {
+			// 該批號在上一階段沒有使用記錄 - 恢復為原始狀態
+			var originalBatchNumber = radio.getAttribute('data-batch-number');
+			var originalQuantityAttr = radio.getAttribute('data-original-quantity');
+
+			// 如果還沒有記錄原始數量，現在記錄
+			if (!originalQuantityAttr) {
+				var currentQty = radio.getAttribute('data-quantity');
+				radio.setAttribute('data-original-quantity', currentQty);
+				originalQuantityAttr = currentQty;
+			}
+
+			var originalQuantity = parseInt(originalQuantityAttr);
+
+			// 恢復為未使用狀態
+			radio.disabled = false;
+			radio.setAttribute('data-quantity', originalQuantity);
+			labelSpan.innerHTML = '批號: ' + originalBatchNumber +
+				' <small class="text-muted">(庫存: ' + originalQuantity + ')</small>';
+			group.classList.add('batch-fresh');
 		}
 	});
 
@@ -492,9 +586,69 @@ function continuePlan() {
 			// 如果沒有找到可用批號，保持當前選擇（數量為0）
 		}
 	}
+}
+
+// 繼續出貨計劃（補充批號後繼續）
+function continuePlan() {
+	// 清空結果顯示，準備下一階段
+	$('#planResult').html('<div class="alert alert-info"><i class="glyphicon glyphicon-info-sign"></i> 請選擇批號後，點擊「計算出貨計劃」繼續</div>');
+
+	// 更新批號狀態
+	updateBatchDisplayOnly();
 
 	// 滾動到批號輸入區
 	$('#batchInputs')[0].scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// 重新計劃（重置所有階段狀態）
+function resetPlan() {
+	if (!confirm('確定要重新計劃嗎？這將清除所有階段的計算結果。')) {
+		return;
+	}
+
+	// 重置全域狀態
+	shipmentPlanState = {
+		stage: 0,
+		allCompletedOrders: [],
+		lastStopOrder: null,
+		startFromBillId: null,
+		batchRemaining: {},
+		stopOrderConsumed: {},
+		stopOrderBatchUsage: {},
+		stageHistory: []
+	};
+
+	// 清空結果顯示
+	$('#planResult').html('');
+
+	// 恢復所有批號的原始狀態
+	var allBatchGroups = document.querySelectorAll('.batch-input-group');
+	allBatchGroups.forEach(function(group) {
+		var radio = group.querySelector('input[type="radio"]');
+		var labelSpan = group.querySelector('.batch-input-label');
+		var batchId = radio.getAttribute('data-batch-id');
+
+		// 從保存的原始數量中取得
+		var originalData = originalBatchQuantities[batchId];
+		if (originalData) {
+			var originalQuantity = originalData.quantity;
+			var batchNumber = originalData.batchNumber;
+
+			// 恢復原始數量
+			radio.setAttribute('data-quantity', originalQuantity);
+			radio.disabled = false;
+
+			// 恢復原始顯示
+			labelSpan.innerHTML = '批號: ' + batchNumber +
+				' <small class="text-muted">(庫存: ' + originalQuantity + ')</small>';
+
+			// 移除所有狀態樣式
+			group.classList.remove('batch-depleted', 'batch-partial', 'batch-fresh');
+		}
+	});
+
+	// 提示訊息
+	$('#planResult').html('<div class="alert alert-success"><i class="glyphicon glyphicon-ok"></i> 已重置計劃狀態，請重新選擇批號並計算</div>');
 }
 
 function displayResult(data) {
@@ -503,7 +657,12 @@ function displayResult(data) {
 	// 顯示階段資訊
 	if (data.stage > 1) {
 		html += '<div class="alert alert-info" style="margin-bottom: 15px;">';
+		html += '<div style="display: flex; justify-content: space-between; align-items: center;">';
 		html += '<strong>階段 ' + data.stage + '</strong>';
+		html += '<button type="button" class="btn btn-default btn-sm" onclick="goBackToPreviousStage()">';
+		html += '<i class="glyphicon glyphicon-arrow-left"></i> 回復上階段';
+		html += '</button>';
+		html += '</div>';
 		html += '</div>';
 	}
 
