@@ -313,6 +313,9 @@
 					<button type="button" class="btn btn-primary" onclick="calculatePlan()">
 						<i class="glyphicon glyphicon-check"></i> 計算出貨計劃
 					</button>
+					<button type="button" class="btn btn-success" onclick="savePlan()" id="savePlanBtn" style="display: none;">
+						<i class="glyphicon glyphicon-floppy-disk"></i> 儲存計劃
+					</button>
 					<button type="button" class="btn btn-warning" onclick="resetPlan()">
 						<i class="glyphicon glyphicon-refresh"></i> 重新計劃
 					</button>
@@ -774,6 +777,8 @@ function displayResult(data) {
 		}
 	} else {
 		html += '<p class="text-success"><strong><i class="glyphicon glyphicon-ok-circle"></i> 所有訂單都可以完成！</strong></p>';
+		// 顯示「儲存計劃」按鈕
+		$('#savePlanBtn').show();
 	}
 
 	// 顯示批號剩餘量
@@ -797,6 +802,69 @@ function displayResult(data) {
 	html += '</div>';
 
 	$('#planResult').html(html);
+}
+
+// 儲存出貨計劃
+function savePlan() {
+	if (shipmentPlanState.allCompletedOrders.length === 0) {
+		alert('沒有可儲存的計劃，請先計算出貨計劃');
+		return;
+	}
+
+	// 請求使用者輸入計劃名稱
+	var planName = prompt('請輸入出貨計劃名稱：', '出貨計劃 ' + new Date().toISOString().split('T')[0]);
+	if (!planName) {
+		return;  // 使用者取消
+	}
+
+	// 準備要儲存的資料
+	var planData = {
+		stages: shipmentPlanState.stageHistory,
+		all_completed_orders: shipmentPlanState.allCompletedOrders,
+		batch_remaining: shipmentPlanState.batchRemaining,
+		total_orders: shipmentPlanState.allCompletedOrders.length,
+		total_stages: shipmentPlanState.stage
+	};
+
+	// 發送儲存請求
+	$.ajax({
+		url: '{{ url("order/shipment-plan/save") }}',
+		method: 'POST',
+		data: {
+			plan_name: planName,
+			plan_data: planData,
+			_token: '{{ csrf_token() }}'
+		},
+		beforeSend: function() {
+			$('#savePlanBtn').prop('disabled', true).html('<i class="glyphicon glyphicon-refresh spinning"></i> 儲存中...');
+		},
+		success: function(response) {
+			if (response.success) {
+				alert('出貨計劃已成功儲存！\n計劃 ID：' + response.plan_id);
+
+				// 詢問是否前往查看計劃列表
+				if (confirm('是否前往查看出貨計劃列表？')) {
+					window.location.href = '{{ url("order/shipment-plan") }}';
+				} else {
+					// 重置計劃狀態
+					resetPlan();
+					$('#shipmentPlanModal').modal('hide');
+				}
+			} else {
+				alert('儲存失敗：' + (response.message || '未知錯誤'));
+			}
+		},
+		error: function(xhr) {
+			var errorMsg = '儲存失敗，請稍後再試';
+			if (xhr.responseJSON && xhr.responseJSON.message) {
+				errorMsg = xhr.responseJSON.message;
+			}
+			alert(errorMsg);
+		},
+		complete: function() {
+			$('#savePlanBtn').prop('disabled', false).html('<i class="glyphicon glyphicon-floppy-disk"></i> 儲存計劃');
+		}
+	});
 }
 </script>
 <style>

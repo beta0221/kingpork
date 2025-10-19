@@ -11,6 +11,8 @@ use App\Inventory;
 use App\InventoryBatch;
 use App\User;
 use App\Products;
+use App\ShipmentPlan;
+use App\BillBatchUsage;
 use Excel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -1322,6 +1324,188 @@ class OrderManagementController extends Controller
             'bill_range' => $bill_range,  // 本階段訂單範圍
             'all_bill_range' => $allBillRange,  // 所有階段訂單範圍
             'can_continue' => ($stopOrder !== null && $remainingOrders > 0)  // 是否可繼續下一階段
+        ]);
+    }
+
+    /**
+     * 儲存出貨計劃
+     */
+    public function saveShipmentPlan(Request $request)
+    {
+        $this->validate($request, [
+            'plan_name' => 'required|string|max:255',
+            'plan_data' => 'required'
+        ]);
+
+        $planData = $request->input('plan_data');
+
+        $plan = ShipmentPlan::create([
+            'plan_name' => $request->input('plan_name'),
+            'status' => ShipmentPlan::STATUS_IN_PROGRESS,
+            'plan_data' => $planData,
+            'total_orders' => isset($planData['total_orders']) ? $planData['total_orders'] : 0,
+            'total_stages' => isset($planData['total_stages']) ? $planData['total_stages'] : 0
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'plan_id' => $plan->id,
+            'message' => '出貨計劃已儲存'
+        ]);
+    }
+
+    /**
+     * 列出所有出貨計劃
+     */
+    public function listShipmentPlans()
+    {
+        $plans = ShipmentPlan::orderBy('created_at', 'desc')->paginate(20);
+
+        return view('order.shipment_plans_list', [
+            'plans' => $plans
+        ]);
+    }
+
+    /**
+     * 顯示單一出貨計劃詳情
+     */
+    public function showShipmentPlan($planId)
+    {
+        $plan = ShipmentPlan::findOrFail($planId);
+
+        $inventoryDict = Inventory::all()->pluck('name', 'slug')->toArray();
+
+        return view('order.shipment_plan_detail', [
+            'plan' => $plan,
+            'inventoryDict' => $inventoryDict
+        ]);
+    }
+
+    /**
+     * 完成出貨計劃
+     */
+    public function completeShipmentPlan(Request $request, $planId)
+    {
+        $plan = ShipmentPlan::findOrFail($planId);
+
+        if (!$plan->canComplete()) {
+            return response()->json([
+                'success' => false,
+                'message' => '此計劃無法完成（狀態不正確）'
+            ], 400);
+        }
+
+        DB::beginTransaction();
+
+        try {
+            $planData = $plan->plan_data;
+            $allCompletedOrders = $planData['all_completed_orders'] ?? [];
+
+            // 檢查所有批號庫存是否足夠
+            $batchStockCheck = [];
+            foreach ($allCompletedOrders as $order) {
+                if (!isset($order['batch_usage'])) {
+                    continue;
+                }
+
+                foreach ($order['batch_usage'] as $slug => $batches) {
+                    foreach ($batches as $batchInfo) {
+                        $batchId = $batchInfo['batch_id'];
+                        $quantityUsed = $batchInfo['quantity_used'];
+
+                        if (!isset($batchStockCheck[$batchId])) {
+                            $batchStockCheck[$batchId] = 0;
+                        }
+                        $batchStockCheck[$batchId] += $quantityUsed;
+                    }
+                }
+            }
+
+            // 驗證庫存
+            foreach ($batchStockCheck as $batchId => $totalUsed) {
+                $batch = InventoryBatch::find($batchId);
+                if (!$batch || $batch->quantity < $totalUsed) {
+                    DB::rollBack();
+                    return response()->json([
+                        'success' => false,
+                        'message' => '批號 ' . ($batch ? $batch->batch_number : $batchId) . ' 庫存不足，無法完成出貨'
+                    ], 400);
+                }
+            }
+
+            // 寫入批號使用記錄並扣除庫存
+            foreach ($allCompletedOrders as $order) {
+                $billId = $order['bill_id'];
+
+                if (!isset($order['batch_usage'])) {
+                    continue;
+                }
+
+                foreach ($order['batch_usage'] as $slug => $batches) {
+                    foreach ($batches as $batchInfo) {
+                        // 寫入批號使用記錄
+                        BillBatchUsage::create([
+                            'bill_id' => $billId,
+                            'inventory_batch_id' => $batchInfo['batch_id'],
+                            'quantity_used' => $batchInfo['quantity_used'],
+                            'shipment_plan_id' => $plan->id
+                        ]);
+
+                        // 扣除批號庫存
+                        $batch = InventoryBatch::find($batchInfo['batch_id']);
+                        $batch->quantity -= $batchInfo['quantity_used'];
+                        $batch->save();
+                    }
+                }
+
+                // 更新訂單狀態為「已出貨」
+                $bill = Bill::where('bill_id', $billId)->first();
+                if ($bill) {
+                    $bill->shipment = 2;  // 已出貨
+                    $bill->save();
+                }
+            }
+
+            // 更新計劃狀態為「已完成」
+            $plan->status = ShipmentPlan::STATUS_COMPLETED;
+            $plan->save();
+
+            DB::commit();
+
+            return response()->json([
+                'success' => true,
+                'message' => '出貨計劃已完成，庫存已扣除，訂單狀態已更新'
+            ]);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Complete shipment plan error: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => '完成出貨時發生錯誤：' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * 取消出貨計劃
+     */
+    public function cancelShipmentPlan($planId)
+    {
+        $plan = ShipmentPlan::findOrFail($planId);
+
+        if (!$plan->canCancel()) {
+            return response()->json([
+                'success' => false,
+                'message' => '此計劃無法取消（已完成的計劃不可取消）'
+            ], 400);
+        }
+
+        $plan->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => '出貨計劃已取消'
         ]);
     }
 

@@ -105,6 +105,16 @@ Route::get('getRunner','RunnerController@getRunner');
 //Order Management
 Route::get('order/materials','OrderManagementController@materialsReport');
 Route::post('order/materials/calculate-plan','OrderManagementController@calculateShipmentPlan');
+
+//Shipment Plan Management (must be before Route::resource('order',...))
+Route::group(['prefix' => 'order/shipment-plan'], function() {
+    Route::get('/', 'OrderManagementController@listShipmentPlans');
+    Route::post('/save', 'OrderManagementController@saveShipmentPlan');
+    Route::get('/{planId}', 'OrderManagementController@showShipmentPlan');
+    Route::post('/{planId}/complete', 'OrderManagementController@completeShipmentPlan');
+    Route::delete('/{planId}', 'OrderManagementController@cancelShipmentPlan');
+});
+
 Route::post('order/updateShipment','OrderManagementController@updateShipment');
 Route::get('order/showAll/{bill}','OrderManagementController@showAll');
 Route::post('order/void/{bill_id}','OrderManagementController@voidBill');
