@@ -402,6 +402,7 @@ function calculatePlan() {
 		previous_completed_orders: shipmentPlanState.allCompletedOrders,
 		stop_order_consumed: shipmentPlanState.stopOrderConsumed,  // 停止訂單已消耗量
 		stop_order_batch_usage: shipmentPlanState.stopOrderBatchUsage,  // 停止訂單的批號使用明細
+		previous_batch_remaining: shipmentPlanState.batchRemaining,  // 前階段批號剩餘量
 		_token: '{{ csrf_token() }}'
 	};
 

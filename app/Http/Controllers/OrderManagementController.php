@@ -1039,6 +1039,7 @@ class OrderManagementController extends Controller
         $previousCompletedOrders = $request->input('previous_completed_orders', []);  // 前階段已完成訂單
         $stopOrderConsumed = $request->input('stop_order_consumed', []);  // 停止訂單已消耗量 {slug: quantity}
         $stopOrderBatchUsage = $request->input('stop_order_batch_usage', []);  // 停止訂單的批號使用明細
+        $previousBatchRemaining = $request->input('previous_batch_remaining', []);  // 前階段批號剩餘量
 
         // 建立批號庫存追蹤（用於模擬扣除）
         $batchStock = [];
@@ -1053,6 +1054,14 @@ class OrderManagementController extends Controller
                 'available' => (int)$quantity,
                 'original' => (int)$quantity
             ];
+        }
+
+        // 合併前階段的批號剩餘量（對於本階段未選中的批號，保留前階段的狀態）
+        foreach ($previousBatchRemaining as $batchId => $batchInfo) {
+            // 只有當本階段沒有選中這個批號時，才從前階段恢復
+            if (!isset($batchStock[$batchId])) {
+                $batchStock[$batchId] = $batchInfo;
+            }
         }
 
         // 建立 slug 到 batch 的映射（依 FIFO 順序）
