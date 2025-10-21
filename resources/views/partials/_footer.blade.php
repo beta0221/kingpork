@@ -5,7 +5,7 @@
 				<img src="{{asset('images/logo.png')}}" alt="金園排骨">
 			</div>
 			<div class="footIm col-md-3 col-12">
-				<span>地址:</span><span>桃園市桃園區大有路59號3樓</span>
+				<span>地址:</span><span>桃園市蘆竹區南崁路一段300巷56號</span>
 			</div>
 			<div class="footIm col-md-3 col-12">
 				<span>服務電話:</span><span>0800-552-999</span>
