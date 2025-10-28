@@ -149,6 +149,13 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function() {
     Route::get('/funnel-analytics/export', 'FunnelAnalyticsController@export')->name('admin.funnel.export');
     Route::get('/funnel-analytics/stats', 'FunnelAnalyticsController@stats')->name('admin.funnel.stats');
     Route::get('/funnel-analytics/abandoned-sessions', 'FunnelAnalyticsController@abandonedSessions')->name('admin.funnel.abandoned');
+
+    // Bonus Promotions routes
+    Route::resource('bonus-promotions', 'BonusPromotionController', [
+        'as' => 'admin',
+        'except' => ['show']
+    ]);
+    Route::patch('bonus-promotions/{id}/toggle', 'BonusPromotionController@toggle')->name('admin.bonus-promotions.toggle');
 });
 
 

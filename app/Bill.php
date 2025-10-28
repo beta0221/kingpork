@@ -89,10 +89,10 @@ class Bill extends Model
         $bill->item = null;
         $bill->bonus_use = $useBonus;
         $bill->price = $total;
-        //----------限時紅利加碼-----------
-        // $bill->get_bonus = $getBonus * 2;
-        $bill->get_bonus = $getBonus;
-        //----------限時紅利加碼-----------
+
+        // 動態計算紅利倍數（根據資料庫中的活動設定）
+        $multiplier = \App\BonusPromotion::getCurrentMultiplier();
+        $bill->get_bonus = $getBonus * $multiplier;
 
         $bill->ship_name = $request->ship_name;
         $bill->ship_gender = $request->ship_gender;
