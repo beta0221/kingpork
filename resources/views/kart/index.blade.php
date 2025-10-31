@@ -393,13 +393,68 @@
 
 						<tr>
 							<td>
+								<label class="align-top" for=""></label>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label class="align-top" for=""></label>
+								<span>⭐ 感謝您對金園的長期支持</span>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label class="align-top" for=""></label>
+								<span>一年一度的《雙11紅利點數3倍送》</span>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label class="align-top" for=""></label>
+								<span>希望能滿足您期待</span>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label class="align-top" for=""></label>
+								<span>因豬肉供應不足，無法即時出貨，敬請見諒</span>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label class="align-top" for=""></label>
+								<span>請選擇您可接受的出貨選項再下訂單</span>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label class="align-top" for=""></label>
+							</td>
+						</tr>
+
+						<tr>
+							<td>
 								<label class="align-top" for="">　出貨時間：</label>
 								{{-- <input name="ship_time" class="radio" type="radio" name="time" value="no" checked><span>不指定</span>
 								<input id="1300" name="ship_time" class="radio" type="radio" name="time" value="13:00"><span>13:00前</span>
 								<input id="1400-1800" name="ship_time" class="radio" type="radio" name="time" value="14:00-18:00"><span>14:00-18:00</span> --}}
-
+								<?php 
+									$options = [
+										"排骨訂單50片以下，優先出貨",
+										"排骨訂單50片以上，出貨前電話通知",
+										"排骨訂單180片以上，11/20後出貨"
+									];
+								?>
 								<div class="d-inline-block">
+									{{-- <div>
+										<span>感謝您對金園的長期支持，一年一度的《雙11紅利點數3倍送》滿足您期待，因豬肉供應不足，無法即時出貨，敬請見諒，請選擇您可接受的出貨選項再下訂單</span>
+									</div> --}}
+									@foreach ($options as $i => $option)
 									<div>
+										<input class="radio" type="radio" name="ship_time" value="{{$option}}" {{$i == 0 ? 'checked' : ''}}><span>{{$option}}</span>
+									</div>	
+									@endforeach
+									{{-- <div>
 										<input class="radio" type="radio" name="ship_time" value="隨時可出貨" checked><span>隨時可出貨</span>
 									</div>
 									<div>
@@ -407,9 +462,16 @@
 									</div>
 									<div>
 										<input class="radio" type="radio" name="ship_time" value="請等我通知日期再出貨"><span>請等我通知日期再出貨</span>
-									</div>
+									</div> --}}
 								</div>
 
+							</td>
+						</tr>
+
+						<tr>
+							<td>
+								<label class="align-top" for=""></label>
+								<span>⭐ 訂購其他商品不受限制</span>
 							</td>
 						</tr>
 
