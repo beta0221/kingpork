@@ -8,6 +8,30 @@
 
 @section('content')
 
+{{-- 優惠訊息顯示 --}}
+@if(session('promo_success'))
+<div class="container">
+	<div class="alert alert-success mt-3 alert-dismissible fade show" role="alert" style="border-radius: 8px; box-shadow: 0 2px 8px rgba(40, 167, 69, 0.2);">
+		<strong><i class="glyphicon glyphicon-ok-sign"></i> 優惠已套用！</strong>
+		{{ session('promo_success') }}
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+</div>
+@endif
+
+@if(session('promo_error'))
+<div class="container">
+	<div class="alert alert-danger mt-3 alert-dismissible fade show" role="alert" style="border-radius: 8px; box-shadow: 0 2px 8px rgba(220, 53, 69, 0.2);">
+		<strong><i class="glyphicon glyphicon-exclamation-sign"></i> 優惠碼無效！</strong>
+		{{ session('promo_error') }}
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+</div>
+@endif
 
 {{-- banner start --}}
 <div class="banner owl-carousel owl-theme">
@@ -205,6 +229,15 @@
 			autoplaySpeed:1000,
 			smartSpeed:500,
 		})
+
+		// 優惠訊息自動淡出（5秒後）
+		@if(session('promo_success') || session('promo_error'))
+		setTimeout(function() {
+			$('.alert').fadeOut('slow', function() {
+				$(this).remove();
+			});
+		}, 5000);
+		@endif
 
 		// $('#brandStory').parallax("100%", 0.3);
 		// $('#process').parallax("0%", 0.3);
