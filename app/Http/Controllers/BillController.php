@@ -153,9 +153,9 @@ class BillController extends Controller
             $getBonus += ($product->bonus * (int)$quantity);
             $total += ($product->price * (int)$quantity);
         }
-        
+
         // 未達到 免運門檻
-        if ($total < static::SHIPPING_FEE_THRESHOLD) { 
+        if ($total < static::SHIPPING_FEE_THRESHOLD) {
             // 加入運費
             $product = Products::where('slug', "99999")->firstOrFail();
             $product->quantity = 1;
@@ -166,6 +166,37 @@ class BillController extends Controller
         if (!in_array('99999',$request->item) AND $total < static::SHIPPING_FEE_THRESHOLD) { return('錯誤'); }
 
         Log::info("BillController store debug: 4");
+
+        // 處理優惠碼折扣（在紅利點數之前）
+        $promoCode = null;
+        $promoDiscount = 0;
+        if (session()->has('promo_code')) {
+            $promoCode = session('promo_code');
+            $promotionalLink = \App\PromotionalLink::findByCode($promoCode);
+
+            if ($promotionalLink && $promotionalLink->isValid()) {
+                // 準備購物車商品資料（不包含運費）
+                $cartItems = [];
+                foreach ($products as $product) {
+                    if ($product->slug != "99999") { // 排除運費
+                        $cartItems[] = $product;
+                    }
+                }
+
+                // 計算優惠折扣（僅針對適用類別的商品）
+                $discountResult = $promotionalLink->calculateDiscount($cartItems);
+                $promoDiscount = $discountResult['discount'];
+
+                // 套用折扣到總金額
+                if ($promoDiscount > 0) {
+                    $total = $total - $promoDiscount;
+                }
+            } else {
+                // 優惠碼無效，清除 session
+                session()->forget('promo_code');
+                $promoCode = null;
+            }
+        }
 
         $user = $request->user();
         if($user){
@@ -178,7 +209,7 @@ class BillController extends Controller
             if ($bonus / 50 > $total) { $bonus = $total * 50; }
             if ($bonus < 0) { $bonus = 0; }
             $useBonus = $bonus / 50;
-            $total = $total - $useBonus;          // }bonus    
+            $total = $total - $useBonus;          // }bonus
         }
 
         // 使用常用地址
@@ -198,7 +229,15 @@ class BillController extends Controller
             ]);
         }
 
-        $bill = Bill::insert_row($user_id,$user_name,$MerchantTradeNo,$useBonus,$total,$getBonus,$request);
+        $bill = Bill::insert_row($user_id,$user_name,$MerchantTradeNo,$useBonus,$total,$getBonus,$request,$promoCode,$promoDiscount);
+
+        // 增加優惠碼使用次數
+        if ($promoCode && $promoDiscount > 0) {
+            $promotionalLink = \App\PromotionalLink::findByCode($promoCode);
+            if ($promotionalLink) {
+                $promotionalLink->incrementUsage();
+            }
+        }
 
         // 追蹤：訂單建立成功
         CheckoutFunnelTracker::trackFromBill(

@@ -21,6 +21,24 @@ Route::get('/','PageController@getLanding');
 //Kol用連結暫時放這
 Route::get('/menustudy','SingleController@showMenustudy')->name('menustudy');
 
+// Promotional Link - 優惠連結捕捉路由
+Route::get('/promo/{code}', function ($code) {
+    // 將優惠碼轉為大寫並存入 Session
+    session(['promo_code' => strtoupper($code)]);
+
+    // 驗證優惠碼是否有效（可選）
+    $promotionalLink = \App\PromotionalLink::findByCode(strtoupper($code));
+
+    if ($promotionalLink && $promotionalLink->isValid()) {
+        // 優惠碼有效，導向首頁
+        return redirect('/')->with('promo_success', "已套用優惠：{$promotionalLink->name}");
+    } else {
+        // 優惠碼無效或已過期
+        session()->forget('promo_code');
+        return redirect('/')->with('promo_error', '優惠碼無效或已過期');
+    }
+})->name('promo.capture');
+
 Route::get('/contact','PageController@getContact')->name('contact');
 Route::get('/guide','PageController@guide')->name('guide');
 Route::post('/contactUs','PageController@contactUs');
@@ -156,6 +174,12 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function() {
         'except' => ['show']
     ]);
     Route::patch('bonus-promotions/{id}/toggle', 'BonusPromotionController@toggle')->name('admin.bonus-promotions.toggle');
+
+    // Promotional Links routes
+    Route::resource('promotional-links', 'PromotionalLinkController', [
+        'as' => 'admin'
+    ]);
+    Route::patch('promotional-links/{id}/toggle', 'PromotionalLinkController@toggle')->name('admin.promotional-links.toggle');
 });
 
 

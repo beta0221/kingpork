@@ -221,6 +221,9 @@
   <li class="sideBar_item {{Request::is('admin/bonus-promotions') ? 'sideBar_now' : ''}}">
     <a href="admin/bonus-promotions"><img src="{{asset('images/admin_dashboard.png')}}" alt="">紅利設定</a>
   </li>
+  <li class="sideBar_item {{Request::is('admin/promotional-links') ? 'sideBar_now' : ''}}">
+    <a href="admin/promotional-links"><img src="{{asset('images/admin_dashboard.png')}}" alt="">優惠連結</a>
+  </li>
   
 </ul>
 <div class="content">

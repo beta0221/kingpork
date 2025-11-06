@@ -148,11 +148,26 @@ class kartController extends Controller
         // 可加購商品
         $bindedProducts = Products::getBindedProducts($product_id_array);
 
+        // 檢查優惠碼（只傳遞優惠連結資訊，不在後端計算折扣）
+        $promotionalLink = null;
+        if (session()->has('promo_code')) {
+            $promoCode = session('promo_code');
+            $promotionalLink = \App\PromotionalLink::findByCode($promoCode);
+
+            // 驗證優惠碼是否有效
+            if (!$promotionalLink || !$promotionalLink->isValid()) {
+                // 優惠碼無效，清除 session
+                session()->forget('promo_code');
+                $promotionalLink = null;
+            }
+        }
+
         return view('kart.index',[
             'products' => $products,
             'bindedProducts' => $bindedProducts,
             'relation' => Products::getAllBindedProducts('relation'),
-            'addresses' => $user->addresses()->orderBy('isDefault', 'desc')->get()
+            'addresses' => $user->addresses()->orderBy('isDefault', 'desc')->get(),
+            'promotionalLink' => $promotionalLink
         ]);
 
     }
