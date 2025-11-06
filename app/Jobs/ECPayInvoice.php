@@ -68,6 +68,18 @@ class ECPayInvoice implements ShouldQueue
             ];
         }
 
+        //優惠折抵
+        if($this->bill->promo_discount_amount > 0){
+            $Items[] = [
+                'ItemName' => '優惠折扣',
+                'ItemCount' => 1,
+                'ItemWord' => '組',
+                'ItemPrice' => (0 - $this->bill->promo_discount_amount),
+                'ItemTaxType' => 1,
+                'ItemAmount' => (0 - $this->bill->promo_discount_amount),
+            ];
+        }
+
         $CustomerIdentifier = '';
         $CustomerName = $this->bill->ship_name;
         $Print = '1';       //一律列印
