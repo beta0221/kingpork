@@ -81,6 +81,9 @@
 								</table>
 							</th>
 							<th>紅利折扣</th>
+							@if ($bill->promo_discount_amount > 0)
+                            <th>優惠折扣</th>
+                            @endif
 							<th>總金額</th>
 						</tr>
 						<tr>
@@ -98,6 +101,9 @@
 								</table>
 							</td>
 							<td>{{$bill->bonus_use}}</td>
+							@if ($bill->promo_discount_amount > 0)
+                            <td>{{$bill->promo_discount_amount}}</td>
+                            @endif
 							<td class="TDtotal">{{$bill->price}}</td>
 						</tr>
 					</table>
