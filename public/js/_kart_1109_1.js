@@ -357,6 +357,7 @@ $(document).ready(function(){
 
 			$('.quantity').each(function(){
 				let cat_id = $(this).data('cat_id');
+				let product_id = $(this).data('id');
 				let price = parseInt($(this).data('price'));
 				let quantity = parseInt($(this).val());
 				
@@ -371,7 +372,7 @@ $(document).ready(function(){
 				}
 
 				// // 如果適用，累加到適用總額
-				if (isApplicable) { // 排除運費
+				if (isApplicable && product_id != 99999) { // 排除運費
 					applicableTotal += price * quantity;
 				}
 			});
