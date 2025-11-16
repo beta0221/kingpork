@@ -21,6 +21,9 @@ Route::get('/','PageController@getLanding');
 //Kol用連結暫時放這
 Route::get('/menustudy','SingleController@showMenustudy')->name('menustudy');
 
+// Promotional Link - 優惠連結捕捉路由
+Route::get('/promo/{code}', 'PromoController@capture')->name('promo.capture');
+
 Route::get('/contact','PageController@getContact')->name('contact');
 Route::get('/guide','PageController@guide')->name('guide');
 Route::post('/contactUs','PageController@contactUs');
@@ -164,6 +167,19 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function() {
     Route::get('/funnel-analytics/export', 'FunnelAnalyticsController@export')->name('admin.funnel.export');
     Route::get('/funnel-analytics/stats', 'FunnelAnalyticsController@stats')->name('admin.funnel.stats');
     Route::get('/funnel-analytics/abandoned-sessions', 'FunnelAnalyticsController@abandonedSessions')->name('admin.funnel.abandoned');
+
+    // Bonus Promotions routes
+    Route::resource('bonus-promotions', 'BonusPromotionController', [
+        'as' => 'admin',
+        'except' => ['show']
+    ]);
+    Route::patch('bonus-promotions/{id}/toggle', 'BonusPromotionController@toggle')->name('admin.bonus-promotions.toggle');
+
+    // Promotional Links routes
+    Route::resource('promotional-links', 'PromotionalLinkController', [
+        'as' => 'admin'
+    ]);
+    Route::patch('promotional-links/{id}/toggle', 'PromotionalLinkController@toggle')->name('admin.promotional-links.toggle');
 });
 
 

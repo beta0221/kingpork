@@ -176,6 +176,7 @@
 										id="{{$product->slug}}"
 										data-id="{{$product->id}}"
 										data-price="{{$product->price}}"
+										data-cat_id="{{$product->category_id}}"
 										class="quantity quantity-input-{{$product->id}}"
 										type="number"
 										min="1"
@@ -522,6 +523,20 @@
 					
 					<div style="background: rgba(255,255,255,0.3); height: 1.5pt;"></div>
 
+					@if($promotionalLink)
+					<div class="d-flex justify-content-end align-items-center mt-2" style="color: #28a745;" id="promo-discount-display">
+						<i class="glyphicon glyphicon-tag" style="margin-right: 8px;"></i>
+						<span style="font-size: 14pt;">優惠折扣 ({{ $promotionalLink->name }})：</span>
+						<span style="margin: 0 8px 0 8px; font-size: 14pt; font-weight: bold;" id="promo-discount-amount">-NT$ 0</span>
+					</div>
+					<small class="d-flex justify-content-end" style="color: #6c757d; margin-top: 4px;">
+						折扣碼：{{ $promotionalLink->code }} ({{ $promotionalLink->discount_percentage }}% OFF)
+						@if(!empty($promotionalLink->applicable_categories))
+							- 僅適用於特定商品
+						@endif
+					</small>
+					@endif
+
 					<div class="d-flex justify-content-end priceSum mt-2">
 						<span style="font-size: 18pt">總額：</span>
 						<span style="margin: 0 8px 0 8px;font-size: 18pt" id="total-price-span"></span>
@@ -592,11 +607,18 @@
 @endsection
 
 @section('scripts')
-{{ Html::script('js/_kart_0820_1.js') }}
+{{ Html::script('js/_kart_1109_1.js') }}
 {{-- {{ Html::script('js/_family.js') }} --}}
 <script src="{{ asset('js/checkout-funnel-tracker.js') }}"></script>
 
 <script>
+	// 優惠連結資訊（由前端動態計算折扣）
+	const promotionalLink = {!! $promotionalLink ? json_encode([
+		'code' => $promotionalLink->code,
+		'name' => $promotionalLink->name,
+		'discount_percentage' => $promotionalLink->discount_percentage,
+		'applicable_categories' => $promotionalLink->applicable_categories
+	]) : 'null' !!};
 
 
 	// 加購條件

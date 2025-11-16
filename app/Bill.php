@@ -81,7 +81,7 @@ class Bill extends Model
         return time() . rand(10,99) . (is_null($index) ? '' : $index);
     }
 
-    public static function insert_row($user_id,$user_name,$bill_id,$useBonus,$total,$getBonus,Request $request){
+    public static function insert_row($user_id,$user_name,$bill_id,$useBonus,$total,$getBonus,Request $request,$promoCode=null,$promoDiscount=0){
         $bill = new Bill;
         $bill->user_id = $user_id;
         $bill->bill_id = $bill_id;
@@ -89,10 +89,14 @@ class Bill extends Model
         $bill->item = null;
         $bill->bonus_use = $useBonus;
         $bill->price = $total;
-        //----------限時紅利加碼-----------
-        // $bill->get_bonus = $getBonus * 2;
-        $bill->get_bonus = $getBonus;
-        //----------限時紅利加碼-----------
+
+        // 動態計算紅利倍數（根據資料庫中的活動設定）
+        $multiplier = \App\BonusPromotion::getCurrentMultiplier();
+        $bill->get_bonus = $getBonus * $multiplier;
+
+        // 儲存優惠碼資訊
+        $bill->promo_code = $promoCode;
+        $bill->promo_discount_amount = $promoDiscount;
 
         $bill->ship_name = $request->ship_name;
         $bill->ship_gender = $request->ship_gender;
@@ -119,10 +123,10 @@ class Bill extends Model
         if($request->ship_pay_by == 'cod'){
             $bill->pay_by = '貨到付款';
         }
-        
+
         $bill->save_credit_card = $request->save_credit_card ?? false;
         $bill->used_credit_card_id = $request->use_saved_card ?? null;
-        
+
         $bill->save();
         return $bill;
     }

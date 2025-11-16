@@ -341,12 +341,54 @@ $(document).ready(function(){
 		if (total > 799) {
 			$('#transport-item').attr('name','');
 			$('#transport-quantity').attr('name','');
-			$('#transport-fee').css('display','none');	
+			$('#transport-fee').css('display','none');
 		}else{
 			total = total + 150;
 			$('#transport-item').attr('name','item[]');
 			$('#transport-quantity').attr('name','quantity[]');
-			$('#transport-fee').css('display','table-row');	
+			$('#transport-fee').css('display','table-row');
+		}
+
+		// 計算優惠折扣（前端動態計算）
+		let promoDiscount = 0;
+		if (typeof promotionalLink !== 'undefined' && promotionalLink !== null) {
+			// 計算適用優惠的商品總額
+			let applicableTotal = 0;
+
+			$('.quantity').each(function(){
+				let cat_id = $(this).data('cat_id');
+				let product_id = $(this).data('id');
+				let price = parseInt($(this).data('price'));
+				let quantity = parseInt($(this).val());
+				
+				// 檢查此商品是否適用優惠
+				let isApplicable = false;
+				if (!promotionalLink.applicable_categories || promotionalLink.applicable_categories.length === 0) {
+					// 沒有類別限制，全部商品適用
+					isApplicable = true;
+				} else if (promotionalLink.applicable_categories.includes(String(cat_id))) {
+					// 商品類別在適用清單中
+					isApplicable = true;
+				}
+
+				// // 如果適用，累加到適用總額
+				if (isApplicable && product_id != 99999) { // 排除運費
+					applicableTotal += price * quantity;
+				}
+			});
+
+			// 計算折扣金額（適用商品總額 × 折扣百分比）
+			promoDiscount = Math.round(applicableTotal * (promotionalLink.discount_percentage / 100));
+
+			// 更新折扣顯示
+			if (promoDiscount > 0) {
+				$('#promo-discount-amount').text('-NT$ ' + promoDiscount.toLocaleString());
+			}
+		}
+
+		// 套用優惠折扣
+		if (promoDiscount > 0) {
+			total = total - promoDiscount;
 		}
 
 		sumBeforeDiscount = total;
