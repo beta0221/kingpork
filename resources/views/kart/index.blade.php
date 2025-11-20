@@ -394,6 +394,54 @@
 
 						<tr>
 							<td>
+								<label class="align-top" for=""></label>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label class="align-top" for=""></label>
+								<span style="color:red">＊因豬肉肉源供應量不足</span>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label class="align-top" for=""></label>
+								<span style="color:red">厚切排骨、厚切里肌無法立即出貨</span>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label class="align-top" for=""></label>
+								<span style="color:red">將優先出貨50片以<span style="color:blue">下</span>的量</span>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label class="align-top" for=""></label>
+								<span style="color:red">50片以<span style="color: blue">上</span>的量，將依訂單順序陸續出貨</span>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label class="align-top" for=""></label>
+								<span style="color:red">非常感謝您的配合</span>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label class="align-top" for=""></label>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label class="align-top" for=""></label>
+								<span>＊僅50片以<span style="color: blue">下</span>可選擇出貨時間</span>
+							</td>
+						</tr>
+
+
+						<tr>
+							<td>
 								<label class="align-top" for="">　出貨時間：</label>
 								{{-- <input name="ship_time" class="radio" type="radio" name="time" value="no" checked><span>不指定</span>
 								<input id="1300" name="ship_time" class="radio" type="radio" name="time" value="13:00"><span>13:00前</span>
