@@ -165,6 +165,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function() {
         'as' => 'admin'
     ]);
     Route::patch('promotional-links/{id}/toggle', 'PromotionalLinkController@toggle')->name('admin.promotional-links.toggle');
+
+    // Member Management routes (read-only)
+    Route::get('members', 'MemberManagementController@index')->name('admin.members.index');
 });
 
 

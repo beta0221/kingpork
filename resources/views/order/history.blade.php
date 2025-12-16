@@ -45,7 +45,9 @@
     
         @foreach ($bills as $bill)
             <tr>
-                <td>{{$bill->bill_id}}</td> 
+                <td>
+                    <a href="/order/showAll/{{$bill->bill_id}}" target="_blank">{{$bill->bill_id}}</a>
+                </td> 
                 <td>{{$bill->ship_name}}</td>
                 <td>{{$bill->bonus_use}}</td> 
                 <td>{{$bill->price}}</td> 
