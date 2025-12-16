@@ -122,11 +122,10 @@
     text-decoration: none;
     margin-left: 45px;
   }
-  .sideBar img{
+  .sideBar .sidebar-icon{
     position: absolute;
-    height: 20px;
+    font-size: 18px;
     left: 12px;
-    top: 9px;
   }
   ul.pagination a,ul.pagination span{
     position: relative;
@@ -182,50 +181,50 @@
 </div>
 <ul class="sideBar">
   <li class="sideBar_item {{Request::is('admin') ? 'sideBar_now' : ''}}">
-    <a href="/admin"><img src="{{asset('images/admin_dashboard.png')}}" alt="">儀表板</a>
+    <a href="/admin"><span class="sidebar-icon">📊</span>儀表板</a>
   </li>
   <li class="sideBar_item {{Request::is('admin/funnel-analytics*') ? 'sideBar_now' : ''}}">
-    <a href="{{route('admin.funnel.index')}}"><img src="{{asset('images/admin_dashboard.png')}}" alt="">轉換率監控</a>
+    <a href="{{route('admin.funnel.index')}}"><span class="sidebar-icon">📈</span>轉換率監控</a>
   </li>
   <li class="sideBar_item {{Request::is('inventory*') ? 'sideBar_now' : ''}}">
-    <a href="{{route('inventory.index')}}"><img src="{{asset('images/admin_category.png')}}" alt="">庫存清單</a>
+    <a href="{{route('inventory.index')}}"><span class="sidebar-icon">📦</span>庫存清單</a>
   </li>
   <li class="sideBar_item {{Request::is('psi*') ? 'sideBar_now' : ''}}">
-    <a href="{{route('psi.index')}}"><img src="{{asset('images/admin_category.png')}}" alt="">進銷存</a>
+    <a href="{{route('psi.index')}}"><span class="sidebar-icon">🔄</span>進銷存</a>
   </li>
   <li class="sideBar_item {{Request::is('retailer*') ? 'sideBar_now' : ''}}">
-    <a href="{{route('retailer.index')}}"><img src="{{asset('images/admin_category.png')}}" alt="">通路清單</a>
+    <a href="{{route('retailer.index')}}"><span class="sidebar-icon">🏪</span>通路清單</a>
   </li>
   <li class="sideBar_item {{Request::is('productCategory*') ? 'sideBar_now' : ''}}">
-    <a href="{{route('productCategory.index')}}"><img src="{{asset('images/admin_category.png')}}" alt="">產品類別</a>
+    <a href="{{route('productCategory.index')}}"><span class="sidebar-icon">📁</span>產品類別</a>
   </li>
   <li class="sideBar_item {{Request::is('products*') ? 'sideBar_now' : ''}}">
-    <a href="{{route('products.index')}}"><img src="{{asset('images/admin_product.png')}}" alt="">產品管理</a>
+    <a href="{{route('products.index')}}"><span class="sidebar-icon">🛒</span>產品管理</a>
   </li>
   <li class="sideBar_item {{Request::is('banner*') ? 'sideBar_now' : ''}}">
-    <a href="{{route('banner.index')}}"><img src="{{asset('images/admin_wall.png')}}" alt="">轉撥牆管理</a>
+    <a href="{{route('banner.index')}}"><span class="sidebar-icon">🖼️</span>轉撥牆管理</a>
   </li>
   <li class="sideBar_item {{Request::is('runner*') ? 'sideBar_now' : ''}}">
-    <a href="{{route('runner.index')}}"><img src="{{asset('images/admin_marquee.png')}}" alt="">跑馬燈管理</a>
+    <a href="{{route('runner.index')}}"><span class="sidebar-icon">📢</span>跑馬燈管理</a>
   </li>
   <li class="sideBar_item {{Request::is('contact*') ? 'sideBar_now' : ''}}">
-    <a href="{{route('contactManage.index')}}"><img src="{{asset('images/admin_mail.png')}}" alt="">客服管理</a>
+    <a href="{{route('contactManage.index')}}"><span class="sidebar-icon">✉️</span>客服管理</a>
     <div class="badge contact-badge"></div>
   </li>
   <li class="sideBar_item {{Request::is('order*') ? 'sideBar_now' : ''}}">
-    <a href="{{route('order.index')}}"><img src="{{asset('images/admin_delivery.png')}}" alt="">訂單管理</a>
+    <a href="{{route('order.index')}}"><span class="sidebar-icon">📋</span>訂單管理</a>
   </li>
   <li class="sideBar_item {{Request::is('admin-kingblog') ? 'sideBar_now' : ''}}">
-    <a href="/admin-kingblog"><img src="{{asset('images/admin_wordpress.png')}}" alt="">美食廚房</a>
+    <a href="/admin-kingblog"><span class="sidebar-icon">🍽️</span>美食廚房</a>
   </li>
   <li class="sideBar_item {{Request::is('admin/bonus-promotions') ? 'sideBar_now' : ''}}">
-    <a href="/admin/bonus-promotions"><img src="{{asset('images/admin_dashboard.png')}}" alt="">紅利設定</a>
+    <a href="/admin/bonus-promotions"><span class="sidebar-icon">🎁</span>紅利設定</a>
   </li>
   <li class="sideBar_item {{Request::is('admin/promotional-links') ? 'sideBar_now' : ''}}">
-    <a href="/admin/promotional-links"><img src="{{asset('images/admin_dashboard.png')}}" alt="">優惠連結</a>
+    <a href="/admin/promotional-links"><span class="sidebar-icon">🔗</span>優惠連結</a>
   </li>
   <li class="sideBar_item {{Request::is('admin/members*') ? 'sideBar_now' : ''}}">
-    <a href="{{ route('admin.members.index') }}"><img src="{{asset('images/admin_dashboard.png')}}" alt="">會員管理</a>
+    <a href="{{ route('admin.members.index') }}"><span class="sidebar-icon">👤</span>會員管理</a>
   </li>
 
 </ul>
