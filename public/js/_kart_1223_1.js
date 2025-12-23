@@ -498,12 +498,12 @@ $(document).ready(function(){
 		$('#radio2').prop('readonly', true);
 		
 		// 停用地址欄位
-		$('#ship_county').prop('readonly', true);
-		$('#ship_district').prop('readonly', true);
+		$('#ship_county').prop('disabled', true);
+		$('#ship_district').prop('disabled', true);
 		$('#ship_address').prop('readonly', true);
 		
 		// 停用發票欄位
-		$('#ship_ship_receipt').prop('readonly', true);
+		$('#ship_ship_receipt').prop('disabled', true);
 		$('#ship_three_id').prop('readonly', true);
 		$('#ship_three_company').prop('readonly', true);
 		
@@ -520,12 +520,12 @@ $(document).ready(function(){
 		$('#radio2').prop('readonly', false);
 		
 		// 重新啟用地址欄位
-		$('#ship_county').prop('readonly', false);
-		$('#ship_district').prop('readonly', false);
+		$('#ship_county').prop('disabled', false);
+		$('#ship_district').prop('disabled', false);
 		$('#ship_address').prop('readonly', false);
 		
 		// 重新啟用發票欄位
-		$('#ship_ship_receipt').prop('readonly', false);
+		$('#ship_ship_receipt').prop('disabled', false);
 		$('#ship_three_id').prop('readonly', false);
 		$('#ship_three_company').prop('readonly', false);
 		

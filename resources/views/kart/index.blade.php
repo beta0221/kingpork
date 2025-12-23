@@ -392,7 +392,7 @@
 							</td>
 						</tr>
 
-						<tr>
+						{{-- <tr>
 							<td>
 								<label class="align-top" for=""></label>
 							</td>
@@ -437,7 +437,7 @@
 								<label class="align-top" for=""></label>
 								<span>＊僅50片以<span style="color: blue">下</span>可選擇出貨時間</span>
 							</td>
-						</tr>
+						</tr> --}}
 
 
 						<tr>
@@ -655,7 +655,7 @@
 @endsection
 
 @section('scripts')
-{{ Html::script('js/_kart_1109_1.js') }}
+{{ Html::script('js/_kart_1223_1.js') }}
 {{-- {{ Html::script('js/_family.js') }} --}}
 <script src="{{ asset('js/checkout-funnel-tracker.js') }}"></script>
 
