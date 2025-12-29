@@ -436,7 +436,7 @@ $(document).ready(function(){
 			switchToManualMode();
 			return;
 		}
-		
+		$('#use_favorite_address').prop('checked', true);
 		// 選擇了已保存的收件人，進入快速選擇模式
 		loadRecipientData(selectedValue);
 	}
