@@ -12,6 +12,7 @@ class Bill extends Model
     protected $fillable = [
         'save_credit_card',
         'used_credit_card_id',
+        'SPToken',
     ];
 
     /**可準備 */

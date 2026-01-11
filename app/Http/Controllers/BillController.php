@@ -286,9 +286,8 @@ class BillController extends Controller
 
     public function view_payBill($bill_id){
 
-        Log::info("BillController view_payBill debug: 1");
-
         $bill = Bill::where('bill_id',$bill_id)->firstOrFail();
+        $SPToken = $bill->SPToken;
 
         // 追蹤：進入付款頁面
         CheckoutFunnelTracker::trackFromBill(
@@ -299,42 +298,43 @@ class BillController extends Controller
 
         $ecpay = new ECPay($bill);
 
-        Log::info("BillController view_payBill debug: 2");
-
-        // 追蹤：請求付款Token
-        CheckoutFunnelTracker::trackFromBill(
-            CheckoutFunnelLog::STEP_PAYMENT_TOKEN_REQUESTED,
-            $bill,
-            request()
-        );
-
-        if(!$token = $ecpay->getToken()){
-            // 追蹤：Token取得失敗
-            CheckoutFunnelTracker::trackError(
+        // 檢查訂單是否已建立過先前存的 Token
+        if (!$SPToken) {
+            // 追蹤：請求付款Token（向 API 請求）
+            CheckoutFunnelTracker::trackFromBill(
                 CheckoutFunnelLog::STEP_PAYMENT_TOKEN_REQUESTED,
-                'ECPay Token取得失敗: ' . $ecpay->errorMsg,
-                request(),
-                [
-                    'bill_id' => $bill->bill_id,
-                    'payment_method' => $bill->pay_by,
-                    'amount' => $bill->price
-                ]
+                $bill,
+                request()
             );
-            return $ecpay->errorMsg;
+
+            if(!$token = $ecpay->getToken()){
+                // 追蹤：Token取得失敗
+                CheckoutFunnelTracker::trackError(
+                    CheckoutFunnelLog::STEP_PAYMENT_TOKEN_REQUESTED,
+                    'ECPay Token取得失敗: ' . $ecpay->errorMsg,
+                    request()
+                );
+                return $ecpay->errorMsg;
+            }
+
+            // 儲存 Token 到資料庫以供下次使用
+            $bill->SPToken = $token;
+            $bill->save();
+
+            // 追蹤：收到付款Token（向 API 請求）
+            CheckoutFunnelTracker::trackFromBill(
+                CheckoutFunnelLog::STEP_PAYMENT_TOKEN_RECEIVED,
+                $bill,
+                request()
+            );
+
+            // 本次使用
+            $SPToken = $token;
         }
-
-        // 追蹤：收到付款Token
-        CheckoutFunnelTracker::trackFromBill(
-            CheckoutFunnelLog::STEP_PAYMENT_TOKEN_RECEIVED,
-            $bill,
-            request()
-        );
-
-        Log::info("BillController view_payBill debug: 3");
 
         return view('bill.payBill_v2',[
             'bill_id' => $bill_id,
-            'token' => $token,
+            'token' => $SPToken,
             'ecpaySDKUrl'=> $ecpay->getEcpaySDKUrl(),
         ]);
     }
