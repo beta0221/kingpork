@@ -19,7 +19,7 @@
 Route::get('/','PageController@getLanding');
 
 //Kol用連結暫時放這
-Route::get('/menustudy','SingleController@showMenustudy')->name('menustudy');
+// Route::get('/menustudy','SingleController@showMenustudy')->name('menustudy');
 
 // Promotional Link - 優惠連結捕捉路由
 Route::get('/promo/{code}', 'PromoController@capture')->name('promo.capture');
@@ -44,10 +44,10 @@ Route::get('category/{id}','ProductCategoryController@show');//簡化url
 Route::get('/vip/products/{code}','ProductCategoryController@view_vipProducts');
 // singleCategory routes
 // Route::resource('/buynow','SingleController');
-Route::get('/buynow/menustudy/form','SingleController@showToBuyMenuStudy');
-Route::post('/buynow/form','SingleController@store');
-Route::get('/thankYou/{id}','SingleController@thankYou')->name('thankYou');
-Route::get('/searchOrder','SingleController@searchOrder');
+// Route::get('/buynow/menustudy/form','SingleController@showToBuyMenuStudy');
+// Route::post('/buynow/form','SingleController@store');
+// Route::get('/thankYou/{id}','SingleController@thankYou')->name('thankYou');
+// Route::get('/searchOrder','SingleController@searchOrder');
 
 
 // kart routes
@@ -76,10 +76,7 @@ Route::group(['prefix'=>'psi'],function(){
 
 //Bill routes
 Route::resource('bill','BillController');
-Route::get('purchaseComplete/{bill_id}','BillController@purchaseComplete')->name('bill.purchaseComplete');
 Route::post('bill/sendMail','BillController@sendMail')->name('bill.sendMail');
-// Route::post('bill/sendMailC','BillController@sendMailC')->name('bill.sendMailC');
-Route::get('findMemory','BillController@findMemory')->name('findMemory');
 Route::delete('/bill/cancel/{bill}','BillController@cancelBill');
 Route::get('/bill/getDataLayerForGA/{bill_id}','BillController@getDataLayerForGA');  
 Route::get('bill/{bill_id}/detail','BillController@view_billDetail')->name('billDetail');
