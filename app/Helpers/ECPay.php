@@ -111,7 +111,8 @@ class ECPay{
 
         if ($bill->user_id) {
             $this->Email = $bill->ship_email;
-            $this->Phone = (strpos($bill->ship_phone, '09') === 0) ? $bill->ship_phone : null;
+            $cleanPhone = preg_replace('/[^0-9]/', '', $bill->ship_phone);
+            $this->Phone = (strpos($cleanPhone, '09') === 0) ? $cleanPhone : null;
             $this->Name = $bill->ship_name;
             $this->CountryCode = 'TW';
         }
