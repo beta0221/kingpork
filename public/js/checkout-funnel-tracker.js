@@ -115,28 +115,6 @@
         }
     }
 
-    // 自動追蹤頁面載入
-    function setupPageTracking() {
-        const path = window.location.pathname;
-
-        // 購物車頁面
-        if (path.includes('/kart')) {
-            trackSuccess(STEPS.CART_VIEW);
-        }
-
-        // 付款頁面
-        if (path.includes('/bill/') && path.includes('/pay')) {
-            const billId = path.match(/\/bill\/([^\/]+)\/pay/)?.[1];
-            trackSuccess(STEPS.PAYMENT_PAGE_VIEW, { bill_id: billId });
-        }
-
-        // 感謝頁面
-        if (path.includes('/bill/') && path.includes('/thankyou')) {
-            const billId = path.match(/\/bill\/([^\/]+)\/thankyou/)?.[1];
-            trackSuccess(STEPS.THANKYOU_PAGE_VIEW, { bill_id: billId });
-        }
-    }
-
     // 追蹤結帳按鈕點擊
     function setupCheckoutButtonTracking() {
         const checkoutButtons = document.querySelectorAll('[data-funnel-step="checkout_start"], #checkout-button, .checkout-btn');
@@ -181,9 +159,6 @@
     function init() {
         // 確保 Session ID 存在
         getOrCreateSessionId();
-
-        // 自動追蹤頁面載入
-        setupPageTracking();
 
         // 自動追蹤表單錯誤
         setupFormErrorTracking();

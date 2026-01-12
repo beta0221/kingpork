@@ -66,7 +66,6 @@
 @section('scripts')
 <script src ="https://cdn.jsdelivr.net/npm/node-forge@0.7.0/dist/forge.min.js"></script>
 <script src="{{$ecpaySDKUrl}}"></script>
-<script src="{{ asset('js/checkout-funnel-tracker.js') }}"></script>
 <script>
 
 

@@ -403,6 +403,11 @@ $(document).ready(function(){
 	}
 
 	function sureToBuy(){
+		// 追蹤結帳開始
+		if (typeof CheckoutFunnel !== 'undefined') {
+			CheckoutFunnel.trackSuccess(CheckoutFunnel.STEPS.CHECKOUT_START);
+		}
+
 		$('.kartTable').css('display','none');
 		$('.shipping').css('display','table');
 		$('#h-title').html('填寫寄送資料');

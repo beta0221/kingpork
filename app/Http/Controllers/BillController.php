@@ -51,8 +51,6 @@ class BillController extends Controller
             ['payment_method' => $request->ship_pay_by]
         );
 
-        Log::info("BillController store debug: 1");
-
         try {
             $this->validate($request,[
                 'item.*'=>'required',
@@ -92,8 +90,6 @@ class BillController extends Controller
             return ('錯誤');
         }
 
-        Log::info("BillController store debug: 2");
-
         $additionalProducts = Products::getAdditionalProducts('slug');
         $hasAdditionalProduct = false;
         $hasMainProduct = false;
@@ -107,8 +103,6 @@ class BillController extends Controller
                 }
             }
         }
-
-        Log::info("BillController store debug: 3");
 
         if($hasAdditionalProduct == true && $hasMainProduct == false){
             return redirect()->route('kart.index');
@@ -146,8 +140,6 @@ class BillController extends Controller
         }
 
         if (!in_array('99999',$request->item) AND $total < static::SHIPPING_FEE_THRESHOLD) { return('錯誤'); }
-
-        Log::info("BillController store debug: 4");
 
         // 處理優惠碼折扣（在紅利點數之前）
         $promoCode = null;
@@ -221,23 +213,12 @@ class BillController extends Controller
             }
         }
 
-        // 追蹤：訂單建立成功
-        CheckoutFunnelTracker::trackFromBill(
-            CheckoutFunnelLog::STEP_ORDER_CREATED,
-            $bill,
-            $request
-        );
-
-        Log::info("BillController store debug: 5");
-
         foreach ($products as $product) {
             BillItem::insert_row($bill->id,$product);
         }
         if($request->carrier_id == Bill::CARRIER_ID_FAMILY_MART){
             FamilyStore::insert_row($bill->id,$request);
         }
-
-        Log::info("BillController store debug: 6");
 
         if($user){
             Kart::where('user_id',$user->id)->delete(); //清除購物車
@@ -266,8 +247,13 @@ class BillController extends Controller
                     ]);
             }
         }
-        
-        Log::info("BillController store debug: 7");
+
+        // 追蹤：訂單建立成功
+        CheckoutFunnelTracker::trackFromBill(
+            CheckoutFunnelLog::STEP_ORDER_CREATED,
+            $bill,
+            $request
+        );
 
         //寄送信件
         switch ($request->ship_pay_by) {
@@ -277,6 +263,12 @@ class BillController extends Controller
                 break;
             case 'cod':
             case Bill::PAY_BY_FAMILY:
+                // 追蹤：付款完成
+                CheckoutFunnelTracker::trackFromBill(
+                    CheckoutFunnelLog::STEP_PAYMENT_COMPLETED,
+                    $bill,
+                    $request
+                );
                 return redirect()->route('billThankyou',['bill_id'=>$MerchantTradeNo]);
             default:
                 break;
@@ -380,6 +372,16 @@ class BillController extends Controller
             $request,
             ['metadata' => ['redirect_url' => $resultUrl]]
         );
+
+        if ($this->isExternalUrl($resultUrl)) {
+            // 追蹤：導向ECPay
+            CheckoutFunnelTracker::trackFromBill(
+                CheckoutFunnelLog::STEP_PAYMENT_3D_VERIFY,
+                $bill,
+                $request,
+                ['metadata' => ['redirect_url' => $resultUrl]]
+            );
+        }
 
         return redirect($resultUrl);
     }
@@ -666,6 +668,26 @@ class BillController extends Controller
         $bill->updateShipment(Bill::SHIPMENT_VOID);
         return response()->json('success');
 
+    }
+
+
+    // -------- Private Functions ----------
+
+    private function isExternalUrl($url)
+    {
+        // 取得當前網站的 domain
+        $currentHost = parse_url(config('app.url'), PHP_URL_HOST);
+
+        // 解析目標 URL 的 domain
+        $targetHost = parse_url($url, PHP_URL_HOST);
+
+        // 如果無法解析 host，視為內部路徑
+        if (!$targetHost) {
+            return false;
+        }
+
+        // 比較 domain 是否相同
+        return $currentHost !== $targetHost;
     }
 
 }
