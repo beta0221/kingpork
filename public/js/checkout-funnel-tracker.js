@@ -105,76 +105,11 @@
         track(step, options);
     }
 
-    // 自動追蹤表單錯誤
-    function setupFormErrorTracking() {
-        // 監聽 Laravel 驗證錯誤
-        const errorAlerts = document.querySelectorAll('.alert-danger, .invalid-feedback');
-        if (errorAlerts.length > 0) {
-            const errors = Array.from(errorAlerts).map(el => el.textContent.trim()).join('; ');
-            trackError(STEPS.CHECKOUT_FORM_SUBMIT, '表單驗證錯誤: ' + errors);
-        }
-    }
-
-    // 追蹤結帳按鈕點擊
-    function setupCheckoutButtonTracking() {
-        const checkoutButtons = document.querySelectorAll('[data-funnel-step="checkout_start"], #checkout-button, .checkout-btn');
-
-        checkoutButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const paymentMethod = document.querySelector('input[name="ship_pay_by"]:checked')?.value;
-                trackSuccess(STEPS.CHECKOUT_START, { payment_method: paymentMethod });
-            });
-        });
-    }
-
-    // 追蹤表單提交
-    function setupFormSubmitTracking() {
-        const checkoutForm = document.querySelector('#checkout-form, form[action*="/bill"]');
-
-        if (checkoutForm) {
-            checkoutForm.addEventListener('submit', function(e) {
-                const paymentMethod = this.querySelector('input[name="ship_pay_by"]:checked')?.value;
-
-                // 先追蹤提交行為
-                trackSuccess(STEPS.CHECKOUT_FORM_SUBMIT, { payment_method: paymentMethod });
-            });
-        }
-    }
-
-    // 追蹤付款方式變更
-    function setupPaymentMethodTracking() {
-        const paymentMethodInputs = document.querySelectorAll('input[name="ship_pay_by"]');
-
-        paymentMethodInputs.forEach(input => {
-            input.addEventListener('change', function() {
-                trackSuccess(STEPS.CHECKOUT_START, {
-                    payment_method: this.value,
-                    metadata: { action: 'payment_method_changed' }
-                });
-            });
-        });
-    }
-
     // 初始化追蹤器
     function init() {
         // 確保 Session ID 存在
         getOrCreateSessionId();
 
-        // 自動追蹤表單錯誤
-        setupFormErrorTracking();
-
-        // 監聽 DOM Ready
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', function() {
-                setupCheckoutButtonTracking();
-                setupFormSubmitTracking();
-                setupPaymentMethodTracking();
-            });
-        } else {
-            setupCheckoutButtonTracking();
-            setupFormSubmitTracking();
-            setupPaymentMethodTracking();
-        }
     }
 
     // 公開 API
