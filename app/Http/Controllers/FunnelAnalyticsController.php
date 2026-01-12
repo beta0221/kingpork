@@ -21,7 +21,8 @@ class FunnelAnalyticsController extends Controller
         // 取得漏斗分析數據
         $funnelData = CheckoutFunnelLog::getFunnelAnalysis(
             $startDate . ' 00:00:00',
-            $endDate . ' 23:59:59'
+            $endDate . ' 23:59:59',
+            "total_events"
         );
 
         // 取得錯誤分析

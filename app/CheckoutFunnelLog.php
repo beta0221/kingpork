@@ -82,13 +82,22 @@ class CheckoutFunnelLog extends Model
 
     /**
      * 取得漏斗分析數據
-     * @param string $startDate
-     * @param string $endDate
+     * @param string $startDate 開始日期
+     * @param string $endDate 結束日期
+     * @param string $countMode 計數模式：
+     *   - 'unique_sessions': 計算唯一 session 數（適合分析用戶轉換率）
+     *   - 'total_events': 計算總事件數（適合分析系統使用量）
      * @return array
      */
-    public static function getFunnelAnalysis($startDate = null, $endDate = null)
+    public static function getFunnelAnalysis($startDate = null, $endDate = null, $countMode = 'unique_sessions')
     {
-        $query = self::select('step', \DB::raw('COUNT(DISTINCT session_id) as count'));
+        // 根據 countMode 選擇不同的計數方式
+        if ($countMode === 'total_events') {
+            $query = self::select('step', \DB::raw('COUNT(*) as count'));
+        } else {
+            // 預設：unique_sessions
+            $query = self::select('step', \DB::raw('COUNT(DISTINCT session_id) as count'));
+        }
 
         if ($startDate && $endDate) {
             $query->whereBetween('created_at', [$startDate, $endDate]);
