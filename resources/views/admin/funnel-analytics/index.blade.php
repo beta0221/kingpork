@@ -61,47 +61,23 @@
     <!-- 漏斗圖表 -->
     <div class="card mb-4">
         <div class="card-header">
-            <h4>流程漏斗圖</h4>
+            <h4>總數量</h4>
         </div>
         <div class="card-body">
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>步驟</th>
-                        <th>人數</th>
-                        <th>轉換率</th>
-                        <th>流失率</th>
-                        <th>視覺化</th>
+                        @foreach($funnelData as $stepKey => $data)
+                            <th class="text-center">{{ $data['name'] }}</th>
+                        @endforeach
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($funnelData as $stepKey => $data)
                     <tr>
-                        <td>{{ $data['name'] }}</td>
-                        <td>{{ number_format($data['count']) }}</td>
-                        <td>
-                            <span class="badge badge-success">{{ $data['conversion_rate'] }}%</span>
-                        </td>
-                        <td>
-                            @if($data['drop_rate'] > 0)
-                                <span class="badge badge-danger">-{{ $data['drop_rate'] }}%</span>
-                            @else
-                                <span class="badge badge-secondary">-</span>
-                            @endif
-                        </td>
-                        <td>
-                            <div class="progress" style="height: 16px;">
-                                <div class="progress-bar" role="progressbar"
-                                     style="width: {{ $data['conversion_rate'] }}%;"
-                                     aria-valuenow="{{ $data['conversion_rate'] }}"
-                                     aria-valuemin="0"
-                                     aria-valuemax="100">
-                                    {{ $data['conversion_rate'] }}%
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
+                    @foreach($funnelData as $stepKey => $data)
+                        <td class="text-center">{{ number_format($data['count']) }}</td>
                     @endforeach
+                    </tr>
                 </tbody>
             </table>
         </div>

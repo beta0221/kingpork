@@ -116,19 +116,6 @@ class CheckoutFunnelLog extends Model
             ];
         }
 
-        // 計算轉換率
-        $previousCount = null;
-        foreach ($result as $key => &$value) {
-            if ($previousCount !== null && $previousCount > 0) {
-                $value['conversion_rate'] = round(($value['count'] / $previousCount) * 100, 2);
-                $value['drop_rate'] = round((1 - ($value['count'] / $previousCount)) * 100, 2);
-            } else {
-                $value['conversion_rate'] = 100;
-                $value['drop_rate'] = 0;
-            }
-            $previousCount = $value['count'];
-        }
-
         return $result;
     }
 
