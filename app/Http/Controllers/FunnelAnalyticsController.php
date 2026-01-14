@@ -34,8 +34,7 @@ class FunnelAnalyticsController extends Controller
         // 取得依付款方式分組的分析
         $paymentMethodData = CheckoutFunnelLog::getFunnelByPaymentMethod(
             $startDate . ' 00:00:00',
-            $endDate . ' 23:59:59',
-            "total_events"
+            $endDate . ' 23:59:59'
         );
 
         // 計算總體統計

@@ -180,16 +180,7 @@ class CheckoutFunnelLog extends Model
                     self::STEP_PAYMENT_COMPLETED,
                     self::STEP_THANKYOU_PAGE_VIEW,
                 ]
-            ],
-            'FAMILY' => [
-                'name' => '全家代收',
-                'steps' => [
-                    self::STEP_CHECKOUT_FORM_SUBMIT,
-                    self::STEP_ORDER_CREATED,
-                    self::STEP_PAYMENT_COMPLETED,
-                    self::STEP_THANKYOU_PAGE_VIEW,
-                ]
-            ],
+            ]
         ];
     }
 
