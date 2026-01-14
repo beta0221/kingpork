@@ -120,35 +120,42 @@
             <h4>依付款方式分析</h4>
         </div>
         <div class="card-body">
-            @php
-                $groupedByPayment = $paymentMethodData->groupBy('payment_method');
-            @endphp
-
-            @if($groupedByPayment->count() > 0)
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>付款方式</th>
-                        @foreach(\App\CheckoutFunnelLog::getAllSteps() as $key => $name)
-                            <th class="text-center">{{ $name }}</th>
-                        @endforeach
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($groupedByPayment as $paymentMethod => $steps)
-                    <tr>
-                        <td><strong>{{ $paymentMethod }}</strong></td>
-                        @foreach(\App\CheckoutFunnelLog::getAllSteps() as $key => $name)
-                            @php
-                                $stepData = $steps->where('step', $key)->first();
-                                $count = $stepData ? $stepData->count : 0;
-                            @endphp
-                            <td class="text-center">{{ $count }}</td>
-                        @endforeach
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+            @if(count($paymentMethodData) > 0)
+                @foreach($paymentMethodData as $paymentMethod => $methodData)
+                <div class="mb-4">
+                    <h5>{{ $methodData['name'] }}
+                        <small class="text-muted">(總數: {{ $methodData['total_sessions'] }} sessions)</small>
+                    </h5>
+                    <table class="table table-bordered table-sm">
+                        <thead>
+                            <tr>
+                                <th>步驟</th>
+                                <th class="text-center">數量</th>
+                                <th class="text-center">轉換率</th>
+                                <th class="text-center">流失率</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($methodData['steps'] as $step)
+                            <tr>
+                                <td>{{ $step['name'] }}</td>
+                                <td class="text-center">{{ $step['count'] }}</td>
+                                <td class="text-center">
+                                    <span class="badge badge-{{ $step['conversion_rate'] >= 90 ? 'success' : ($step['conversion_rate'] >= 70 ? 'warning' : 'danger') }}">
+                                        {{ $step['conversion_rate'] }}%
+                                    </span>
+                                </td>
+                                <td class="text-center">
+                                    <span class="badge badge-{{ $step['drop_off_rate'] <= 10 ? 'success' : ($step['drop_off_rate'] <= 30 ? 'warning' : 'danger') }}">
+                                        {{ $step['drop_off_rate'] }}%
+                                    </span>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                @endforeach
             @else
             <p class="text-muted">目前沒有數據</p>
             @endif

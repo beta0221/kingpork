@@ -137,20 +137,156 @@ class CheckoutFunnelLog extends Model
     }
 
     /**
-     * 取得依付款方式分組的分析
+     * 取得各付款方式的專屬漏斗步驟
+     *
+     * @return array 付款方式 => [名稱, 步驟陣列]
      */
-    public static function getFunnelByPaymentMethod($startDate = null, $endDate = null)
+    public static function getPaymentMethodFunnels()
     {
-        $query = self::select('payment_method', 'step', \DB::raw('COUNT(DISTINCT session_id) as count'))
+        return [
+            'CREDIT' => [
+                'name' => '信用卡',
+                'steps' => [
+                    self::STEP_CHECKOUT_FORM_SUBMIT,
+                    self::STEP_ORDER_CREATED,
+                    self::STEP_PAYMENT_PAGE_VIEW,
+                    self::STEP_PAYMENT_TOKEN_REQUESTED,
+                    self::STEP_PAYMENT_TOKEN_RECEIVED,
+                    self::STEP_PAYMENT_FORM_SUBMIT,
+                    self::STEP_PAYMENT_REDIRECT,
+                    self::STEP_PAYMENT_3D_VERIFY,
+                    self::STEP_PAYMENT_COMPLETED,
+                    self::STEP_THANKYOU_PAGE_VIEW,
+                ]
+            ],
+            'ATM' => [
+                'name' => 'ATM轉帳',
+                'steps' => [
+                    self::STEP_CHECKOUT_FORM_SUBMIT,
+                    self::STEP_ORDER_CREATED,
+                    self::STEP_PAYMENT_PAGE_VIEW,
+                    self::STEP_PAYMENT_TOKEN_REQUESTED,
+                    self::STEP_PAYMENT_TOKEN_RECEIVED,
+                    self::STEP_PAYMENT_FORM_SUBMIT,
+                    self::STEP_PAYMENT_REDIRECT,
+                    self::STEP_PAYMENT_COMPLETED,
+                ]
+            ],
+            '貨到付款' => [
+                'name' => '貨到付款',
+                'steps' => [
+                    self::STEP_CHECKOUT_FORM_SUBMIT,
+                    self::STEP_ORDER_CREATED,
+                    self::STEP_PAYMENT_COMPLETED,
+                    self::STEP_THANKYOU_PAGE_VIEW,
+                ]
+            ],
+            'FAMILY' => [
+                'name' => '全家代收',
+                'steps' => [
+                    self::STEP_CHECKOUT_FORM_SUBMIT,
+                    self::STEP_ORDER_CREATED,
+                    self::STEP_PAYMENT_COMPLETED,
+                    self::STEP_THANKYOU_PAGE_VIEW,
+                ]
+            ],
+        ];
+    }
+
+    /**
+     * 轉換數據為結構化格式並計算轉換率
+     *
+     * @param \Illuminate\Support\Collection $rawData 原始查詢數據
+     * @return array 結構化的付款方式漏斗數據
+     */
+    private static function transformPaymentMethodData($rawData)
+    {
+        $funnels = self::getPaymentMethodFunnels();
+        $allSteps = self::getAllSteps();
+        $result = [];
+
+        foreach ($funnels as $paymentMethod => $funnelConfig) {
+            $steps = [];
+            $previousCount = null;
+            $firstStepCount = null;
+
+            foreach ($funnelConfig['steps'] as $stepKey) {
+                // 取得此付款方式和步驟的計數
+                $record = $rawData->where('payment_method', $paymentMethod)
+                                 ->where('step', $stepKey)
+                                 ->first();
+
+                $count = $record ? $record->count : 0;
+
+                // 記錄第一步驟的數量作為基準
+                if ($firstStepCount === null) {
+                    $firstStepCount = $count;
+                }
+
+                // 計算相對於前一步驟的轉換率
+                $conversionRate = 100.00;
+                if ($previousCount !== null && $previousCount > 0) {
+                    $conversionRate = round(($count / $previousCount) * 100, 2);
+                }
+
+                // 計算相對於第一步驟的流失率
+                $dropOffRate = 0.00;
+                if ($firstStepCount > 0) {
+                    $dropOffRate = round((($firstStepCount - $count) / $firstStepCount) * 100, 2);
+                }
+
+                $steps[] = [
+                    'step' => $stepKey,
+                    'name' => $allSteps[$stepKey] ?? $stepKey,
+                    'count' => $count,
+                    'conversion_rate' => $conversionRate,  // 相對於前一步驟
+                    'drop_off_rate' => $dropOffRate,        // 相對於第一步驟
+                ];
+
+                $previousCount = $count;
+            }
+
+            $result[$paymentMethod] = [
+                'name' => $funnelConfig['name'],
+                'total_sessions' => $firstStepCount ?? 0,
+                'steps' => $steps,
+            ];
+        }
+
+        return $result;
+    }
+
+    /**
+     * 取得依付款方式分組的漏斗分析數據
+     *
+     * @param string|null $startDate 開始日期時間
+     * @param string|null $endDate 結束日期時間
+     * @param string $countMode 計數模式：
+     *   - 'unique_sessions': 計算唯一 session 數（適合分析用戶轉換率）
+     *   - 'total_events': 計算總事件數（適合分析系統使用量）
+     * @return array 結構化的付款方式漏斗數據
+     */
+    public static function getFunnelByPaymentMethod($startDate = null, $endDate = null, $countMode = 'unique_sessions')
+    {
+        // 根據計數模式選擇不同的計數方式
+        if ($countMode === 'total_events') {
+            $countExpression = \DB::raw('COUNT(*) as count');
+        } else {
+            // 預設：unique_sessions
+            $countExpression = \DB::raw('COUNT(DISTINCT session_id) as count');
+        }
+
+        // 查詢資料庫
+        $query = self::select('payment_method', 'step', $countExpression)
             ->whereNotNull('payment_method');
 
         if ($startDate && $endDate) {
             $query->whereBetween('created_at', [$startDate, $endDate]);
         }
 
-        return $query->groupBy('payment_method', 'step')
-            ->orderBy('payment_method')
-            ->orderBy('step')
-            ->get();
+        $rawData = $query->groupBy('payment_method', 'step')->get();
+
+        // 轉換為結構化格式
+        return self::transformPaymentMethodData($rawData);
     }
 }
