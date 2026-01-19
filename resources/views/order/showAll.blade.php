@@ -253,7 +253,7 @@
 						@endif
 					</td>
 					<td>{{ $log->error_message }}</td>
-					<td style="font-size:10px">{{ $log->metadata }}</td>
+					<td style="font-size:10px">{{ $log->metadata ? json_encode($log->metadata, JSON_UNESCAPED_UNICODE) : '' }}</td>
 				</tr>
 				@endforeach
 			</table>
