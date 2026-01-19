@@ -710,14 +710,20 @@ class OrderManagementController extends Controller
         if($bill->carrier_id == Bill::CARRIER_ID_FAMILY_MART){
             $storeInfo = $bill->familyStore;
         }
-        
+
+        $trackingLogs = \App\CheckoutFunnelLog::where('bill_id', $id)
+            ->orderBy('id', 'asc')
+            ->get();
+
         return view('order.showAll',[
             'carrierDict' => Bill::getAllCarriers(),
             'bill'=>$bill,
             'items'=>$items,
             'user'=>$user,
             'cardInfo' => $cardInfo,
-            'storeInfo' => $storeInfo
+            'storeInfo' => $storeInfo,
+            'trackingLogs' => $trackingLogs,
+            'stepNames' => \App\CheckoutFunnelLog::getAllSteps(),
         ]);
         
     }

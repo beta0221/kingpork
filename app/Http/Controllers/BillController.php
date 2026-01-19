@@ -304,7 +304,8 @@ class BillController extends Controller
                 CheckoutFunnelTracker::trackError(
                     CheckoutFunnelLog::STEP_PAYMENT_TOKEN_REQUESTED,
                     'ECPay Token取得失敗: ' . $ecpay->errorMsg,
-                    request()
+                    request(),
+                    ['bill_id' => $bill->bill_id]
                 );
                 return $ecpay->errorMsg;
             }

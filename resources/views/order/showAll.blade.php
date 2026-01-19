@@ -227,8 +227,40 @@
 				
 			</table>
 
+			@if (count($trackingLogs) > 0)
+			<table class="bill-table">
+				<tr>
+					<td class="head head-title" colspan="5">轉換追蹤紀錄</td>
+				</tr>
+				<tr>
+					<td class="head">時間</td>
+					<td class="head">步驟</td>
+					<td class="head">狀態</td>
+					<td class="head">錯誤訊息</td>
+					<td class="head">Meta Data</td>
+				</tr>
+				@foreach($trackingLogs as $log)
+				<tr>
+					<td>{{ $log->created_at }}</td>
+					<td>{{ $stepNames[$log->step] ?? $log->step }}</td>
+					<td>
+						@if($log->status == 'success')
+							<font color="green">成功</font>
+						@elseif($log->status == 'error')
+							<font color="red">錯誤</font>
+						@else
+							<font color="orange">放棄</font>
+						@endif
+					</td>
+					<td>{{ $log->error_message }}</td>
+					<td style="font-size:10px">{{ $log->metadata }}</td>
+				</tr>
+				@endforeach
+			</table>
+			@endif
+
 			@if ($bill->shipment != 3)
-				
+
 			<form action="/order/void/{{$bill->bill_id}}" method="POST">
 				{{ csrf_field() }}
 				<button style="background:red;color:#fff;margin-top:80px">作廢</button>
